@@ -7,7 +7,7 @@ import type { Anime } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
 import { useCatalog } from "@/lib/admin-store";
 import { AnimeCard } from "@/components/anime-card";
-import { Rail } from "@/components/ui/rail";
+import { Coverflow } from "@/components/ui/coverflow";
 
 const TABS = [
   { key: "latest", label: "تازه‌ها" },
@@ -54,11 +54,11 @@ export function HomeRail({ latest, top }: { latest: Anime[]; top: Anime[] }) {
         </Link>
       </div>
 
-      <Rail ariaLabel={tab === "latest" ? "تازه‌ها" : "محبوب‌ها"}>
-        {items.map((anime, i) => (
-          <AnimeCard key={anime.slug} anime={anime} index={i} />
-        ))}
-      </Rail>
+      <Coverflow
+        ariaLabel={tab === "latest" ? "تازه‌ها" : "محبوب‌ها"}
+        items={items}
+        renderCard={(anime, i) => <AnimeCard anime={anime} index={i} fluid />}
+      />
     </section>
   );
 }

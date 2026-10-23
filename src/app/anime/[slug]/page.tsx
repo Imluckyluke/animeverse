@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
-import { AnimeCard } from "@/components/anime-card";
 import { AnimeDetailHero } from "@/components/anime/anime-detail-hero";
 import { EpisodeList } from "@/components/anime/episode-list";
+import { RelatedRail } from "@/components/related-rail";
 import { SectionHead } from "@/components/ui/section-head";
-import { Rail } from "@/components/ui/rail";
 import { ANIME, getAnime, getRelated, splitQualities } from "@/lib/data";
 import { faDigits } from "@/lib/utils";
 
@@ -143,11 +142,7 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
 
       <section id="related" className="shell section-pad pb-10 scroll-mt-24">
         <SectionHead title="اگر این را دوست داشتی" href="/browse" />
-        <Rail ariaLabel="انیمه‌های مشابه">
-          {related.map((item, i) => (
-            <AnimeCard key={item.slug} anime={item} index={i} />
-          ))}
-        </Rail>
+        <RelatedRail items={related} />
       </section>
     </>
   );

@@ -6,7 +6,6 @@ import { useApp } from "@/lib/app-context";
 import type { Anime, Episode } from "@/lib/catalog";
 import { getEpisodes } from "@/lib/catalog";
 import { cn, faBytes, faDate, faDigits, faScore, openRealDownload, triggerDownload } from "@/lib/utils";
-import { Modal } from "@/components/ui/modal";
 
 const PREVIEW_COUNT = 6;
 const EXTRA_BATCH = 24;
@@ -118,60 +117,138 @@ export function EpisodeList({ anime }: { anime: Anime }) {
     setSheet(ep);
   };
 
-  const renderEpisode = (ep: Episode, isLast: boolean) => {
+  const renderEpisode = (ep: Episode) => {
     const seen = isWatched(anime.slug, ep.number);
     const latest = seen && lastSeen === ep.number;
+    const isOpen = sheet?.number === ep.number;
+    const labels = ep.qualities?.length
+      ? ep.qualities
+      : anime.quality.map((label) => ({ label, status: undefined, size: undefined }));
+
     return (
-    <div
-      key={ep.number}
-      className={cn(
-        "group flex items-center gap-3 border-b border-white/[0.06] px-3.5 py-3 transition-colors hover:bg-white/[0.03] sm:gap-4 sm:px-5",
-        isLast && "border-b-0",
-        seen && "bg-amber-400/[0.025]",
-      )}
-    >
-      <span
-        className={cn(
-          "grid h-9 min-w-9 shrink-0 place-items-center rounded-xl border border-white/[0.1] bg-white/[0.04] px-1.5 text-[11px] font-black tabular-nums text-content-soft transition-colors group-hover:border-amber-400/35 group-hover:text-white sm:h-10 sm:min-w-10",
-          ep.number >= 1000 && "text-[9.5px]",
-          seen && "border-amber-400/25 bg-amber-400/10 text-amber-200",
-        )}
-      >
-        {faDigits(String(ep.number).padStart(2, "0"))}
-      </span>
+      <div key={ep.number} role="listitem" className="relative pb-2 ps-9 last:pb-0">
+        <span
+          aria-hidden
+          className={cn(
+            "absolute right-[16px] top-[26px] z-10 size-[11px] rounded-full border-2 transition-colors duration-300",
+            isOpen || seen
+              ? "border-amber-300 bg-amber-300 shadow-[0_0_0_4px_rgba(255,183,0,.15)]"
+              : "border-white/25 bg-[#0b0b11]",
+          )}
+        />
 
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-[12.5px] font-bold text-white">
-          قسمت {faDigits(ep.number)}
-          {ep.title ? (
-            <>
-              <span className="text-content-faint"> — </span>
-              <span className="font-medium text-content-soft">{ep.title}</span>
-            </>
-          ) : null}
-        </p>
-        <p className="mt-0.5 flex items-center gap-1.5 text-[10.5px] text-content-faint">
-          <span>{ep.runtime}</span>
-          <span className="hidden sm:inline"> · {faDate(ep.releasedAt)}</span>
-          {seen ? (
-            <span className="inline-flex items-center gap-1 font-semibold text-amber-300/85">
-              <Eye className="size-3" />
-              {latest ? "آخرین قسمت مشاهده‌شده" : "مشاهده شده"}
+        <div
+          className={cn(
+            "overflow-hidden rounded-2xl border transition-colors duration-300",
+            isOpen
+              ? "border-amber-400/30 bg-amber-400/[0.05]"
+              : "border-white/[0.08] bg-white/[0.02] hover:border-white/20",
+          )}
+        >
+          <button
+            type="button"
+            onClick={() => setSheet(isOpen ? null : ep)}
+            aria-expanded={isOpen}
+            className="flex w-full items-center gap-3 px-3 py-3 text-right"
+          >
+            <span
+              className={cn(
+                "grid size-8 shrink-0 place-items-center rounded-xl border text-[11px] font-black tabular-nums transition-colors",
+                isOpen
+                  ? "border-amber-400/40 bg-amber-400/15 text-amber-200"
+                  : seen
+                    ? "border-amber-400/25 bg-amber-400/10 text-amber-200"
+                    : "border-white/10 bg-white/[0.04] text-white/60",
+                ep.number >= 1000 && "text-[9px]",
+              )}
+            >
+              {faDigits(String(ep.number).padStart(2, "0"))}
             </span>
-          ) : null}
-        </p>
-      </div>
 
-      <button
-        type="button"
-        onClick={() => openQuality(ep)}
-        className="btn btn-glass btn-sm shrink-0"
-        aria-label={`دانلود قسمت ${faDigits(ep.number)}`}
-      >
-        <Download className="size-3.5" />
-        دانلود
-      </button>
-    </div>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[12.5px] font-bold text-white">
+                قسمت {faDigits(ep.number)}
+                {ep.title ? (
+                  <span className="font-medium text-content-soft"> — {ep.title}</span>
+                ) : null}
+              </span>
+              <span className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10.5px] text-content-faint">
+                <span>{ep.runtime}</span>
+                <span className="hidden sm:inline">· {faDate(ep.releasedAt)}</span>
+                {seen ? (
+                  <span className="inline-flex items-center gap-1 font-semibold text-amber-300/85">
+                    <Eye className="size-3" />
+                    {latest ? "آخرین قسمت مشاهده‌شده" : "مشاهده شده"}
+                  </span>
+                ) : null}
+              </span>
+            </span>
+
+            <ChevronDown
+              className={cn(
+                "size-4 shrink-0 text-white/40 transition-transform duration-300",
+                isOpen && "rotate-180 text-amber-300",
+              )}
+            />
+          </button>
+
+          <div
+            className={cn(
+              "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+              isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+            )}
+          >
+            <div className="overflow-hidden">
+              <div className="flex flex-wrap gap-2 border-t border-white/[0.07] px-3 py-3">
+                {labels.map((quality) => {
+                  const busy = loadingQuality === quality.label;
+                  const liveQuality = isReal ? live[`${ep.number}|${quality.label}`] : undefined;
+                  const done = (liveQuality?.status ?? quality.status) === "done";
+                  const failed = (liveQuality?.status ?? quality.status) === "failed";
+                  const size = liveQuality?.size ?? quality.size;
+                  return (
+                    <button
+                      key={quality.label}
+                      type="button"
+                      disabled={loadingQuality !== null}
+                      onClick={() => {
+                        download(ep.number, quality.label);
+                        if (!isReal) setSheet(null);
+                      }}
+                      className="flex items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.05] px-2.5 py-1.5 transition-colors hover:border-amber-400/45 hover:bg-amber-400/10 disabled:opacity-60"
+                    >
+                      {busy ? (
+                        <Loader2 className="size-3 animate-spin text-amber-300" />
+                      ) : (
+                        <Download className="size-3 text-amber-300" />
+                      )}
+                      <span dir="ltr" className="text-[10.5px] font-bold text-white/85">
+                        {quality.label}
+                      </span>
+                      <span
+                        className={cn(
+                          "text-[9.5px]",
+                          failed ? "text-rose-300" : done ? "text-emerald-300/90" : "text-white/40",
+                        )}
+                      >
+                        {isReal
+                          ? size
+                            ? faBytes(size)
+                            : failed
+                              ? "ناموفق"
+                              : done
+                                ? "آماده"
+                                : "در صف"
+                          : sizeLabel(quality.label, ep.number)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   };
 
@@ -191,7 +268,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
 
   return (
     <div>
-      <div className="mb-4 flex flex-wrap items-center gap-2.5">
+      <div className="mb-5 flex flex-wrap items-center gap-2.5">
         <h2 className="headline text-xl sm:text-2xl">قسمت‌ها</h2>
         <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-bold text-content-muted">
           {faDigits(episodes.length)} قسمت
@@ -204,10 +281,12 @@ export function EpisodeList({ anime }: { anime: Anime }) {
         ) : null}
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-white/[0.09] bg-[rgba(10,10,16,.86)] shadow-soft">
-        {preview.map((ep, index) =>
-          renderEpisode(ep, (!expanded || hidden === 0) && index === preview.length - 1),
-        )}
+      <div className="relative" role="list" aria-label="قسمت‌ها">
+        <span
+          aria-hidden
+          className="absolute inset-y-4 right-[21px] w-px bg-white/[0.10]"
+        />
+        {preview.map((ep) => renderEpisode(ep))}
 
         {hidden > 0 ? (
           <div
@@ -226,9 +305,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
                   expanded ? "opacity-100" : "opacity-0",
                 )}
               >
-                {extra.map((ep, index) =>
-                  renderEpisode(ep, index === extra.length - 1 && remaining === 0),
-                )}
+                {extra.map((ep) => renderEpisode(ep))}
               </div>
             </div>
           </div>
@@ -241,7 +318,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
           onClick={toggleExpanded}
           aria-expanded={expanded}
           aria-controls="episode-list-extra"
-          className="btn btn-glass btn-md mt-3 w-full"
+          className="btn btn-glass btn-md mt-4 w-full"
         >
           {expanded ? "بستن لیست" : `نمایش ${faDigits(hidden)} قسمت دیگر`}
           <ChevronDown className={cn("size-4 transition-transform", expanded && "rotate-180")} />
@@ -257,64 +334,6 @@ export function EpisodeList({ anime }: { anime: Anime }) {
           <ChevronDown className="size-3.5" />
         </button>
       ) : null}
-
-      <Modal
-        open={sheet !== null}
-        onClose={() => setSheet(null)}
-        title={sheet ? `دانلود قسمت ${faDigits(sheet.number)}` : "دانلود"}
-      >
-        {sheet ? (
-          <div className="space-y-2">
-            {(sheet.qualities?.length
-              ? sheet.qualities
-              : anime.quality.map((label) => ({ label, status: undefined, size: undefined }))
-            ).map((quality) => {
-              const busy = loadingQuality === quality.label;
-              const liveQuality = isReal ? live[`${sheet.number}|${quality.label}`] : undefined;
-              const done = (liveQuality?.status ?? quality.status) === "done";
-              const failed = (liveQuality?.status ?? quality.status) === "failed";
-              const size = liveQuality?.size ?? quality.size;
-              return (
-                <button
-                  key={quality.label}
-                  type="button"
-                  disabled={loadingQuality !== null}
-                  onClick={() => {
-                    download(sheet.number, quality.label);
-                    if (!isReal) setSheet(null);
-                  }}
-                  className="flex w-full items-center justify-between gap-3 rounded-2xl border border-white/[0.1] bg-white/[0.04] p-3.5 text-right transition-colors hover:border-amber-400/40 hover:bg-white/[0.07] disabled:opacity-60"
-                >
-                  <span className="flex items-center gap-3">
-                    <span className="grid size-9 place-items-center rounded-xl bg-black/30 text-amber-300">
-                      {busy ? (
-                        <Loader2 className="size-4 animate-spin" />
-                      ) : (
-                        <Download className="size-4" />
-                      )}
-                    </span>
-                    <span>
-                      <span className="block text-xs font-bold text-white" dir="ltr">{quality.label}</span>
-                      <span className={cn("mt-0.5 block text-[10px]", failed ? "text-rose-300" : done ? "text-emerald-300/90" : "text-content-faint")}>
-                        {isReal
-                          ? size
-                            ? faBytes(size)
-                            : failed
-                              ? "دریافت ناموفق"
-                              : done
-                                ? "آماده دانلود"
-                                : "در حال آماده‌سازی"
-                          : sizeLabel(quality.label, sheet.number)}
-                      </span>
-                    </span>
-                  </span>
-                  <span className="text-[10px] font-bold text-content-muted">{busy ? "..." : "دانلود"}</span>
-                </button>
-              );
-            })}
-          </div>
-        ) : null}
-      </Modal>
     </div>
   );
 }

@@ -527,3 +527,27 @@
     animation: none;
   }
 }
+
+/* The archive's cards arrive one after another, out of a soft blur. */
+@keyframes av-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.av-rise {
+  animation: av-rise 0.52s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .av-rise {
+    animation: none;
+  }
+}

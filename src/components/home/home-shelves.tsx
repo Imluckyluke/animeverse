@@ -10,6 +10,7 @@ import { AnimeCard } from "@/components/anime-card";
 import { CoverImage } from "@/components/ui/cover-image";
 import { Poster } from "@/components/ui/poster";
 import { Rail } from "@/components/ui/rail";
+import { Coverflow } from "@/components/ui/coverflow";
 
 function ShelfHeading({
   icon,
@@ -172,11 +173,11 @@ export function ChineseShelf({ items }: { items: Anime[] }) {
         href="/browse?collection=chinese"
         linkLabel="بیشتر"
       />
-      <Rail ariaLabel="انیمه‌های چینی">
-        {chinese.map((anime, index) => (
-          <AnimeCard key={anime.slug} anime={anime} index={index} />
-        ))}
-      </Rail>
+      <Coverflow
+        ariaLabel="انیمه‌های چینی"
+        items={chinese}
+        renderCard={(anime, index) => <AnimeCard anime={anime} index={index} fluid />}
+      />
     </section>
   );
 }

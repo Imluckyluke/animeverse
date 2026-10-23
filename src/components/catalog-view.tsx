@@ -17,6 +17,7 @@ import { GENRES, YEAR_OPTIONS, isChineseAnime, searchAnime } from "@/lib/catalog
 import { cn, faDigits, faNum } from "@/lib/utils";
 import { useCatalog } from "@/lib/admin-store";
 import { AnimeCard } from "@/components/anime-card";
+import { CommandPalette } from "@/components/command-palette";
 import { Modal } from "@/components/ui/modal";
 
 type Sort = "latest" | "score" | "views" | "alpha";
@@ -66,7 +67,6 @@ export function CatalogView({
   const [sortOpen, setSortOpen] = useState(false);
   const [genreQuery, setGenreQuery] = useState("");
   const [urlReady, setUrlReady] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
   const sortRef = useRef<HTMLDivElement>(null);
   const list = useCatalog(items);
   const searchParams = useSearchParams();
@@ -201,18 +201,6 @@ export function CatalogView({
     };
   }, [sortOpen]);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const tag = (document.activeElement as HTMLElement | null)?.tagName;
-      if (e.key === "/" && tag !== "INPUT" && tag !== "TEXTAREA") {
-        e.preventDefault();
-        inputRef.current?.focus();
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
-
   const toggleGenre = (name: string) => {
     setFilters((f) => ({
       ...f,
@@ -232,6 +220,9 @@ export function CatalogView({
   };
 
   const chips: { label: string; remove: () => void }[] = [
+    ...(query.trim()
+      ? [{ label: `«${query.trim()}»`, remove: () => setQuery("") }]
+      : []),
     ...filters.genres.map((g) => ({
       label: g,
       remove: () => setFilters((f) => ({ ...f, genres: f.genres.filter((x) => x !== g) })),
@@ -244,37 +235,7 @@ export function CatalogView({
 
   return (
     <div>
-      <div className="group relative">
-        <div className="flex h-14 items-center gap-2 rounded-2xl border border-white/[0.11] bg-[linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025))] p-1.5 ps-2 shadow-[inset_0_1px_0_rgba(255,255,255,.07),0_16px_38px_-30px_rgba(255,214,10,.32)] transition-[border-color,background-color,box-shadow] duration-300 focus-within:border-amber-400/45 focus-within:bg-[linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.03))] focus-within:shadow-[inset_0_1px_0_rgba(255,255,255,.08),0_0_0_4px_rgba(255,214,10,.08),0_16px_38px_-30px_rgba(255,214,10,.4)]">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-white/[0.09] bg-white/[0.055] text-amber-300 shadow-[inset_0_1px_0_rgba(255,255,255,.08)] transition-colors duration-300 group-focus-within:border-amber-400/25 group-focus-within:bg-amber-400/10">
-            <Search className="size-[18px]" strokeWidth={2.1} />
-          </span>
-          <input
-            ref={inputRef}
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="اسم انیمه را بنویس…"
-            aria-label="جست‌وجو در آرشیو"
-            enterKeyHint="search"
-            className="h-11 min-w-0 flex-1 bg-transparent px-1.5 text-sm text-white placeholder:text-content-faint focus:outline-none [&::-webkit-search-cancel-button]:hidden"
-          />
-          {query ? (
-            <button
-              type="button"
-              onClick={() => setQuery("")}
-              aria-label="پاک کردن جست‌وجو"
-              className="grid size-10 shrink-0 place-items-center rounded-xl text-content-muted transition-colors hover:bg-white/[0.07] hover:text-white"
-            >
-              <X className="size-4" />
-            </button>
-          ) : (
-            <kbd className="me-1 hidden h-7 min-w-7 place-items-center rounded-lg border border-white/[0.1] bg-white/[0.04] px-2 font-sans text-[10px] font-bold text-content-faint sm:grid">
-              /
-            </kbd>
-          )}
-        </div>
-      </div>
+      <CommandPalette items={baseList} />
 
       <div className="mt-4 flex items-center gap-2 overflow-x-auto px-0.5 pb-1.5 no-scrollbar">
         <button
@@ -445,9 +406,18 @@ export function CatalogView({
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-5">
+          <div
+            key={`${query.trim()}|${filters.genres.join(",")}|${filters.year}|${filters.type}|${filters.status}|${filters.audio}|${filters.sort}`}
+            className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-5"
+          >
             {results.map((anime, i) => (
-              <AnimeCard key={anime.slug} anime={anime} index={i} fluid />
+              <div
+                key={anime.slug}
+                className="av-rise"
+                style={{ animationDelay: `${Math.min(i, 18) * 24}ms` }}
+              >
+                <AnimeCard anime={anime} index={i} fluid />
+              </div>
             ))}
           </div>
         )}
