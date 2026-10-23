@@ -2,15 +2,25 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { FlaskConical, Sparkles } from "lucide-react";
 import { ANIME } from "@/lib/data";
-import type { HeroAnime } from "@/lib/catalog";
-import { ShelfPocket } from "@/components/lab/shelf-pocket";
-import { ShelfDeck } from "@/components/lab/shelf-deck";
+import { GENRES, getEpisodes, type HeroAnime } from "@/lib/catalog";
+import type { LabAnime } from "@/components/lab/types";
+import { cn, faDigits } from "@/lib/utils";
+import { ScrollProgress } from "@/components/lab/scroll-progress";
+import { HeroSpotlight } from "@/components/lab/hero-spotlight";
 import { ShelfVitrine } from "@/components/lab/shelf-vitrine";
-import { ShelfMarquee } from "@/components/lab/shelf-marquee";
+import { ShelfCoverflow } from "@/components/lab/shelf-coverflow";
+import { RowElastic } from "@/components/lab/row-elastic";
+import { TiltCard, FlipCard } from "@/components/lab/cards-interactive";
+import { DeckStack } from "@/components/lab/deck-stack";
+import { EpisodeTimeline } from "@/components/lab/episode-timeline";
+import { QualitySwitch } from "@/components/lab/quality-switch";
+import { CommandPalette } from "@/components/lab/command-palette";
+import { GenreBubbles } from "@/components/lab/genre-bubbles";
+import { GridReveal } from "@/components/lab/grid-reveal";
 
 export const metadata: Metadata = {
-  title: "آزمایشگاه اسکرول",
-  description: "نمونه‌های پیشنهادی برای نوارهای افقی صفحهٔ اصلی.",
+  title: "آزمایشگاه طراحی",
+  description: "دوازده نمونهٔ تعاملی برای بخش‌های مختلف انیمه‌ورس.",
   robots: { index: false, follow: false },
 };
 
@@ -30,39 +40,81 @@ const slim = (anime: (typeof ANIME)[number]): HeroAnime => ({
   synopsis: anime.synopsis,
 });
 
-const withArt = ANIME.filter((anime) => Boolean(anime.cover));
-const topRated = [...withArt].sort((a, b) => b.score - a.score).slice(0, 14).map(slim);
-const latest = [...withArt]
-  .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
-  .slice(0, 14)
-  .map(slim);
-const movies = withArt.filter((a) => a.type === "فیلم").slice(0, 12).map(slim);
-const airing = withArt.filter((a) => a.status === "در حال پخش").slice(0, 14).map(slim);
+const slimLab = (anime: (typeof ANIME)[number]): LabAnime => ({
+  ...slim(anime),
+  genres: anime.genres ?? [],
+});
 
-function Sample({
-  id,
-  badge,
+const withArt = ANIME.filter((anime) => Boolean(anime.cover));
+const byScore = [...withArt].sort((a, b) => b.score - a.score);
+const byDate = [...withArt].sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt));
+
+const spotlight = slim(byScore.find((anime) => anime.banner) ?? byScore[0]);
+const topRated = byScore.slice(0, 14).map(slim);
+const latest = byDate.slice(0, 14).map(slim);
+const movies = withArt.filter((anime) => anime.type === "فیلم").slice(0, 12).map(slim);
+const airing = withArt.filter((anime) => anime.status === "در حال پخش").slice(0, 14).map(slim);
+const flips = byScore.slice(0, 4).map(slimLab);
+const palette = byScore.slice(0, 40).map(slim);
+
+const bubbleGenres = GENRES.map((genre) => ({
+  name: genre.name,
+  slug: genre.name,
+  count: ANIME.filter((anime) => (anime.genres ?? []).includes(genre.name)).length,
+}))
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 14);
+
+const episodeSource =
+  byScore.find((anime) => (anime.episodeData?.length ?? 0) > 5) ??
+  byScore.find((anime) => anime.type !== "فیلم") ??
+  byScore[0];
+
+const episodes = getEpisodes(episodeSource)
+  .slice(-6)
+  .reverse()
+  .map((episode) => ({
+    number: episode.number,
+    title: episode.title || `قسمت ${episode.number}`,
+    size: "۱.۲ گیگابایت",
+    qualities: [
+      { label: "۱۰۸۰p", size: "۱.۲ گیگابایت" },
+      { label: "۷۲۰p", size: "۶۴۰ مگابایت" },
+      { label: "۴۸۰p", size: "۳۱۰ مگابایت" },
+    ],
+  }));
+
+function Demo({
+  n,
   title,
   note,
+  source,
   children,
+  wide = false,
 }: {
-  id: string;
-  badge: string;
+  n: number;
   title: string;
   note: string;
+  source: string;
   children: ReactNode;
+  wide?: boolean;
 }) {
   return (
-    <section id={id} className="scroll-mt-24">
-      <div className="mb-4 flex items-start gap-3">
-        <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-lg border border-amber-400/30 bg-amber-400/10 text-[11px] font-black text-amber-300">
-          {badge}
+    <section id={`d${n}`} className={cn("scroll-mt-20", wide && "lg:col-span-2")}>
+      <header className="mb-4 flex items-start gap-3">
+        <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl border border-amber-400/30 bg-amber-400/10 text-[12px] font-black text-amber-300">
+          {faDigits(n)}
         </span>
         <div className="min-w-0">
-          <h2 className="text-base font-black text-white">{title}</h2>
-          <p className="mt-1 text-[11.5px] leading-6 text-content-muted">{note}</p>
+          <h2 className="flex flex-wrap items-center gap-x-2 text-[16px] font-black text-white">
+            {title}
+            <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[9px] font-bold text-white/45">
+              الهام از {source}
+            </span>
+          </h2>
+          <p className="mt-1.5 max-w-[68ch] text-[11.5px] leading-6 text-content-muted">{note}</p>
         </div>
-      </div>
+      </header>
       {children}
     </section>
   );
@@ -71,79 +123,193 @@ function Sample({
 export default function LabPage() {
   return (
     <div className="shell py-8">
-      <header className="mb-9 rounded-3xl border border-white/[0.1] bg-white/[0.035] p-5 backdrop-blur-md sm:p-6">
-        <div className="flex items-center gap-2">
+      <ScrollProgress />
+
+      <header className="mb-10 rounded-[28px] border border-white/[0.1] bg-[radial-gradient(circle_at_88%_-10%,rgba(255,183,0,.16),transparent_55%)] p-5 backdrop-blur-md sm:p-7">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="chip border-amber-400/30 bg-amber-400/10 text-amber-300">
             <FlaskConical className="size-3.5" />
             پیش‌نمایش
           </span>
           <span className="chip">
             <Sparkles className="size-3.5 text-amber-300" />
-            ۴ نمونه
+            ۱۲ نمونه
           </span>
+          <span className="chip text-white/45">سایت اصلی دست‌نخورده</span>
         </div>
-        <h1 className="mt-3 text-xl font-black text-white sm:text-2xl">
-          آزمایشگاه نوارهای افقی
+
+        <h1 className="mt-4 text-xl font-black leading-9 text-white sm:text-[26px]">
+          آزمایشگاه طراحی انیمه‌ورس
         </h1>
         <p className="mt-2 max-w-2xl text-[12.5px] leading-7 text-content-muted">
-          چهار برداشت از همان زبانِ فولدرِ علاقه‌مندی‌ها، برای نوارهای صفحهٔ اصلی. سایت اصلی دست
-          نخورده؛ هر کدام را پسندیدی بگو همان را جایگزین کنم.
+          دوازده ایده برای جاهای مختلف سایت — از قهرمان صفحهٔ اصلی تا فهرست قسمت‌ها و جست‌وجوی
+          سریع. هرکدام را پسندیدی بگو همان را پیاده کنم؛ بقیه دست نمی‌خورند.
         </p>
-        <nav className="mt-4 flex flex-wrap gap-2">
+
+        <div className="mt-5 max-w-md">
+          <CommandPalette items={palette} />
+        </div>
+
+        <nav className="mt-5 flex flex-wrap gap-1.5">
           {[
-            ["a", "الف · جیب شیشه‌ای"],
-            ["b", "ب · بادبزن"],
-            ["c", "پ · ویترین"],
-            ["d", "ت · نوار روان"],
-          ].map(([id, label]) => (
+            "قهرمان سینمایی",
+            "ویترین بلور ۲",
+            "کاورفلو",
+            "ردیف کشسان",
+            "کارت مایل",
+            "کارت دوطرفه",
+            "دستهٔ پوسترها",
+            "تایم‌لاین قسمت‌ها",
+            "سوییچ کیفیت",
+            "پالت جست‌وجو",
+            "حباب ژانرها",
+            "ظهور تدریجی",
+          ].map((label, index) => (
             <a
-              key={id}
-              href={`#${id}`}
-              className="chip transition-colors hover:border-amber-400/40 hover:text-amber-200"
+              key={label}
+              href={`#d${index + 1}`}
+              className="rounded-full border border-white/[0.1] bg-white/[0.03] px-2.5 py-1 text-[10px] font-bold text-white/55 transition-colors hover:border-amber-400/35 hover:text-amber-200"
             >
-              {label}
+              {faDigits(index + 1)} · {label}
             </a>
           ))}
         </nav>
       </header>
 
-      <div className="space-y-12 pb-10">
-        <Sample
-          id="a"
-          badge="الف"
-          title="جیب شیشه‌ای"
-          note="همان فولدرِ علاقه‌مندی‌ها، افقی: برچسب روی زبانه، پوسترها ایستاده در جیب، لبهٔ مه‌آلود پایین و خط کهربایی که با اسکرول پر می‌شود."
+      <div className="grid gap-y-12 lg:grid-cols-2 lg:gap-x-8">
+        <Demo
+          n={1}
+          wide
+          title="قهرمان سینمایی"
+          source="Apple TV+"
+          note="بنر با اسکرول آهسته‌تر از صفحه حرکت می‌کند، عنوان روی تصویر می‌نشیند و نوار شیشه‌ای پایین، اطلاعات و دکمه‌ها را نگه می‌دارد."
         >
-          <ShelfPocket title="محبوب‌ترین‌ها" note="۱۴ عنوان" items={topRated} />
-        </Sample>
+          <HeroSpotlight anime={spotlight} />
+        </Demo>
 
-        <Sample
-          id="b"
-          badge="ب"
-          title="بادبزن"
-          note="کارت‌ها مثل برگه‌های داخل پوشه روی هم می‌افتند، هر یک کمی کج؛ هر کارتی که لمس کنی از دسته بیرون می‌آید."
+        <Demo
+          n={2}
+          wide
+          title="ویترین بلور ۲"
+          source="Netflix + Glass"
+          note="نسخهٔ اصلاح‌شدهٔ ویترین: پوسترها دو برابر، رنگ بنرِ فعال با شدت ۸۵٪ پشت شیشه، تعویض خودکار هر ۶ ثانیه و خط کهربایی که پر می‌شود."
         >
-          <ShelfDeck title="تازه‌ها" note="آخرین افزوده‌ها" items={latest} />
-        </Sample>
+          <ShelfVitrine title="محبوب‌ترین‌ها" note="بر اساس امتیاز" items={topRated} />
+        </Demo>
 
-        <Sample
-          id="c"
-          badge="پ"
-          title="ویترین بلور"
-          note="پوسترِ فعال، شیشهٔ پشت ویترین را رنگ می‌زند؛ عنوان و امتیاز بالای قاب می‌آید و ردیف پایین باریک می‌ماند."
+        <Demo
+          n={3}
+          wide
+          title="کاورفلو"
+          source="Apple Music"
+          note="ردیف مثل مسیر دوربین: کارت مرکز صاف می‌ایستد، دو طرف به داخل می‌چرخند و بقیه در تاریکی منتظر می‌مانند."
         >
-          <ShelfVitrine title="فیلم‌ها" note="یک‌قسمتی" items={movies} />
-        </Sample>
+          <ShelfCoverflow title="فیلم‌ها" note="یک‌قسمتی" items={movies} />
+        </Demo>
 
-        <Sample
-          id="d"
-          badge="ت"
-          title="نوار روان"
-          note="دو ردیف آرام در دو جهت مخالف می‌لغزند و با لمس یا هاور می‌ایستند؛ برای بخش‌های «پیشنهاد» یا «در حال پخش»."
+        <Demo
+          n={4}
+          wide
+          title="ردیف کشسان"
+          source="Spotify"
+          note="هر پوستر یک لبهٔ باریک است؛ با هاور باز می‌شود و بقیهٔ ردیف کنار می‌روند. روی موبایل با لمس باز می‌شود."
         >
-          <ShelfMarquee title="در حال پخش" note="این هفته" items={airing} />
-        </Sample>
+          <RowElastic title="تازه‌ها" note="آخرین افزوده‌ها" items={latest} />
+        </Demo>
+
+        <Demo
+          n={5}
+          title="کارت مایل"
+          source="Awwwards"
+          note="پوستر به سمت نشانگر خم می‌شود، عنوان در عمق جلو می‌آید و یک درخشش روی شیشه می‌لغزد."
+        >
+          <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-5 pt-1">
+            {byScore.slice(0, 4).map((anime) => (
+              <TiltCard key={anime.slug} anime={slim(anime)} />
+            ))}
+          </div>
+        </Demo>
+
+        <Demo
+          n={6}
+          title="کارت دوطرفه"
+          source="Apple Wallet"
+          note="روی کارت بزنی می‌چرخد: پشتش خلاصه، ژانر و دکمه‌های تماشا و علاقه‌مندی است."
+        >
+          <div className="hide-scrollbar flex gap-4 overflow-x-auto pb-5 pt-1">
+            {flips.map((anime) => (
+              <FlipCard key={anime.slug} anime={anime} />
+            ))}
+          </div>
+        </Demo>
+
+        <Demo
+          n={7}
+          title="دستهٔ پوسترها"
+          source="Tinder + Netflix"
+          note="پوسترها روی هم نشسته‌اند و هر چهار ثانیه یکی رو می‌شود؛ با دکمه‌های قبلی/بعدی هم می‌چرخد و با هاور می‌ایستد."
+        >
+          <DeckStack items={byScore.slice(2, 12).map(slim)} />
+        </Demo>
+
+        <Demo
+          n={8}
+          title="تایم‌لاین قسمت‌ها"
+          source="Apple Podcasts"
+          note="فهرست قسمت‌ها به‌جای جدول، یک ریل با نقطه است؛ هر قسمت همان‌جا باز می‌شود و کیفیت‌ها را نشان می‌دهد."
+        >
+          <EpisodeTimeline show={episodeSource.titleEn} episodes={episodes} />
+        </Demo>
+
+        <Demo
+          n={9}
+          title="سوییچ کیفیت"
+          source="Vercel"
+          note="یک انتخاب، چهار اندازه، با لنز کهربایی که می‌لغزد؛ عمل کپی هم همان‌جا تأیید می‌شود."
+        >
+          <QualitySwitch />
+        </Demo>
+
+        <Demo
+          n={10}
+          title="پالت جست‌وجو"
+          source="Raycast / Linear"
+          note="با ⌘K یا Ctrl+K باز می‌شود، با ↑↓ و ↵ کار می‌کند و روی موبایل از همین کادر بالای صفحه باز می‌شود."
+        >
+          <div className="rounded-[26px] border border-white/[0.11] bg-white/[0.025] p-4 backdrop-blur-md">
+            <div className="max-w-md">
+              <CommandPalette items={palette} shortcut={false} />
+            </div>
+            <p className="mt-3 text-[10.5px] leading-6 text-white/40">
+              همین کادر را در هدر یا بالای صفحهٔ جست‌وجو می‌شود گذاشت؛ فهرستش از کاتالوگ واقعی
+              می‌آید.
+            </p>
+          </div>
+        </Demo>
+
+        <Demo
+          n={11}
+          title="حباب ژانرها"
+          source="Musicboard"
+          note="هر ژانر یک حباب به اندازهٔ سهمش از کاتالوگ؛ آرام شنا می‌کند و با لمس فیلتر می‌شود."
+        >
+          <GenreBubbles genres={bubbleGenres} />
+        </Demo>
+
+        <Demo
+          n={12}
+          title="ظهور تدریجی"
+          source="Next.js / Vercel"
+          note="اسکلتِ هم‌شکل پوستر با درخشش، بعد تصویر از بلور بیرون می‌آید و کارت‌ها یکی‌یکی بالا می‌آیند."
+        >
+          <GridReveal items={byDate.slice(0, 8).map(slim)} />
+        </Demo>
       </div>
+
+      <footer className="mt-12 rounded-[24px] border border-white/[0.08] bg-white/[0.02] p-4 text-[11px] leading-6 text-white/40">
+        همهٔ نمونه‌ها با دادهٔ واقعی کاتالوگ ساخته شده‌اند و روی همین آدرس جدا اجرا می‌شوند؛ هیچ
+        کدام روی سایت اصلی اعمال نشده است.
+      </footer>
     </div>
   );
 }
