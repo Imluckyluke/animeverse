@@ -164,7 +164,7 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
           <div className="m-3 flex shrink-0 items-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] px-3">
             <Search className="size-5 shrink-0 text-amber-300" />
             <input ref={input} role="combobox" aria-autocomplete="list" aria-expanded="true" aria-controls={`${id}-results`}
-              aria-activedescendant={results[cursor] ? `${id}-${cursor}` : undefined}
+              aria-activedescendant={!loading && !failed && results[cursor] ? `${id}-${cursor}` : undefined}
               aria-label="نام انیمه" value={query} placeholder="نام فارسی یا انگلیسی…"
               onChange={(event) => { setQuery(event.target.value); setCursor(0); }}
               onKeyDown={(event) => {

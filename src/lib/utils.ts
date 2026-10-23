@@ -30,6 +30,7 @@ export function faCompact(value: number): string {
 export function faDate(iso: string): string {
   try {
     return new Intl.DateTimeFormat("fa-IR", {
+      timeZone: "Asia/Tehran",
       day: "numeric",
       month: "long",
       year: "numeric",

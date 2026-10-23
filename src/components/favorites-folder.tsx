@@ -110,6 +110,11 @@ function FavoritesList({ items, onClose }: { items: Anime[]; onClose: () => void
 export function FavoritesFolder({ items, width = 300 }: { items: Anime[]; width?: number }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const listOpen = open && items.length > 0;
+  const closeList = () => {
+    setOpen(false);
+    wrapRef.current?.querySelector<HTMLButtonElement>("button[aria-expanded]")?.focus({ preventScroll: true });
+  };
 
   const files: FolderFile[] = items.length
     ? items.map((anime) => ({
@@ -131,7 +136,10 @@ export function FavoritesFolder({ items, width = 300 }: { items: Anime[]; width?
       if (!wrapRef.current?.contains(target)) setOpen(false);
     };
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") {
+        setOpen(false);
+        wrapRef.current?.querySelector<HTMLButtonElement>("button[aria-expanded]")?.focus({ preventScroll: true });
+      }
     };
     // Attach a beat later, or the very click that opened it closes it again.
     const timer = window.setTimeout(() => document.addEventListener("click", onDown), 0);
@@ -169,11 +177,11 @@ export function FavoritesFolder({ items, width = 300 }: { items: Anime[]; width?
         />
       </div>
 
-      <div aria-hidden={!open} ref={(node) => { node?.toggleAttribute("inert", !open); }}
-        className={`grid w-full max-w-[640px] transition-[grid-template-rows] duration-[340ms] ease-[cubic-bezier(.22,1,.36,1)] ${open && items.length ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+      <div aria-hidden={!listOpen} ref={(node) => { node?.toggleAttribute("inert", !listOpen); }}
+        className={`grid w-full max-w-[640px] transition-[grid-template-rows] duration-[340ms] ease-[cubic-bezier(.22,1,.36,1)] ${listOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
         <div className="min-h-0 overflow-hidden">
-          <div className={`px-1 pb-1 pt-7 transition-[opacity,transform] duration-200 ${open ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"}`}>
-            <FavoritesList items={items} onClose={() => setOpen(false)} />
+          <div className={`px-1 pb-1 pt-7 transition-[opacity,transform] duration-200 ${listOpen ? "translate-y-0 opacity-100" : "-translate-y-1 opacity-0"}`}>
+            <FavoritesList items={items} onClose={closeList} />
           </div>
         </div>
       </div>
