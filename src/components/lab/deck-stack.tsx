@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { HeroAnime } from "@/lib/catalog";
 import { LabCard } from "./lab-card";
@@ -12,22 +12,11 @@ import { cn, faDigits } from "@/lib/utils";
  * it. It deals itself every few seconds; the buttons take over from there.
  */
 export function DeckStack({ items }: { items: HeroAnime[] }) {
-  const reduce = useReducedMotion();
   const [start, setStart] = useState(0);
-  const [paused, setPaused] = useState(false);
   const visible = items.slice(0, 4).map((_, index) => items[(start + index) % items.length]);
 
-  useEffect(() => {
-    if (reduce || paused || items.length < 3) return;
-    const timer = window.setTimeout(() => setStart((value) => (value + 1) % items.length), 4200);
-    return () => window.clearTimeout(timer);
-  }, [start, items.length, paused, reduce]);
-
   return (
-    <section
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      className="rounded-[26px] border border-white/[0.11] bg-[radial-gradient(circle_at_50%_0%,rgba(255,183,0,.09),transparent_58%)] p-4 backdrop-blur-md sm:p-5"
+    <section className="rounded-[26px] border border-white/[0.11] bg-[radial-gradient(circle_at_50%_0%,rgba(255,183,0,.09),transparent_58%)] p-4 backdrop-blur-md sm:p-5"
     >
       <header className="mb-2 flex items-end justify-between gap-3">
         <div>

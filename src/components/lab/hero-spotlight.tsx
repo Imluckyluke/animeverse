@@ -6,6 +6,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { Download, Heart, Play, Star } from "lucide-react";
 import type { HeroAnime } from "@/lib/catalog";
 import { CoverImage } from "@/components/ui/cover-image";
+import { useApp } from "@/lib/app-context";
 import { faDigits, faScore } from "@/lib/utils";
 
 /**
@@ -15,6 +16,8 @@ import { faDigits, faScore } from "@/lib/utils";
 export function HeroSpotlight({ anime }: { anime: HeroAnime }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+  const { isFavorite, toggleFavorite } = useApp();
+  const saved = isFavorite(anime.slug);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -87,13 +90,24 @@ export function HeroSpotlight({ anime }: { anime: HeroAnime }) {
               <Play className="size-4 fill-current" />
               تماشا
             </Link>
-            <button type="button" className="btn btn-glass btn-lg" aria-label="افزودن به علاقه‌مندی‌ها">
-              <Heart className="size-4" />
+            <button
+              type="button"
+              onClick={() => toggleFavorite(anime.slug)}
+              aria-pressed={saved}
+              aria-label={saved ? "برداشتن از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
+              className={
+                saved
+                  ? "btn btn-glass btn-lg gap-2 border-rose-400/40 text-rose-300"
+                  : "btn btn-glass btn-lg gap-2"
+              }
+            >
+              <Heart className={saved ? "size-4 fill-rose-400 text-rose-400" : "size-4"} />
+              <span className="hidden sm:inline">{saved ? "ذخیره شد" : "ذخیره"}</span>
             </button>
-            <button type="button" className="btn btn-glass btn-lg hidden sm:inline-flex">
+            <Link href={`/anime/${anime.slug}`} className="btn btn-glass btn-lg hidden gap-2 sm:inline-flex">
               <Download className="size-4" />
               دانلود
-            </button>
+            </Link>
           </div>
         </div>
       </div>

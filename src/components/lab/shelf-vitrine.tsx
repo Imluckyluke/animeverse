@@ -1,14 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowLeft, ChevronLeft, ChevronRight, Play, Star } from "lucide-react";
 import type { HeroAnime } from "@/lib/catalog";
 import { CoverImage } from "@/components/ui/cover-image";
 import { cn, faDigits, faScore } from "@/lib/utils";
-
-const HOLD_MS = 6000;
 
 /**
  * A display case, version two: the active title's own artwork fills the glass
@@ -26,10 +24,8 @@ export function ShelfVitrine({
   items: HeroAnime[];
   href?: string;
 }) {
-  const reduce = useReducedMotion();
   const track = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(false);
   const current = items[Math.min(active, items.length - 1)];
 
   const unit = useCallback(() => {
@@ -58,20 +54,8 @@ export function ShelfVitrine({
     );
   }, [items.length, unit]);
 
-  useEffect(() => {
-    if (reduce || paused || items.length < 2) return;
-    const timer = window.setTimeout(() => goTo(active + 1), HOLD_MS);
-    return () => window.clearTimeout(timer);
-  }, [active, goTo, items.length, paused, reduce]);
-
   return (
-    <section
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={() => setPaused(false)}
-      className="relative overflow-hidden rounded-[30px] border border-white/[0.12] shadow-[0_40px_90px_-60px_rgba(0,0,0,1)]"
-    >
+    <section className="relative overflow-hidden rounded-[30px] border border-white/[0.12] shadow-[0_40px_90px_-60px_rgba(0,0,0,1)]">
       {/* the active artwork, thrown across the whole case */}
       <div aria-hidden className="absolute inset-0">
         {items.map((anime, index) => (
@@ -213,12 +197,8 @@ export function ShelfVitrine({
           </span>
           <div className="relative h-[3px] flex-1 overflow-hidden rounded-full bg-white/10">
             <span
-              key={`${active}-${paused}`}
-              className="absolute inset-y-0 right-0 w-full origin-right rounded-full bg-gradient-to-l from-amber-300 to-amber-500 lab-fill"
-              style={{
-                animationDuration: `${HOLD_MS}ms`,
-                animationPlayState: paused || reduce ? "paused" : "running",
-              }}
+              className="absolute inset-y-0 right-0 rounded-full bg-gradient-to-l from-amber-300 to-amber-500 shadow-[0_0_10px_rgba(255,183,0,.5)] transition-[width] duration-500 ease-[cubic-bezier(.16,1,.3,1)]"
+              style={{ width: `${((active + 1) / Math.max(1, items.length)) * 100}%` }}
             />
           </div>
           <Link

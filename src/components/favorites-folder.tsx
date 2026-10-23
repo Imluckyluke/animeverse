@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, Heart, X } from "lucide-react";
 import type { Anime } from "@/lib/catalog";
 import { faDigits } from "@/lib/utils";
@@ -28,7 +29,13 @@ function FavoritesList({ items, onClose }: { items: Anime[]; onClose: () => void
   const { toggleFavorite } = useApp();
 
   return (
-    <div className="animate-menu-in mt-7 w-full max-w-[420px] overflow-hidden rounded-3xl border border-amber-400/25 bg-[rgba(12,12,18,.82)] shadow-lift backdrop-blur-[10px] backdrop-saturate-150">
+    <motion.div
+      initial={{ opacity: 0, y: -14, height: 0, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, height: "auto", scale: 1 }}
+      exit={{ opacity: 0, y: -12, height: 0, scale: 0.98 }}
+      transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+      className="mt-7 w-full max-w-[420px] overflow-hidden rounded-3xl border border-amber-400/25 bg-[rgba(12,12,18,.82)] shadow-lift backdrop-blur-[10px] backdrop-saturate-150"
+    >
       <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] px-4 py-3">
         <span className="text-[12.5px] font-black text-white">لیست علاقه‌مندی‌ها</span>
         <button
@@ -91,7 +98,7 @@ function FavoritesList({ items, onClose }: { items: Anime[]; onClose: () => void
           </li>
         ))}
       </ul>
-    </div>
+    </motion.div>
   );
 }
 
@@ -162,7 +169,11 @@ export function FavoritesFolder({ items, width = 300 }: { items: Anime[]; width?
         />
       </div>
 
-      {open && items.length ? <FavoritesList items={items} onClose={() => setOpen(false)} /> : null}
+      <AnimatePresence initial={false}>
+        {open && items.length ? (
+          <FavoritesList key="favorites" items={items} onClose={() => setOpen(false)} />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
