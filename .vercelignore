@@ -1,0 +1,18 @@
+# Vercel deploy ignore list — runtime/build inputs only.
+# The archive database, tools, logs and local env are not needed on Vercel.
+node_modules
+.next
+out
+build
+
+data
+tools
+logs
+scripts
+
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.env
+.env.*.local
+
+.git
