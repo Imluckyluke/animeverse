@@ -30,6 +30,7 @@ export type AppContextValue = {
   isFavorite: (slug: string) => boolean;
   clearFavorites: () => void;
   markWatched: (slug: string, episode: number) => void;
+  toggleWatched: (slug: string, episode: number) => void;
   isWatched: (slug: string, episode: number) => boolean;
   lastWatched: (slug: string) => number | null;
   toast: (title: string, description?: string, tone?: ToastItem["tone"]) => void;

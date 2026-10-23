@@ -56,6 +56,7 @@ export type Anime = {
   weeklyViews: number;
   popularity: number;
   updatedAt: string;
+  nextEpisodeAt?: string;
   cover?: string;
   banner?: string;
   source?: "demo" | "aniplus";

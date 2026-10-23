@@ -46,13 +46,13 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
   // The generated banner is already a blurred backdrop with the poster baked
   // in, so blurring it again made the card background unreadable. Use the
   // sharp portrait cover for the backdrop and keep it only slightly softened.
-  const backdrop = anime.cover || anime.banner;
+  const backdrop = anime.banner || anime.cover;
   const poster = anime.cover || anime.banner;
 
   return (
     <article
       className={cn(
-        "group/cinema relative w-[78vw] shrink-0 snap-center sm:snap-start transition-transform duration-500 ease-spring sm:w-[360px] lg:w-[400px]",
+        "group/cinema relative w-[78vw] shrink-0 snap-center sm:snap-start transition-transform duration-500 ease-spring sm:w-[360px] lg:w-[400px] lg:transform-none",
         // The card resting at the edge lifts so it reads as the one in focus.
         active ? "-translate-y-2 scale-[1.02]" : "hover:-translate-y-1.5",
       )}
@@ -80,13 +80,14 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
               src={backdrop}
               sizes="(max-width: 640px) 78vw, 400px"
               position="50% 28%"
-              className="absolute inset-0 scale-100 blur-[2px] opacity-90 saturate-110"
+              zoom={false}
+              className="absolute inset-0 scale-100 opacity-100"
             />
           ) : (
             <Poster
               anime={anime}
               sizes="(max-width: 640px) 78vw, 400px"
-              className="absolute inset-0 scale-100 blur-[2px] opacity-90"
+              className="absolute inset-0 scale-100 opacity-100"
             />
           )}
           <div aria-hidden className="absolute inset-0 bg-[#050507]/15" />
@@ -100,7 +101,7 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
               style={{ filter: "brightness(1.12) saturate(1.05)" }}
             >
               <div className="aspect-[17/24]">
-                <Poster anime={anime} sizes="84px" thumb position="50% 18%" className="absolute inset-0" />
+                <Poster anime={anime} sizes="84px" position="50% 18%" className="absolute inset-0" />
               </div>
             </div>
           ) : null}

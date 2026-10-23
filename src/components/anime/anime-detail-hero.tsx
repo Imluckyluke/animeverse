@@ -8,7 +8,7 @@ import { createPortal } from "react-dom";
 import { useApp } from "@/lib/app-context";
 import type { Anime } from "@/lib/catalog";
 import { artworkFor, bannerFor } from "@/lib/images";
-import { cn, faDigits, faScore } from "@/lib/utils";
+import { cn, faDate, faDigits, faScore } from "@/lib/utils";
 import { CoverImage } from "@/components/ui/cover-image";
 import { Poster } from "@/components/ui/poster";
 
@@ -18,10 +18,14 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, restDelta: 0.001 });
   const [progressHost, setProgressHost] = useState<HTMLElement | null>(null);
+  const [synopsisOpen, setSynopsisOpen] = useState(false);
   const banner = anime.banner || bannerFor(anime.slug);
   const art = artworkFor(anime.slug);
   const cover = anime.cover || art?.cover;
   const blur = anime.cover ? undefined : art?.blur;
+  const latestEpisode = [...(anime.episodeData ?? [])].sort((a, b) => b.number - a.number)[0];
+  const updatedAt = latestEpisode?.releasedAt || anime.updatedAt;
+  const nextEpisodeAt = anime.nextEpisodeAt && Number.isFinite(Date.parse(anime.nextEpisodeAt)) ? anime.nextEpisodeAt : null;
   useEffect(() => {
     setProgressHost(document.body);
   }, []);
@@ -91,7 +95,7 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
 
         <div className="mt-7 grid items-end gap-8 lg:grid-cols-[1fr_272px] lg:gap-10">
           <div className="max-w-2xl">
-            <h1 className="text-shadow-hero text-balance text-[clamp(1.7rem,4.4vw,3rem)] font-black leading-[1.2] text-white">
+            <h1 dir="ltr" className="text-shadow-hero text-balance text-right text-[clamp(1.7rem,4.4vw,3rem)] font-black leading-[1.2] text-white">
               {anime.titleEn}
             </h1>
             <p className="mt-2 text-[12.5px] font-semibold text-white/55">{anime.title}</p>
@@ -114,7 +118,10 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
               </span>
             </div>
 
-            <p className="mt-4 max-w-xl text-[13px] leading-7 text-white/70">{anime.synopsis}</p>
+            <div className="mt-4 max-w-xl">
+              <p id={`synopsis-${anime.slug}`} className={cn("text-sm leading-7 text-white/75 sm:line-clamp-none", !synopsisOpen && "line-clamp-3")}>{anime.synopsis}</p>
+              <button type="button" onClick={() => setSynopsisOpen((value) => !value)} aria-expanded={synopsisOpen} aria-controls={`synopsis-${anime.slug}`} className="min-h-11 text-sm font-bold text-amber-300 sm:hidden">{synopsisOpen ? "بستن خلاصه" : "بیشتر دربارهٔ داستان"}</button>
+            </div>
 
             <div className="mt-6 flex flex-nowrap items-center gap-2 sm:flex-wrap sm:gap-2.5">
               <Link href="#episodes" className="btn btn-primary h-11 flex-1 px-5 text-xs sm:h-[52px] sm:flex-none sm:px-7 sm:text-sm">
@@ -158,7 +165,14 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
                   <span className="absolute right-3 top-3 rounded-full border border-gold-300/30 bg-ink-950/70 px-2.5 py-1.5 text-[11px] font-black text-gold-300">
                     ★ {faScore(anime.score)}
                   </span>
+                  {faDate(updatedAt) ? <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent px-2 pb-3 pt-10 text-center text-xs leading-5 text-white">
+                    آخرین به‌روزرسانی<br /><time dateTime={updatedAt} className="font-bold">{faDate(updatedAt)}</time>
+                  </span> : null}
                 </Poster>
+              </div>
+              <div className="mt-3 space-y-1 text-center text-xs leading-6 text-content-muted">
+                {latestEpisode ? <p>آخرین قسمت افزوده‌شده: <span className="font-bold text-white">{faDigits(latestEpisode.number)}</span></p> : null}
+                {anime.status === "در حال پخش" ? <p>قسمت بعد: {nextEpisodeAt ? <time dateTime={nextEpisodeAt} className="text-amber-200">{faDate(nextEpisodeAt)}</time> : "زمان انتشار هنوز اعلام نشده"}</p> : null}
               </div>
             </div>
           </div>

@@ -22,19 +22,13 @@ export function FavoritesView({ items: catalogue }: { items: Anime[] }) {
   );
 
   return (
-    <div className="shell py-8 sm:py-10 lg:py-12">
+    <div className="shell min-h-[calc(100svh-var(--header-h))] py-8 sm:py-10 lg:py-12">
       <h1 className="headline text-[clamp(1.7rem,4vw,2.4rem)]">علاقه‌مندی‌های من</h1>
 
       <div className="mt-6">
         {!ready ? (
-          <div className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-5">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="space-y-2">
-                <Skeleton className="aspect-[17/24] w-full rounded-3xl" />
-                <Skeleton className="h-3 w-2/3 rounded-full" />
-                <Skeleton className="h-2.5 w-1/2 rounded-full" />
-              </div>
-            ))}
+          <div role="status" aria-label="بارگذاری علاقه‌مندی‌ها" className="flex justify-center py-5">
+            <Skeleton className="h-[320px] w-[min(300px,80vw)] rounded-3xl" />
           </div>
         ) : (
           <div

@@ -7,7 +7,7 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { label: "خانه", href: "/" },
       { label: "آرشیو", href: "/browse" },
-      { label: "جستو‌جو", href: "/browse" },
+      { label: "جست‌وجو", href: "/browse" },
     ],
   },
   {
@@ -15,6 +15,8 @@ const COLUMNS: FooterColumn[] = [
     links: [
       { label: "علاقه‌مندی‌ها", href: "/favorites" },
       { label: "ورود", href: "/login" },
+      { label: "حریم خصوصی", href: "/privacy" },
+      { label: "قوانین استفاده", href: "/terms" },
     ],
   },
   {
@@ -28,7 +30,7 @@ const COLUMNS: FooterColumn[] = [
 
 export function SiteFooter() {
   return (
-    <div className="relative z-10 mt-8">
+    <div className="relative z-10 mt-8 pb-[calc(env(safe-area-inset-bottom,0px)+5.5rem)] md:pb-0">
       <HalftoneWordmarkFooter
         wordmark=""
         accent="#ffd60a"

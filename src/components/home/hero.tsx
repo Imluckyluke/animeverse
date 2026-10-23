@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 import { Download, Heart, Star } from "lucide-react";
-import { useEffect, useRef, useState, type MouseEvent, type TouchEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type TouchEvent, type PointerEvent } from "react";
 import { useApp } from "@/lib/app-context";
 import type { HeroAnime } from "@/lib/catalog";
 import { artworkFor } from "@/lib/images";
@@ -12,7 +12,7 @@ import { cn, faDigits, faNum, faScore } from "@/lib/utils";
 import { CoverImage } from "@/components/ui/cover-image";
 import { Poster } from "@/components/ui/poster";
 
-const SLIDE_MS = 7000;
+const SLIDE_MS = 4500;
 
 /** Full-bleed cover art + a single glass card (Apple "hero" pattern). */
 export function Hero({ items }: { items: HeroAnime[] }) {
@@ -26,6 +26,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
   const total = Math.max(pool.length, 1);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const swallowClick = useRef(false);
+  const mouseStart = useRef<{ x: number; y: number; id: number } | null>(null);
 
   // The admin star pins an entry to the front. Jump to it immediately so the
   // change is visible without waiting for the daily home-page cache.
@@ -78,6 +79,27 @@ export function Hero({ items }: { items: HeroAnime[] }) {
     swallowClick.current = false;
   };
 
+  const onPointerDown = (event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    const control = (event.target as HTMLElement).closest("button,a,input");
+    if (control && !control.hasAttribute("data-hero-nav")) return;
+    mouseStart.current = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    setPaused(true);
+  };
+  const onPointerUp = (event: PointerEvent<HTMLElement>) => {
+    const start = mouseStart.current;
+    mouseStart.current = null;
+    if (!start) return;
+    setPaused(false);
+    if (event.currentTarget.hasPointerCapture(start.id)) event.currentTarget.releasePointerCapture(start.id);
+    if (event.type === "pointercancel") return;
+    const dx = event.clientX - start.x;
+    if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(event.clientY - start.y)) {
+      go(dx < 0 ? 1 : -1);
+      swallowClick.current = true;
+    }
+  };
+
   return (
     <section
       className="relative isolate -mt-[var(--header-h)] overflow-hidden"
@@ -88,6 +110,17 @@ export function Hero({ items }: { items: HeroAnime[] }) {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
       onClickCapture={onClickCapture}
+      onPointerDown={onPointerDown}
+      onPointerMove={(event) => {
+        const start = mouseStart.current;
+        if (start && Math.abs(event.clientX - start.x) > 6) {
+          event.currentTarget.setPointerCapture(start.id);
+          event.preventDefault();
+        }
+      }}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+      onDragStart={(event) => event.preventDefault()}
     >
       {pool.map((item, i) => {
         const art = artworkFor(item.slug);
@@ -103,7 +136,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
               "absolute inset-0 -z-10 transition-opacity ease-out will-change-opacity",
               i === index ? "opacity-100" : "opacity-0",
             )}
-            style={{ transitionDuration: reduce ? "0ms" : "800ms" }}
+            style={{ transitionDuration: reduce ? "0ms" : "450ms" }}
           >
             {cover ? (
               <div aria-hidden className="absolute inset-0 hidden overflow-hidden lg:block">
@@ -116,10 +149,10 @@ export function Hero({ items }: { items: HeroAnime[] }) {
             ) : null}
             {banner ? (
               <div
-                className="absolute inset-0 hidden lg:block"
+                className="absolute inset-y-0 left-0 right-[35%] hidden lg:block"
                 style={{
-                  maskImage: "linear-gradient(to right, #000 0%, #000 26%, transparent 46%)",
-                  WebkitMaskImage: "linear-gradient(to right, #000 0%, #000 26%, transparent 46%)",
+                  maskImage: "linear-gradient(to right, #000 0%, #000 70%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to right, #000 0%, #000 70%, transparent 100%)",
                 }}
               >
                 <CoverImage
@@ -128,18 +161,20 @@ export function Hero({ items }: { items: HeroAnime[] }) {
                   sizes="100vw"
                   priority={i === 0}
                   position="50% 50%"
+                  fit="contain"
                   zoom={false}
                 />
               </div>
             ) : null}
             {cover ? (
-              <div className={cn("absolute inset-0", banner && "lg:hidden")}>
+              <div className={cn("absolute inset-x-0 bottom-[15%] top-[var(--header-h)]", banner && "lg:hidden")}>
                 <CoverImage
                   src={cover}
                   blur={blur}
                   sizes="100vw"
                   priority={i === 0}
-                  position="50% 30%"
+                  position="50% 0%"
+                  fit="contain"
                   zoom={false}
                 />
               </div>
@@ -170,6 +205,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
       <button
         type="button"
         aria-label="اسلاید بعدی"
+        data-hero-nav
         tabIndex={-1}
         onClick={() => go(1)}
         disabled={total < 2}
@@ -178,6 +214,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
       <button
         type="button"
         aria-label="اسلاید قبلی"
+        data-hero-nav
         tabIndex={-1}
         onClick={() => go(-1)}
         disabled={total < 2}
@@ -218,10 +255,10 @@ export function Hero({ items }: { items: HeroAnime[] }) {
                     </span>
                   </div>
 
-                  <TitleTag className="mt-3 line-clamp-3 text-balance text-[1.55rem] font-black leading-[1.15] tracking-[-0.022em] text-white lg:mt-4 lg:text-[clamp(1.9rem,4.6vw,3.4rem)] lg:leading-[1.18]">
+                  <TitleTag dir="ltr" className="mt-3 line-clamp-3 text-balance text-right text-[1.55rem] font-black leading-[1.15] tracking-[-0.022em] text-white lg:mt-4 lg:text-[clamp(1.9rem,4.6vw,3.4rem)] lg:leading-[1.18]">
                     {slide.titleEn}
                   </TitleTag>
-                  <p className="mt-1.5 text-[11.5px] font-semibold text-white/60 lg:mt-2 lg:text-[12.5px]">{slide.title}</p>
+                  <p className="mt-1.5 text-[13px] font-semibold text-white/70 lg:mt-2">{slide.title}</p>
 
                   <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11.5px] text-white/80 lg:mt-3.5 lg:gap-x-4 lg:gap-y-2 lg:text-[12.5px]">
                     <span className="inline-flex items-center gap-1.5 font-black text-white">
@@ -236,7 +273,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
                     </span>
                   </div>
 
-                  <p className="mt-2 line-clamp-2 max-w-[54ch] text-pretty text-[11.5px] leading-5 text-white/75 lg:mt-3 lg:line-clamp-3 lg:text-[13.5px] lg:leading-7 lg:text-white/80">
+                  <p className="mt-2 line-clamp-2 max-w-[54ch] text-pretty text-[13px] leading-6 text-white/75 lg:mt-3 lg:line-clamp-3 lg:text-[13.5px] lg:leading-7 lg:text-white/80">
                     {slide.synopsis}
                   </p>
 
@@ -257,10 +294,10 @@ export function Hero({ items }: { items: HeroAnime[] }) {
                       aria-label={fav ? "حذف از لیست من" : "افزودن به لیست من"}
                       className={cn(
                         "btn btn-glass h-11 w-11 shrink-0 bg-ink-950/55 px-0 backdrop-blur-none [backdrop-filter:none] lg:h-[52px] lg:w-auto lg:px-7 lg:text-sm",
-                        fav && "border-amber-400/45 text-amber-300",
+                        fav && "border-rose-400/45 text-rose-300",
                       )}
                     >
-                      <Heart className={cn("size-4", fav && "fill-amber-400 text-amber-400")} />
+                      <Heart className={cn("size-4", fav && "fill-rose-400 text-rose-400")} />
                       <span className="hidden lg:inline">{fav ? "در لیست من ✓" : "افزودن به لیست من"}</span>
                     </button>
                   </div>

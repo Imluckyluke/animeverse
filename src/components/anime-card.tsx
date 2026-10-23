@@ -71,11 +71,11 @@ export function AnimeCard({
             <h3
               dir="ltr"
               title={anime.titleEn}
-              className="line-clamp-2 min-h-[2.6em] text-center text-[12.5px] font-extrabold leading-[1.3] text-white"
+              className="line-clamp-2 min-h-[2.6em] text-center text-sm font-extrabold leading-[1.3] text-white"
             >
               {anime.titleEn}
             </h3>
-            <p className="mt-1 text-center text-[10.5px] text-content-muted">
+            <p className="mt-1 text-center text-xs text-content-muted">
               {faDigits(anime.year)} ·{" "}
               {anime.type === "فیلم"
                 ? "فیلم"
@@ -90,7 +90,7 @@ export function AnimeCard({
           aria-label={fav ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
           aria-pressed={fav}
           className={cn(
-            "absolute left-2.5 top-2.5 z-20 grid size-8 place-items-center rounded-full border transition-all duration-300 hover:scale-110",
+            "absolute left-2 top-2 z-20 grid size-11 place-items-center rounded-full border transition-all duration-200 hover:scale-105",
             fav
               ? "border-rose-400/45 bg-rose-500/30 text-rose-300"
               : "border-white/15 bg-ink-950/50 text-white/85 hover:border-rose-400/45 hover:text-rose-300",

@@ -125,8 +125,7 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
       <section id="info" className="shell section-pad scroll-mt-24">
         <h2 className="headline text-xl sm:text-2xl">دربارهٔ این عنوان</h2>
         <div className="glass-card mt-5 bg-[rgba(12,12,18,.78)] p-5 backdrop-blur-none sm:p-7 lg:bg-[rgba(10,10,16,.32)] lg:backdrop-blur-[8px]">
-          <p className="max-w-3xl text-[13.5px] leading-8 text-content-soft">{anime.synopsis}</p>
-          <dl className="mt-6 grid gap-x-8 gap-y-0 sm:grid-cols-2">
+          <dl className="grid gap-x-8 gap-y-0 sm:grid-cols-2">
             {facts.map((row) => (
               <div
                 key={row.label}

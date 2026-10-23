@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useApp } from "@/lib/app-context";
+import { canShowAdmin } from "@/lib/admin-visibility";
 import { cn } from "@/lib/utils";
 import { CoverImage } from "@/components/ui/cover-image";
 import { InstallAppButton } from "@/components/install-app-button";
@@ -105,8 +106,8 @@ export function AuthView({
             </h1>
             <p className="mt-2 text-[12.5px] leading-6 text-content-muted">
               {user
-                ? "علاقه‌مندی‌ها و وضعیت عضویتت یک‌جا."
-                : "علاقه‌مندی‌هایت را نگه دار و لینک‌های تازه را از دست نده."}
+                ? "تنظیمات همین دستگاه و اعلان‌های تلگرامت، یک‌جا."
+                : "حساب این دستگاه را بساز؛ علاقه‌مندی‌ها بدون ورود هم ذخیره می‌شوند."}
             </p>
           </div>
 
@@ -139,10 +140,10 @@ export function AuthView({
                   ادامهٔ گشتن در آرشیو
                 </Link>
                 <InstallAppButton variant="card" />
-                <Link href="/admin" className="btn btn-glass btn-md w-full">
+                {canShowAdmin(user) ? <Link href="/admin" className="btn btn-glass btn-md w-full">
                   <ShieldCheck className="size-3.5" />
                   پنل ادمین
-                </Link>
+                </Link> : null}
                 <button
                   type="button"
                   onClick={() => {
@@ -267,7 +268,7 @@ export function AuthView({
                         className="sr-only"
                       />
                       <span className="text-[10.5px] leading-5 text-content-muted">
-                        قوانین استفاده و حریم خصوصی انیمه‌ورس را می‌پذیرم.
+                        <Link href="/terms" target="_blank" className="text-amber-300 underline underline-offset-4">قوانین استفاده</Link> و <Link href="/privacy" target="_blank" className="text-amber-300 underline underline-offset-4">حریم خصوصی</Link> انیمه‌ورس را می‌پذیرم.
                       </span>
                     </label>
                   ) : null}
@@ -312,7 +313,7 @@ export function AuthView({
                     </Link>
                   ) : null}
 
-                  <p className="text-center text-[10px] leading-5 text-content-faint">
+                  <p className="text-center text-xs leading-6 text-content-muted">
                     حساب و علاقه‌مندی‌ها فقط روی همین دستگاه ذخیره می‌شوند و روی سرور ساخته نمی‌شوند.
                   </p>
                 </motion.form>
@@ -369,7 +370,7 @@ function AuthField({
 }) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-[11.5px] font-bold text-content-soft">
+      <label htmlFor={id} className="block text-sm font-bold text-content-soft">
         {label}
       </label>
       <div className="relative">

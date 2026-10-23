@@ -1,27 +1,22 @@
 "use client";
 
-import { ChevronDown, Download, Eye, Loader2 } from "lucide-react";
+import { ChevronDown, Download, Eye, EyeOff, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/lib/app-context";
 import type { Anime, Episode } from "@/lib/catalog";
 import { getEpisodes } from "@/lib/catalog";
-import { cn, faBytes, faDate, faDigits, faScore, openRealDownload, triggerDownload } from "@/lib/utils";
+import { cn, faBytes, faDate, faDigits, openRealDownload, triggerDownload } from "@/lib/utils";
 
 const PREVIEW_COUNT = 6;
 const EXTRA_BATCH = 24;
 
 type LiveQuality = { status: "done" | "pending" | "failed"; size?: number | null };
 
-function sizeLabel(quality: string, episode: number): string {
-  if (quality === "4K") return `${faScore(4 + (episode % 5) / 10)} گیگابایت`;
-  if (quality === "1080p") return `${faScore(1.3 + (episode % 6) / 10)} گیگابایت`;
-  if (quality === "720p") return `${faDigits(720 + (episode % 9) * 10)} مگابایت`;
-  return `${faDigits(390 + (episode % 7) * 10)} مگابایت`;
-}
-
 export function EpisodeList({ anime }: { anime: Anime }) {
   const episodes = getEpisodes(anime);
-  const { toast, markWatched, isWatched, lastWatched } = useApp();
+  const { toast, toggleWatched, isWatched, lastWatched } = useApp();
+  const busyRef = useRef(false);
+  const [jumpTarget, setJumpTarget] = useState<number | null>(null);
   const [sheet, setSheet] = useState<Episode | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [renderedExtra, setRenderedExtra] = useState(0);
@@ -34,9 +29,30 @@ export function EpisodeList({ anime }: { anime: Anime }) {
   // Long-running shows (Detective Conan and similar) can have hundreds of
   // episodes. Render the expanded list in batches so the page stays light.
   const extraShown = Math.min(hidden, Math.max(renderedExtra, EXTRA_BATCH));
-  const extra = expanded ? episodes.slice(PREVIEW_COUNT, PREVIEW_COUNT + extraShown) : [];
+  const extra = renderedExtra > 0 ? episodes.slice(PREVIEW_COUNT, PREVIEW_COUNT + extraShown) : [];
   const remaining = Math.max(hidden - extra.length, 0);
   const extraRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (jumpTarget === null) return;
+    const row = document.getElementById(`episode-${anime.slug}-${jumpTarget}`);
+    if (row) {
+      row.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      row.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
+      setJumpTarget(null);
+    }
+  }, [jumpTarget, expanded, renderedExtra, anime.slug]);
+
+  const jumpToLastSeen = () => {
+    const index = episodes.findIndex((episode) => episode.number === lastSeen);
+    if (index < 0 || lastSeen === null) return;
+    if (index >= PREVIEW_COUNT) {
+      setExpanded(true);
+      setRenderedExtra(Math.max(EXTRA_BATCH, index - PREVIEW_COUNT + 1));
+    }
+    setSheet(episodes[index]);
+    setJumpTarget(lastSeen);
+  };
 
   useEffect(() => {
     if (extraRef.current) {
@@ -85,36 +101,32 @@ export function EpisodeList({ anime }: { anime: Anime }) {
   }, [sheet, isReal, anime.slug, anime.quality]);
 
   const download = (episode: number, q: string) => {
+    if (busyRef.current) return;
     if (isReal) {
       const run = async () => {
-        setLoadingQuality(q);
-        markWatched(anime.slug, episode);
-        const result = await openRealDownload(anime.slug, episode, q);
-        setLoadingQuality(null);
-        if (result === "done") {
-          toast("لینک آماده شد", `${anime.titleEn} — قسمت ${faDigits(episode)} · ${q}`);
-          setSheet(null);
-        } else if (result === "pending") {
-          toast("در حال آماده‌سازی", "این کیفیت هنوز روی کانال قرار نگرفته؛ کمی بعد دوباره امتحان کن.");
-        } else {
-          toast("لینک آماده نیست", "لینک این کیفیت آماده نشد؛ بعداً دوباره تلاش کن.");
+        busyRef.current = true;
+        setLoadingQuality(`${episode}|${q}`);
+        try {
+          const result = await openRealDownload(anime.slug, episode, q);
+          if (result === "done") {
+            toast("لینک آماده شد", `${anime.titleEn} — قسمت ${faDigits(episode)} · ${q}`);
+          } else if (result === "pending") {
+            toast("در حال آماده‌سازی", "این کیفیت هنوز روی کانال قرار نگرفته؛ کمی بعد دوباره امتحان کن.");
+          } else {
+            toast("لینک آماده نیست", "لینک این کیفیت آماده نشد؛ بعداً دوباره تلاش کن.");
+          }
+        } catch {
+          toast("دریافت لینک ناموفق بود", "اتصال را بررسی کن و دوباره تلاش کن.", "error");
+        } finally {
+          busyRef.current = false;
+          setLoadingQuality(null);
         }
       };
       void run();
       return;
     }
-    markWatched(anime.slug, episode);
     triggerDownload(anime.slug, episode, q);
     toast("دانلود آغاز شد", `${anime.titleEn} — قسمت ${faDigits(episode)} · ${q}`);
-  };
-
-  const openQuality = (ep: Episode) => {
-    const labels = ep.qualities?.map((quality) => quality.label) ?? anime.quality;
-    if (labels.length === 1) {
-      download(ep.number, labels[0]);
-      return;
-    }
-    setSheet(ep);
   };
 
   const renderEpisode = (ep: Episode) => {
@@ -126,7 +138,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
       : anime.quality.map((label) => ({ label, status: undefined, size: undefined }));
 
     return (
-      <div key={ep.number} role="listitem" className="relative pb-2 ps-9 last:pb-0">
+      <div key={ep.number} id={`episode-${anime.slug}-${ep.number}`} role="listitem" className="relative scroll-mt-24 pb-2 ps-9 last:pb-0">
         <span
           aria-hidden
           className={cn(
@@ -145,11 +157,13 @@ export function EpisodeList({ anime }: { anime: Anime }) {
               : "border-white/[0.08] bg-white/[0.02] hover:border-white/20",
           )}
         >
+          <div className="flex items-center pe-2">
           <button
             type="button"
             onClick={() => setSheet(isOpen ? null : ep)}
             aria-expanded={isOpen}
-            className="flex w-full items-center gap-3 px-3 py-3 text-right"
+            aria-controls={`qualities-${anime.slug}-${ep.number}`}
+            className="flex min-w-0 flex-1 items-center gap-3 px-3 py-3 text-right"
           >
             <span
               className={cn(
@@ -172,7 +186,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
                   <span className="font-medium text-content-soft"> — {ep.title}</span>
                 ) : null}
               </span>
-              <span className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[10.5px] text-content-faint">
+              <span className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs text-content-muted">
                 <span>{ep.runtime}</span>
                 <span className="hidden sm:inline">· {faDate(ep.releasedAt)}</span>
                 {seen ? (
@@ -191,8 +205,18 @@ export function EpisodeList({ anime }: { anime: Anime }) {
               )}
             />
           </button>
+          <button type="button" aria-pressed={seen} onClick={() => toggleWatched(anime.slug, ep.number)}
+            aria-label={`${seen ? "برداشتن علامت مشاهده از" : "علامت‌زدن به‌عنوان مشاهده‌شده:"} قسمت ${faDigits(ep.number)}`}
+            title={seen ? "مشاهده شده؛ برای لغو بزن" : "قسمت را دیده‌ام"}
+            className={cn("grid size-11 shrink-0 place-items-center rounded-xl border transition-colors", seen ? "border-amber-400/30 bg-amber-400/10 text-amber-300" : "border-white/10 text-content-muted hover:text-white")}>
+            {seen ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
+          </button>
+          </div>
 
           <div
+            id={`qualities-${anime.slug}-${ep.number}`}
+            aria-hidden={!isOpen}
+            ref={(node) => { node?.toggleAttribute("inert", !isOpen); }}
             className={cn(
               "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
               isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
@@ -201,7 +225,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
             <div className="overflow-hidden">
               <div className="flex flex-wrap gap-2 border-t border-white/[0.07] px-3 py-3">
                 {labels.map((quality) => {
-                  const busy = loadingQuality === quality.label;
+                  const busy = loadingQuality === `${ep.number}|${quality.label}`;
                   const liveQuality = isReal ? live[`${ep.number}|${quality.label}`] : undefined;
                   const done = (liveQuality?.status ?? quality.status) === "done";
                   const failed = (liveQuality?.status ?? quality.status) === "failed";
@@ -213,21 +237,20 @@ export function EpisodeList({ anime }: { anime: Anime }) {
                       disabled={loadingQuality !== null}
                       onClick={() => {
                         download(ep.number, quality.label);
-                        if (!isReal) setSheet(null);
                       }}
-                      className="flex items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.05] px-2.5 py-1.5 transition-colors hover:border-amber-400/45 hover:bg-amber-400/10 disabled:opacity-60"
+                      className="flex min-h-11 items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.05] px-3 py-2 transition-colors hover:border-amber-400/45 hover:bg-amber-400/10 disabled:opacity-60"
                     >
                       {busy ? (
                         <Loader2 className="size-3 animate-spin text-amber-300" />
                       ) : (
                         <Download className="size-3 text-amber-300" />
                       )}
-                      <span dir="ltr" className="text-[10.5px] font-bold text-white/85">
+                      <span dir="ltr" className="text-xs font-bold text-white/85">
                         {quality.label}
                       </span>
                       <span
                         className={cn(
-                          "text-[9.5px]",
+                          "text-xs",
                           failed ? "text-rose-300" : done ? "text-emerald-300/90" : "text-white/40",
                         )}
                       >
@@ -239,7 +262,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
                               : done
                                 ? "آماده"
                                 : "در صف"
-                          : sizeLabel(quality.label, ep.number)}
+                          : size ? faBytes(size) : "حجم اعلام نشده"}
                       </span>
                     </button>
                   );
@@ -254,8 +277,8 @@ export function EpisodeList({ anime }: { anime: Anime }) {
 
   const toggleExpanded = () => {
     if (expanded) {
+      setSheet(null);
       setExpanded(false);
-      setRenderedExtra(0);
     } else {
       setRenderedExtra(EXTRA_BATCH);
       setExpanded(true);
@@ -274,10 +297,10 @@ export function EpisodeList({ anime }: { anime: Anime }) {
           {faDigits(episodes.length)} قسمت
         </span>
         {lastSeen ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/25 bg-amber-400/10 px-2.5 py-0.5 text-[10px] font-bold text-amber-200">
+          <button type="button" onClick={jumpToLastSeen} className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-amber-400/25 bg-amber-400/10 px-3 py-2 text-xs font-bold text-amber-200">
             <Eye className="size-3" />
-            آخرین قسمت مشاهده‌شده: {faDigits(lastSeen)}
-          </span>
+            رفتن به آخرین قسمت مشاهده‌شده: {faDigits(lastSeen)}
+          </button>
         ) : null}
       </div>
 

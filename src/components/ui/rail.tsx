@@ -3,6 +3,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useDragScroll } from "@/lib/use-drag-scroll";
 
 /** Fraction of the viewport a plain (non-stepping) rail travels per arrow press. */
 const PAGE = 0.72;
@@ -31,6 +32,7 @@ export function Rail({
   onActiveChange?: (index: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const drag = useDragScroll(ref);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
   const [middle, setMiddle] = useState(false);
@@ -194,6 +196,7 @@ export function Rail({
     <div className={cn("group/rail relative", className)}>
       <div
         ref={ref}
+        {...drag}
         role="group"
         tabIndex={0}
         aria-label={ariaLabel}
@@ -208,7 +211,7 @@ export function Rail({
         }}
         style={pad ? { paddingInline: pad, scrollPaddingInline: pad } : undefined}
         className={cn(
-          "hide-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto scroll-px-4 px-4 pb-2 sm:mx-0 sm:gap-4 sm:scroll-px-0 sm:px-0",
+          "hide-scrollbar -mx-4 flex cursor-grab select-none snap-x snap-mandatory gap-3.5 overflow-x-auto scroll-px-4 px-4 pb-2 sm:mx-0 sm:gap-4 sm:scroll-px-0 sm:px-0",
           innerClassName,
         )}
       >
@@ -218,13 +221,11 @@ export function Rail({
       {/* The black pours out to the viewport corners, then fades across the first card. */}
       <div
         aria-hidden
-        className="rail-fade rail-fade-start z-30"
-        style={{ left: "calc((100% - 100vw) / 2)" }}
+        className={cn("flow-fade flow-fade-left", canNext ? "opacity-100" : "opacity-0")}
       />
       <div
         aria-hidden
-        className="rail-fade rail-fade-end z-30"
-        style={{ right: "calc((100% - 100vw) / 2)" }}
+        className={cn("flow-fade flow-fade-right", canPrev ? "opacity-100" : "opacity-0")}
       />
 
       <button

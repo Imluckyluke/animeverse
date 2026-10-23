@@ -182,7 +182,7 @@ const HWF_CSS = `
 .hwf-col li + li { margin-top: 3px; }
 .hwf-col a, .hwf-up {
   color: inherit; text-decoration: none; opacity: .82; background: none; border: 0; padding: 3px 0;
-  display: inline-block; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer;
+   display: inline-flex; align-items: center; min-height: 44px; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer;
   background-image: linear-gradient(currentColor, currentColor); background-size: 0% 1px;
   background-repeat: no-repeat; background-position: 0 100%; transition: opacity .25s ease, background-size .35s cubic-bezier(.2,.7,.1,1);
 }
@@ -257,6 +257,7 @@ export default function HalftoneWordmarkFooter({
   ].join("|")
 
   React.useEffect(() => {
+    if (!opts.current.wordmark.trim()) return
     const root = rootRef.current
     const canvas = canvasRef.current
     if (!root || !canvas) return

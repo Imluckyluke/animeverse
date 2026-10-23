@@ -16,7 +16,7 @@ import type { Anime } from "@/lib/catalog";
 import { GENRES, YEAR_OPTIONS, isChineseAnime, searchAnime } from "@/lib/catalog";
 import { cn, faDigits, faNum } from "@/lib/utils";
 import { useCatalog } from "@/lib/admin-store";
-import { AnimeCard } from "@/components/anime-card";
+import { CatalogGrid } from "@/components/catalog-grid";
 import { CommandPalette } from "@/components/command-palette";
 import { Modal } from "@/components/ui/modal";
 
@@ -61,6 +61,7 @@ export function CatalogView({
   initialGenres?: string[];
 }) {
   const [query, setQuery] = useState(initialQuery);
+  const [page, setPage] = useState({ key: "", count: 30 });
   const [filters, setFilters] = useState<Filters>({ ...baseFilters, genres: initialGenres });
   const [draft, setDraft] = useState<Filters>(filters);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -137,6 +138,9 @@ export function CatalogView({
     (filters.status ? 1 : 0) +
     (filters.audio ? 1 : 0);
 
+  const resultKey = JSON.stringify([query.trim(), filters, urlCollection]);
+  const visibleCount = Math.min(results.length, page.key === resultKey ? page.count : 30);
+
   // Keep the client state in sync with links such as /browse?genre=اکشن.
   // The router can restore a cached CatalogView, so initial state alone is
   // not enough when navigating back from an anime page.
@@ -191,11 +195,16 @@ export function CatalogView({
       if (!sortRef.current?.contains(event.target as Node)) setSortOpen(false);
     };
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSortOpen(false);
+      if (event.key === "Escape") {
+        setSortOpen(false);
+        sortRef.current?.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
+      }
     };
+    const focusTimer = window.setTimeout(() => sortRef.current?.querySelector<HTMLButtonElement>('[role="option"][aria-selected="true"]')?.focus({ preventScroll: true }), 0);
     document.addEventListener("mousedown", onPointerDown);
     document.addEventListener("keydown", onKey);
     return () => {
+      window.clearTimeout(focusTimer);
       document.removeEventListener("mousedown", onPointerDown);
       document.removeEventListener("keydown", onKey);
     };
@@ -235,7 +244,7 @@ export function CatalogView({
 
   return (
     <div>
-      <CommandPalette items={baseList} />
+      <CommandPalette items={baseList} searchHref={urlCollection ? "/browse?collection=chinese" : "/browse"} />
 
       <div className="mt-4 flex items-center gap-2 overflow-x-auto px-0.5 pb-1.5 no-scrollbar">
         <button
@@ -300,7 +309,7 @@ export function CatalogView({
           ) : null}
         </button>
 
-        <span className="text-[11px] text-content-muted">
+        <span className="text-xs text-content-muted" role="status" aria-live="polite">
           <span className="font-black text-white">{faNum(results.length)}</span> نتیجه
         </span>
 
@@ -312,7 +321,7 @@ export function CatalogView({
             aria-haspopup="listbox"
             aria-expanded={sortOpen}
             className={cn(
-              "flex h-9 items-center gap-2 rounded-xl border px-3 text-[11px] font-semibold transition-colors",
+              "flex h-11 items-center gap-2 rounded-xl border px-3 text-xs font-semibold transition-colors",
               sortOpen
                 ? "border-amber-400/40 bg-white/[0.075] text-white"
                 : "border-white/[0.1] bg-white/[0.04] text-content-soft hover:border-white/20 hover:text-white",
@@ -339,9 +348,16 @@ export function CatalogView({
                     onClick={() => {
                       setFilters((current) => ({ ...current, sort }));
                       setSortOpen(false);
+                      sortRef.current?.querySelector<HTMLButtonElement>("button")?.focus({ preventScroll: true });
+                    }}
+                    onKeyDown={(event) => {
+                      const options = Array.from(sortRef.current?.querySelectorAll<HTMLButtonElement>('[role="option"]') ?? []);
+                      const index = options.indexOf(event.currentTarget);
+                      const next = event.key === "ArrowDown" ? (index + 1) % options.length : event.key === "ArrowUp" ? (index - 1 + options.length) % options.length : event.key === "Home" ? 0 : event.key === "End" ? options.length - 1 : -1;
+                      if (next >= 0) { event.preventDefault(); options[next]?.focus(); }
                     }}
                     className={cn(
-                      "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-right text-[11px] transition-colors",
+                      "flex min-h-11 w-full items-center gap-2 rounded-xl px-2.5 py-2 text-right text-xs transition-colors",
                       active
                         ? "bg-amber-400/10 font-bold text-amber-200"
                         : "text-content-muted hover:bg-white/[0.06] hover:text-white",
@@ -373,7 +389,7 @@ export function CatalogView({
               key={`${c.label}-${i}`}
               type="button"
               onClick={c.remove}
-              className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] px-2.5 py-1 text-[10px] font-semibold text-content-soft transition-colors hover:border-danger/30 hover:text-danger"
+              className="inline-flex min-h-11 items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] px-3 py-2 text-xs font-semibold text-content-soft transition-colors hover:border-danger/30 hover:text-danger"
             >
               {c.label}
               <X className="size-2.5" />
@@ -382,7 +398,7 @@ export function CatalogView({
           <button
             type="button"
             onClick={reset}
-            className="inline-flex items-center gap-1 px-1 text-[10px] font-semibold text-content-faint transition-colors hover:text-white"
+            className="inline-flex min-h-11 items-center gap-1 px-2 text-xs font-semibold text-content-muted transition-colors hover:text-white"
           >
             <RotateCcw className="size-3" />
             پاک کردن همه
@@ -406,22 +422,19 @@ export function CatalogView({
             </button>
           </div>
         ) : (
-          <div
-            key={`${query.trim()}|${filters.genres.join(",")}|${filters.year}|${filters.type}|${filters.status}|${filters.audio}|${filters.sort}`}
-            className="grid grid-cols-2 gap-3.5 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4 xl:grid-cols-5"
-          >
-            {results.map((anime, i) => (
-              <div
-                key={anime.slug}
-                className="av-rise"
-                style={{ animationDelay: `${Math.min(i, 18) * 24}ms` }}
-              >
-                <AnimeCard anime={anime} index={i} fluid />
-              </div>
-            ))}
-          </div>
+          <CatalogGrid items={results.slice(0, visibleCount)} />
         )}
       </div>
+
+      {results.length > visibleCount ? (
+        <div className="mt-7 flex flex-col items-center gap-3">
+          <p className="text-xs text-content-muted" role="status">نمایش {faDigits(visibleCount)} از {faDigits(results.length)} عنوان</p>
+          <button type="button" className="btn btn-glass btn-md min-w-48" onClick={() => setPage({ key: resultKey, count: visibleCount + 30 })}>
+            نمایش {faDigits(Math.min(30, results.length - visibleCount))} عنوان دیگر
+            <ChevronDown className="size-4" />
+          </button>
+        </div>
+      ) : null}
 
       <Modal open={filterOpen} onClose={() => setFilterOpen(false)} title="فیلتر‌ها">
         <div className="space-y-5">

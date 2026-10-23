@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut, ShieldCheck, UserRound } from "lucide-react";
+import { CommandPalette } from "@/components/command-palette";
+import { canShowAdmin } from "@/lib/admin-visibility";
 import {
   useCallback,
   useEffect,
@@ -47,7 +49,8 @@ export function Header() {
   const menuOpen = menuPhase === "open";
   const menuMounted = menuPhase !== "closed";
 
-  const nav = user ? [...NAV, { href: "/admin", label: "پنل ادمین" }] : NAV;
+  const adminVisible = canShowAdmin(user);
+  const nav = adminVisible ? [...NAV, { href: "/admin", label: "پنل ادمین" }] : NAV;
 
   const closeMenu = useCallback(() => {
     setMenuPhase((current) => (current === "closed" ? current : "closing"));
@@ -177,6 +180,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <CommandPalette compact shortcut={pathname !== "/browse"} />
             {user ? (
               <div className="relative">
                 <button
@@ -267,15 +271,11 @@ export function Header() {
                       <TelegramNotifyRow variant="menu" />
                     </div>
 
-                    <Link
-                      href="/admin"
-                      role="menuitem"
-                      onClick={closeMenu}
-                      className="mt-1 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs text-content-soft transition-colors hover:bg-white/[0.06] hover:text-white"
-                    >
-                      <ShieldCheck className="size-3.5" />
-                      پنل ادمین
-                    </Link>
+                    {adminVisible ? <Link href="/admin" role="menuitem" onClick={closeMenu}
+                      className="mt-1 flex min-h-11 items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-content-soft hover:bg-white/[0.06] hover:text-white">
+                      <ShieldCheck className="size-4" />پنل ادمین
+                    </Link> : null}
+
                     <Link
                       href="/login"
                       role="menuitem"

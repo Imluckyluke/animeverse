@@ -260,6 +260,16 @@ export function Providers({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const toggleWatched = useCallback((slug: string, episode: number) => {
+    if (!slug || !Number.isFinite(episode)) return;
+    setWatched((previous) => {
+      const current = previous[slug] ?? [];
+      return { ...previous, [slug]: current.includes(episode)
+        ? current.filter((number) => number !== episode)
+        : [...current, episode].sort((a, b) => a - b) };
+    });
+  }, []);
+
   const isWatched = useCallback(
     (slug: string, episode: number) => (watched[slug] ?? []).includes(episode),
     [watched],
@@ -287,6 +297,7 @@ export function Providers({ children }: { children: ReactNode }) {
       isFavorite,
       clearFavorites,
       markWatched,
+      toggleWatched,
       isWatched,
       lastWatched,
       toast,
@@ -305,6 +316,7 @@ export function Providers({ children }: { children: ReactNode }) {
       isFavorite,
       clearFavorites,
       markWatched,
+      toggleWatched,
       isWatched,
       lastWatched,
       toast,

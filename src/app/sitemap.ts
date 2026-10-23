@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Do not emit fake canonical URLs when the real public domain is not set.
   if (!base) return [];
   // Only indexable pages: /login and /favorites are noindex, so they stay out.
-  const staticRoutes = ["", "/browse"].map((route) => ({
+  const staticRoutes = ["", "/browse", "/privacy", "/terms"].map((route) => ({
     url: `${base}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

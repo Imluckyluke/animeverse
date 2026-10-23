@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
+import { lockPageScroll } from "@/lib/scroll-lock";
 
 /**
  * A lightweight sheet/dialog.
@@ -102,10 +103,10 @@ export function Modal({
       }
     };
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
+    const unlock = lockPageScroll();
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      unlock();
     };
   }, [mounted, onClose]);
 
@@ -148,7 +149,7 @@ export function Modal({
             type="button"
             onClick={onClose}
             aria-label="بستن"
-            className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/5 text-content-muted transition-colors hover:bg-white/10 hover:text-white"
+            className="grid size-11 place-items-center rounded-full border border-white/10 bg-white/5 text-content-muted transition-colors hover:bg-white/10 hover:text-white"
           >
             <X className="size-4" />
           </button>

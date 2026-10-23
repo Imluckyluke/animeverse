@@ -63,6 +63,8 @@ export type Anime = {
   weeklyViews: number;
   popularity: number;
   updatedAt: string;
+  /** Only set when the upstream source provides a confirmed next-release time. */
+  nextEpisodeAt?: string;
   cover?: string;
   banner?: string;
   source?: "demo" | "aniplus";

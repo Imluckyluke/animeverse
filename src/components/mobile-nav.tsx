@@ -55,7 +55,8 @@ export function MobileNav() {
           const active =
             item.href === "/"
               ? pathname === "/"
-              : pathname === item.href || pathname.startsWith(`${item.href}/`);
+              : pathname === item.href || pathname.startsWith(`${item.href}/`) ||
+                (item.href === "/browse" && (pathname.startsWith("/anime/") || pathname.startsWith("/search")));
           const Icon = item.icon;
           return (
             <Link
@@ -63,7 +64,7 @@ export function MobileNav() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "relative flex flex-col items-center justify-center gap-1 rounded-2xl text-[9.5px] font-bold transition-colors",
+                 "relative flex flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-bold transition-colors",
                 active ? "text-white" : "text-white/70 hover:text-white",
               )}
             >

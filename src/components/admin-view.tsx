@@ -17,6 +17,7 @@ import {
   Users,
 } from "lucide-react";
 import { useApp } from "@/lib/app-context";
+import { canShowAdmin } from "@/lib/admin-visibility";
 import type { Anime } from "@/lib/catalog";
 import {
   clearAdmin,
@@ -111,7 +112,7 @@ export function AdminView({ items, telegramHandle }: { items: Anime[]; telegramH
     );
   }
 
-  if (!user) {
+  if (!canShowAdmin(user)) {
     return (
       <div className="shell flex min-h-[70vh] items-center justify-center py-12">
         <div className="glass-card w-full max-w-md px-6 py-10 text-center">
@@ -120,7 +121,7 @@ export function AdminView({ items, telegramHandle }: { items: Anime[]; telegramH
           </span>
           <h1 className="mt-4 text-xl font-black text-white">پنل ادمین</h1>
           <p className="mx-auto mt-2 max-w-xs text-[12.5px] leading-7 text-content-muted">
-            برای دیدن پنل مدیریت اول وارد حساب شو.
+            این بخش فقط برای حساب مدیر نمایش داده می‌شود. عملیات مدیریتی علاوه بر حساب، کلید معتبر سمت سرور می‌خواهند.
           </p>
           <Link href="/login" className="btn btn-primary btn-lg mt-6 w-full">
             <UserRound className="size-4" />

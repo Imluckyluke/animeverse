@@ -24,6 +24,7 @@ export function CoverImage({
   thumb = false,
   position = "50% 50%",
   zoom = true,
+  fit = "cover",
   className,
 }: {
   src: string;
@@ -34,6 +35,7 @@ export function CoverImage({
   thumb?: boolean;
   position?: string;
   zoom?: boolean;
+  fit?: "cover" | "contain";
   className?: string;
 }) {
   const ref = useRef<HTMLImageElement>(null);
@@ -95,7 +97,7 @@ export function CoverImage({
           zoom ? (loaded ? "scale-100" : "scale-[1.04]") : "",
           className,
         )}
-        style={{ objectPosition: position }}
+        style={{ objectPosition: position, objectFit: fit }}
       />
     </>
   );
