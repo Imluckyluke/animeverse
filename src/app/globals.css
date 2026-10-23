@@ -455,3 +455,26 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Lab (preview routes only): drifting shelves ───────────────────────── */
+@keyframes lab-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.lab-marquee {
+  animation-name: lab-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.lab-marquee-hold:hover .lab-marquee,
+.lab-marquee-hold:focus-within .lab-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-marquee {
+    animation: none;
+  }
+}
