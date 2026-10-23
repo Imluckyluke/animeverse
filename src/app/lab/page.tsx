@@ -100,7 +100,7 @@ function Demo({
   wide?: boolean;
 }) {
   return (
-    <section id={`d${n}`} className={cn("scroll-mt-20", wide && "lg:col-span-2")}>
+    <section id={`d${n}`} className={cn("min-w-0 max-w-full scroll-mt-20", wide && "lg:col-span-2")}>
       <header className="mb-4 flex items-start gap-3">
         <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl border border-amber-400/30 bg-amber-400/10 text-[12px] font-black text-amber-300">
           {faDigits(n)}
@@ -176,7 +176,7 @@ export default function LabPage() {
         </nav>
       </header>
 
-      <div className="grid gap-y-12 lg:grid-cols-2 lg:gap-x-8">
+      <div className="grid min-w-0 max-w-full gap-y-12 lg:grid-cols-2 lg:gap-x-8">
         <Demo
           n={1}
           wide
