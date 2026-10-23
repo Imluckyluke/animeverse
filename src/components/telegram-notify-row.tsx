@@ -11,6 +11,7 @@ import { useTelegramNotify } from "@/components/telegram-notify-provider";
 export function TelegramNotifyRow({ variant = "menu" }: { variant?: "menu" | "card" }) {
   const {
     ready,
+    available,
     status,
     busy,
     pending,
@@ -19,6 +20,7 @@ export function TelegramNotifyRow({ variant = "menu" }: { variant?: "menu" | "ca
     refresh,
     disconnect,
   } = useTelegramNotify();
+  if (!available) return null;
   const linked = Boolean(status?.linked);
   const enabled = linked && Boolean(status?.enabled);
   const menu = variant === "menu";

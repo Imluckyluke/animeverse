@@ -3,8 +3,8 @@
 import { ChevronDown, Download, Eye, Loader2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useApp } from "@/lib/app-context";
-import type { Anime, Episode } from "@/lib/data";
-import { getEpisodes } from "@/lib/data";
+import type { Anime, Episode } from "@/lib/catalog";
+import { getEpisodes } from "@/lib/catalog";
 import { cn, faBytes, faDate, faDigits, faScore, openRealDownload, triggerDownload } from "@/lib/utils";
 import { Modal } from "@/components/ui/modal";
 

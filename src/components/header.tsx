@@ -78,8 +78,18 @@ export function Header() {
   useEffect(() => {
     if (!menuOpen) return;
     const onResize = () => closeMenu();
+    // Escape closes the popover and hands focus back to the account button.
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      closeMenu();
+      accountRef.current?.focus();
+    };
     window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("keydown", onKey);
+    };
   }, [menuOpen, closeMenu]);
 
   // Start and finish the amber stroke at the point directly under the avatar,
@@ -94,6 +104,14 @@ export function Header() {
   useEffect(() => {
     closeMenu();
   }, [pathname, closeMenu]);
+
+  // The popover lives in a portal at the end of <body>, so without this Tab
+  // would skip straight past it. Focus the container and let Tab walk in.
+  useEffect(() => {
+    if (!menuOpen) return;
+    const timer = window.setTimeout(() => menuRef.current?.focus(), 40);
+    return () => window.clearTimeout(timer);
+  }, [menuOpen]);
 
   const openMenu = () => {
     const button = accountRef.current;
@@ -167,7 +185,7 @@ export function Header() {
                   onClick={openMenu}
                   aria-expanded={menuOpen}
                   aria-haspopup="menu"
-                  aria-label="حساب کاربری"
+                  aria-label={user ? `حساب ${user.name}` : "حساب کاربری"}
                   title="حساب کاربری"
                   className={cn(
                     "group grid size-10 shrink-0 place-items-center rounded-full outline-none transition-transform duration-200 hover:scale-[1.04] active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-300/45 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950",
@@ -226,6 +244,7 @@ export function Header() {
                 />
                 <div
                   ref={menuRef}
+                  tabIndex={-1}
                   className="relative overflow-hidden rounded-2xl border border-white/[0.11] bg-[rgba(8,8,13,.82)] p-1.5 shadow-[0_24px_60px_rgba(0,0,0,.55),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-[18px] backdrop-saturate-[1.55]"
                 >
                   <span

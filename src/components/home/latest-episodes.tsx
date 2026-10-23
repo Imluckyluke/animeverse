@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowLeft, Clapperboard, Download } from "lucide-react";
-import { getEpisodes, splitQualities, type Anime } from "@/lib/data";
+import { getEpisodes, splitQualities, type Anime } from "@/lib/catalog";
 import { useCatalog } from "@/lib/admin-store";
 import { cn, faDigits } from "@/lib/utils";
 import { Poster } from "@/components/ui/poster";

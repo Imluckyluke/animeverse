@@ -6,7 +6,7 @@ import { ChevronLeft, Download, Heart, Layers3, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useApp } from "@/lib/app-context";
-import type { Anime } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
 import { artworkFor, bannerFor } from "@/lib/images";
 import { cn, faDigits, faScore } from "@/lib/utils";
 import { CoverImage } from "@/components/ui/cover-image";

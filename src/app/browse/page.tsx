@@ -2,11 +2,30 @@ import type { Metadata } from "next";
 import { CatalogView } from "@/components/catalog-view";
 import { ANIME, isChineseAnime } from "@/lib/data";
 
-export const metadata: Metadata = {
-  title: "آرشیو و جست‌وجوی انیمه",
-  description:
-    "آرشیو کامل انیمه‌ورس: جست‌وجو کن و بر اساس ژانر، سال، نوع و وضعیت پخش فیلتر کن — لینک دانلود مستقیم با زیرنویس فارسی.",
-};
+const BROWSE_DESCRIPTION =
+  "آرشیو کامل انیمه‌ورس: جست‌وجو کن و بر اساس ژانر، سال، نوع و وضعیت پخش فیلتر کن — لینک دانلود مستقیم با زیرنویس فارسی.";
+
+export function generateMetadata({
+  searchParams,
+}: {
+  searchParams: {
+    genre?: string | string[];
+    q?: string | string[];
+    collection?: string | string[];
+  };
+}): Metadata {
+  // Filtered views are near-duplicates; keep them out of the index.
+  const filtered = ["genre", "q", "collection"].some((key) => {
+    const value = searchParams[key as "genre" | "q" | "collection"];
+    return Array.isArray(value) ? value.length > 0 : Boolean(value);
+  });
+  return {
+    title: "آرشیو و جست‌وجوی انیمه",
+    description: BROWSE_DESCRIPTION,
+    alternates: { canonical: "/browse" },
+    robots: filtered ? { index: false, follow: true } : undefined,
+  };
+}
 
 export default function BrowsePage({
   searchParams,

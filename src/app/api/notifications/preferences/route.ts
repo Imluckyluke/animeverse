@@ -4,6 +4,7 @@ import {
   updateNotificationPreferences,
   validClientId,
 } from "@/lib/notify-store";
+import { isStoreUnavailable, storeUnavailable } from "@/lib/notify-http";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -26,6 +27,11 @@ export async function POST(request: NextRequest) {
   const updates: { favorites?: string[]; enabled?: boolean } = {};
   if (payload.favorites !== undefined) updates.favorites = normalizeFavorites(payload.favorites);
   if (typeof payload.enabled === "boolean") updates.enabled = payload.enabled;
-  const status = await updateNotificationPreferences(payload.clientId, updates);
-  return NextResponse.json(status, { headers: { "Cache-Control": "no-store" } });
+  try {
+    const status = await updateNotificationPreferences(payload.clientId, updates);
+    return NextResponse.json(status, { headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    if (isStoreUnavailable(error)) return storeUnavailable();
+    throw error;
+  }
 }

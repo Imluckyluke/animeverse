@@ -4,20 +4,20 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { Sparkles } from "lucide-react";
 import { useApp } from "@/lib/app-context";
-import { ANIME } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
 import { useCatalog } from "@/lib/admin-store";
 import { FavoritesFolder } from "@/components/favorites-folder";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function FavoritesView() {
+export function FavoritesView({ items: catalogue }: { items: Anime[] }) {
   const { ready, favorites } = useApp();
-  const catalog = useCatalog(ANIME);
+  const catalog = useCatalog(catalogue);
 
   const items = useMemo(
     () =>
       favorites
         .map((slug) => catalog.find((a) => a.slug === slug))
-        .filter((a): a is (typeof ANIME)[number] => Boolean(a)),
+        .filter((a): a is Anime => Boolean(a)),
     [favorites, catalog],
   );
 

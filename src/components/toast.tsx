@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { AlertTriangle, CheckCircle2, Info, X } from "lucide-react";
 import { useState } from "react";
 import { useApp, type ToastItem } from "@/lib/app-context";
@@ -13,6 +13,7 @@ const OPEN = "circle(420px at 50% 26px)";
 function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: number) => void }) {
   // Which way it leaves: the way it was flicked, right by default.
   const [fly, setFly] = useState(1);
+  const reduce = useReducedMotion();
   const Icon =
     toast.tone === "error" ? AlertTriangle : toast.tone === "info" ? Info : CheckCircle2;
 
@@ -32,17 +33,23 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: num
       // The circle falls in, then the card opens out of it. Only the clip and
       // the offset move, so the frosted background never flickers the way an
       // opacity or scale wipe on glass does.
-      initial={{ y: -72, clipPath: GONE }}
-      animate={{
-        y: [-72, 0, 0],
-        clipPath: [GONE, DROP, OPEN],
-      }}
+      initial={reduce ? { y: 0, clipPath: OPEN } : { y: -72, clipPath: GONE }}
+      animate={
+        reduce
+          ? { y: 0, clipPath: OPEN }
+          : {
+              y: [-72, 0, 0],
+              clipPath: [GONE, DROP, OPEN],
+            }
+      }
       // It leaves sideways, off screen: no fade, so the glass can't blink.
       exit={{
         x: fly * (typeof window === "undefined" ? 600 : window.innerWidth),
         transition: { duration: 0.36, ease: [0.4, 0, 1, 1] },
       }}
-      transition={{ duration: 1.25, times: [0, 0.38, 1], ease: [0.4, 0, 0.2, 1] }}
+      transition={
+        reduce ? { duration: 0 } : { duration: 1.25, times: [0, 0.38, 1], ease: [0.4, 0, 0.2, 1] }
+      }
       style={{ willChange: "transform, clip-path" }}
       // Absolutely stacked, so an incoming drop never sits under the outgoing
       // card and then jump up when it leaves.
@@ -52,7 +59,7 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: num
       <motion.div
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.66, duration: 0.3, ease: "easeOut" }}
+        transition={reduce ? { duration: 0 } : { delay: 0.66, duration: 0.3, ease: "easeOut" }}
         className="flex items-start gap-3 p-3.5"
       >
         <span
@@ -76,7 +83,7 @@ function ToastCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (id: num
           type="button"
           aria-label="بستن اعلان"
           onClick={() => onDismiss(toast.id)}
-          className="grid size-6 shrink-0 place-items-center rounded-full text-content-faint transition-colors hover:bg-white/5 hover:text-white"
+          className="relative grid size-6 shrink-0 place-items-center rounded-full text-content-faint transition-colors after:absolute after:-inset-2 after:content-[''] hover:bg-white/5 hover:text-white"
         >
           <X className="size-3.5" />
         </button>

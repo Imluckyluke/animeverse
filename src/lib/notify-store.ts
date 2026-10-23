@@ -80,10 +80,34 @@ async function readJson<T>(file: string, fallback: T): Promise<T> {
 }
 
 async function writeJson(file: string, payload: unknown) {
-  await mkdir(path.dirname(file), { recursive: true });
-  const temp = `${file}.${process.pid}.${Date.now()}.tmp`;
-  await writeFile(temp, JSON.stringify(payload, null, 2), { encoding: "utf8", mode: 0o600 });
-  await rename(temp, file);
+  try {
+    await mkdir(path.dirname(file), { recursive: true });
+    const temp = `${file}.${process.pid}.${Date.now()}.tmp`;
+    await writeFile(temp, JSON.stringify(payload, null, 2), { encoding: "utf8", mode: 0o600 });
+    await rename(temp, file);
+  } catch (error) {
+    // Serverless hosts such as Vercel ship a read-only filesystem: the bot's
+    // shared JSON store simply cannot live there. Report it as "unavailable"
+    // instead of letting a 500 escape to the client.
+    throw new StoreUnavailableError(error);
+  }
+}
+
+/**
+ * Thrown when the notification store cannot be written (e.g. a read-only
+ * serverless filesystem). Routes translate this into a friendly 503.
+ */
+export class StoreUnavailableError extends Error {
+  constructor(cause?: unknown) {
+    super("notification store is not writable");
+    this.name = "StoreUnavailableError";
+    if (cause !== undefined) (this as { cause?: unknown }).cause = cause;
+  }
+}
+
+/** Turns any store failure into a friendly, non-500 API response. */
+export function isStoreUnavailable(error: unknown): boolean {
+  return error instanceof StoreUnavailableError;
 }
 
 export function validClientId(value: unknown): value is string {

@@ -3,26 +3,37 @@
  * Navigations stay network-first so a catalog rebuild is picked up quickly.
  * Static assets are served cache-first with a background refresh. API routes,
  * admin pages and Telegram links are never cached.
+ *
+ * Updates are never applied behind the reader's back: this worker waits, and
+ * the page tells it to take over (see pwa-provider.tsx) once the reader has
+ * been told a new version is ready.
  */
-const CACHE = "animeverse-shell-v3";
-const SHELL = ["/", "/browse", "/manifest.webmanifest", "/icons/icon-192.png"];
+const VERSION = "v4";
+const CACHE = `animeverse-shell-${VERSION}`;
+const OFFLINE_URL = "/offline";
+const SHELL = ["/", "/browse", OFFLINE_URL, "/manifest.webmanifest", "/icons/icon-192.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches
-      .open(CACHE)
-      .then((cache) => cache.addAll(SHELL).catch(() => undefined))
-      .then(() => self.skipWaiting()),
+    caches.open(CACHE).then((cache) => cache.addAll(SHELL).catch(() => undefined)),
   );
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
-      .then(() => self.clients.claim()),
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)));
+      await self.clients.claim();
+    })(),
   );
+});
+
+self.addEventListener("message", (event) => {
+  const data = event.data;
+  if (data === "SKIP_WAITING" || (data && data.type === "SKIP_WAITING")) {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("fetch", (event) => {
@@ -46,7 +57,10 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(async () => {
           const cached = await caches.match(request);
-          return cached || caches.match("/") || Response.error();
+          if (cached) return cached;
+          const offline = await caches.match(OFFLINE_URL);
+          if (offline) return offline;
+          return caches.match("/") || Response.error();
         }),
     );
     return;

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, Clapperboard, Globe2, Play, Star } from "lucide-react";
 import { useState, type ReactNode } from "react";
-import type { Anime } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
 import { useCatalog } from "@/lib/admin-store";
 import { cn, faDigits, faScore } from "@/lib/utils";
 import { AnimeCard } from "@/components/anime-card";

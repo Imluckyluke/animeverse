@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
-import type { Anime } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
 import { useCatalog } from "@/lib/admin-store";
 import { AnimeCard } from "@/components/anime-card";

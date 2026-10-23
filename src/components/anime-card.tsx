@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Heart, Star } from "lucide-react";
 import { useApp } from "@/lib/app-context";
-import { splitQualities, type Anime } from "@/lib/data";
+import { splitQualities, type Anime } from "@/lib/catalog";
 import { cn, faDigits, faScore } from "@/lib/utils";
 import { Poster } from "@/components/ui/poster";
 

@@ -194,7 +194,18 @@ export function Rail({
     <div className={cn("group/rail relative", className)}>
       <div
         ref={ref}
+        role="group"
+        tabIndex={0}
         aria-label={ariaLabel}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            scroll("next");
+          } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            scroll("prev");
+          }
+        }}
         style={pad ? { paddingInline: pad, scrollPaddingInline: pad } : undefined}
         className={cn(
           "hide-scrollbar -mx-4 flex snap-x snap-mandatory gap-3.5 overflow-x-auto scroll-px-4 px-4 pb-2 sm:mx-0 sm:gap-4 sm:scroll-px-0 sm:px-0",
@@ -222,8 +233,10 @@ export function Rail({
         onClick={() => scroll("prev")}
         disabled={!canPrev}
         className={cn(
-          "absolute -right-4 top-1/2 z-40 hidden size-10 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-[#1a1a24]/90 text-white shadow-lift transition-all duration-300 hover:border-brand-400/50 hover:bg-brand-500/20 lg:grid",
-          canPrev ? "opacity-0 group-hover/rail:opacity-100" : "pointer-events-none opacity-0",
+          "absolute -right-4 top-1/2 z-40 hidden size-10 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-[#1a1a24]/90 text-white shadow-lift transition-all duration-300 hover:border-brand-400/50 hover:bg-brand-500/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300/70 focus-visible:opacity-100 lg:grid",
+          canPrev
+            ? "opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100"
+            : "pointer-events-none opacity-0",
         )}
       >
         <ChevronRight className="size-4" />
@@ -234,8 +247,10 @@ export function Rail({
         onClick={() => scroll("next")}
         disabled={!canNext}
         className={cn(
-          "absolute -left-4 top-1/2 z-40 hidden size-10 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-[#1a1a24]/90 text-white shadow-lift transition-all duration-300 hover:border-brand-400/50 hover:bg-brand-500/20 lg:grid",
-          canNext ? "opacity-0 group-hover/rail:opacity-100" : "pointer-events-none opacity-0",
+          "absolute -left-4 top-1/2 z-40 hidden size-10 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-[#1a1a24]/90 text-white shadow-lift transition-all duration-300 hover:border-brand-400/50 hover:bg-brand-500/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300/70 focus-visible:opacity-100 lg:grid",
+          canNext
+            ? "opacity-0 group-hover/rail:opacity-100 group-focus-within/rail:opacity-100"
+            : "pointer-events-none opacity-0",
         )}
       >
         <ChevronLeft className="size-4" />

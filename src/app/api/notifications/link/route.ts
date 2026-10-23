@@ -4,6 +4,7 @@ import {
   normalizeFavorites,
   validClientId,
 } from "@/lib/notify-store";
+import { isStoreUnavailable, storeUnavailable } from "@/lib/notify-http";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -20,6 +21,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "شناسهٔ دستگاه معتبر نیست." }, { status: 400 });
   }
   const favorites = normalizeFavorites(payload.favorites);
-  const result = await createNotificationLink(payload.clientId, favorites);
-  return NextResponse.json(result, { headers: { "Cache-Control": "no-store" } });
+  try {
+    const result = await createNotificationLink(payload.clientId, favorites);
+    return NextResponse.json(result, { headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    if (isStoreUnavailable(error)) return storeUnavailable();
+    throw error;
+  }
 }

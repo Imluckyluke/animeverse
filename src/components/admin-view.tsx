@@ -17,7 +17,7 @@ import {
   Users,
 } from "lucide-react";
 import { useApp } from "@/lib/app-context";
-import { ANIME, SITE } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
 import {
   clearAdmin,
   useAdminState,
@@ -41,7 +41,7 @@ function readAccounts(): Account[] {
   }
 }
 
-export function AdminView() {
+export function AdminView({ items, telegramHandle }: { items: Anime[]; telegramHandle: string }) {
   const { ready, user, favorites, clearFavorites, toast } = useApp();
   const state = useAdminState();
   const [query, setQuery] = useState("");
@@ -52,7 +52,7 @@ export function AdminView() {
   }, [ready]);
 
   const visible = useMemo(
-    () => ANIME.filter((a) => !state.hidden.includes(a.slug)),
+    () => items.filter((a) => !state.hidden.includes(a.slug)),
     [state.hidden],
   );
 
@@ -67,7 +67,7 @@ export function AdminView() {
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const sorted = [...ANIME].sort(
+    const sorted = [...items].sort(
       (a, b) => Number(state.pinned.includes(b.slug)) - Number(state.pinned.includes(a.slug)),
     );
     if (!q) return sorted;
@@ -486,10 +486,10 @@ export function AdminView() {
           <h2 className="text-base font-black text-white">وضعیت محلی</h2>
           <dl className="mt-4 space-y-2 text-[12px]">
             {[
-              { label: "کانال تلگرام", value: SITE.telegramHandle },
+              { label: "کانال تلگرام", value: telegramHandle },
               { label: "انیمه‌های مخفی", value: faNum(state.hidden.length) },
               { label: "انیمه‌های ویژه", value: faNum(state.pinned.length) },
-              { label: "کل عنوان‌ها", value: faNum(ANIME.length) },
+              { label: "کل عنوان‌ها", value: faNum(items.length) },
             ].map((row) => (
               <div
                 key={row.label}

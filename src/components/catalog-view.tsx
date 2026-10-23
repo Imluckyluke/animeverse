@@ -12,8 +12,8 @@ import {
   SlidersHorizontal,
   X,
 } from "lucide-react";
-import type { Anime } from "@/lib/data";
-import { GENRES, YEAR_OPTIONS, isChineseAnime, searchAnime } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
+import { GENRES, YEAR_OPTIONS, isChineseAnime, searchAnime } from "@/lib/catalog";
 import { cn, faDigits, faNum } from "@/lib/utils";
 import { useCatalog } from "@/lib/admin-store";
 import { AnimeCard } from "@/components/anime-card";

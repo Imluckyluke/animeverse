@@ -1083,42 +1083,9 @@ const EPISODE_TITLES = [
   "سرنوشت",
 ];
 
-export function getEpisodes(anime: Anime): Episode[] {
-  if (anime.episodeData?.length) {
-    return [...anime.episodeData]
-      .sort((a, b) => b.number - a.number)
-      .map((episode) => ({
-        number: episode.number,
-        title: episode.title,
-        runtime: episode.runtime,
-        releasedAt: episode.releasedAt,
-        qualities: episode.qualities,
-      }));
-  }
-  if (anime.type === "فیلم") {
-    return [
-      {
-        number: 1,
-        title: anime.titleEn,
-        runtime: anime.duration,
-        releasedAt: anime.updatedAt,
-      },
-    ];
-  }
-  const shown = Math.min(anime.episodes, 12);
-  const start = anime.episodes - shown + 1;
-  const base = ANIME.findIndex((a) => a.slug === anime.slug);
-  return Array.from({ length: shown }, (_, i) => {
-    const number = start + i;
-    return {
-      number,
-      title: EPISODE_TITLES[(base + number) % EPISODE_TITLES.length],
-      runtime: anime.duration,
-      releasedAt: new Date(Date.parse(anime.updatedAt) - (shown - i - 1) * 7 * 86400000).toISOString(),
-      filler: (base + number) % 13 === 0,
-    };
-  }).reverse();
-}
+// Kept in one place: the client-side episode list and the server both use the
+// same deterministic generator from catalog.ts.
+export { getEpisodes } from "./catalog";
 
 export function getGenreCount(name: string): number {
   return ANIME.filter((a) => a.genres.includes(name)).length;

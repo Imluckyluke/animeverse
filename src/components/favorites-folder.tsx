@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, Heart, X } from "lucide-react";
-import type { Anime } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
 import { faDigits } from "@/lib/utils";
 import { useApp } from "@/lib/app-context";
 import { CoverImage } from "@/components/ui/cover-image";

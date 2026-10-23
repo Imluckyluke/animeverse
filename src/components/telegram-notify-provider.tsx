@@ -14,6 +14,8 @@ export type TelegramNotifyStatus = {
 
 type TelegramNotifyValue = {
   ready: boolean;
+  /** False on hosts where the bot store is not writable (e.g. Vercel). */
+  available: boolean;
   status: TelegramNotifyStatus | null;
   busy: boolean;
   pending: boolean;
@@ -49,6 +51,7 @@ export function TelegramNotifyProvider({ children }: { children: ReactNode }) {
   const [clientId, setClientId] = useState("");
   const [status, setStatus] = useState<TelegramNotifyStatus | null>(null);
   const [loading, setLoading] = useState(true);
+  const [available, setAvailable] = useState(true);
   const [busy, setBusy] = useState(false);
   const [pending, setPending] = useState(false);
   const pendingUntil = useRef(0);
@@ -65,12 +68,19 @@ export function TelegramNotifyProvider({ children }: { children: ReactNode }) {
         `/api/notifications/status?clientId=${encodeURIComponent(clientId)}`,
         { cache: "no-store" },
       );
+      // 503 = the shared bot store cannot be written on this host.
+      if (response.status === 503) {
+        setAvailable(false);
+        setLoading(false);
+        return;
+      }
       if (!response.ok) {
         setLoading(false);
         return;
       }
       const payload = (await response.json()) as TelegramNotifyStatus;
       setStatus(payload);
+      setAvailable(true);
       setLoading(false);
       if (payload.linked) setPending(false);
     } catch {
@@ -128,6 +138,14 @@ export function TelegramNotifyProvider({ children }: { children: ReactNode }) {
 
   const connect = useCallback(async () => {
     if (busy) return;
+    if (!available) {
+      toast(
+        "اعلان تلگرام در دسترس نیست",
+        "این قابلیت روی این نسخه از سایت فعال نیست.",
+        "info",
+      );
+      return;
+    }
     setBusy(true);
     // Open synchronously so iOS/Chrome do not treat it as a blocked popup.
     const popup = window.open("", "_blank");
@@ -165,7 +183,7 @@ export function TelegramNotifyProvider({ children }: { children: ReactNode }) {
     } finally {
       setBusy(false);
     }
-  }, [busy, clientId, favorites, refresh, toast]);
+  }, [available, busy, clientId, favorites, refresh, toast]);
 
   const setEnabled = useCallback(
     async (enabled: boolean) => {
@@ -234,6 +252,7 @@ export function TelegramNotifyProvider({ children }: { children: ReactNode }) {
     <TelegramNotifyContext.Provider
       value={{
         ready: !loading,
+        available,
         status,
         busy,
         pending,

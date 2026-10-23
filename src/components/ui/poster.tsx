@@ -1,5 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
-import type { Anime } from "@/lib/data";
+import type { Anime } from "@/lib/catalog";
+
+/** Only the artwork fields, so slimmed-down RSC payloads can render posters too. */
+type PosterAnime = Pick<Anime, "slug" | "art" | "cover">;
 import { artworkFor } from "@/lib/images";
 import { cn } from "@/lib/utils";
 import { CoverImage } from "@/components/ui/cover-image";
@@ -19,7 +22,7 @@ export function Poster({
   position,
   scrim = false,
 }: {
-  anime: Anime;
+  anime: PosterAnime;
   className?: string;
   children?: ReactNode;
   style?: CSSProperties;

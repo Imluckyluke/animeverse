@@ -5,7 +5,7 @@ import { useReducedMotion } from "framer-motion";
 import { Download, Heart, Star } from "lucide-react";
 import { useEffect, useRef, useState, type MouseEvent, type TouchEvent } from "react";
 import { useApp } from "@/lib/app-context";
-import type { Anime } from "@/lib/data";
+import type { HeroAnime } from "@/lib/catalog";
 import { artworkFor } from "@/lib/images";
 import { useAdminState, useCatalog } from "@/lib/admin-store";
 import { cn, faDigits, faNum, faScore } from "@/lib/utils";
@@ -15,7 +15,7 @@ import { Poster } from "@/components/ui/poster";
 const SLIDE_MS = 7000;
 
 /** Full-bleed cover art + a single glass card (Apple "hero" pattern). */
-export function Hero({ items }: { items: Anime[] }) {
+export function Hero({ items }: { items: HeroAnime[] }) {
   const reduce = useReducedMotion();
   const pool = useCatalog(items).slice(0, 5);
   const admin = useAdminState();

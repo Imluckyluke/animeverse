@@ -1,7 +1,7 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +28,25 @@ export function Modal({
 }) {
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  // Move focus into the dialog while it is open and hand it back afterwards.
+  useEffect(() => {
+    if (!open) return;
+    const opener = document.activeElement as HTMLElement | null;
+    const timer = window.setTimeout(() => {
+      const panel = panelRef.current;
+      if (!panel) return;
+      const first = panel.querySelector<HTMLElement>(
+        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+      );
+      (first ?? panel).focus();
+    }, 40);
+    return () => {
+      window.clearTimeout(timer);
+      opener?.focus?.();
+    };
+  }, [open]);
 
   useEffect(() => {
     if (open) {
@@ -49,8 +68,38 @@ export function Modal({
 
   useEffect(() => {
     if (!mounted) return;
+    const focusables = () =>
+      Array.from(
+        panelRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => el.offsetParent !== null);
+
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const panel = panelRef.current;
+      if (!panel) return;
+      const items = focusables();
+      if (!items.length) {
+        event.preventDefault();
+        panel.focus();
+        return;
+      }
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+      const inside = Boolean(active && panel.contains(active));
+      if (event.shiftKey && (!inside || active === first)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (!inside || active === last)) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -82,9 +131,11 @@ export function Modal({
         className="absolute inset-0 cursor-default"
       />
       <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={title}
+        tabIndex={-1}
         className={cn(
           "relative max-h-[88dvh] w-full overflow-y-auto overscroll-contain rounded-t-4xl border border-white/[0.12] bg-[linear-gradient(180deg,rgba(20,20,27,.98),rgba(14,14,20,.98))] p-5 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] shadow-lift transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] sm:max-w-md sm:rounded-4xl sm:p-6",
           visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-5 scale-[0.985] opacity-0",

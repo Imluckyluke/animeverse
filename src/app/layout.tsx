@@ -17,10 +17,15 @@ const vazirmatn = localFont({
   fallback: ["Tahoma", "Arial", "sans-serif"],
 });
 
-const publicSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const publicSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL || process.env.AV_PUBLIC_URL || "")
+  .trim()
+  .replace(/\/+$/, "");
+// Always set a base so relative OG/canonical URLs resolve (the public URL on
+// Vercel, localhost during development) instead of silently dropping out.
+const siteBase = publicSiteUrl || "http://localhost:3000";
 
 export const metadata: Metadata = {
-  ...(publicSiteUrl ? { metadataBase: new URL(publicSiteUrl) } : {}),
+  metadataBase: new URL(siteBase),
   title: {
     default: "انیمه‌ورس | دانلود انیمه با زیرنویس فارسی",
     template: "%s | انیمه‌ورس",

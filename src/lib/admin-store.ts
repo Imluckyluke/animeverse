@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { Anime } from "@/lib/data";
+import type { AdminPatchable, Anime } from "@/lib/catalog";
 
 /**
  * Demo admin layer: everything lives in localStorage and is applied on top of
@@ -79,9 +79,9 @@ export function useAdminState(): AdminState {
 }
 
 /** Applies admin overrides: hide, pin, and small field patches. */
-export function applyAdmin(items: Anime[], state: AdminState): Anime[] {
+export function applyAdmin<T extends AdminPatchable>(items: T[], state: AdminState): T[] {
   const hidden = new Set(state.hidden);
-  const patched = items
+  const patched: T[] = items
     .filter((a) => !hidden.has(a.slug))
     .map((a) => {
       const title = state.titles[a.slug];
@@ -112,7 +112,7 @@ export function applyAdmin(items: Anime[], state: AdminState): Anime[] {
 }
 
 /** Catalogue with the demo-admin overrides applied. */
-export function useCatalog(items: Anime[]): Anime[] {
+export function useCatalog<T extends AdminPatchable>(items: T[]): T[] {
   const state = useAdminState();
   return useMemo(() => applyAdmin(items, state), [items, state]);
 }

@@ -6,7 +6,8 @@ const base = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/+$/, "");
 export default function sitemap(): MetadataRoute.Sitemap {
   // Do not emit fake canonical URLs when the real public domain is not set.
   if (!base) return [];
-  const staticRoutes = ["", "/browse", "/login", "/favorites"].map((route) => ({
+  // Only indexable pages: /login and /favorites are noindex, so they stay out.
+  const staticRoutes = ["", "/browse"].map((route) => ({
     url: `${base}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,

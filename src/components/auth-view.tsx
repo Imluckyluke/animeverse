@@ -18,8 +18,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useApp } from "@/lib/app-context";
-import { ANIME } from "@/lib/data";
-import { artworkFor } from "@/lib/images";
 import { cn } from "@/lib/utils";
 import { CoverImage } from "@/components/ui/cover-image";
 import { InstallAppButton } from "@/components/install-app-button";
@@ -27,7 +25,16 @@ import { TelegramNotifyRow } from "@/components/telegram-notify-row";
 
 type Mode = "login" | "register";
 
-export function AuthView({ initialMode = "login" }: { initialMode?: Mode }) {
+export function AuthView({
+  initialMode = "login",
+  cover,
+  blur,
+}: {
+  initialMode?: Mode;
+  /** Hero artwork resolved on the server so the catalogue never ships to the client. */
+  cover?: string;
+  blur?: string;
+}) {
   const router = useRouter();
   const { ready, user, login, register, logout } = useApp();
   const [mode, setMode] = useState<Mode>(initialMode);
@@ -85,8 +92,6 @@ export function AuthView({ initialMode = "login" }: { initialMode?: Mode }) {
     }
   };
 
-  const art = ANIME.find((a) => a.slug === "frieren") ?? ANIME[0];
-  const cover = art?.cover || artworkFor(art?.slug ?? "")?.cover;
 
   return (
     <section className="shell py-8 sm:py-12">
@@ -318,13 +323,7 @@ export function AuthView({ initialMode = "login" }: { initialMode?: Mode }) {
 
         <aside className="glass-card relative hidden overflow-hidden lg:block">
           {cover ? (
-            <CoverImage
-              src={cover}
-              blur={art?.cover ? undefined : artworkFor(art?.slug ?? "")?.blur}
-              sizes="50vw"
-              position="50% 18%"
-              zoom={false}
-            />
+            <CoverImage src={cover} blur={blur} sizes="50vw" position="50% 18%" zoom={false} />
           ) : null}
           <div aria-hidden className="absolute inset-0 bg-ink-950/45" />
           <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-transparent" />

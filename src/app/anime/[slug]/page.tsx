@@ -9,6 +9,11 @@ import { Rail } from "@/components/ui/rail";
 import { ANIME, getAnime, getRelated, splitQualities } from "@/lib/data";
 import { faDigits } from "@/lib/utils";
 
+const siteBase = (process.env.NEXT_PUBLIC_SITE_URL || process.env.AV_PUBLIC_URL || "").replace(
+  /\/+$/,
+  "",
+);
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -18,14 +23,24 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const anime = getAnime(params.slug);
   if (!anime) return { title: "انیمه پیدا نشد" };
+  const shareImage = anime.banner || anime.cover;
+  const title = `${anime.titleEn} — دانلود با زیرنویس فارسی`;
+  const description = `${anime.titleEn} (${anime.title}) — ${anime.synopsis}`;
   return {
-    title: `${anime.titleEn} — دانلود با زیرنویس فارسی`,
-    description: `${anime.titleEn} (${anime.title}) — ${anime.synopsis}`,
+    title,
+    description,
     alternates: { canonical: `/anime/${anime.slug}` },
     openGraph: {
       title: `${anime.titleEn} | انیمه‌ورس`,
       description: anime.synopsis,
       type: "video.tv_show",
+      ...(shareImage ? { images: [{ url: shareImage, alt: anime.titleEn }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${anime.titleEn} | انیمه‌ورس`,
+      description: anime.synopsis,
+      ...(shareImage ? { images: [shareImage] } : {}),
     },
   };
 }
@@ -36,8 +51,9 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
   const related = getRelated(anime, 8);
   const qualities = splitQualities(anime.quality);
 
+  const hasStudio = Boolean(anime.studio) && anime.studio !== "—";
   const facts: { label: string; value: ReactNode }[] = [
-    { label: "استودیو", value: anime.studio },
+    ...(hasStudio ? [{ label: "استودیو", value: anime.studio }] : []),
     { label: "سال / فصل", value: `${faDigits(anime.year)} · ${anime.season}` },
     { label: "زبان / صدا", value: anime.audio.join(" · ") },
     {
@@ -71,12 +87,17 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
     },
   ];
 
+  const pageUrl = `${siteBase}/anime/${anime.slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": anime.type === "فیلم" ? "Movie" : "TVSeries",
     name: anime.titleEn,
     alternateName: anime.title,
     description: anime.synopsis,
+    url: pageUrl,
+    mainEntityOfPage: pageUrl,
+    ...(anime.cover || anime.banner ? { image: [anime.banner || anime.cover] } : {}),
+    datePublished: String(anime.year),
     startDate: String(anime.year),
     genre: anime.genres,
     numberOfEpisodes: anime.availableEpisodes ?? anime.episodes,
@@ -86,7 +107,7 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
       bestRating: 10,
       ratingCount: anime.votes,
     },
-    productionCompany: { "@type": "Organization", name: anime.studio },
+    ...(hasStudio ? { productionCompany: { "@type": "Organization", name: anime.studio } } : {}),
     inLanguage: "fa",
   };
 
@@ -94,7 +115,7 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <AnimeDetailHero anime={anime} />
 
