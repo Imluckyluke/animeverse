@@ -22,6 +22,8 @@ export function Hero({ items }: { items: HeroAnime[] }) {
   const pinnedKey = admin.pinned.join("|");
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchId = useRef<string | null>(null);
   const { isFavorite, toggleFavorite } = useApp();
   const total = Math.max(pool.length, 1);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -38,10 +40,28 @@ export function Hero({ items }: { items: HeroAnime[] }) {
   // or a swipe/tap by the reader — restarts the full wait, so a slide never
   // changes right after the reader just changed it themselves.
   useEffect(() => {
-    if (reduce || paused || total < 2) return;
+    if (reduce || paused || searchOpen || total < 2) return;
     const t = window.setTimeout(() => setIndex((i) => (i + 1) % total), SLIDE_MS);
     return () => window.clearTimeout(t);
-  }, [reduce, paused, total, index]);
+  }, [reduce, paused, searchOpen, total, index]);
+
+  useEffect(() => {
+    const opened = (event: Event) => {
+      searchId.current = (event as CustomEvent<string>).detail;
+      setSearchOpen(true);
+    };
+    const closed = (event: Event) => {
+      if (searchId.current !== (event as CustomEvent<string>).detail) return;
+      searchId.current = null;
+      setSearchOpen(false);
+    };
+    window.addEventListener("av-search-open", opened);
+    window.addEventListener("av-search-close", closed);
+    return () => {
+      window.removeEventListener("av-search-open", opened);
+      window.removeEventListener("av-search-close", closed);
+    };
+  }, []);
 
   useEffect(() => {
     if (index >= total) setIndex(0);
@@ -125,7 +145,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
       {pool.map((item, i) => {
         const art = artworkFor(item.slug);
         const cover = item.cover || art?.cover;
-        const banner = item.banner || art?.banner;
+        const image = cover || item.banner || art?.banner;
         const blur = item.cover ? undefined : art?.blur;
 
         return (
@@ -133,48 +153,28 @@ export function Hero({ items }: { items: HeroAnime[] }) {
             key={item.slug}
             aria-hidden={i !== index}
             className={cn(
-              "absolute inset-0 -z-10 transition-opacity ease-out will-change-opacity",
+              "absolute inset-0 -z-10 transition-opacity ease-out",
               i === index ? "opacity-100" : "opacity-0",
             )}
             style={{ transitionDuration: reduce ? "0ms" : "450ms" }}
           >
-            {cover ? (
-              <div aria-hidden className="absolute inset-0 hidden overflow-hidden lg:block">
+            {image ? (
+              <div aria-hidden className="absolute inset-0 overflow-hidden">
                 <div
                   className="absolute inset-0 scale-110 bg-cover bg-center opacity-70 blur-2xl"
-                  style={{ backgroundImage: `url("${cover}")` }}
+                  style={{ backgroundImage: `url("${image}")` }}
                 />
                 <div className="absolute inset-0 bg-ink-950/25" />
               </div>
             ) : null}
-            {banner ? (
-              <div
-                className="absolute inset-y-0 left-0 right-[35%] hidden lg:block"
-                style={{
-                  maskImage: "linear-gradient(to right, #000 0%, #000 70%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to right, #000 0%, #000 70%, transparent 100%)",
-                }}
-              >
+            {image ? (
+              <div className="hero-front-art">
                 <CoverImage
-                  src={banner}
+                  src={image}
                   blur={blur}
                   sizes="100vw"
                   priority={i === 0}
-                  position="50% 50%"
-                  fit="contain"
-                  zoom={false}
-                />
-              </div>
-            ) : null}
-            {cover ? (
-              <div className={cn("absolute inset-x-0 bottom-[15%] top-[var(--header-h)]", banner && "lg:hidden")}>
-                <CoverImage
-                  src={cover}
-                  blur={blur}
-                  sizes="100vw"
-                  priority={i === 0}
-                  position="50% 0%"
-                  fit="contain"
+                  position="50% 25%"
                   zoom={false}
                 />
               </div>

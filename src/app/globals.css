@@ -535,6 +535,41 @@
   scroll-padding-inline: var(--flow-edge);
   overscroll-behavior-x: contain;
 }
+
+.synopsis-viewport {
+  overflow: hidden;
+  transition: height 340ms cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Atmosphere is softly cropped, not a contained poster with hard boundaries. */
+.hero-front-art {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.035);
+  filter: blur(1.25px);
+}
+@media (min-width: 1024px) {
+  .hero-front-art {
+    inset-inline: auto;
+    left: 4%;
+    width: min(48%, 620px);
+    -webkit-mask-image: radial-gradient(ellipse closest-side at center, #000 42%, rgba(0,0,0,.9) 64%, transparent 100%);
+    mask-image: radial-gradient(ellipse closest-side at center, #000 42%, rgba(0,0,0,.9) 64%, transparent 100%);
+  }
+}
+.cinema-backdrop {
+  filter: blur(2px);
+  transform: scale(1.035);
+}
+
+.search-backdrop {
+  background: rgba(6, 6, 9, .16);
+  -webkit-backdrop-filter: blur(5px) saturate(1.08);
+  backdrop-filter: blur(5px) saturate(1.08);
+}
+@media (max-width: 639px) {
+  .synopsis-viewport[data-measured="false"] { max-height: 5.25rem; }
+}
 .coverflow-slot {
   width: var(--flow-card);
   scroll-snap-align: start;

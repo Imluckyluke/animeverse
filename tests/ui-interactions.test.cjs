@@ -8,7 +8,7 @@ const ts = require("typescript");
 function load(relative, dependencies = {}) {
   const source = fs.readFileSync(path.join(__dirname, "..", relative), "utf8");
   const js = ts.transpileModule(source, {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX },
   }).outputText;
   const module = { exports: {} };
   new Function("require", "module", "exports", js)(
@@ -106,4 +106,24 @@ test("overlapping dialogs preserve the original body scroll style", () => {
     second();
     assert.equal(document.body.style.overflow, "clip");
   } finally { global.document = original; }
+});
+
+const { synopsisLayout } = load("src/lib/synopsis-layout.ts");
+test("synopsis toggle follows actual overflow, not text length", () => {
+  assert.deepEqual(synopsisLayout(28, 28, true), { full: 28, collapsed: 28, expandable: false });
+  assert.equal(synopsisLayout(84, 28, true).expandable, false);
+  assert.equal(synopsisLayout(84.5, 28, true).expandable, false);
+  assert.deepEqual(synopsisLayout(168, 28, true), { full: 168, collapsed: 84, expandable: true });
+  assert.deepEqual(synopsisLayout(168, 28, false), { full: 168, collapsed: 168, expandable: false });
+});
+
+test("a short synopsis renders once, without an unconditional more/close button", () => {
+  const React = require("react");
+  const { renderToStaticMarkup } = require("react-dom/server");
+  const { ExpandableSynopsis } = load("src/components/anime/expandable-synopsis.tsx", {
+    "@/lib/synopsis-layout": { synopsisLayout },
+  });
+  const html = renderToStaticMarkup(React.createElement(ExpandableSynopsis, { text: "داستان" }));
+  assert.equal((html.match(/داستان/g) ?? []).length, 1);
+  assert.equal(html.includes("<button"), false);
 });

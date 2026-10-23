@@ -43,10 +43,9 @@ function ShelfHeading({
 }
 
 function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean }) {
-  // The generated banner is already a blurred backdrop with the poster baked
-  // in, so blurring it again made the card background unreadable. Use the
-  // sharp portrait cover for the backdrop and keep it only slightly softened.
-  const backdrop = anime.banner || anime.cover;
+  // Generated banners have inconsistent baked-in blur. Start with the original
+  // cover for every movie and apply one shared, gentle backdrop treatment.
+  const backdrop = anime.cover || anime.banner;
   const poster = anime.cover || anime.banner;
 
   return (
@@ -81,13 +80,13 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
               sizes="(max-width: 640px) 78vw, 400px"
               position="50% 28%"
               zoom={false}
-              className="absolute inset-0 scale-100 opacity-100"
+              className="cinema-backdrop absolute inset-0"
             />
           ) : (
             <Poster
               anime={anime}
               sizes="(max-width: 640px) 78vw, 400px"
-              className="absolute inset-0 scale-100 opacity-100"
+              className="cinema-backdrop absolute inset-0"
             />
           )}
           <div aria-hidden className="absolute inset-0 bg-[#050507]/15" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -32,6 +32,9 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   const id = useId();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
+  const [present, setPresent] = useState(false);
+  const openRef = useRef(open);
+  openRef.current = open;
   const [query, setQuery] = useState("");
   const [cursor, setCursor] = useState(0);
   const [remote, setRemote] = useState<PaletteItem[]>(cachedIndex ?? []);
@@ -42,8 +45,27 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   const input = useRef<HTMLInputElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
+  const show = useCallback(() => {
+    setQuery("");
+    setCursor(0);
+    setFailed(false);
+    setLoading(!items && !cachedIndex);
+    if (!items && cachedIndex) setRemote(cachedIndex);
+    setOpen(true);
+  }, [items]);
 
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (items) return;
+    // Warm the small public index while idle, not during the opening animation.
+    let idle = 0;
+    const timer = window.setTimeout(() => {
+      const warm = () => { void loadIndex().catch(() => {}); };
+      if (window.requestIdleCallback) idle = window.requestIdleCallback(warm, { timeout: 2000 });
+      else warm();
+    }, 1200);
+    return () => { clearTimeout(timer); if (idle) window.cancelIdleCallback(idle); };
+  }, [items]);
   useEffect(() => {
     const opened = (event: Event) => {
       if ((event as CustomEvent<string>).detail !== id) setOpen(false);
@@ -54,7 +76,7 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   useEffect(() => {
     if (!open || items) return;
     let alive = true;
-    setLoading(true);
+    setLoading(!cachedIndex);
     setFailed(false);
     loadIndex().then((data) => { if (alive) setRemote(data); })
       .catch(() => { if (alive) setFailed(true); })
@@ -68,32 +90,48 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
       const typing = target?.isContentEditable || target?.closest("input,textarea,select");
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        setOpen((value) => !value);
+        if (openRef.current) setOpen(false);
+        else show();
       } else if (!typing && event.key === "/") {
         event.preventDefault();
-        setOpen(true);
+        if (!openRef.current) show();
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [shortcut]);
+  }, [shortcut, show]);
 
   useEffect(() => {
     if (!open) return;
-    window.dispatchEvent(new CustomEvent("av-search-open", { detail: id }));
+    setPresent(true);
     setQuery("");
     setCursor(0);
+  }, [open]);
+
+  useEffect(() => {
+    if (!present) return;
+    window.dispatchEvent(new CustomEvent("av-search-open", { detail: id }));
     const unlock = lockPageScroll();
-    const sync = () => setViewport({
-      top: window.visualViewport?.offsetTop ?? 0,
-      height: window.visualViewport?.height ?? window.innerHeight,
-    });
+    let frame = 0;
+    const sync = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const top = window.visualViewport?.offsetTop ?? 0;
+        const height = window.visualViewport?.height ?? window.innerHeight;
+        setViewport((previous) => previous && previous.top === top && previous.height === height ? previous : { top, height });
+      });
+    };
     sync();
     window.visualViewport?.addEventListener("resize", sync);
     window.visualViewport?.addEventListener("scroll", sync);
     window.addEventListener("resize", sync);
-    const timer = window.setTimeout(() => input.current?.focus({ preventScroll: true }), 40);
+    // Do not open the mobile keyboard in the middle of the panel's entrance.
+    const timer = window.setTimeout(() => {
+      if (openRef.current) input.current?.focus({ preventScroll: true });
+    }, reduce || matchMedia("(min-width: 640px)").matches ? 30 : 220);
     const trap = (event: KeyboardEvent) => {
+      if (!openRef.current) return;
       if (event.key === "Escape") { event.preventDefault(); setOpen(false); return; }
       if (event.key !== "Tab") return;
       const nodes = Array.from(panel.current?.querySelectorAll<HTMLElement>(
@@ -111,21 +149,23 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
     document.addEventListener("keydown", trap);
     return () => {
       clearTimeout(timer);
+      cancelAnimationFrame(frame);
       document.removeEventListener("keydown", trap);
       window.visualViewport?.removeEventListener("resize", sync);
       window.visualViewport?.removeEventListener("scroll", sync);
       window.removeEventListener("resize", sync);
       unlock();
-      launcher.current?.focus({ preventScroll: true });
+      window.dispatchEvent(new CustomEvent("av-search-close", { detail: id }));
+      if (!document.querySelector('[data-search-open="true"]')) launcher.current?.focus({ preventScroll: true });
     };
-  }, [open, id]);
+  }, [present, id, reduce]);
 
   const source = items ?? remote;
   const matches = useMemo(() => {
     const needle = query.trim().toLocaleLowerCase("fa");
     return needle ? source.filter((item) => `${item.title} ${item.titleEn}`.toLocaleLowerCase("fa").includes(needle)) : source;
   }, [source, query]);
-  const results = matches.slice(0, 8);
+  const results = matches.slice(0, 6);
   useEffect(() => {
     if (open) document.getElementById(`${id}-${cursor}`)?.scrollIntoView({ block: "nearest" });
   }, [cursor, open, id, query, results[cursor]?.slug]);
@@ -143,25 +183,32 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   };
 
   return <>
-    <button ref={launcher} type="button" onClick={() => setOpen(true)} aria-label="جست‌وجوی انیمه" aria-haspopup="dialog" aria-expanded={open}
+    <button ref={launcher} type="button" onClick={show} aria-label="جست‌وجوی انیمه" aria-haspopup="dialog" aria-expanded={open}
+      onPointerDown={() => { if (!items) void loadIndex().catch(() => {}); }}
+      onPointerEnter={() => { if (!items) void loadIndex().catch(() => {}); }}
+      onFocus={() => { if (!items) void loadIndex().catch(() => {}); }}
       className={compact ? "icon-btn size-11 shrink-0" : "flex h-14 w-full items-center gap-3 rounded-2xl border border-white/[0.12] bg-white/[0.04] px-4 text-right transition-colors hover:border-amber-400/40"}>
       <Search className="size-5 shrink-0 text-amber-300" />
       {!compact ? <span className="min-w-0 flex-1 truncate text-sm text-content-muted">جست‌وجو در آرشیو…</span> : null}
     </button>
-    {mounted ? createPortal(<AnimatePresence>{open ? (
-      <motion.div className="fixed inset-x-0 z-[220] flex items-start justify-center bg-black/70 p-2 sm:p-6 sm:pt-[8dvh]"
+    {mounted ? createPortal(<AnimatePresence onExitComplete={() => setPresent(false)}>{open ? (
+      <div key="search-overlay" className="fixed inset-x-0 z-[220] flex items-start justify-center px-3 pb-3 pt-[6dvh] sm:px-6 sm:pb-6 sm:pt-[9dvh]"
         style={{ top: viewport?.top ?? 0, height: viewport?.height ?? "100dvh" }}
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        transition={{ duration: reduce ? 0 : 0.16 }} onClick={() => setOpen(false)}>
+        onClick={() => setOpen(false)}>
+        {/* Blur stays static. Only this tint and the small panel fade/move. */}
+        <div aria-hidden className="search-backdrop pointer-events-none absolute inset-0" />
+        <motion.div aria-hidden className="pointer-events-none absolute inset-0 bg-black/35"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduce ? 0 : 0.18 }} />
         <motion.div ref={panel} role="dialog" aria-modal="true" aria-labelledby={`${id}-title`} tabIndex={-1}
-          className="flex max-h-full w-full flex-col overflow-hidden rounded-3xl border border-white/15 bg-[#0d0d14] shadow-lift sm:max-w-xl"
-          initial={{ y: reduce ? 0 : -10 }} animate={{ y: 0 }} exit={{ y: reduce ? 0 : -6 }}
-          transition={{ duration: reduce ? 0 : 0.2 }} onClick={(event) => event.stopPropagation()}>
-          <div className="flex shrink-0 items-center justify-between px-4 pt-3">
-            <h2 id={`${id}-title`} className="text-sm font-bold text-white">جست‌وجوی انیمه</h2>
-            <button type="button" aria-label="بستن جست‌وجو" onClick={() => setOpen(false)} className="icon-btn size-11"><X className="size-5" /></button>
+          data-search-open={open ? "true" : "false"}
+          className="relative flex max-h-full w-full max-w-md flex-col overflow-hidden rounded-[22px] border border-white/15 bg-[rgba(13,13,20,.9)] shadow-[0_24px_64px_-20px_rgba(0,0,0,.75)]"
+          initial={{ opacity: 0, y: reduce ? 0 : -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduce ? 0 : -5 }}
+          transition={{ duration: reduce ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()}>
+          <div className="flex shrink-0 items-center justify-between ps-4 pe-2 pt-1">
+            <h2 id={`${id}-title`} className="text-xs font-bold text-content-soft">جست‌وجوی انیمه</h2>
+            <button type="button" aria-label="بستن جست‌وجو" onClick={() => setOpen(false)} className="grid size-11 place-items-center rounded-full text-content-muted transition-colors hover:bg-white/5 hover:text-white"><X className="size-4" /></button>
           </div>
-          <div className="m-3 flex shrink-0 items-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] px-3">
+          <div className="mx-3 mb-2 flex shrink-0 items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-3">
             <Search className="size-5 shrink-0 text-amber-300" />
             <input ref={input} role="combobox" aria-autocomplete="list" aria-expanded="true" aria-controls={`${id}-results`}
               aria-activedescendant={!loading && !failed && results[cursor] ? `${id}-${cursor}` : undefined}
@@ -171,25 +218,25 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
                 if (event.key === "ArrowDown") { event.preventDefault(); setCursor((value) => Math.min(Math.max(0, results.length - 1), value + 1)); }
                 else if (event.key === "ArrowUp") { event.preventDefault(); setCursor((value) => Math.max(0, value - 1)); }
                 else if (event.key === "Enter") { event.preventDefault(); if (event.ctrlKey || event.metaKey) all(); else go(results[cursor]); }
-              }} className="h-12 min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-content-faint" />
+              }} className="h-11 min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-content-faint" />
           </div>
-          <ul id={`${id}-results`} role="listbox" aria-label="نتایج جست‌وجو" className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2 pb-2 sm:max-h-[50dvh]">
-            {loading ? <li role="presentation" className="flex justify-center gap-2 p-6 text-sm text-content-muted"><Loader2 className="size-5 animate-spin" /> در حال جست‌وجو…</li> : failed ? <li role="presentation" className="p-4 text-center"><button type="button" className="btn btn-glass btn-md" onClick={() => setRetry((value) => value + 1)}>دریافت فهرست ناموفق بود؛ تلاش دوباره</button></li> : !results.length ? <li role="presentation" className="px-3 py-8 text-center text-sm text-content-muted">چیزی پیدا نشد؛ نام دیگری را امتحان کن.</li> : results.map((anime, index) => (
+          <ul id={`${id}-results`} role="listbox" aria-label="نتایج جست‌وجو" className="min-h-0 max-h-[min(40dvh,320px)] flex-1 overflow-y-auto overscroll-contain px-2 pb-2">
+            {loading ? <li role="presentation" className="flex h-[min(40dvh,320px)] items-center justify-center gap-2 p-6 text-sm text-content-muted"><Loader2 className="size-5 animate-spin" /> در حال جست‌وجو…</li> : failed ? <li role="presentation" className="p-4 text-center"><button type="button" className="btn btn-glass btn-md" onClick={() => setRetry((value) => value + 1)}>دریافت فهرست ناموفق بود؛ تلاش دوباره</button></li> : !results.length ? <li role="presentation" className="px-3 py-8 text-center text-sm text-content-muted">چیزی پیدا نشد؛ نام دیگری را امتحان کن.</li> : results.map((anime, index) => (
               <li key={anime.slug} id={`${id}-${index}`} role="option" aria-selected={index === cursor}>
                 <button type="button" tabIndex={-1} onMouseEnter={() => setCursor(index)} onClick={() => go(anime)}
-                  className={cn("flex w-full items-center gap-3 rounded-xl px-3 py-2 text-right transition-colors", index === cursor ? "bg-amber-400/10" : "hover:bg-white/5")}>
-                  <span className="relative h-14 w-10 shrink-0 overflow-hidden rounded-lg"><CoverImage src={anime.cover ?? anime.banner ?? "/covers/placeholder.svg"} alt="" thumb sizes="40px" /></span>
-                  <span className="min-w-0 flex-1"><span dir="ltr" className="block truncate text-right text-sm font-bold text-white">{anime.titleEn}</span><span className="mt-1 block truncate text-xs text-content-muted">{anime.title} · {faDigits(anime.year)}</span></span>
+                  className={cn("flex min-h-14 w-full items-center gap-2.5 rounded-xl px-2 py-1.5 text-right transition-colors", index === cursor ? "bg-amber-400/10" : "hover:bg-white/5")}>
+                  <span className="relative h-11 w-8 shrink-0 overflow-hidden rounded-md"><CoverImage src={anime.cover ?? anime.banner ?? "/covers/placeholder.svg"} alt="" thumb sizes="32px" /></span>
+                  <span className="min-w-0 flex-1"><span dir="ltr" className="block truncate text-right text-[13px] font-bold text-white">{anime.titleEn}</span><span className="mt-0.5 block truncate text-xs text-content-muted">{anime.title} · {faDigits(anime.year)}</span></span>
                   <ArrowLeft className="size-4 shrink-0 text-amber-300" />
                 </button>
               </li>
             ))}
           </ul>
-          <div className="shrink-0 border-t border-white/10 p-3">
-            <button type="button" onClick={all} className="btn btn-glass btn-md w-full">{query.trim() ? `همهٔ نتایج برای «${query.trim()}»` : "دیدن همهٔ آرشیو"}<span className="text-xs text-content-muted">({faDigits(matches.length)})</span><ArrowLeft className="size-4" /></button>
+          <div className="shrink-0 border-t border-white/10 px-3 py-2">
+            <button type="button" onClick={all} className="btn btn-md w-full border border-white/10 bg-white/[0.035] px-2 hover:bg-white/[0.07]"><span className="truncate">{query.trim() ? `همهٔ نتایج برای «${query.trim()}»` : "دیدن همهٔ آرشیو"}</span><span className="text-xs text-content-muted">({faDigits(matches.length)})</span><ArrowLeft className="size-4 shrink-0" /></button>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
     ) : null}</AnimatePresence>, document.body) : null}
   </>;
 }

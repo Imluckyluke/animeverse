@@ -11,6 +11,7 @@ import { artworkFor, bannerFor } from "@/lib/images";
 import { cn, faDate, faDigits, faScore } from "@/lib/utils";
 import { CoverImage } from "@/components/ui/cover-image";
 import { Poster } from "@/components/ui/poster";
+import { ExpandableSynopsis } from "@/components/anime/expandable-synopsis";
 
 export function AnimeDetailHero({ anime }: { anime: Anime }) {
   const { isFavorite, toggleFavorite } = useApp();
@@ -18,7 +19,6 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, restDelta: 0.001 });
   const [progressHost, setProgressHost] = useState<HTMLElement | null>(null);
-  const [synopsisOpen, setSynopsisOpen] = useState(false);
   const banner = anime.banner || bannerFor(anime.slug);
   const art = artworkFor(anime.slug);
   const cover = anime.cover || art?.cover;
@@ -118,10 +118,7 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
               </span>
             </div>
 
-            <div className="mt-4 max-w-xl">
-              <p id={`synopsis-${anime.slug}`} className={cn("text-sm leading-7 text-white/75 sm:line-clamp-none", !synopsisOpen && "line-clamp-3")}>{anime.synopsis}</p>
-              <button type="button" onClick={() => setSynopsisOpen((value) => !value)} aria-expanded={synopsisOpen} aria-controls={`synopsis-${anime.slug}`} className="min-h-11 text-sm font-bold text-amber-300 sm:hidden">{synopsisOpen ? "بستن خلاصه" : "بیشتر دربارهٔ داستان"}</button>
-            </div>
+            <ExpandableSynopsis text={anime.synopsis} />
 
             <div className="mt-6 flex flex-nowrap items-center gap-2 sm:flex-wrap sm:gap-2.5">
               <Link href="#episodes" className="btn btn-primary h-11 flex-1 px-5 text-xs sm:h-[52px] sm:flex-none sm:px-7 sm:text-sm">
