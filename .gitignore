@@ -21,7 +21,9 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env
+.env.*
+!.env.example
 
 # typescript
 *.tsbuildinfo
@@ -33,6 +35,13 @@ logs/
 /data/
 /tools/tg/session.txt
 /tools/tg/__pycache__/
+__pycache__/
+*.py[cod]
+*.session
+*.session-journal
+
+# Native work is postponed; keep local artifacts out of the website source.
+/android/
 
 # vercel
 /.vercel

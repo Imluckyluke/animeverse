@@ -7,8 +7,11 @@
  * never lands in a browser bundle.
  */
 
+import { searchTitles } from "./search";
+
 export type AnimeStatus = "در حال پخش" | "پایان یافته" | "به‌زودی";
 export type AnimeType = "سریال" | "فیلم" | "OVA";
+export type ScoreSource = "mal" | "aniplus" | "unknown";
 
 export type Art = {
   from: string;
@@ -41,10 +44,20 @@ export type Anime = {
   year: number;
   season: string;
   score: number;
+  /** Real ratings only; a missing/unknown source must not be presented as MAL. */
+  scoreSource?: ScoreSource;
+  scoreReportedVia?: "aniplus";
   votes: number;
+  /** Legacy count: declared total if known, otherwise the indexed count. */
   episodes: number;
-  /** Episodes currently present in the archive (may be fewer than the series total). */
+  /** Source-declared total, only when it is at least the highest indexed number. */
+  totalEpisodes?: number;
+  /** Distinct indexed episodes; not a promise that files are ready. */
   availableEpisodes?: number;
+  indexedCount?: number;
+  /** Indexed episodes with at least one done quality and an actual HTTP(S) URL. */
+  readyCount?: number;
+  highestEpisode?: number;
   duration: string;
   type: AnimeType;
   format?: string;
@@ -63,11 +76,20 @@ export type Anime = {
   weeklyViews: number;
   popularity: number;
   updatedAt: string;
+  /** Latest metadata post's timestamp, not an episode release date. */
+  sourcePostAt?: string;
+  /** Safe public AniPlus post only; never a private archive/invite URL. */
+  sourcePostUrl?: string;
   /** Only set when the upstream source provides a confirmed next-release time. */
   nextEpisodeAt?: string;
   cover?: string;
   banner?: string;
-  source?: "demo" | "aniplus";
+  /** Actual local image shapes, measured offline; never require browser probes. */
+  coverAspectRatio?: number;
+  bannerAspectRatio?: number;
+  source?: "demo" | "aniplus" | "archive";
+  metadataSource?: "anilist";
+  metadataUrl?: string;
   aniplusId?: string;
   watchUrl?: string;
   episodeData?: EpisodeData[];
@@ -88,13 +110,24 @@ export type HeroAnime = Pick<
   | "titleEn"
   | "cover"
   | "banner"
+  | "coverAspectRatio"
+  | "bannerAspectRatio"
   | "art"
   | "score"
+  | "scoreSource"
+  | "scoreReportedVia"
   | "year"
   | "type"
   | "status"
   | "episodes"
   | "availableEpisodes"
+  | "totalEpisodes"
+  | "indexedCount"
+  | "readyCount"
+  | "highestEpisode"
+  | "source"
+  | "sourcePostAt"
+  | "sourcePostUrl"
   | "synopsis"
 >;
 
@@ -113,6 +146,8 @@ export type SearchItem = {
   titleEn: string;
   year: number;
   score: number;
+  scoreSource?: ScoreSource;
+  scoreReportedVia?: "aniplus";
   type: AnimeType;
   art: Art;
   genres: string[];
@@ -257,6 +292,16 @@ export function getEpisodes(anime: Anime): Episode[] {
         qualities: episode.qualities,
       }));
   }
+  // Only explicit demos and the original unmarked demo fixtures may synthesize
+  // rows. New unmarked/real titles must not acquire invented episode metadata.
+  const legacyDemoSlugs = [
+    "frieren", "jujutsu-kaisen", "demon-slayer", "attack-on-titan", "solo-leveling",
+    "one-piece", "chainsaw-man", "vinland-saga", "cyberpunk-edgerunners", "bocchi-the-rock",
+    "spy-x-family", "death-note", "fullmetal-alchemist", "hunter-x-hunter", "naruto-shippuden",
+    "my-hero-academia", "blue-lock", "oshi-no-ko", "dandadan", "kaiju-no-8", "mushoku-tensei",
+    "re-zero", "steins-gate", "violet-evergarden", "your-name", "suzume", "a-silent-voice", "perfect-blue",
+  ];
+  if (anime.source !== "demo" && !(anime.source === undefined && legacyDemoSlugs.includes(anime.slug))) return [];
   if (anime.type === "فیلم") {
     return [
       {
@@ -300,12 +345,7 @@ export function searchAnime(
     sort?: "latest" | "score" | "views" | "alpha";
   },
 ): Anime[] {
-  const q = (opts.q ?? "").trim().toLowerCase();
   let out = list.filter((a) => {
-    if (q) {
-      const hay = `${a.title} ${a.titleEn} ${a.titleJa} ${a.studio} ${a.genres.join(" ")} ${a.synopsis}`.toLowerCase();
-      if (!hay.includes(q)) return false;
-    }
     if (opts.genres?.length && !opts.genres.every((g) => a.genres.includes(g))) return false;
     if (opts.year && a.year !== opts.year) return false;
     if (opts.type && a.type !== opts.type) return false;
@@ -326,5 +366,6 @@ export function searchAnime(
     default:
       out = out.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   }
-  return out;
+  // Relevance first for a query; the selected archive sort breaks equal ranks.
+  return searchTitles(out, opts.q ?? "");
 }

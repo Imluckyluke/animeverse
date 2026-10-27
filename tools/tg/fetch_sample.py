@@ -1,7 +1,7 @@
 import asyncio, json, os, sys
 from telethon import TelegramClient
 from telethon.sessions import StringSession
-API_ID=2040; API_HASH="b18441a1ff607e10a989891a5462e627"
+from common import API_ID, API_HASH
 SESSION=os.environ.get("TG_SESSION") or open(os.path.join(os.path.dirname(__file__),"session.txt")).read().strip()
 OUT=os.path.join(os.path.dirname(__file__),"..","..","data","posts_raw.json")
 async def main():

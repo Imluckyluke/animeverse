@@ -5,7 +5,11 @@ import { ChevronDown } from "lucide-react";
 import { synopsisLayout } from "@/lib/synopsis-layout";
 
 /** Keep one copy of the text; measure it without clamping, animate its viewport. */
-export function ExpandableSynopsis({ text }: { text: string }) {
+export function ExpandableSynopsis({ text, onLayout, onOpenChange }: {
+  text: string;
+  onLayout?: (layout: ReturnType<typeof synopsisLayout>) => void;
+  onOpenChange?: (open: boolean) => void;
+}) {
   const id = useId();
   const content = useRef<HTMLParagraphElement>(null);
   const [open, setOpen] = useState(false);
@@ -29,6 +33,9 @@ export function ExpandableSynopsis({ text }: { text: string }) {
     void document.fonts.ready.then(measure);
     return () => { alive = false; observer.disconnect(); mobile.removeEventListener("change", measure); };
   }, [text]);
+
+  useEffect(() => { if (layout) onLayout?.(layout); }, [layout, onLayout]);
+  useEffect(() => { onOpenChange?.(open); }, [open, onOpenChange]);
 
   return <div className="mt-4 max-w-xl">
     <div id={id} data-measured={Boolean(layout)} className="synopsis-viewport"

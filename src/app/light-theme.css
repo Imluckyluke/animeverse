@@ -1,0 +1,186 @@
+/* Explicit opt-in only. Dark theme continues to use the original fallbacks.
+   Pearl / parchment / smoked bronze, not an inverted white canvas. */
+.theme-moon { display: none; }
+html[data-theme="light"] .theme-sun { display: none; }
+html[data-theme="light"] .theme-moon { display: block; }
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --av-white: 42 39 34;
+  --av-ink-950: 238 233 223;
+  --av-ink-900: 244 240 232;
+  --av-ink-850: 228 221 209;
+  --av-ink-800: 219 211 198;
+  --av-ink-700: 204 194 179;
+  --av-ink-600: 183 170 151;
+  --av-content: 42 39 34;
+  --av-content-soft: 68 62 53;
+  --av-content-muted: 99 90 78;
+  --av-content-faint: 105 94 79;
+  --av-amber-200: 119 79 13;
+  --av-amber-300: 133 87 9;
+  --av-gold-300: 122 80 9;
+  --av-gold-400: 143 95 13;
+  --av-glass: linear-gradient(145deg, rgba(255,255,255,.18), rgba(255,252,244,.04) 65%), rgba(224,213,191,.3);
+  --av-floating-glass: linear-gradient(145deg, rgba(255,255,255,.2), rgba(255,252,244,.03) 65%), rgba(229,219,200,.64);
+  --av-menu-glass: linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,252,244,.02) 65%),rgba(229,221,205,.95);
+  --av-glass-shadow: 0 16px 48px -28px rgba(87,66,35,.28), inset 0 1px 0 rgba(255,255,255,.56), inset 0 -1px 0 rgba(113,91,57,.1);
+  --av-control-shadow: inset 0 1px 0 rgba(255,255,255,.8), inset 0 -2px 3px rgba(112,83,34,.16), 0 3px 7px -4px rgba(94,67,26,.35);
+}
+
+html[data-theme="light"] body {
+  background: radial-gradient(ellipse at 95% 0, rgba(203,171,102,.13), transparent 48%), #eee9df;
+  color: #2a2722;
+}
+html[data-theme="light"] ::selection { background: #dfc078; color: #352811; }
+html[data-theme="light"] :focus-visible { outline-color: #936313; }
+html[data-theme="light"] ::-webkit-scrollbar-thumb { background: #b9ad99; border-color: #eee9df; }
+html[data-theme="light"] .headline,
+html[data-theme="light"] .text-shadow-hero,
+html[data-theme="light"] [class*="[text-shadow:"] { text-shadow: none; }
+
+/* Glass surfaces include portals, account popovers, forms, toasts and nav. */
+html[data-theme="light"] :is(.glass,.glass-strong,.glass-card,.btn-glass,.icon-btn,.library-menu),
+html[data-theme="light"] [class*="bg-[rgba("]:not([aria-hidden="true"]),
+html[data-theme="light"] [role="dialog"],
+html[data-theme="light"] [role="menu"],
+html[data-theme="light"] [role="listbox"] {
+  background: var(--av-glass);
+  border-color: rgba(120,94,51,.18);
+  box-shadow: var(--av-glass-shadow);
+}
+/* Floating controls need a little more neutral frost for legibility over
+   artwork, not several stacked white coats. Blur stays static. */
+html[data-theme="light"] :is(header,[aria-label="ناوبری موبایل"]) { --av-glass: var(--av-floating-glass); }
+html[data-theme="light"] :is(.library-menu,[role="dialog"],[role="menu"],[role="listbox"]) {
+  --av-glass: var(--av-menu-glass);
+  background: var(--av-glass);
+  -webkit-backdrop-filter: blur(16px) saturate(1.12);
+  backdrop-filter: blur(16px) saturate(1.12);
+}
+html[data-theme="light"] [class*="bg-amber-400"][class*="text-ink-950"] { color: #352811; }
+html[data-theme="light"] .glass-panel { background: rgba(230,220,200,.32); border-color: rgba(120,94,51,.13); }
+html[data-theme="light"] :is(.field,input,textarea,select) {
+  color: #302b24;
+  background-color: rgba(245,239,227,.28);
+  border-color: rgba(115,92,57,.22);
+  caret-color: #916014;
+}
+html[data-theme="light"] :is(input,textarea)::placeholder { color: #635a4e; opacity: 1; }
+html[data-theme="light"] :is(input,textarea).bg-transparent { background: transparent; }
+html[data-theme="light"] [class*="bg-black/"]:not([aria-hidden="true"]) { background-color: rgba(105,84,49,.065); }
+html[data-theme="light"] option { color: #302b24; background: #f4f0e8; }
+html[data-theme="light"] .btn-primary { background: #e5bd58; color: #352811; box-shadow: 0 8px 24px -12px rgba(125,85,17,.28); }
+@media (hover: hover) and (pointer: fine) {
+  html[data-theme="light"] .btn-primary:hover { background: #eccb75; }
+}
+html[data-theme="light"] body :is(.icon-btn,.btn-glass,.btn-primary,.header-account-disc) { box-shadow: var(--av-control-shadow); }
+html[data-theme="light"] body :is(.icon-btn,.btn-glass,.btn-primary):active {
+  box-shadow: inset 0 1px 3px rgba(112,83,34,.2), inset 0 -1px 0 rgba(255,255,255,.45);
+}
+html[data-theme="light"] .header-account-disc { background: #e5bd58; color: #352811; }
+html[data-theme="light"] .dock-item { color: #635a4e; border-color: rgba(115,87,38,.08); background: linear-gradient(150deg,rgba(255,255,255,.1),rgba(125,95,40,.025)); box-shadow: inset 0 1px 0 rgba(255,255,255,.3); }
+html[data-theme="light"] .dock-item[aria-current="page"] { color: #754c0c; background: linear-gradient(150deg,rgba(233,201,129,.42),rgba(185,145,67,.14)); border-color: rgba(145,101,22,.26); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), inset 0 -1px 0 rgba(121,84,22,.1), 0 3px 6px -4px rgba(100,72,26,.24); }
+html[data-theme="light"] .poster-favorite-face { color: #33291d; background: rgba(250,246,235,.94); border-color: rgba(90,68,35,.3); box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 2px 5px rgba(65,45,18,.14); }
+html[data-theme="light"] .poster-favorite[aria-pressed="true"] .poster-favorite-face { color: #a02b50; background: #f7e3e7; border-color: #ba788c; }
+html[data-theme="light"] .btn-brand { color: #fff; }
+html[data-theme="light"] .skeleton { background: rgba(108,89,57,.085); }
+html[data-theme="light"] .skeleton::after { background: linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent); }
+html[data-theme="light"] .hero-pagination button > span { background: transparent; border: 1px solid #8a7755; box-shadow: none; filter: none; }
+html[data-theme="light"] .hero-pagination button[aria-current="true"] > span {
+  background: #80530c; border-color: #80530c;
+  height: 7px;
+  box-shadow: none;
+}
+html[data-theme="light"] .anime-detail-hero .detail-fade { opacity: .9; }
+html[data-theme="light"] .anime-detail-hero .synopsis-viewport p { color: #443c31; }
+html[data-theme="light"] .search-field:focus-within { border-color: #9a762f; box-shadow: inset 0 -1px 0 rgba(154,118,47,.3); }
+html[data-theme="light"] .search-field input,
+html[data-theme="light"] .search-field input:focus-visible { border: 0; outline: none; box-shadow: none; background: transparent; }
+/* The full-screen search layer already provides frost; do not blur again
+   inside a moving dialog or its scrolling results. */
+html[data-theme="light"] .search-viewport [role="dialog"],
+html[data-theme="light"] .search-results[role="listbox"] { -webkit-backdrop-filter: none; backdrop-filter: none; }
+html[data-theme="light"] .folder-list-surface { background: var(--av-menu-glass); }
+html[data-theme="light"] .episode-row[data-open="true"] {
+  border-color: #a87820;
+  background: rgba(216,175,83,.26);
+  box-shadow: inset -3px 0 0 #a87820, inset 0 1px 0 rgba(255,255,255,.55);
+}
+html[data-theme="light"] .library-menu-divider { background: linear-gradient(90deg,transparent,rgba(117,96,61,.14) 24%,rgba(163,113,31,.3) 50%,rgba(117,96,61,.14) 76%,transparent); box-shadow: none; }
+html[data-theme="light"] .section-head::after { background: linear-gradient(90deg,transparent,rgba(128,103,63,.14),transparent); }
+html[data-theme="light"] .hairline { background: linear-gradient(90deg,transparent,rgba(128,103,63,.18),transparent); }
+
+/* Old fixed hex panels are still used by auth/admin/search/loading surfaces. */
+html[data-theme="light"] :is([class*="bg-[#16161e]"],[class*="bg-[#101017]"],[class*="bg-[#0c0c13]"],[class*="bg-[#060609]"],[class*="bg-[#14141c]"]):not([aria-hidden="true"]) {
+  background: var(--av-glass);
+}
+html[data-theme="light"] :is([class*="bg-[#050507]"],[class*="bg-[#0b0b11]"],[class*="bg-[#0d0d14]"],[class*="bg-[#121218]"],[class*="bg-[#12121a]"],[class*="bg-[#1a1a24]"]):not([aria-hidden="true"]) { background: var(--av-glass); }
+html[data-theme="light"] [class*="bg-[linear-gradient("]:not([aria-hidden="true"]) { background: var(--av-glass); }
+html[data-theme="light"] :is(.shadow-lift,.shadow-soft,.shadow-glass,.shadow-poster) { box-shadow: var(--av-glass-shadow); }
+/* Named Tailwind group-hover variants are more specific than a plain surface
+   rule. Override their interaction state too, including sticky touch-hover.
+   Keep the penumbra inside the rail's padding instead of an 80px black lift. */
+html[data-theme="light"] article:is(:active,:has(:focus-visible)) .glass-card {
+  box-shadow: 0 8px 14px -10px rgba(106,81,40,.2), inset 0 1px 0 rgba(255,255,255,.48);
+}
+@media (hover: hover) and (pointer: fine) {
+  html[data-theme="light"] article:hover .glass-card {
+    box-shadow: 0 8px 14px -10px rgba(106,81,40,.2), inset 0 1px 0 rgba(255,255,255,.48);
+  }
+}
+html[data-theme="light"] article[class*="group/cinema"] > span[class*="bg-black/"] {
+  background: rgba(106,81,40,.14);
+  filter: blur(10px);
+  opacity: .4;
+}
+html[data-theme="light"] :is([class*="text-white/3"],[class*="text-white/4"],[class*="text-white/5"]) { color: #635a4e; }
+html[data-theme="light"] [class*="text-white/6"] { color: #635a4e; }
+html[data-theme="light"] :is([class*="text-amber-300/"],[class*="text-amber-200/"]) { color: #80530c; }
+html[data-theme="light"] :is([class*="text-emerald-"],[class*="text-success"]) { color: #176849; }
+html[data-theme="light"] :is([class*="text-rose-"],[class*="text-danger"]) { color: #a32c56; }
+html[data-theme="light"] :is([class*="text-amber-100"],[class*="text-amber-400"],[class*="text-yellow-"]) { color: #82560f; }
+html[data-theme="light"] :is([class*="text-aqua-"],[class*="text-sky-"],[class*="text-cyan-"]) { color: #176579; }
+
+/* Artwork is never inverted/recoloured. Its captions keep their own dark
+   scrim and original white/gold tokens, independent of the page palette. */
+html[data-theme="light"] [data-art-surface] {
+  --av-white: 255 255 255;
+  --av-ink-950: 6 6 9;
+  --av-ink-900: 12 12 19;
+  --av-ink-800: 32 32 43;
+  --av-gold-300: 255 224 138;
+  --av-gold-400: 255 208 92;
+  --av-amber-200: 255 243 176;
+  --av-amber-300: 255 224 102;
+}
+html[data-theme="light"] [data-art-surface] [class*="text-white/"] { color: rgb(255 255 255 / .9); }
+html[data-theme="light"] [data-art-surface] [class*="text-amber-"] { color: #ffe066; }
+html[data-theme="light"] [data-art-surface] [class*="bg-black/"] { background-color: rgba(0,0,0,.5); }
+html[data-theme="light"] .hero-front-art::after,
+html[data-theme="light"] .hero-wide-art::after { background: rgba(238,233,223,.06); }
+html[data-theme="light"] .hero-art-ambient { opacity: .2; }
+html[data-theme="light"] .flow-fade-left { background: linear-gradient(to right,#eee9df,rgba(238,233,223,.5) 35%,transparent); }
+html[data-theme="light"] .flow-fade-right { background: linear-gradient(to left,#eee9df,rgba(238,233,223,.5) 35%,transparent); }
+html[data-theme="light"] .rail-fade-start { background-image: linear-gradient(to right,#eee9df,rgba(238,233,223,.7) 48%,transparent); }
+html[data-theme="light"] .rail-fade-end { background-image: linear-gradient(to left,#eee9df,rgba(238,233,223,.7) 48%,transparent); }
+
+/* Embedded footer/folder components have their own raw CSS and inline palette. */
+html[data-theme="light"] .hwf-root { --hwf-bg: transparent !important; --hwf-ink: #40382d !important; --hwf-accent: #896019 !important; }
+html[data-theme="light"] .gf-tint { background: linear-gradient(135deg,rgba(255,252,242,.25),rgba(226,210,176,.12)) !important; }
+html[data-theme="light"] .gf-root { --gf-ink: #30291e; --gf-ink-soft: #665a47; }
+html[data-theme="light"] .gf-root .gf-shadow { background: rgba(87,66,35,.18); }
+/* A quiet folder body; the actual anime covers remain on the inner sheets. */
+html[data-theme="light"] .gf-root .gf-back {
+  background: radial-gradient(ellipse at 18% 8%,rgba(255,226,154,.55),transparent 62%), linear-gradient(150deg,#d6bd87 0%,#b99b64 52%,#958268 100%);
+}
+html[data-theme="light"] .gf-label { color: #30291e; text-shadow: 0 1px 8px rgba(255,255,255,.65); }
+html[data-theme="light"] .gf-title { color: #30291e; }
+html[data-theme="light"] .gf-meta { color: #665a47; }
+@media (hover: none), (pointer: coarse) {
+  html[data-theme="light"] .gf-tint { background: linear-gradient(160deg,rgba(248,239,216,.4),rgba(205,184,141,.62)) !important; }
+}
+
+@media (forced-colors: active) {
+  .theme-toggle { border: 1px solid ButtonText; }
+}

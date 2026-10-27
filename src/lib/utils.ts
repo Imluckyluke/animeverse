@@ -9,15 +9,14 @@ export function faDigits(value: string | number): string {
 }
 
 export function faNum(value: number): string {
-  return new Intl.NumberFormat("fa-IR").format(value);
+  if (!Number.isFinite(value)) return "—";
+  const [integer, fraction] = String(value).split(".");
+  return faDigits(integer.replace(/\B(?=(\d{3})+(?!\d))/g, "٬") + (fraction ? `٫${fraction}` : ""));
 }
 
 /** Score with one decimal, Persian digits and the Persian decimal separator (۸٫۴). */
 export function faScore(value: number): string {
-  return new Intl.NumberFormat("fa-IR", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  }).format(value);
+  return Number.isFinite(value) ? faDigits(value.toFixed(1)).replace(".", "٫") : "—";
 }
 
 export function faCompact(value: number): string {
@@ -27,13 +26,14 @@ export function faCompact(value: number): string {
   }).format(value);
 }
 
-export function faDate(iso: string): string {
+export function faDate(iso: string, withWeekday = false): string {
   try {
     return new Intl.DateTimeFormat("fa-IR", {
       timeZone: "Asia/Tehran",
       day: "numeric",
       month: "long",
       year: "numeric",
+      ...(withWeekday ? { weekday: "long" as const } : {}),
     }).format(new Date(iso));
   } catch {
     return "";
@@ -105,44 +105,4 @@ export function faBytes(size?: number | null): string {
   }
   const mb = size / 1024 ** 2;
   return `${new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 0 }).format(mb)} مگابایت`;
-}
-
-export type RealLinkResult = "done" | "pending" | "error";
-
-/**
- * Opens a resolved @testanivers link. A blank tab is opened synchronously so
- * mobile browsers do not block it while /api/link is being fetched.
- */
-export async function openRealDownload(
-  slug: string,
-  episode: number,
-  quality: string,
-): Promise<RealLinkResult> {
-  if (typeof window === "undefined") return "error";
-  const popup = window.open("", "_blank");
-  try {
-    const query = new URLSearchParams({
-      slug,
-      ep: String(episode),
-      q: quality,
-    });
-    const response = await fetch(`/api/link?${query.toString()}`, { cache: "no-store" });
-    let payload: { url?: string; status?: string } | null = null;
-    try {
-      payload = (await response.json()) as { url?: string; status?: string };
-    } catch {
-      payload = null;
-    }
-    if (response.ok && payload?.url) {
-      if (popup) popup.location.href = payload.url;
-      else window.location.href = payload.url;
-      return "done";
-    }
-    popup?.close();
-    if (payload?.status === "failed") return "error";
-    return response.status === 202 ? "pending" : "error";
-  } catch {
-    popup?.close();
-    return "error";
-  }
 }

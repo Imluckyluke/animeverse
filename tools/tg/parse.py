@@ -10,6 +10,8 @@ import re
 from typing import Any, Iterable
 
 from common import FA2EN, norm_fa, quality_key
+from genres import normalize_genres
+from quality import normalize_record
 
 EPISODE_RE = re.compile(r"^\s*قسمت\s*([0-9۰-۹٠-٩]+)\s*[:：]\s*(.+)$")
 MD_LINK_RE = re.compile(r"\[([^\]\n]{1,60})\]\(\s*(https?://[^)\s]+)\s*\)")
@@ -256,11 +258,7 @@ def parse_post(
     studio = _field(info, "استودیو سازنده")
     genres_raw = _field(info_orig, "ژانرها") or _field(info, "ژانرها")
 
-    genre_list: list[str] = []
-    for item in re.split(r"[,،]", genres_raw):
-        value = re.sub(r"\s+", " ", _clean(item)).replace("\u200c ", "\u200c")
-        if value and value not in genre_list:
-            genre_list.append(value)
+    genre_list = normalize_genres(genres_raw)
 
     season, year = _season(season_raw, season_en)
     anime_type = _type(type_raw)
@@ -333,15 +331,10 @@ def parse_post(
     else:
         date_iso = str(date)
 
-    if year is None:
-        try:
-            year = dt.datetime.fromisoformat(date_iso.replace("Z", "+00:00")).year
-        except (ValueError, AttributeError):
-            year = 2026
     if not season:
         season = "نامشخص"
 
-    return {
+    return normalize_record({
         "postId": int(post_id),
         "date": date_iso,
         "hashtag": hashtag,
@@ -374,7 +367,7 @@ def parse_post(
         "coverUrl": cover_url,
         "episodes": episodes,
         "postUrl": f"https://t.me/aniplus/{post_id}",
-    }
+    })
 
 
 def episode_count(record: dict[str, Any]) -> int:

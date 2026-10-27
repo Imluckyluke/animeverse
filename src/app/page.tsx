@@ -2,9 +2,9 @@ import { Hero } from "@/components/home/hero";
 import { HomeRail } from "@/components/home/home-rail";
 import { LatestEpisodes } from "@/components/home/latest-episodes";
 import { ChineseShelf, MoviesShelf } from "@/components/home/home-shelves";
+import { ContinueWatching } from "@/components/home/continue-watching";
 import type { HeroAnime } from "@/lib/catalog";
 import {
-  ANIME,
   getChineseAnime,
   getDailyPopularHero,
   getLatest,
@@ -19,19 +19,16 @@ export default function HomePage() {
   const latest = getLatest(12);
   const popular = getPopular(12);
   const heroPool = getDailyPopularHero(5);
-  const dailySlugs = new Set(heroPool.map((anime) => anime.slug));
-  // The full pool is sent so the client-side admin star can promote any title
-  // into the hero immediately, but only the handful of fields the hero renders
-  // travel over the wire (the catalogue itself stays on the server).
-  const heroCandidates: HeroAnime[] = [
-    ...heroPool,
-    ...ANIME.filter((anime) => !dailySlugs.has(anime.slug)),
-  ].map((anime) => ({
+  // Only five initial features cross the server/client boundary. Saved library
+  // entries and an admin's extra pinned features are fetched on demand.
+  const heroCandidates: HeroAnime[] = heroPool.map((anime) => ({
     slug: anime.slug,
     title: anime.title,
     titleEn: anime.titleEn,
     cover: anime.cover,
     banner: anime.banner,
+    coverAspectRatio: anime.coverAspectRatio,
+    bannerAspectRatio: anime.bannerAspectRatio,
     art: anime.art,
     score: anime.score,
     year: anime.year,
@@ -39,7 +36,11 @@ export default function HomePage() {
     status: anime.status,
     episodes: anime.episodes,
     availableEpisodes: anime.availableEpisodes,
+    highestEpisode: anime.highestEpisode,
     synopsis: anime.synopsis,
+    source: anime.source,
+    scoreSource: anime.scoreSource,
+    scoreReportedVia: anime.scoreReportedVia,
   }));
   const movies = getMovies(12);
   const chinese = getChineseAnime(12);
@@ -47,10 +48,15 @@ export default function HomePage() {
   return (
     <>
       <Hero items={heroCandidates} />
-      <HomeRail latest={latest} top={popular} />
-      <MoviesShelf items={movies} />
-      <ChineseShelf items={chinese} />
-      <LatestEpisodes items={latest.slice(0, 6)} />
+      {/* Overlap the hero's bottom edge by a hairline with the page colour so a
+          sub-pixel seam can never flash between the fade and the rails. */}
+      <div className="relative -mt-0.5 bg-ink-950">
+        <ContinueWatching />
+        <LatestEpisodes items={latest.slice(0, 6)} />
+        <HomeRail latest={latest} top={popular} />
+        <MoviesShelf items={movies} />
+        <ChineseShelf items={chinese} />
+      </div>
     </>
   );
 }

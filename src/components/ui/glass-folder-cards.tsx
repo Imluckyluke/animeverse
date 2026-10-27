@@ -634,10 +634,14 @@ export default function GlassFolder({
     }
     const move = (e: PointerEvent) => {
       if (e.pointerType === "touch") return
-      const r = el.getBoundingClientRect()
-      px = ((e.clientX - r.left) / r.width) * 2 - 1
-      py = ((e.clientY - r.top) / r.height) * 2 - 1
-      if (!raf) raf = requestAnimationFrame(write)
+      const x = e.clientX
+      const y = e.clientY
+      if (!raf) raf = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect()
+        px = ((x - r.left) / r.width) * 2 - 1
+        py = ((y - r.top) / r.height) * 2 - 1
+        write()
+      })
     }
     const leave = () => {
       px = 0
@@ -736,18 +740,14 @@ export default function GlassFolder({
       data-place={labelPlacement}
       style={{ width, height: (H + HEADROOM) * k, ...style }}
     >
-      <style>{GF_CSS}</style>
+      {/* Static, trusted CSS must match the browser's raw-text style node. */}
+      <style dangerouslySetInnerHTML={{ __html: GF_CSS }} />
       <div className="gf-stage" style={{ transform: "translateY(" + HEADROOM * k + "px) scale(" + k + ")" }}>
         <div className="gf-tilt">
           <div className="gf-shadow" aria-hidden="true" />
 
-          {/* back panel and its artwork */}
+          {/* Quiet body in both themes; artwork belongs to the inner files. */}
           <div className="gf-back" style={{ clipPath: "path('" + BACK_PATH + "')" }} aria-hidden="true">
-            {image ? (
-              <img className="gf-art" src={image} alt="" width={W + 24} height={H + 24} draggable={false} />
-            ) : art !== "none" ? (
-              <ArtCanvas className="gf-art" art={art} seed={seed} w={W + 24} h={H + 24} density={density} priority={0} />
-            ) : null}
             <div className="gf-back-sheen" />
           </div>
           <svg className="gf-rim gf-back-rim" viewBox={"0 0 " + W + " " + H} aria-hidden="true">
@@ -807,7 +807,7 @@ export default function GlassFolder({
                 <>
                   {picture ? (
                     file.image ? (
-                      <img className="gf-sheet-art" src={file.image} alt="" width={SHEET_W} height={SHEET_H} draggable={false} />
+                      <img className="gf-sheet-art" src={file.image} alt="" width={SHEET_W} height={SHEET_H} decoding="async" draggable={false} />
                     ) : (
                       <ArtCanvas
                         className="gf-sheet-art"
@@ -944,7 +944,10 @@ const GF_CSS = `
   isolation: isolate;
 }
 .gf-root[data-tone="dark"] { --gf-ink: #f5f5f7; --gf-ink-soft: rgba(245, 245, 247, .58); }
-.gf-root:hover, .gf-root:focus-within { --gf-hinge: -7deg; --gf-lift: -52px; --gf-spread: 9px; --gf-fan: 1.8deg; --gf-stack: 12px; }
+.gf-root:has(:focus-visible) { --gf-hinge: -7deg; --gf-lift: -52px; --gf-spread: 9px; --gf-fan: 1.8deg; --gf-stack: 12px; }
+@media (hover: hover) and (pointer: fine) {
+  .gf-root:hover { --gf-hinge: -7deg; --gf-lift: -52px; --gf-spread: 9px; --gf-fan: 1.8deg; --gf-stack: 12px; }
+}
 .gf-root[data-open] { --gf-hinge: -14deg; --gf-lift: -96px; --gf-spread: 40px; --gf-fan: 5deg; --gf-stack: 30px; }
 
 .gf-stage {
@@ -982,7 +985,9 @@ const GF_CSS = `
   overflow: hidden;
   background: linear-gradient(180deg, #f3f3f4 0%, #e3e3e6 100%);
 }
-.gf-root[data-tone="dark"] .gf-back { background: linear-gradient(180deg, #2a2a2e 0%, #121214 100%); }
+.gf-root[data-tone="dark"] .gf-back {
+  background: radial-gradient(ellipse at 18% 8%, rgba(213,164,75,.24), transparent 62%), linear-gradient(150deg, #4b3925 0%, #302b25 52%, #191819 100%);
+}
 .gf-art {
   position: absolute;
   left: -12px;
@@ -1044,11 +1049,13 @@ canvas.gf-art[data-ready] { opacity: 1; filter: none; }
     0 0 0 .5px rgba(0, 0, 0, .1),
     0 10px 26px -8px rgba(10, 12, 20, .28);
   transform-origin: 50% 100%;
+  will-change: transform;
+  backface-visibility: hidden;
   transform:
     translate(calc(var(--gf-jx) + var(--gf-slot) * var(--gf-spread)), calc(var(--gf-lift) + var(--gf-depth) * var(--gf-stack) * -1))
     rotate(calc(var(--gf-jr) + var(--gf-slot) * var(--gf-fan)));
   transition:
-    transform .75s var(--gf-spring) calc(var(--gf-depth) * 40ms),
+    transform .44s var(--gf-spring) calc(var(--gf-depth) * 18ms),
     box-shadow .4s var(--gf-ease),
     translate .9s var(--gf-ease),
     opacity .9s var(--gf-ease);
@@ -1153,7 +1160,9 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
   backdrop-filter: blur(11px) saturate(1.4);
   transform-origin: 50% 100%;
   transform: perspective(1500px) rotateX(var(--gf-hinge));
-  transition: transform .8s var(--gf-spring), translate 1s var(--gf-ease), opacity 1s var(--gf-ease);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: transform .46s var(--gf-spring), translate 1s var(--gf-ease), opacity 1s var(--gf-ease);
 }
 .gf-front--bump { animation: gf-bump .7s var(--gf-ease) .38s both; }
 @keyframes gf-bump {
@@ -1370,9 +1379,19 @@ canvas.gf-sheet-art[data-ready] { opacity: 1; filter: none; }
 .gf-root:not([data-entered]) .gf-key { opacity: 0; scale: .6; }
 .gf-root:not([data-entered]) .gf-shadow { opacity: 0; }
 .gf-back, .gf-back-rim { transition: translate 1s var(--gf-ease), opacity .9s var(--gf-ease); }
-.gf-root[data-entered] .gf-sheet { transition-delay: calc(var(--gf-depth) * 40ms), 0s, calc(.18s + var(--gf-depth) * 90ms), calc(.18s + var(--gf-depth) * 90ms); }
+.gf-root[data-entered] .gf-sheet { transition-delay: calc(var(--gf-depth) * 18ms), 0s, calc(.18s + var(--gf-depth) * 90ms), calc(.18s + var(--gf-depth) * 90ms); }
 .gf-root[data-entered] .gf-front { transition-delay: 0s, .42s, .42s; }
 .gf-key { transition: transform .35s var(--gf-spring), box-shadow .35s var(--gf-ease), opacity .6s var(--gf-ease) .7s, scale .7s var(--gf-spring) .7s; }
+
+/* Keep the coloured frost, but bound its radius on slower touch GPUs. */
+@media (hover: none), (pointer: coarse) {
+  .gf-front { -webkit-backdrop-filter: blur(5px) saturate(1.3); backdrop-filter: blur(5px) saturate(1.3); }
+  .gf-tint { background: linear-gradient(180deg,rgba(255,255,255,.26),rgba(252,252,252,.94)); }
+  .gf-root[data-tone="dark"] .gf-tint { background: linear-gradient(180deg,rgba(32,27,22,.38),rgba(12,11,13,.92)); }
+  .gf-tilt { transform: none; }
+  .gf-spec { mix-blend-mode: normal; }
+  .gf-sheen::before { animation: none; opacity: 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .gf-root *, .gf-root *::before, .gf-root *::after {

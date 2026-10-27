@@ -22,6 +22,7 @@ from common import (
 )
 from parse import episode_count, parse_post
 from media import ensure_cover, safe_key
+from quality import normalize_record
 
 NOTIFY_EVENTS_PATH = DATA / "notify-events.jsonl"
 
@@ -88,6 +89,7 @@ def _unique_slug(state: dict[str, Any], title: str, key: str) -> str:
 
 def merge_post(state: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, bool, bool, list[int]]:
     """Merge a parsed post. Returns (anime_key, is_new, changed, added_episodes)."""
+    parsed = normalize_record(parsed)
     anime_id = parsed.get("animeId") or ""
     added_episodes: list[int] = []
     if anime_id:
@@ -240,6 +242,7 @@ def merge_post(state: dict[str, Any], parsed: dict[str, Any]) -> tuple[str, bool
 
 
 async def prepare_covers(state: dict[str, Any], status: Any, only_keys: list[str] | None = None) -> int:
+    """Prepare source covers + await bounded enrichment; return actual changes."""
     status.phase("covers")
     todo: list[tuple[str, dict[str, Any]]] = []
     for key, anime in (state.get("anime") or {}).items():
@@ -261,9 +264,8 @@ async def prepare_covers(state: dict[str, Any], status: Any, only_keys: list[str
         if needs:
             todo.append((key, anime))
     status.update(coversTotal=len(todo), coversDone=0)
-    if not todo:
-        return 0
     done = 0
+    changed = 0
     for key, anime in todo:
         check_stop()
         done += 1
@@ -276,19 +278,44 @@ async def prepare_covers(state: dict[str, Any], status: Any, only_keys: list[str
                 "postId": anime.get("lastPostId"),
             },
         )
+        previous_art = (anime.get("cover"), anime.get("banner"))
         result = await asyncio.to_thread(ensure_cover, anime["mediaKey"], anime["coverUrl"])
         if result:
+            changed += 1
             anime["cover"], anime["banner"] = result
             anime["coverSource"] = anime["coverUrl"]
             status.log(f"کاور ذخیره شد: {anime.get('titleEn')}")
         else:
             anime["cover"] = anime.get("cover") or anime["coverUrl"]
             anime["banner"] = anime.get("banner") or anime.get("cover") or anime["coverUrl"]
+            changed += int(previous_art != (anime.get("cover"), anime.get("banner")))
             status.log(f"⚠️ دانلود کاور ناموفق بود: {anime.get('titleEn')}", "warn")
         if done % 5 == 0:
             save_state(state)
     status.update(current=None)
-    return len(todo)
+    # Worker-only enrichment; never called by site rendering or public APIs.
+    # Include old covers as well as newly ingested ones; cache makes this resumable.
+    replacements = 0
+    try:
+        from artwork import catalogue_rows, enrich
+        from catalog import build_catalog
+        from metadata import enrich as enrich_metadata
+        metadata_result = await asyncio.to_thread(enrich_metadata, catalogue_rows(build_catalog(state)), 3)
+        replacements += metadata_result["replaced"]
+        if metadata_result["attempted"]:
+            status.log(f"Metadata enrichment: {metadata_result['replaced']}/{metadata_result['attempted']} updated")
+        result = await asyncio.to_thread(enrich, catalogue_rows(build_catalog(state)), 3)
+        replacements += result["replaced"]
+        if result["attempted"]:
+            status.log(f"Artwork enrichment: {result['replaced']}/{result['attempted']} replaced")
+        from banners import enrich as enrich_banners
+        banner_result = await asyncio.to_thread(enrich_banners, catalogue_rows(build_catalog(state)), 2)
+        replacements += banner_result["replaced"]
+        if banner_result["attempted"]:
+            status.log(f"Banner enrichment: {banner_result['replaced']}/{banner_result['attempted']} replaced")
+    except Exception as exc:
+        status.log(f"Artwork enrichment skipped: {type(exc).__name__}", "warn")
+    return changed + replacements
 
 
 async def ingest_latest(

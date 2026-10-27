@@ -1,0 +1,28 @@
+[Unit]
+Description=AnimeVerse verified Vercel catalog publisher
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=bot-host
+Group=bot-host
+WorkingDirectory=/var/lib/bot-host/animeverse
+EnvironmentFile=/opt/bot/.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PYTHONUNBUFFERED=1
+Environment=NO_UPDATE_NOTIFIER=1
+Environment=VERCEL_TELEMETRY_DISABLED=1
+ExecStart=/usr/bin/python3 tools/tg/publish_catalog.py
+Restart=always
+RestartSec=60
+TimeoutStopSec=45
+UMask=0077
+Nice=15
+NoNewPrivileges=true
+PrivateTmp=true
+StandardOutput=append:/var/lib/bot-host/animeverse/logs/catalog-publisher.log
+StandardError=append:/var/lib/bot-host/animeverse/logs/catalog-publisher.log
+
+[Install]
+WantedBy=multi-user.target

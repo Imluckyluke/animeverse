@@ -1,0 +1,30 @@
+[Unit]
+Description=AnimeVerse bounded Telegram to GitHub download cache
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bot-host
+Group=bot-host
+WorkingDirectory=/var/lib/bot-host/animeverse
+EnvironmentFile=/var/lib/bot-host/.local/share/animeverse-download-cache/service.env
+ExecStart=/usr/bin/python3 -u /var/lib/bot-host/animeverse/tools/tg/download_cache_service.py
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/bot-host/.local/share/animeverse-download-cache
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=384M
+CPUQuota=50%
+TasksMax=48
+LimitNOFILE=512
+
+[Install]
+WantedBy=multi-user.target

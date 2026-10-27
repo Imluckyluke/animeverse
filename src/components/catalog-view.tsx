@@ -19,8 +19,10 @@ import { useCatalog } from "@/lib/admin-store";
 import { CatalogGrid } from "@/components/catalog-grid";
 import { CommandPalette } from "@/components/command-palette";
 import { Modal } from "@/components/ui/modal";
+import { normalizeGenres } from "@/lib/genres";
+import { normalizeSearchText } from "@/lib/search";
 
-type Sort = "latest" | "score" | "views" | "alpha";
+type Sort = "latest" | "score" | "alpha";
 
 type Filters = {
   genres: string[];
@@ -34,7 +36,6 @@ type Filters = {
 const SORT_LABELS: Record<Sort, string> = {
   latest: "تازه‌ترین",
   score: "بالاترین امتیاز",
-  views: "پربازدیدترین",
   alpha: "الفبایی",
 };
 
@@ -62,7 +63,7 @@ export function CatalogView({
 }) {
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState({ key: "", count: 30 });
-  const [filters, setFilters] = useState<Filters>({ ...baseFilters, genres: initialGenres });
+  const [filters, setFilters] = useState<Filters>({ ...baseFilters, genres: normalizeGenres(initialGenres) });
   const [draft, setDraft] = useState<Filters>(filters);
   const [filterOpen, setFilterOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
@@ -98,7 +99,7 @@ export function CatalogView({
     const curated: string[] = GENRES.map((genre) => genre.name);
     const names = new Set<string>(curated);
     for (const anime of baseList) {
-      for (const genre of anime.genres) names.add(genre);
+      for (const genre of normalizeGenres(anime.genres)) names.add(genre);
     }
     const extras = [...names]
       .filter((genre) => !curated.includes(genre))
@@ -112,9 +113,9 @@ export function CatalogView({
   );
 
   const filteredGenres = useMemo(() => {
-    const needle = genreQuery.trim().toLocaleLowerCase("fa");
+    const needle = normalizeSearchText(genreQuery);
     if (!needle) return allGenres;
-    return allGenres.filter((genre) => genre.toLocaleLowerCase("fa").includes(needle));
+    return allGenres.filter((genre) => normalizeSearchText(genre).includes(needle));
   }, [allGenres, genreQuery]);
 
   const results = useMemo(
@@ -145,10 +146,7 @@ export function CatalogView({
   // The router can restore a cached CatalogView, so initial state alone is
   // not enough when navigating back from an anime page.
   useEffect(() => {
-    const fromUrl = urlGenre
-      .split(",")
-      .map((genre) => genre.trim())
-      .filter(Boolean);
+    const fromUrl = normalizeGenres(urlGenre);
     const parsedYear = urlYear ? Number(urlYear) : null;
     const year = parsedYear && Number.isFinite(parsedYear) ? parsedYear : null;
     const type = TYPES.includes(urlType) ? urlType : null;
@@ -246,12 +244,12 @@ export function CatalogView({
     <div>
       <CommandPalette items={baseList} searchHref={urlCollection ? "/browse?collection=chinese" : "/browse"} />
 
-      <div className="mt-4 flex items-center gap-2 overflow-x-auto px-0.5 pb-1.5 no-scrollbar">
+      <div className="chip-rail mt-4 flex items-center gap-2 overflow-x-auto px-0.5 pb-1.5 no-scrollbar">
         <button
           type="button"
           onClick={() => setFilters((f) => ({ ...f, genres: [] }))}
           className={cn(
-            "shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-bold transition-all",
+            "shrink-0 rounded-full border px-3.5 py-2.5 text-[12px] font-bold transition-all active:scale-[.97] motion-reduce:transform-none",
             filters.genres.length === 0
               ? "border-amber-300 bg-amber-400 font-extrabold text-[#1a1206] shadow-[0_8px_22px_-12px_rgba(255,214,10,.55)]"
               : "border-white/[0.1] bg-white/[0.04] text-content-muted hover:border-white/20 hover:text-white",
@@ -265,7 +263,7 @@ export function CatalogView({
             type="button"
             onClick={() => toggleGenre(name)}
             aria-pressed
-            className="shrink-0 rounded-full border border-amber-300 bg-amber-400 px-3.5 py-2 text-[12px] font-extrabold text-[#1a1206] shadow-[0_8px_22px_-12px_rgba(255,214,10,.55)] transition-all"
+            className="shrink-0 rounded-full border border-amber-300 bg-amber-400 px-3.5 py-2.5 text-[12px] font-extrabold text-[#1a1206] shadow-[0_8px_22px_-12px_rgba(255,214,10,.55)] transition-all active:scale-[.97] motion-reduce:transform-none"
           >
             {name}
           </button>
@@ -279,7 +277,7 @@ export function CatalogView({
               onClick={() => toggleGenre(g.name)}
               aria-pressed={on}
               className={cn(
-                "shrink-0 rounded-full border px-3.5 py-2 text-[12px] font-semibold transition-all",
+                "shrink-0 rounded-full border px-3.5 py-2.5 text-[12px] font-semibold transition-all active:scale-[.97] motion-reduce:transform-none",
                 on
                   ? "border-amber-300 bg-amber-400 font-extrabold text-[#1a1206] shadow-[0_8px_22px_-12px_rgba(255,214,10,.55)]"
                   : "border-white/[0.1] bg-white/[0.04] text-content-muted hover:border-white/20 hover:text-white",
@@ -292,18 +290,18 @@ export function CatalogView({
         <button
           type="button"
           onClick={openFilters}
-          className="shrink-0 rounded-full border border-dashed border-white/[0.16] px-3.5 py-2 text-[12px] font-semibold text-content-muted transition-colors hover:border-amber-400/40 hover:text-white"
+          className="shrink-0 rounded-full border border-dashed border-white/[0.16] px-3.5 py-2.5 text-[12px] font-semibold text-content-muted transition-colors hover:border-amber-400/40 hover:text-white active:scale-[.97]"
         >
           ژانر‌های بیشتر
         </button>
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <button type="button" onClick={openFilters} className="btn btn-glass btn-sm">
+        <button type="button" onClick={openFilters} className="btn btn-glass h-10 px-4 text-xs">
           <SlidersHorizontal className="size-3.5" />
           فیلتر‌ها
           {activeCount > 0 ? (
-            <span className="grid size-5 place-items-center rounded-full bg-amber-400 text-[9px] font-black text-ink-950">
+            <span className="grid size-5 place-items-center rounded-full bg-amber-400 text-[9px] font-black text-[#1a1206]">
               {faNum(activeCount)}
             </span>
           ) : null}
@@ -408,8 +406,8 @@ export function CatalogView({
 
       <div className="mt-6">
         {results.length === 0 ? (
-          <div className="rounded-3xl border border-white/[0.07] bg-white/[0.02] px-6 py-16 text-center">
-            <div className="mx-auto grid size-16 place-items-center rounded-2xl border border-white/10 bg-white/[0.04] text-content-muted">
+          <div className="empty-plate glass-card px-6 py-16 text-center">
+            <div className="mx-auto grid size-16 place-items-center rounded-2xl border border-amber-300/20 bg-amber-300/[0.06] text-amber-200 shadow-[inset_0_1px_0_rgba(255,255,255,.08)]">
               <SearchX className="size-7" />
             </div>
             <h3 className="mt-4 text-lg font-black text-white">چیزی پیدا نشد</h3>

@@ -1,0 +1,27 @@
+[Unit]
+Description=AnimeVerse durable Sky archive copier and AniPlus watcher
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=bot-host
+Group=bot-host
+WorkingDirectory=/var/lib/bot-host/animeverse
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 tools/tg/archive_pipeline.py
+Restart=always
+RestartSec=30
+TimeoutStopSec=45
+WatchdogSec=15min
+NotifyAccess=main
+UMask=0077
+Nice=10
+NoNewPrivileges=true
+PrivateTmp=true
+StandardOutput=append:/var/lib/bot-host/animeverse/logs/archive-pipeline.log
+StandardError=append:/var/lib/bot-host/animeverse/logs/archive-pipeline.log
+
+[Install]
+WantedBy=multi-user.target

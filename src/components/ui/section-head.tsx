@@ -23,7 +23,7 @@ export function SectionHead({
   id?: string;
 }) {
   return (
-    <div className={cn("mb-5 flex items-end justify-between gap-4 sm:mb-6", className)} id={id}>
+    <div className={cn("section-head mb-5 flex items-end justify-between gap-4 sm:mb-6", className)} id={id}>
       <div className="min-w-0">
         {eyebrow ? (
           <div className="mb-2 flex items-center gap-2">
@@ -39,7 +39,7 @@ export function SectionHead({
       ) : href ? (
         <Link
           href={href}
-          className="group inline-flex shrink-0 items-center gap-1.5 text-[12px] font-bold text-amber-300 transition-colors hover:text-white"
+          className="group -my-2 inline-flex min-h-10 shrink-0 items-center gap-1.5 py-2 text-[12px] font-bold text-amber-300 transition-colors hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45"
         >
           {linkLabel}
           <ArrowLeft className="size-3.5 transition-transform duration-300 group-hover:-translate-x-1" />

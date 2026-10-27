@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext } from "react";
+import type { LibraryState, LibraryStatus } from "@/lib/library";
 
 export type User = {
   name: string;
@@ -22,6 +23,8 @@ export type AppContextValue = {
   user: User | null;
   favorites: string[];
   watched: Record<string, number[]>;
+  library: LibraryState;
+  setLibraryStatus: (slug: string, status: LibraryStatus | null) => void;
   toasts: ToastItem[];
   login: (email: string, password: string) => Promise<AuthResult>;
   register: (name: string, email: string, password: string) => Promise<AuthResult>;

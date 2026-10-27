@@ -169,7 +169,7 @@ def _post_groups(posts: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]
     return groups
 
 
-def _title_variants(parsed: dict[str, Any]) -> list[str]:
+def _post_title_variants(parsed: dict[str, Any]) -> list[str]:
     titles = [
         parsed.get("titleEn") or "",
         parsed.get("titleOriginal") or "",
@@ -977,7 +977,7 @@ async def archive_has(
     parsed: dict[str, Any],
     status: BackfillStatus,
 ) -> bool:
-    for query in _title_variants(parsed):
+    for query in _post_title_variants(parsed):
         check_backfill_stop()
         try:
             messages = await archive._collect(query)

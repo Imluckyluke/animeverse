@@ -1,9 +1,14 @@
 """Turn the merged AniPlus state into the site's static catalog + live links map."""
 from __future__ import annotations
 
-import datetime as dt
+import math
 import re
+from genres import normalize_genres
+from quality import normalize_record, reported_year
+from metadata import apply_metadata
+from artwork import ROOT, read_json
 from typing import Any
+from urllib.parse import urlsplit
 
 from common import (
     CATALOG_PATH,
@@ -42,20 +47,57 @@ def _art(key: str, title_ja: str) -> dict[str, str]:
 def _duration(raw: str) -> str:
     value = (raw or "").strip()
     if not value or "نامشخص" in value:
-        return "۲۴ دقیقه"
+        return ""
     return fa_digits(value)
 
 
-def _score(anime: dict[str, Any], key: str) -> float:
-    mal = anime.get("scoreMal")
-    aniplus = anime.get("scoreAniplus")
-    if mal:
-        value = float(mal)
-    elif aniplus:
-        value = 7.0 + (short_hash(key) % 15) / 10.0
-    else:
-        value = 7.0 + (short_hash(key) % 16) / 10.0
-    return round(max(1.0, min(10.0, value)), 1)
+def _reported_score(anime: dict[str, Any]) -> tuple[float, str]:
+    """Keep reported values, never replace absent/invalid ratings with a seed."""
+    for field, source in (("scoreMal", "mal"), ("scoreAniplus", "aniplus")):
+        raw = anime.get(field)
+        if isinstance(raw, bool):
+            continue
+        try:
+            value = float(raw)
+        except (TypeError, ValueError, OverflowError):
+            continue
+        if math.isfinite(value) and 0 < value <= 10:
+            return value, source
+    return 0, "unknown"
+
+
+def _positive_int(raw: Any) -> int | None:
+    if isinstance(raw, bool):
+        return None
+    if isinstance(raw, int):
+        return raw if raw > 0 else None
+    if isinstance(raw, str) and raw.isascii() and raw.isdigit():
+        value = int(raw)
+        return value if value > 0 else None
+    return None
+
+
+def _http_url(raw: Any) -> bool:
+    if not isinstance(raw, str) or re.search(r"\s", raw):
+        return False
+    try:
+        parsed = urlsplit(raw)
+        return parsed.scheme.lower() in {"http", "https"} and bool(parsed.hostname)
+    except ValueError:
+        return False
+
+
+def _source_post(anime: dict[str, Any]) -> dict[str, str]:
+    """Only expose the known public metadata channel, never archive addresses."""
+    number = _positive_int(anime.get("lastPostId"))
+    if number is None:
+        return {}
+    # ingest.merge_post stores the latest metadata post's date as updatedAt.
+    # This is title/post provenance, NOT any episode's release date.
+    return {
+        "sourcePostAt": anime.get("updatedAt") or "",
+        "sourcePostUrl": f"https://t.me/aniplus/{number}",
+    }
 
 
 def _tagline(synopsis: str) -> str:
@@ -67,14 +109,7 @@ def _tagline(synopsis: str) -> str:
 
 
 def _rewrite_year(anime: dict[str, Any]) -> int:
-    year = anime.get("year")
-    if isinstance(year, int) and 1950 <= year <= 2100:
-        return year
-    updated = anime.get("updatedAt") or ""
-    try:
-        return dt.datetime.fromisoformat(updated.replace("Z", "+00:00")).year
-    except (ValueError, AttributeError):
-        return 2026
+    return reported_year(anime)
 
 
 def _qualities_of(anime: dict[str, Any]) -> list[str]:
@@ -87,18 +122,31 @@ def _qualities_of(anime: dict[str, Any]) -> list[str]:
 def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
     queue = state.get("queue") or {}
     rows: list[dict[str, Any]] = []
+    enrichment = read_json(ROOT / 'src/lib/generated-metadata.json', {}).get('metadata', {})
 
     for key, anime in (state.get("anime") or {}).items():
-        episodes_raw = anime.get("episodes") or {}
+        anime = normalize_record(anime)
+        # Metadata can announce episodes long before their files arrive. Keep
+        # that inventory in canonical state, but never publish phantom download
+        # rows or a title with no usable file.
+        episodes_raw = {
+            number: {
+                label: deep for label, deep in labels.items()
+                if (queue.get(deep) or {}).get("status") == "done"
+                and _http_url((queue.get(deep) or {}).get("url"))
+            }
+            for number, labels in (anime.get("episodes") or {}).items()
+        }
+        episodes_raw = {number: labels for number, labels in episodes_raw.items() if labels}
         if not episodes_raw:
             continue
         episode_numbers = sorted(
-            (int(number) for number in episodes_raw.keys() if str(number).isdigit())
+            {number for raw in episodes_raw if (number := _positive_int(raw)) is not None}
         )
         if not episode_numbers:
             continue
 
-        qualities = _qualities_of(anime)
+        qualities = ordered_qualities(list({label for labels in episodes_raw.values() for label in labels}))
         if not qualities:
             continue
         slug = anime.get("slug") or key
@@ -110,18 +158,12 @@ def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
             synopsis = "خلاصه داستان این انیمه به‌زودی منتشر می‌شود."
         season = anime.get("season") or "نامشخص"
         year = _rewrite_year(anime)
-        declared = anime.get("declaredEpisodes")
-        total_episodes = max(
-            int(declared) if declared else 0,
-            max(episode_numbers),
-            1,
-        )
-        score = _score(anime, key)
-        votes = 1500 + short_hash(slug) % 62000
-        popularity = max(35, min(99, int(58 + score * 4 + min(total_episodes, 24) / 3)))
-        weekly_views = int(popularity * 1300 + short_hash("v" + slug) % 120000)
+        highest_episode = max(episode_numbers)
+        declared = _positive_int(anime.get("declaredEpisodes"))
+        total_episodes = declared if declared is not None and declared >= highest_episode else None
+        score, score_source = _reported_score(anime)
         duration = _duration(anime.get("durationRaw") or "")
-        updated = anime.get("updatedAt") or dt.datetime.now(dt.timezone.utc).isoformat()
+        updated = anime.get("updatedAt") or ""
 
         episode_data = []
         for number in episode_numbers:
@@ -147,10 +189,16 @@ def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
                     "number": number,
                     "title": "",
                     "runtime": duration,
-                    "releasedAt": updated,
+                    # The merged state has no episode-specific release provenance.
+                    "releasedAt": "",
                     "qualities": items,
                 }
             )
+
+        ready_count = sum(
+            any(item["status"] == "done" and _http_url(item.get("url")) for item in episode["qualities"])
+            for episode in episode_data
+        )
 
         rows.append(
             {
@@ -161,28 +209,37 @@ def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
                 "year": year,
                 "season": season,
                 "score": score,
-                "votes": votes,
-                "episodes": total_episodes,
+                "scoreSource": score_source,
+                **({"scoreReportedVia": "aniplus"} if anime.get("metadataSource") != "anilist" else {}),
+                "votes": 0,
+                # Compatibility count; only totalEpisodes claims a series total.
+                "episodes": total_episodes if total_episodes is not None else len(episode_data),
+                **({"totalEpisodes": total_episodes} if total_episodes is not None else {}),
                 "availableEpisodes": len(episode_data),
+                "indexedCount": len(episode_data),
+                "readyCount": ready_count,
+                "highestEpisode": highest_episode,
                 "duration": duration,
                 "type": anime.get("type") or "سریال",
                 "format": anime.get("format") or "",
                 "status": anime.get("status") or "در حال پخش",
                 "studio": anime.get("studio") or "—",
                 "producers": anime.get("producers") or "",
-                "genres": (anime.get("genres") or [])[:4],
+                "genres": normalize_genres(anime.get("genres")),
                 "synopsis": synopsis,
                 "tagline": _tagline(synopsis),
                 "art": _art(key, title_ja),
                 "quality": qualities,
-                "audio": ["زیرنویس فارسی"],
-                "ageRating": anime.get("ageRating") or "+13",
-                "weeklyViews": weekly_views,
-                "popularity": popularity,
+                "audio": [] if anime.get("metadataSource") == "anilist" else ["زیرنویس فارسی"],
+                "ageRating": anime.get("ageRating") or ("" if anime.get("metadataSource") == "anilist" else "+13"),
+                "weeklyViews": 0,
+                "popularity": 0,
                 "updatedAt": updated,
+                **_source_post(anime),
                 "cover": anime.get("cover") or anime.get("coverUrl") or "",
                 "banner": anime.get("banner") or anime.get("cover") or anime.get("coverUrl") or "",
-                "source": "aniplus",
+                "source": "archive" if anime.get("metadataSource") == "anilist" else "aniplus",
+                **({"metadataSource": "anilist", "metadataUrl": anime["metadataUrl"]} if anime.get("metadataSource") == "anilist" else {}),
                 "aniplusId": anime.get("aniplusId") or "",
                 "watchUrl": anime.get("watchUrl") or "",
                 "episodeData": episode_data,
@@ -194,13 +251,16 @@ def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
     rows.sort(key=lambda item: (item.get("lastPostId") or 0, item.get("updatedAt") or ""), reverse=True)
     for index, item in enumerate(rows):
         item["featured"] = index < 5
-    ranked = sorted(rows, key=lambda item: (item["score"], item["votes"]), reverse=True)[:10]
+    ranked = sorted(
+        (item for item in rows if item["scoreSource"] != "unknown"),
+        key=lambda item: item["score"], reverse=True,
+    )[:10]
     for index, item in enumerate(ranked, start=1):
         item["rank"] = index
     for item in rows:
         item.pop("lastPostId", None)
         item.pop("firstPostId", None)
-    return rows
+    return [apply_metadata(row, enrichment) for row in rows]
 
 
 def build_links(state: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -213,7 +273,7 @@ def build_links(state: dict[str, Any]) -> dict[str, dict[str, Any]]:
         for number, qualities in (anime.get("episodes") or {}).items():
             for label, deep_link in qualities.items():
                 queued = queue.get(deep_link) or {}
-                if queued.get("status") != "done" or not queued.get("url"):
+                if queued.get("status") != "done" or not _http_url(queued.get("url")):
                     continue
                 key = f"{slug}|{int(number)}|{label}"
                 links[key] = {

@@ -13,7 +13,7 @@ export default function Template({ children }: { children: ReactNode }) {
         animate={{ scaleX: 1, opacity: 0 }}
         transition={{ duration: 0.7, ease: [0.22, 0.61, 0.36, 1] }}
       />
-      {children}
+      <div className="page-enter">{children}</div>
     </>
   );
 }

@@ -12,7 +12,7 @@ import { lockPageScroll } from "@/lib/scroll-lock";
  * The blurred backdrop is deliberately static: animating opacity on an
  * element with backdrop-filter makes mobile browsers paint the tint before
  * the blur (the "empty glass" flash). Only the tint and panel animate, and the
- * panel itself has an opaque surface so opening remains cheap.
+ * panel has a smoked-glass tint. A clipped shell contains the inset scrollbar.
  */
 export function Modal({
   open,
@@ -138,12 +138,13 @@ export function Modal({
         aria-label={title}
         tabIndex={-1}
         className={cn(
-          "relative max-h-[88dvh] w-full overflow-y-auto overscroll-contain rounded-t-4xl border border-white/[0.12] bg-[linear-gradient(180deg,rgba(20,20,27,.98),rgba(14,14,20,.98))] p-5 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] shadow-lift transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] sm:max-w-md sm:rounded-4xl sm:p-6",
+          "relative flex max-h-[88dvh] w-full flex-col overflow-hidden rounded-t-4xl border border-white/[0.12] bg-[linear-gradient(180deg,rgba(20,20,27,.9),rgba(14,14,20,.88))] shadow-lift transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] sm:max-w-md sm:rounded-4xl",
           visible ? "translate-y-0 scale-100 opacity-100" : "translate-y-5 scale-[0.985] opacity-0",
           className,
         )}
       >
-        <div className="mb-4 flex items-center justify-between gap-4">
+        <div aria-hidden className="mx-auto mt-2.5 h-1 w-10 shrink-0 rounded-full bg-gradient-to-l from-transparent via-white/25 to-transparent sm:hidden" />
+        <div className="flex shrink-0 items-center justify-between gap-4 px-5 pb-4 pt-4 sm:px-6 sm:pt-6">
           <h2 className="text-base font-extrabold text-white">{title}</h2>
           <button
             type="button"
@@ -154,7 +155,9 @@ export function Modal({
             <X className="size-4" />
           </button>
         </div>
-        {children}
+        <div data-modal-scroll className="mx-1 mb-1 min-h-0 overflow-y-auto overscroll-contain px-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] sm:px-5 sm:pb-5">
+          {children}
+        </div>
       </div>
     </div>,
     document.body,

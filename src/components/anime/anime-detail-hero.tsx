@@ -3,28 +3,57 @@
 import Link from "next/link";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { ChevronLeft, Download, Heart, Layers3, Star } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useApp } from "@/lib/app-context";
 import type { Anime } from "@/lib/catalog";
-import { artworkFor, bannerFor } from "@/lib/images";
-import { cn, faDate, faDigits, faScore } from "@/lib/utils";
-import { CoverImage } from "@/components/ui/cover-image";
+import { cn, faDigits, faScore } from "@/lib/utils";
+import { HeroArtwork } from "@/components/ui/hero-artwork";
 import { Poster } from "@/components/ui/poster";
 import { ExpandableSynopsis } from "@/components/anime/expandable-synopsis";
+import { LibraryControl } from "@/components/library-control";
+import { getEpisodeAvailability, getLatestEpisode, getScoreLabel, hasReportedScore } from "@/lib/catalog-metadata";
 
-export function AnimeDetailHero({ anime }: { anime: Anime }) {
+export function AnimeDetailHero({ anime, latestEpisodeDateLabel = "", nextEpisodeLabel = "" }: { anime: Anime; latestEpisodeDateLabel?: string; nextEpisodeLabel?: string }) {
   const { isFavorite, toggleFavorite } = useApp();
   const fav = isFavorite(anime.slug);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, restDelta: 0.001 });
   const [progressHost, setProgressHost] = useState<HTMLElement | null>(null);
-  const banner = anime.banner || bannerFor(anime.slug);
-  const art = artworkFor(anime.slug);
-  const cover = anime.cover || art?.cover;
-  const blur = anime.cover ? undefined : art?.blur;
-  const latestEpisode = [...(anime.episodeData ?? [])].sort((a, b) => b.number - a.number)[0];
-  const updatedAt = latestEpisode?.releasedAt || anime.updatedAt;
+  const hero = useRef<HTMLElement>(null);
+  const story = useRef({ open: false, extra: 0, base: 0 });
+  const syncStoryArtwork = useCallback(() => {
+    const node = hero.current;
+    if (!node) return;
+    const state = story.current;
+    state.base = Math.max(1, node.offsetHeight - (state.open ? state.extra : 0));
+    node.style.setProperty("--detail-art-height", `${state.base}px`);
+    node.style.setProperty("--detail-art-scale", String(state.open ? 1 + state.extra / state.base : 1));
+  }, []);
+  const storyLayout = useCallback(({ full, collapsed }: { full: number; collapsed: number }) => {
+    story.current.extra = Math.max(0, full - collapsed);
+    syncStoryArtwork();
+  }, [syncStoryArtwork]);
+  const storyOpen = useCallback((open: boolean) => {
+    story.current.open = open;
+    const { extra, base } = story.current;
+    hero.current?.style.setProperty("--detail-art-scale", String(open && base ? 1 + extra / base : 1));
+  }, []);
+  useEffect(() => {
+    const node = hero.current;
+    if (!node) return;
+    let width = 0;
+    const observer = new ResizeObserver(() => {
+      if (node.clientWidth === width) return;
+      width = node.clientWidth;
+      syncStoryArtwork();
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [anime.slug, syncStoryArtwork]);
+  const availability = getEpisodeAvailability(anime);
+  const latestEpisode = anime.type !== "فیلم" ? getLatestEpisode(anime) : null;
+  const reportedScore = hasReportedScore(anime);
   const nextEpisodeAt = anime.nextEpisodeAt && Number.isFinite(Date.parse(anime.nextEpisodeAt)) ? anime.nextEpisodeAt : null;
   useEffect(() => {
     setProgressHost(document.body);
@@ -43,54 +72,23 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
             progressHost,
           )
         : null}
-      <section className="relative isolate -mt-[var(--header-h)] overflow-hidden">
+      <section ref={hero} className="anime-detail-hero relative isolate -mt-[var(--header-h)] overflow-hidden">
 
       <div aria-hidden className="absolute inset-0 -z-10 overflow-hidden bg-ink-950">
-        {cover ? (
-          <div aria-hidden className="absolute inset-0 z-0 hidden overflow-hidden sm:block">
-            <div
-              className="absolute inset-0 scale-110 bg-cover bg-center opacity-70 blur-2xl"
-              style={{ backgroundImage: `url("${cover}")` }}
-            />
-            <div className="absolute inset-0 bg-ink-950/25" />
-          </div>
-        ) : null}
-        {banner ? (
-          <div
-            className="absolute inset-0 z-0 hidden overflow-hidden sm:block"
-            style={{
-              maskImage: "linear-gradient(to right, #000 0%, #000 30%, transparent 48%)",
-              WebkitMaskImage: "linear-gradient(to right, #000 0%, #000 30%, transparent 48%)",
-            }}
-          >
-            <CoverImage src={banner} blur={blur} sizes="100vw" priority zoom={false} />
-          </div>
-        ) : null}
-        {cover ? (
-          <div className={cn("absolute inset-0 z-0 overflow-hidden", banner && "sm:hidden")}>
-            <CoverImage
-              src={cover}
-              blur={blur}
-              sizes="100vw"
-              priority
-              position="50% 15%"
-              zoom={false}
-            />
-          </div>
-        ) : (
-          <Poster anime={anime} sizes="100vw" className="absolute inset-0" priority />
-        )}
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-l from-ink-950 via-ink-950/70 to-ink-950/10" />
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-ink-950 via-ink-950/15 to-ink-950/25" />
+        <div className="detail-art-layer">
+        <HeroArtwork anime={anime} priority />
+        </div>
+        <div className="detail-fade pointer-events-none absolute inset-0 z-10 bg-gradient-to-l from-ink-950 via-ink-950/70 to-ink-950/10" />
+        <div className="detail-fade pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-ink-950 via-ink-950/15 to-ink-950/25" />
       </div>
 
       <div className="shell relative pb-7 pt-[calc(var(--header-h)_+_1.75rem)] sm:pb-10 sm:pt-[calc(var(--header-h)_+_2.5rem)] lg:pb-12 lg:pt-[calc(var(--header-h)_+_3rem)]">
-        <nav aria-label="مسیر" className="flex items-center gap-1.5 text-[11px] text-white/50">
-          <Link href="/" className="transition-colors hover:text-white">خانه</Link>
-          <ChevronLeft className="size-3" />
-          <Link href="/browse" className="transition-colors hover:text-white">آرشیو</Link>
-          <ChevronLeft className="size-3" />
-          <span className="truncate text-white/75">{anime.titleEn}</span>
+        <nav aria-label="مسیر" className="-my-2 flex items-center gap-0.5 text-[11px] text-white/50">
+          <Link href="/" className="inline-flex min-h-10 items-center px-1.5 py-2 transition-colors hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45">خانه</Link>
+          <ChevronLeft aria-hidden className="size-3.5 shrink-0 text-white/30" />
+          <Link href="/browse" className="inline-flex min-h-10 items-center px-1.5 py-2 transition-colors hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45">آرشیو</Link>
+          <ChevronLeft aria-hidden className="size-3.5 shrink-0 text-white/30" />
+          <span aria-current="page" className="inline-flex min-h-10 min-w-0 items-center truncate px-1.5 py-2 text-white/75">{anime.titleEn}</span>
         </nav>
 
         <div className="mt-7 grid items-end gap-8 lg:grid-cols-[1fr_272px] lg:gap-10">
@@ -100,17 +98,21 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
             </h1>
             <p className="mt-2 text-[12.5px] font-semibold text-white/55">{anime.title}</p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12.5px] text-white/80">
-              <span className="inline-flex items-center gap-1.5 font-black text-gold-300">
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[12.5px] tabular-nums text-white/80">
+              {reportedScore ? <span title={getScoreLabel(anime)} className="inline-flex items-center gap-1.5 font-black text-gold-300">
                 <Star className="size-3.5 fill-gold-400 text-gold-400" />
                 {faScore(anime.score)}
-              </span>
-              <span>{faDigits(anime.year)}</span>
+              </span> : <span className="text-white/45">امتیاز اعلام نشده</span>}
+              {anime.year > 0 ? <span>{faDigits(anime.year)}</span> : null}
               <span className="inline-flex items-center gap-1.5">
                 <Layers3 className="size-3.5 text-white/50" />
                 {anime.type === "فیلم"
                   ? "فیلم"
-                  : `${faDigits(anime.availableEpisodes ?? anime.episodes)} قسمت`}
+                  : latestEpisode
+                    ? `آخرین قسمت ${faDigits(latestEpisode.number)}${latestEpisodeDateLabel ? ` · ${latestEpisodeDateLabel}` : ""}`
+                    : availability.indexedCount > 0
+                      ? `آخرین قسمت ${faDigits(availability.indexedCount)}`
+                      : "قسمت‌ها به‌زودی"}
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <span className={cn("size-1.5 rounded-full", anime.status === "در حال پخش" ? "bg-success" : "bg-white/50")} />
@@ -118,11 +120,11 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
               </span>
             </div>
 
-            <ExpandableSynopsis text={anime.synopsis} />
+            <ExpandableSynopsis text={anime.synopsis} onLayout={storyLayout} onOpenChange={storyOpen} />
 
             <div className="mt-6 flex flex-nowrap items-center gap-2 sm:flex-wrap sm:gap-2.5">
               <Link href="#episodes" className="btn btn-primary h-11 flex-1 px-5 text-xs sm:h-[52px] sm:flex-none sm:px-7 sm:text-sm">
-                <Download className="size-4" />
+                <Download aria-hidden className="size-4" />
                 دانلود
               </Link>
               <button
@@ -135,6 +137,7 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
                 <Heart className={cn("size-5", fav && "fill-rose-400")} />
               </button>
             </div>
+            <LibraryControl slug={anime.slug} className="mt-3 w-full sm:w-auto sm:min-w-52" />
 
             <div className="mt-5 flex flex-wrap items-center gap-1.5">
               {anime.genres.slice(0, 3).map((g) => (
@@ -159,17 +162,18 @@ export function AnimeDetailHero({ anime }: { anime: Anime }) {
                   position="50% 18%"
                   className="aspect-[17/24] rounded-2xl"
                 >
-                  <span className="absolute right-3 top-3 rounded-full border border-gold-300/30 bg-ink-950/70 px-2.5 py-1.5 text-[11px] font-black text-gold-300">
+                  {reportedScore ? <span title={getScoreLabel(anime)} className="absolute right-3 top-3 rounded-full border border-gold-300/30 bg-ink-950/70 px-2.5 py-1.5 text-[11px] font-black text-gold-300">
                     ★ {faScore(anime.score)}
-                  </span>
-                  {faDate(updatedAt) ? <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent px-2 pb-3 pt-10 text-center text-xs leading-5 text-white">
-                    آخرین به‌روزرسانی<br /><time dateTime={updatedAt} className="font-bold">{faDate(updatedAt)}</time>
+                  </span> : null}
+                  {latestEpisode ? <span data-latest-episode className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent px-2 pb-3 pt-10 text-center text-xs leading-5 text-white">
+                    <span className="block text-white/70">آخرین اپیزود</span>
+                    <span className="block font-bold">قسمت {faDigits(latestEpisode.number)}</span>
+                    {latestEpisode.releasedAt && latestEpisodeDateLabel ? <time dateTime={latestEpisode.releasedAt} className="mt-0.5 block text-[10px] text-white/65">{latestEpisodeDateLabel}</time> : null}
                   </span> : null}
                 </Poster>
               </div>
               <div className="mt-3 space-y-1 text-center text-xs leading-6 text-content-muted">
-                {latestEpisode ? <p>آخرین قسمت افزوده‌شده: <span className="font-bold text-white">{faDigits(latestEpisode.number)}</span></p> : null}
-                {anime.status === "در حال پخش" ? <p>قسمت بعد: {nextEpisodeAt ? <time dateTime={nextEpisodeAt} className="text-amber-200">{faDate(nextEpisodeAt)}</time> : "زمان انتشار هنوز اعلام نشده"}</p> : null}
+                {anime.status === "در حال پخش" ? <p>قسمت بعد: {nextEpisodeAt && nextEpisodeLabel ? <time dateTime={nextEpisodeAt} className="text-amber-200">{nextEpisodeLabel}</time> : "زمان انتشار هنوز اعلام نشده"}</p> : null}
               </div>
             </div>
           </div>

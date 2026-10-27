@@ -15,13 +15,13 @@ export function LatestEpisodes({ items }: { items: Anime[] }) {
 
   return (
     <section className="shell pb-6 sm:pb-8" aria-labelledby="latest-episodes-title">
-      <div className="mb-4 flex items-center justify-between gap-4">
+      <div className="section-head mb-4 flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-amber-400/20 bg-amber-400/10 text-amber-300">
             <Clapperboard className="size-4" />
           </span>
           <div>
-            <p className="text-[10.5px] font-bold text-amber-300/80">تازه رسیده</p>
+            <p className="text-[10.5px] font-bold text-amber-300/80">تازه‌های آرشیو</p>
             <h2 id="latest-episodes-title" className="headline text-lg sm:text-xl">
               آخرین قسمت‌ها
             </h2>
@@ -30,9 +30,9 @@ export function LatestEpisodes({ items }: { items: Anime[] }) {
 
         <Link
           href="/browse"
-          className="group inline-flex shrink-0 items-center gap-1.5 text-[12px] font-bold text-amber-300 transition-colors hover:text-white"
+          className="group -my-2 inline-flex min-h-10 shrink-0 items-center gap-1.5 py-2 text-[12px] font-bold text-amber-300 transition-colors hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45"
         >
-          بیشتر
+          همهٔ به‌روزرسانی‌ها
           <ArrowLeft className="size-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
         </Link>
       </div>
@@ -45,7 +45,7 @@ export function LatestEpisodes({ items }: { items: Anime[] }) {
             ? [qualities.base[0], qualities.x265 ? "x265" : null].filter(Boolean).join(" · ")
             : qualities.all[0] ?? "HD";
           const episodeLabel =
-            anime.type === "فیلم" ? "فیلم" : `قسمت ${faDigits(episode?.number ?? 1)}`;
+            anime.type === "فیلم" ? "فیلم" : episode ? `قسمت ${faDigits(episode.number)}` : "قسمت ثبت نشده";
 
           return (
             <Link

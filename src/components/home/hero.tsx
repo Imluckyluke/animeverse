@@ -3,65 +3,113 @@
 import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 import { Download, Heart, Star } from "lucide-react";
-import { useEffect, useRef, useState, type MouseEvent, type TouchEvent, type PointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type MouseEvent, type TouchEvent, type PointerEvent } from "react";
 import { useApp } from "@/lib/app-context";
 import type { HeroAnime } from "@/lib/catalog";
 import { artworkFor } from "@/lib/images";
-import { useAdminState, useCatalog } from "@/lib/admin-store";
+import { applyAdmin, useAdminState } from "@/lib/admin-store";
 import { cn, faDigits, faNum, faScore } from "@/lib/utils";
-import { CoverImage } from "@/components/ui/cover-image";
+import { HeroArtwork } from "@/components/ui/hero-artwork";
 import { Poster } from "@/components/ui/poster";
+import { getLatestEpisode, getScoreLabel, hasReportedScore } from "@/lib/catalog-metadata";
 
 const SLIDE_MS = 4500;
+// Survives client-side navigation: coming home lands on the slide the reader
+// left, and the autoplay wait starts fresh from that return.
+let rememberedIndex = 0;
+let rememberedFeatures: HeroAnime[] = [];
+const subscribeHydration = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 
 /** Full-bleed cover art + a single glass card (Apple "hero" pattern). */
 export function Hero({ items }: { items: HeroAnime[] }) {
   const reduce = useReducedMotion();
-  const pool = useCatalog(items).slice(0, 5);
   const admin = useAdminState();
+  const hydrated = useSyncExternalStore(subscribeHydration, clientReady, serverReady);
   const pinnedKey = admin.pinned.join("|");
-  const [index, setIndex] = useState(0);
+  const [extraFeatures, setExtraFeatures] = useState<HeroAnime[]>(rememberedFeatures);
+  const candidates = useMemo(() => [...items, ...extraFeatures.filter(extra => !items.some(item => item.slug === extra.slug))], [items, extraFeatures]);
+  const pool = useMemo(() => applyAdmin(candidates, admin).slice(0, 5), [candidates, admin]);
+  const previousPinnedKey = useRef(pinnedKey);
+  const [settledPinnedKey, setSettledPinnedKey] = useState<string | null>(null);
+  const awaitingPinned = admin.pinned.some(slug => !candidates.some(item => item.slug === slug));
+  const ready = hydrated && (!awaitingPinned || settledPinnedKey === pinnedKey);
+  const [index, setIndex] = useState(rememberedIndex);
   const [paused, setPaused] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const searchId = useRef<string | null>(null);
+  const overlayIds = useRef(new Set<string>());
   const { isFavorite, toggleFavorite } = useApp();
   const total = Math.max(pool.length, 1);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const swallowClick = useRef(false);
   const mouseStart = useRef<{ x: number; y: number; id: number } | null>(null);
 
+  useEffect(() => {
+    const missing = pinnedKey.split("|").filter(slug => slug && !items.some(item => item.slug === slug)).slice(0, 5);
+    if (!missing.length) { setExtraFeatures([]); return; }
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => {
+      setSettledPinnedKey(pinnedKey);
+      controller.abort();
+    }, 8000);
+    fetch(`/api/catalog-items?${new URLSearchParams({ slugs: missing.join(",") })}`, { signal: controller.signal })
+      .then(async response => {
+        if (response.ok) {
+          const data = await response.json() as HeroAnime[];
+          if (!controller.signal.aborted) {
+            rememberedFeatures = data;
+            setExtraFeatures(data);
+          }
+        }
+      }).catch(() => { /* Keep the normal daily features available offline. */ })
+      .finally(() => {
+        window.clearTimeout(timeout);
+        if (!controller.signal.aborted) setSettledPinnedKey(pinnedKey);
+      });
+    return () => { window.clearTimeout(timeout); controller.abort(); };
+  }, [pinnedKey, items]);
+
   // The admin star pins an entry to the front. Jump to it immediately so the
   // change is visible without waiting for the daily home-page cache.
   useEffect(() => {
-    if (pinnedKey) setIndex(0);
+    if (previousPinnedKey.current !== pinnedKey && pinnedKey) setIndex(0);
+    previousPinnedKey.current = pinnedKey;
   }, [pinnedKey]);
 
   // A timeout (not an interval) keyed to the current slide: every move — auto
   // or a swipe/tap by the reader — restarts the full wait, so a slide never
   // changes right after the reader just changed it themselves.
   useEffect(() => {
-    if (reduce || paused || searchOpen || total < 2) return;
+    if (!ready || reduce || paused || searchOpen || total < 2) return;
     const t = window.setTimeout(() => setIndex((i) => (i + 1) % total), SLIDE_MS);
     return () => window.clearTimeout(t);
-  }, [reduce, paused, searchOpen, total, index]);
+  }, [ready, reduce, paused, searchOpen, total, index]);
 
   useEffect(() => {
     const opened = (event: Event) => {
-      searchId.current = (event as CustomEvent<string>).detail;
+      overlayIds.current.add((event as CustomEvent<string>).detail);
       setSearchOpen(true);
     };
     const closed = (event: Event) => {
-      if (searchId.current !== (event as CustomEvent<string>).detail) return;
-      searchId.current = null;
-      setSearchOpen(false);
+      if (!overlayIds.current.delete((event as CustomEvent<string>).detail)) return;
+      setSearchOpen(overlayIds.current.size > 0);
     };
     window.addEventListener("av-search-open", opened);
     window.addEventListener("av-search-close", closed);
+    window.addEventListener("av-downloads-open", opened);
+    window.addEventListener("av-downloads-close", closed);
     return () => {
       window.removeEventListener("av-search-open", opened);
       window.removeEventListener("av-search-close", closed);
+      window.removeEventListener("av-downloads-open", opened);
+      window.removeEventListener("av-downloads-close", closed);
     };
   }, []);
+
+  useEffect(() => {
+    rememberedIndex = index;
+  }, [index]);
 
   useEffect(() => {
     if (index >= total) setIndex(0);
@@ -86,7 +134,8 @@ export function Hero({ items }: { items: HeroAnime[] }) {
     const dy = touch.clientY - start.y;
     if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(dy) * 1.15) return;
     swallowClick.current = true;
-    go(dx < 0 ? 1 : -1);
+    // RTL: dragging right reveals the next slide from the left.
+    go(dx > 0 ? 1 : -1);
     window.setTimeout(() => {
       swallowClick.current = false;
     }, 450);
@@ -115,10 +164,28 @@ export function Hero({ items }: { items: HeroAnime[] }) {
     if (event.type === "pointercancel") return;
     const dx = event.clientX - start.x;
     if (Math.abs(dx) > 44 && Math.abs(dx) > Math.abs(event.clientY - start.y)) {
-      go(dx < 0 ? 1 : -1);
+      go(dx > 0 ? 1 : -1);
       swallowClick.current = true;
     }
   };
+
+  // The server cannot know browser-local pins. Reserve the hero geometry with
+  // a neutral glass preview rather than paint a wrong title/artwork and swap it
+  // during hydration. Client navigation already has a ready snapshot.
+  if (!ready) return (
+    <section data-hero-loading aria-busy="true" aria-label="در حال آماده‌سازی پیشنهادها" className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-ink-950">
+      <div className="shell relative flex min-h-[min(680px,76svh)] items-end pb-6 pt-[calc(var(--header-h)_+_2rem)] sm:min-h-[min(720px,78svh)] sm:pb-10 lg:min-h-[min(740px,80svh)]">
+        <div aria-hidden className="w-full max-w-[620px] rounded-3xl border border-white/[0.12] bg-white/[0.025] p-4 sm:p-5 lg:p-6 xl:p-7">
+          <div className="flex justify-end gap-2"><div className="skeleton h-5 w-20" /><div className="skeleton h-5 w-24" /></div>
+          <div className="skeleton mt-5 h-9 w-3/4" />
+          <div className="skeleton mt-4 h-4 w-1/2" />
+          <div className="skeleton mt-5 h-4 w-2/3" />
+          <div className="skeleton mt-20 h-11 w-full lg:mt-48" />
+          <div className="mx-auto mt-6 h-[5px] w-32 rounded-full bg-white/10" />
+        </div>
+      </div>
+    </section>
+  );
 
   return (
     <section
@@ -146,7 +213,6 @@ export function Hero({ items }: { items: HeroAnime[] }) {
         const art = artworkFor(item.slug);
         const cover = item.cover || art?.cover;
         const image = cover || item.banner || art?.banner;
-        const blur = item.cover ? undefined : art?.blur;
 
         return (
           <div
@@ -159,25 +225,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
             style={{ transitionDuration: reduce ? "0ms" : "450ms" }}
           >
             {image ? (
-              <div aria-hidden className="absolute inset-0 overflow-hidden">
-                <div
-                  className="absolute inset-0 scale-110 bg-cover bg-center opacity-70 blur-2xl"
-                  style={{ backgroundImage: `url("${image}")` }}
-                />
-                <div className="absolute inset-0 bg-ink-950/25" />
-              </div>
-            ) : null}
-            {image ? (
-              <div className="hero-front-art">
-                <CoverImage
-                  src={image}
-                  blur={blur}
-                  sizes="100vw"
-                  priority={i === 0}
-                  position="50% 25%"
-                  zoom={false}
-                />
-              </div>
+              <HeroArtwork anime={item} priority={i === 0} />
             ) : (
               <Poster
                 anime={item}
@@ -199,7 +247,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[76%] bg-gradient-to-t from-ink-950/90 via-ink-950/35 to-transparent lg:hidden"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-[76%] bg-gradient-to-t from-ink-950 via-ink-950/35 to-transparent lg:hidden"
       />
 
       <button
@@ -221,13 +269,14 @@ export function Hero({ items }: { items: HeroAnime[] }) {
         className="absolute inset-y-0 right-0 z-0 hidden w-1/2 cursor-pointer lg:block"
       />
 
-      <div className="shell pointer-events-none relative flex min-h-[calc(84svh_+_var(--header-h))] items-end pb-6 pt-14 sm:min-h-[calc(88svh_+_var(--header-h))] sm:pb-14 sm:pt-16 md:pb-16 lg:min-h-[calc(92svh_+_var(--header-h))]">
-        <div className="pointer-events-auto w-full max-w-[620px] rounded-3xl border border-white/[0.12] bg-[rgba(9,9,15,.32)] p-4 shadow-lift backdrop-blur-[6px] backdrop-saturate-150 [text-shadow:0_1px_16px_rgba(0,0,0,0.5)] sm:p-5 lg:bg-[rgba(10,10,16,.32)] lg:p-6 xl:p-7">
+      <div className="shell pointer-events-none relative flex min-h-[min(680px,76svh)] items-end pb-6 pt-[calc(var(--header-h)_+_2rem)] sm:min-h-[min(720px,78svh)] sm:pb-10 lg:min-h-[min(740px,80svh)]">
+        <div className="hero-info pointer-events-auto w-full max-w-[620px] rounded-3xl border border-white/[0.12] bg-[rgba(9,9,15,.32)] p-3 shadow-lift backdrop-blur-[6px] backdrop-saturate-150 [text-shadow:0_1px_16px_rgba(0,0,0,0.5)] sm:p-5 lg:bg-[rgba(10,10,16,.32)] lg:p-6 xl:p-7">
           <div className="grid">
             {pool.map((slide, slideIndex) => {
               const active = slideIndex === index;
               const fav = isFavorite(slide.slug);
               const TitleTag = active ? "h1" : "div";
+              const latestEpisode = getLatestEpisode(slide);
 
               return (
                 <div
@@ -255,25 +304,21 @@ export function Hero({ items }: { items: HeroAnime[] }) {
                     </span>
                   </div>
 
-                  <TitleTag dir="ltr" className="mt-3 line-clamp-3 text-balance text-right text-[1.55rem] font-black leading-[1.15] tracking-[-0.022em] text-white lg:mt-4 lg:text-[clamp(1.9rem,4.6vw,3.4rem)] lg:leading-[1.18]">
+                  <TitleTag dir="ltr" className="mt-2 line-clamp-2 text-balance text-right text-[1.375rem] font-black leading-[1.15] tracking-[-0.022em] text-white sm:mt-3 sm:line-clamp-3 sm:text-[1.55rem] lg:mt-4 lg:text-[clamp(1.9rem,4.6vw,3.4rem)] lg:leading-[1.18]">
                     {slide.titleEn}
                   </TitleTag>
-                  <p className="mt-1.5 text-[13px] font-semibold text-white/70 lg:mt-2">{slide.title}</p>
+                  <p className="mt-1 line-clamp-1 text-xs font-semibold text-white/70 sm:mt-1.5 sm:line-clamp-none sm:text-[13px] lg:mt-2">{slide.title}</p>
 
-                  <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11.5px] text-white/80 lg:mt-3.5 lg:gap-x-4 lg:gap-y-2 lg:text-[12.5px]">
-                    <span className="inline-flex items-center gap-1.5 font-black text-white">
+                  <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11.5px] text-white/80 sm:mt-2.5 lg:mt-3.5 lg:gap-x-4 lg:gap-y-2 lg:text-[12.5px]">
+                    {hasReportedScore(slide) ? <span title={getScoreLabel(slide)} className="inline-flex items-center gap-1.5 font-black text-white">
                       <Star className="size-3.5 fill-amber-400 text-amber-400" />
                       {faScore(slide.score)}
-                    </span>
-                    <span>{faDigits(slide.year)}</span>
-                    <span>
-                      {slide.type === "فیلم"
-                        ? "فیلم"
-                        : `${faDigits(slide.availableEpisodes ?? slide.episodes)} قسمت`}
-                    </span>
+                    </span> : null}
+                    {slide.year > 0 ? <span>{faDigits(slide.year)}</span> : null}
+                    {slide.type === "فیلم" ? <span>فیلم</span> : latestEpisode ? <span>آخرین قسمت {faDigits(latestEpisode.number)}</span> : null}
                   </div>
 
-                  <p className="mt-2 line-clamp-2 max-w-[54ch] text-pretty text-[13px] leading-6 text-white/75 lg:mt-3 lg:line-clamp-3 lg:text-[13.5px] lg:leading-7 lg:text-white/80">
+                  <p className="mt-1.5 line-clamp-1 max-w-[54ch] text-pretty text-xs leading-5 text-white/75 sm:mt-2 sm:line-clamp-2 sm:text-[13px] sm:leading-6 lg:mt-3 lg:line-clamp-3 lg:text-[13.5px] lg:leading-7 lg:text-white/80">
                     {slide.synopsis}
                   </p>
 
@@ -307,7 +352,7 @@ export function Hero({ items }: { items: HeroAnime[] }) {
             })}
           </div>
 
-          <div className="mt-4 flex items-center justify-center gap-0.5 lg:mt-6">
+          <div className="hero-pagination mt-2 flex items-center justify-center gap-0.5 sm:mt-4 lg:mt-6">
             {pool.map((item, i) => (
               <button
                 key={item.slug}
@@ -315,12 +360,12 @@ export function Hero({ items }: { items: HeroAnime[] }) {
                 onClick={() => setIndex(i)}
                 aria-label={`رفتن به اسلاید ${faNum(i + 1)}`}
                 aria-current={i === index}
-                className="grid h-6 min-w-8 place-items-center"
+                className="relative grid h-6 min-w-8 place-items-center rounded-full before:absolute before:-inset-x-0.5 before:-inset-y-2.5 before:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/50"
               >
                 <span
                   className={cn(
                     "h-[5px] rounded-full transition-all duration-300",
-                    i === index ? "w-[34px] bg-amber-400" : "w-[26px] bg-white/30 hover:bg-white/50",
+                    i === index ? "w-[26px] bg-amber-400 shadow-[0_0_12px_rgba(240,180,92,.5)]" : "w-[20px] bg-white/30 hover:bg-white/50",
                   )}
                 />
               </button>

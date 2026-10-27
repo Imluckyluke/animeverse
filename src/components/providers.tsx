@@ -18,12 +18,16 @@ import {
 import { PwaProvider } from "@/components/pwa-provider";
 import { TelegramNotifyProvider } from "@/components/telegram-notify-provider";
 import { ToastViewport } from "@/components/toast";
+import { DownloadsProvider } from "@/components/downloads/downloads-provider";
+import { DownloadCenter } from "@/components/downloads/download-center";
+import { LIBRARY_LABELS, parseLibrary, type LibraryState, type LibraryStatus } from "@/lib/library";
 
 const LS = {
   user: "av_user",
   favorites: "av_favorites",
   accounts: "av_accounts",
   watched: "av_watched",
+  library: "av_library",
 };
 
 type StoredAccount = {
@@ -72,6 +76,7 @@ export function Providers({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [watched, setWatched] = useState<Record<string, number[]>>({});
+  const [library, setLibrary] = useState<LibraryState>({});
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const toastSeq = useRef(1);
   const toastTimer = useRef<number | null>(null);
@@ -107,6 +112,8 @@ export function Providers({ children }: { children: ReactNode }) {
           setWatched(next);
         }
       }
+      const storedLibrary = localStorage.getItem(LS.library);
+      if (storedLibrary) setLibrary(parseLibrary(JSON.parse(storedLibrary)));
     } catch {
       /* ignore corrupted storage */
     }
@@ -140,6 +147,11 @@ export function Providers({ children }: { children: ReactNode }) {
       /* ignore */
     }
   }, [ready, watched]);
+
+  useEffect(() => {
+    if (!ready) return;
+    try { localStorage.setItem(LS.library, JSON.stringify(library)); } catch { /* Storage may be unavailable. */ }
+  }, [ready, library]);
 
   const dismissToast = useCallback((id: number) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
@@ -246,6 +258,17 @@ export function Providers({ children }: { children: ReactNode }) {
 
   const isFavorite = useCallback((slug: string) => favorites.includes(slug), [favorites]);
 
+  const setLibraryStatus = useCallback((slug: string, status: LibraryStatus | null) => {
+    if (!slug) return;
+    setLibrary(previous => {
+      const next = { ...previous };
+      if (status === null) delete next[slug];
+      else next[slug] = status;
+      return next;
+    });
+    toast(status ? `به «${LIBRARY_LABELS[status]}» منتقل شد` : "از دسته‌بندی برداشته شد", "پیشرفت قسمت‌ها و علاقه‌مندی‌ها محفوظ می‌مانند.", "info");
+  }, [toast]);
+
   const clearFavorites = useCallback(() => {
     setFavorites([]);
     toast("لیست علاقه‌مندی‌ها خالی شد", "یک شروع تازه برای کشف انیمه‌های بعدی.", "info");
@@ -289,6 +312,8 @@ export function Providers({ children }: { children: ReactNode }) {
       user,
       favorites,
       watched,
+      library,
+      setLibraryStatus,
       toasts,
       login,
       register,
@@ -308,6 +333,8 @@ export function Providers({ children }: { children: ReactNode }) {
       user,
       favorites,
       watched,
+      library,
+      setLibraryStatus,
       toasts,
       login,
       register,
@@ -329,8 +356,11 @@ export function Providers({ children }: { children: ReactNode }) {
       <TelegramNotifyProvider>
         <PwaProvider>
           <MotionConfig reducedMotion="user">
+            <DownloadsProvider>
             {children}
+            <DownloadCenter />
             <ToastViewport />
+            </DownloadsProvider>
           </MotionConfig>
         </PwaProvider>
       </TelegramNotifyProvider>

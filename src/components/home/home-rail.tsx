@@ -11,7 +11,7 @@ import { Coverflow } from "@/components/ui/coverflow";
 
 const TABS = [
   { key: "latest", label: "تازه‌ها" },
-  { key: "top", label: "محبوب‌ها" },
+  { key: "top", label: "برترین امتیازها" },
 ] as const;
 
 type Tab = (typeof TABS)[number]["key"];
@@ -34,7 +34,7 @@ export function HomeRail({ latest, top }: { latest: Anime[]; top: Anime[] }) {
               onClick={() => setTab(t.key)}
               aria-pressed={tab === t.key}
               className={cn(
-                "rounded-xl px-4 py-2 text-[12.5px] font-bold transition-colors duration-300",
+                "rounded-xl px-4 py-2.5 text-[12.5px] font-bold transition-[background-color,color,transform] duration-300 active:scale-[.98] motion-reduce:transform-none",
                 tab === t.key
                   ? "bg-amber-400/15 text-amber-200 shadow-inset"
                   : "text-content-muted hover:text-white",
@@ -47,7 +47,7 @@ export function HomeRail({ latest, top }: { latest: Anime[]; top: Anime[] }) {
 
         <Link
           href="/browse"
-          className="group inline-flex shrink-0 items-center gap-1.5 text-[12px] font-bold text-amber-300 transition-colors hover:text-white"
+          className="group -my-2 inline-flex min-h-10 shrink-0 items-center gap-1.5 py-2 text-[12px] font-bold text-amber-300 transition-colors hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45"
         >
           بیشتر
           <ArrowLeft className="size-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
@@ -55,7 +55,7 @@ export function HomeRail({ latest, top }: { latest: Anime[]; top: Anime[] }) {
       </div>
 
       <Coverflow
-        ariaLabel={tab === "latest" ? "تازه‌ها" : "محبوب‌ها"}
+        ariaLabel={tab === "latest" ? "تازه‌ها" : "برترین امتیازها"}
         items={items}
         renderCard={(anime, i) => <AnimeCard anime={anime} index={i} fluid />}
       />

@@ -1,0 +1,24 @@
+[Unit]
+Description=AnimeVerse signed download control-plane ingress
+After=network-online.target animeverse-download-cache.service
+Wants=network-online.target animeverse-download-cache.service
+
+[Service]
+User=bot-host
+Group=bot-host
+WorkingDirectory=/var/lib/bot-host/animeverse
+EnvironmentFile=/var/lib/bot-host/.local/share/animeverse-download-cache/service.env
+ExecStart=/usr/bin/python3 -u /var/lib/bot-host/animeverse/tools/tg/download_cache_tunnel.py
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=20
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/bot-host/.local/share/animeverse-download-cache
+MemoryMax=192M
+TasksMax=48
+CPUQuota=25%
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  future: { hoverOnlyWhenSupported: true },
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
@@ -8,13 +9,14 @@ const config: Config = {
         sans: ["var(--font-vazirmatn)", "Tahoma", "Arial", "sans-serif"],
       },
       colors: {
+        white: "rgb(var(--av-white, 255 255 255) / <alpha-value>)",
         ink: {
-          950: "#060609",
-          900: "#0c0c13",
-          850: "#17171f",
-          800: "#20202b",
-          700: "#2a2a36",
-          600: "#343442",
+          950: "rgb(var(--av-ink-950, 6 6 9) / <alpha-value>)",
+          900: "rgb(var(--av-ink-900, 12 12 19) / <alpha-value>)",
+          850: "rgb(var(--av-ink-850, 23 23 31) / <alpha-value>)",
+          800: "rgb(var(--av-ink-800, 32 32 43) / <alpha-value>)",
+          700: "rgb(var(--av-ink-700, 42 42 54) / <alpha-value>)",
+          600: "rgb(var(--av-ink-600, 52 52 66) / <alpha-value>)",
         },
         surface: {
           DEFAULT: "rgba(255,255,255,0.045)",
@@ -25,10 +27,10 @@ const config: Config = {
           strong: "rgba(255,255,255,0.18)",
         },
         content: {
-          DEFAULT: "#f5f7ff",
-          soft: "#d3d9e8",
-          muted: "#9aa4ba",
-          faint: "#79839a",
+          DEFAULT: "rgb(var(--av-content, 245 247 255) / <alpha-value>)",
+          soft: "rgb(var(--av-content-soft, 211 217 232) / <alpha-value>)",
+          muted: "rgb(var(--av-content-muted, 154 164 186) / <alpha-value>)",
+          faint: "rgb(var(--av-content-faint, 121 131 154) / <alpha-value>)",
         },
         brand: {
           50: "#edf3ff",
@@ -43,8 +45,8 @@ const config: Config = {
           900: "#1d2b57",
         },
         amber: {
-          200: "#fff3b0",
-          300: "#ffe066",
+          200: "rgb(var(--av-amber-200, 255 243 176) / <alpha-value>)",
+          300: "rgb(var(--av-amber-300, 255 224 102) / <alpha-value>)",
           400: "#ffd60a",
           500: "#e6be00",
           600: "#b39200",
@@ -61,8 +63,8 @@ const config: Config = {
           600: "#ee4a8c",
         },
         gold: {
-          300: "#ffe08a",
-          400: "#ffd05c",
+          300: "rgb(var(--av-gold-300, 255 224 138) / <alpha-value>)",
+          400: "rgb(var(--av-gold-400, 255 208 92) / <alpha-value>)",
           500: "#f6ba36",
         },
         success: "#3ddc97",

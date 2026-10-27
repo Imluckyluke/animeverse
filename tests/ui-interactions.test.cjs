@@ -127,3 +127,32 @@ test("a short synopsis renders once, without an unconditional more/close button"
   assert.equal((html.match(/داستان/g) ?? []).length, 1);
   assert.equal(html.includes("<button"), false);
 });
+
+test("static component CSS is not HTML-escaped inside SSR style raw text", () => {
+  const React = require("react");
+  const { renderToStaticMarkup } = require("react-dom/server");
+  for (const relative of ["src/components/ui/halftone-wordmark-footer.tsx", "src/components/ui/glass-folder-cards.tsx"]) {
+    const Component = load(relative).default;
+    const html = renderToStaticMarkup(React.createElement(Component, { appear: false, art: "none" }));
+    const styles = [...html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map(match => match[1]);
+    assert.ok(styles.length > 0, relative);
+    for (const css of styles) {
+      assert.equal(css.includes("&quot;"), false, relative);
+      assert.equal(css.includes("&#x27;"), false, relative);
+    }
+  }
+});
+
+test("the primary hero cover stays sharp while its separate atmosphere stays soft", () => {
+  const css = fs.readFileSync(path.join(__dirname, "../src/app/globals.css"), "utf8");
+  const front = css.match(/\.hero-front-art\s*\{([^}]+)\}/)[1];
+  assert.equal(/filter\s*:\s*blur/.test(front), false);
+  const hero = fs.readFileSync(path.join(__dirname, "../src/components/home/hero.tsx"), "utf8");
+  const artwork = fs.readFileSync(path.join(__dirname, "../src/components/ui/hero-artwork.tsx"), "utf8");
+  assert.ok(hero.includes("<HeroArtwork"));
+  assert.ok(artwork.includes('fit="cover"'));
+  assert.equal(artwork.includes('fit="scale-down"'), false);
+  assert.match(front, /scale\(1\.055\)/);
+  assert.match(css, /backdrop-filter: blur\(1\.5px\)/);
+  assert.match(css, /aspect-ratio: var\(--hero-banner-ratio\)/);
+});

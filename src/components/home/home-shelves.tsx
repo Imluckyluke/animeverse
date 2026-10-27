@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ArrowLeft, Clapperboard, Globe2, Play, Star } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { memo, useState, type ReactNode } from "react";
 import type { Anime } from "@/lib/catalog";
 import { useCatalog } from "@/lib/admin-store";
 import { cn, faDigits, faScore } from "@/lib/utils";
@@ -11,6 +11,7 @@ import { CoverImage } from "@/components/ui/cover-image";
 import { Poster } from "@/components/ui/poster";
 import { Rail } from "@/components/ui/rail";
 import { Coverflow } from "@/components/ui/coverflow";
+import { getScoreLabel, hasReportedScore } from "@/lib/catalog-metadata";
 
 function ShelfHeading({
   icon,
@@ -24,7 +25,7 @@ function ShelfHeading({
   linkLabel: string;
 }) {
   return (
-    <div className="mb-4 flex items-center justify-between gap-4">
+    <div className="section-head mb-4 flex items-center justify-between gap-4">
       <div className="flex min-w-0 items-center gap-2.5">
         <span className="grid size-8 shrink-0 place-items-center rounded-xl border border-amber-400/20 bg-amber-400/[0.08] text-amber-300">
           {icon}
@@ -33,7 +34,7 @@ function ShelfHeading({
       </div>
       <Link
         href={href}
-        className="group inline-flex shrink-0 items-center gap-1.5 text-[12px] font-bold text-amber-300 transition-colors hover:text-white"
+        className="group -my-2 inline-flex min-h-10 shrink-0 items-center gap-1.5 py-2 text-[12px] font-bold text-amber-300 transition-colors hover:text-white focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45"
       >
         {linkLabel}
         <ArrowLeft className="size-3.5 transition-transform duration-300 group-hover:-translate-x-1" />
@@ -42,7 +43,7 @@ function ShelfHeading({
   );
 }
 
-function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean }) {
+const CinemaCard = memo(function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean }) {
   // Generated banners have inconsistent baked-in blur. Start with the original
   // cover for every movie and apply one shared, gentle backdrop treatment.
   const backdrop = anime.cover || anime.banner;
@@ -50,11 +51,8 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
 
   return (
     <article
-      className={cn(
-        "group/cinema relative w-[78vw] shrink-0 snap-center sm:snap-start transition-transform duration-500 ease-spring sm:w-[360px] lg:w-[400px] lg:transform-none",
-        // The card resting at the edge lifts so it reads as the one in focus.
-        active ? "-translate-y-2 scale-[1.02]" : "hover:-translate-y-1.5",
-      )}
+      className="group/cinema relative w-[78vw] shrink-0 snap-center sm:w-[360px] lg:w-[400px]"
+      data-cinema-active={active}
     >
       {/* The two soft layers follow the card when it lifts and fade on hover. */}
       <span
@@ -69,11 +67,11 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
       <Link
         href={`/anime/${anime.slug}`}
         className={cn(
-          "glass-card relative block overflow-hidden rounded-3xl border border-white/[0.1] transition-[border-color,box-shadow] duration-500 group-hover/cinema:border-amber-400/40 group-hover/cinema:shadow-lift",
+          "glass-card relative block overflow-hidden rounded-3xl border border-white/[0.1] transition-colors duration-300 group-hover/cinema:border-amber-400/40 group-hover/cinema:shadow-lift",
           active && "border-amber-400/40 shadow-lift",
         )}
       >
-        <div className="relative aspect-[16/10] overflow-hidden bg-ink-900">
+        <div data-art-surface className="relative aspect-[16/10] overflow-hidden bg-ink-900">
           {backdrop ? (
             <CoverImage
               src={backdrop}
@@ -105,10 +103,10 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
             </div>
           ) : null}
 
-          <span className="absolute left-3 top-3 z-20 inline-flex items-center gap-1 rounded-full border border-white/15 bg-ink-950/70 px-2 py-1 text-[10.5px] font-black text-amber-300 backdrop-blur-md">
+          {hasReportedScore(anime) ? <span title={getScoreLabel(anime)} className="absolute left-3 top-3 z-20 inline-flex items-center gap-1 rounded-full border border-white/15 bg-ink-950/70 px-2 py-1 text-[10.5px] font-black text-amber-300 backdrop-blur-md">
             <Star className="size-2.5 fill-amber-400 text-amber-400" />
             {faScore(anime.score)}
-          </span>
+          </span> : null}
 
           <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-4">
             <div className="min-w-0 pe-2">
@@ -120,7 +118,7 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
                 {anime.titleEn}
               </h3>
               <p className="mt-0.5 truncate text-[10.5px] text-white/55">
-                {faDigits(anime.year)}
+                {anime.year > 0 ? faDigits(anime.year) : "سال اعلام نشده"}
               </p>
             </div>
             <span className="grid size-10 shrink-0 place-items-center rounded-full bg-amber-400 text-ink-950 shadow-[0_10px_28px_-8px_rgba(255,214,10,.7)] transition-transform duration-300 group-hover/cinema:scale-110">
@@ -131,7 +129,7 @@ function CinemaCard({ anime, active = false }: { anime: Anime; active?: boolean 
       </Link>
     </article>
   );
-}
+});
 
 export function MoviesShelf({ items }: { items: Anime[] }) {
   const movies = useCatalog(items);

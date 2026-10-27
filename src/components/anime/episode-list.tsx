@@ -1,29 +1,33 @@
 "use client";
 
-import { ChevronDown, Download, Eye, EyeOff, Loader2 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Check, ChevronDown, Download, Eye, EyeOff, Layers3, Send } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useApp } from "@/lib/app-context";
 import type { Anime, Episode } from "@/lib/catalog";
 import { getEpisodes } from "@/lib/catalog";
-import { cn, faBytes, faDate, faDigits, openRealDownload, triggerDownload } from "@/lib/utils";
+import { cn, faBytes, faDate, faDigits } from "@/lib/utils";
+import { useDownloadActions } from "@/components/downloads/downloads-provider";
+import { telegramDownloadUrl } from "@/lib/download-cache-contract";
+import { DownloadMethodTabs, type DownloadMethod } from "./download-method-tabs";
 
 const PREVIEW_COUNT = 6;
 const EXTRA_BATCH = 24;
 
-type LiveQuality = { status: "done" | "pending" | "failed"; size?: number | null };
+type LiveQuality = { status: "done" | "pending" | "failed" | "unknown"; size?: number | null; url?: string };
 
 export function EpisodeList({ anime }: { anime: Anime }) {
   const episodes = getEpisodes(anime);
-  const { toast, toggleWatched, isWatched, lastWatched } = useApp();
-  const busyRef = useRef(false);
+  const { toggleWatched, isWatched, lastWatched } = useApp();
+  const { startDownload, chooseBulk } = useDownloadActions();
   const [jumpTarget, setJumpTarget] = useState<number | null>(null);
   const [sheet, setSheet] = useState<Episode | null>(null);
   const [expanded, setExpanded] = useState(false);
   const [renderedExtra, setRenderedExtra] = useState(0);
-  const [loadingQuality, setLoadingQuality] = useState<string | null>(null);
   const [live, setLive] = useState<Record<string, LiveQuality>>({});
+  const [method, setMethod] = useState<DownloadMethod>("github");
+  const methodId = useId();
   const lastSeen = lastWatched(anime.slug);
-  const isReal = anime.source === "aniplus";
+  const isReal = anime.source === "aniplus" || anime.source === "archive";
   const hidden = Math.max(episodes.length - PREVIEW_COUNT, 0);
   const preview = episodes.slice(0, PREVIEW_COUNT);
   // Long-running shows (Detective Conan and similar) can have hundreds of
@@ -32,6 +36,37 @@ export function EpisodeList({ anime }: { anime: Anime }) {
   const extra = renderedExtra > 0 ? episodes.slice(PREVIEW_COUNT, PREVIEW_COUNT + extraShown) : [];
   const remaining = Math.max(hidden - extra.length, 0);
   const extraRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const reveal = (number: number) => {
+      const index = episodes.findIndex(episode => episode.number === number);
+      if (index < 0) return;
+      if (index >= PREVIEW_COUNT) {
+        setExpanded(true);
+        setRenderedExtra(Math.max(EXTRA_BATCH, index - PREVIEW_COUNT + 1));
+      }
+      setSheet(episodes[index]);
+      setJumpTarget(number);
+    };
+    const fromHash = () => {
+      const prefix = `#episode-${anime.slug}-`;
+      if (location.hash.startsWith(prefix)) reveal(Number(location.hash.slice(prefix.length)));
+    };
+    const fromAction = (event: Event) => {
+      const detail = (event as CustomEvent<{ slug: string; number: number }>).detail;
+      if (detail?.slug === anime.slug) reveal(detail.number);
+    };
+    fromHash();
+    window.addEventListener("hashchange", fromHash);
+    window.addEventListener("av-episode-jump", fromAction);
+    return () => {
+      window.removeEventListener("hashchange", fromHash);
+      window.removeEventListener("av-episode-jump", fromAction);
+    };
+  // Episode metadata is immutable for this mounted title. Do not reopen a row
+  // on every progress update or local interaction.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [anime.slug]);
 
   useEffect(() => {
     if (jumpTarget === null) return;
@@ -80,15 +115,16 @@ export function EpisodeList({ anime }: { anime: Anime }) {
             status?: string;
             size?: number | null;
           } | null;
+          const url = telegramDownloadUrl({ status: "done", url: payload?.url });
           const status: LiveQuality["status"] =
-            response.ok && payload?.url
+            response.ok && url
               ? "done"
               : payload?.status === "failed"
                 ? "failed"
-                : "pending";
-          return [`${episode}|${label}`, { status, size: payload?.size ?? null }] as const;
+                : response.status === 202 || payload?.status === "pending" ? "pending" : "unknown";
+          return [`${episode}|${label}`, { status, size: payload?.size ?? null, url: status === "done" ? url : undefined }] as const;
         } catch {
-          return null;
+          return [`${episode}|${label}`, { status: "unknown" as const }] as const;
         }
       }),
     ).then((rows) => {
@@ -100,34 +136,19 @@ export function EpisodeList({ anime }: { anime: Anime }) {
     return () => controller.abort();
   }, [sheet, isReal, anime.slug, anime.quality]);
 
-  const download = (episode: number, q: string) => {
-    if (busyRef.current) return;
-    if (isReal) {
-      const run = async () => {
-        busyRef.current = true;
-        setLoadingQuality(`${episode}|${q}`);
-        try {
-          const result = await openRealDownload(anime.slug, episode, q);
-          if (result === "done") {
-            toast("لینک آماده شد", `${anime.titleEn} — قسمت ${faDigits(episode)} · ${q}`);
-          } else if (result === "pending") {
-            toast("در حال آماده‌سازی", "این کیفیت هنوز روی کانال قرار نگرفته؛ کمی بعد دوباره امتحان کن.");
-          } else {
-            toast("لینک آماده نیست", "لینک این کیفیت آماده نشد؛ بعداً دوباره تلاش کن.");
-          }
-        } catch {
-          toast("دریافت لینک ناموفق بود", "اتصال را بررسی کن و دوباره تلاش کن.", "error");
-        } finally {
-          busyRef.current = false;
-          setLoadingQuality(null);
-        }
-      };
-      void run();
-      return;
-    }
-    triggerDownload(anime.slug, episode, q);
-    toast("دانلود آغاز شد", `${anime.titleEn} — قسمت ${faDigits(episode)} · ${q}`);
-  };
+  const download = (episode: number, quality: string) => startDownload({ slug: anime.slug, title: anime.titleEn, episode, quality, size: episodes.find(ep => ep.number === episode)?.qualities?.find(q => q.label === quality)?.size });
+  const qualityEpisodes = new Map<string, Set<number>>();
+  for (const ep of episodes) for (const quality of ep.qualities || []) {
+    if (quality.status !== "done" || !/^https?:\/\//i.test(quality.url || "") || (quality.size || 0) >= 2 ** 31) continue;
+    const set = qualityEpisodes.get(quality.label) || new Set<number>(); set.add(ep.number); qualityEpisodes.set(quality.label, set);
+  }
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const episode = Number(url.searchParams.get("download")), quality = url.searchParams.get("q");
+    if (!episode || !quality || !anime.episodeData?.some(ep => ep.number === episode && ep.qualities.some(q => q.label === quality && q.status === "done"))) return;
+    startDownload({ slug: anime.slug, title: anime.titleEn, episode, quality });
+    url.searchParams.delete("download"); url.searchParams.delete("q"); history.replaceState(history.state, "", url);
+  }, [anime.slug, anime.titleEn, anime.episodeData, startDownload]);
 
   const renderEpisode = (ep: Episode) => {
     const seen = isWatched(anime.slug, ep.number);
@@ -150,8 +171,9 @@ export function EpisodeList({ anime }: { anime: Anime }) {
         />
 
         <div
+          data-open={isOpen}
           className={cn(
-            "overflow-hidden rounded-2xl border transition-colors duration-300",
+            "episode-row overflow-hidden rounded-2xl border transition-colors duration-300",
             isOpen
               ? "border-amber-400/30 bg-amber-400/[0.05]"
               : "border-white/[0.08] bg-white/[0.02] hover:border-white/20",
@@ -187,8 +209,8 @@ export function EpisodeList({ anime }: { anime: Anime }) {
                 ) : null}
               </span>
               <span className="mt-0.5 flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-xs text-content-muted">
-                <span>{ep.runtime}</span>
-                <span className="hidden sm:inline">· {faDate(ep.releasedAt)}</span>
+                {ep.runtime ? <span>{ep.runtime}</span> : null}
+                {ep.releasedAt && faDate(ep.releasedAt) ? <span className="hidden sm:inline">· {faDate(ep.releasedAt)}</span> : null}
                 {seen ? (
                   <span className="inline-flex items-center gap-1 font-semibold text-amber-300/85">
                     <Eye className="size-3" />
@@ -223,28 +245,16 @@ export function EpisodeList({ anime }: { anime: Anime }) {
             )}
           >
             <div className="overflow-hidden">
-              <div className="flex flex-wrap gap-2 border-t border-white/[0.07] px-3 py-3">
+              <div key={method} className="episode-quality-actions flex flex-wrap gap-2 border-t border-white/[0.07] px-3 py-3">
                 {labels.map((quality) => {
-                  const busy = loadingQuality === `${ep.number}|${quality.label}`;
                   const liveQuality = isReal ? live[`${ep.number}|${quality.label}`] : undefined;
-                  const done = (liveQuality?.status ?? quality.status) === "done";
+                  const done = liveQuality ? liveQuality.status === "done" : quality.status === "done" && /^https?:\/\//i.test(quality.url ?? "");
                   const failed = (liveQuality?.status ?? quality.status) === "failed";
                   const size = liveQuality?.size ?? quality.size;
-                  return (
-                    <button
-                      key={quality.label}
-                      type="button"
-                      disabled={loadingQuality !== null}
-                      onClick={() => {
-                        download(ep.number, quality.label);
-                      }}
-                      className="flex min-h-11 items-center gap-2 rounded-xl border border-white/[0.12] bg-white/[0.05] px-3 py-2 transition-colors hover:border-amber-400/45 hover:bg-amber-400/10 disabled:opacity-60"
-                    >
-                      {busy ? (
-                        <Loader2 className="size-3 animate-spin text-amber-300" />
-                      ) : (
-                        <Download className="size-3 text-amber-300" />
-                      )}
+                  const telegramUrl = telegramDownloadUrl(liveQuality && liveQuality.status !== "unknown" ? liveQuality : quality);
+                  const className = "relative flex min-h-11 min-w-0 flex-wrap items-center gap-2 overflow-hidden rounded-xl border border-white/[0.12] bg-white/[0.05] px-3 py-2 transition-colors hover:border-amber-400/45 hover:bg-amber-400/10 disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300";
+                  const content = <>
+                      {method === "telegram" ? <Send className="size-3.5 text-amber-300" aria-hidden /> : done ? <Check className="size-3 text-emerald-300" /> : <Download className="size-3 text-amber-300" />}
                       <span dir="ltr" className="text-xs font-bold text-white/85">
                         {quality.label}
                       </span>
@@ -255,17 +265,18 @@ export function EpisodeList({ anime }: { anime: Anime }) {
                         )}
                       >
                         {isReal
-                          ? size
-                            ? faBytes(size)
-                            : failed
-                              ? "ناموفق"
-                              : done
-                                ? "آماده"
-                                : "در صف"
-                          : size ? faBytes(size) : "حجم اعلام نشده"}
+                          ? failed ? "ناموفق" : done ? "آماده" : liveQuality?.status === "unknown" ? "بررسی نشد" : "در صف"
+                          : "نمونه"}
                       </span>
-                    </button>
-                  );
+                      {size ? <span className="text-xs text-content-muted">· {faBytes(size)}</span> : null}
+                  </>;
+                  return method === "github" ? <button key={quality.label} type="button"
+                    aria-label={`آماده‌سازی قسمت ${faDigits(ep.number)} با کیفیت ${quality.label} از گیت‌هاب`}
+                    onClick={() => download(ep.number, quality.label)} className={className}>{content}</button>
+                    : telegramUrl ? <a key={quality.label} href={telegramUrl} target="_blank" rel="noopener noreferrer"
+                      aria-label={`دانلود قسمت ${faDigits(ep.number)} با کیفیت ${quality.label} از تلگرام`} className={className}>{content}</a>
+                    : <button key={quality.label} type="button" disabled className={className}
+                      aria-label={`فایل تلگرام قسمت ${faDigits(ep.number)} با کیفیت ${quality.label} در دسترس نیست`}>{content}</button>;
                 })}
               </div>
             </div>
@@ -291,11 +302,14 @@ export function EpisodeList({ anime }: { anime: Anime }) {
 
   return (
     <div>
-      <div className="mb-5 flex flex-wrap items-center gap-2.5">
+      <DownloadMethodTabs id={methodId} value={method} onChange={setMethod} />
+      <div id={`${methodId}-panel`} role="tabpanel" aria-labelledby={`${methodId}-${method}`} tabIndex={0}>
+      <div className="mb-5 flex min-h-11 flex-wrap items-center gap-2.5">
         <h2 className="headline text-xl sm:text-2xl">قسمت‌ها</h2>
         <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-bold text-content-muted">
           {faDigits(episodes.length)} قسمت
         </span>
+        {method === "github" && qualityEpisodes.size > 0 && <button type="button" className="btn btn-glass ms-auto min-h-11 gap-2 px-3 text-xs" onClick={() => chooseBulk({ slug: anime.slug, title: anime.titleEn, total: episodes.length, qualities: [...qualityEpisodes].map(([label, numbers]) => ({ label, count: numbers.size })) })}><Layers3 className="size-4" />دانلود همهٔ قسمت‌ها</button>}
         {lastSeen ? (
           <button type="button" onClick={jumpToLastSeen} className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-amber-400/25 bg-amber-400/10 px-3 py-2 text-xs font-bold text-amber-200">
             <Eye className="size-3" />
@@ -305,6 +319,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
       </div>
 
       <div className="relative" role="list" aria-label="قسمت‌ها">
+        {!episodes.length ? <p className="rounded-2xl border border-white/10 bg-white/[0.025] p-5 text-sm leading-7 text-content-muted">هنوز قسمتی از این عنوان در منابع ثبت نشده است.</p> : null}
         <span
           aria-hidden
           className="absolute inset-y-4 right-[21px] w-px bg-white/[0.10]"
@@ -357,6 +372,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
           <ChevronDown className="size-3.5" />
         </button>
       ) : null}
+      </div>
     </div>
   );
 }

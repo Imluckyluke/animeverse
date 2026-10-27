@@ -6,6 +6,7 @@ import { useApp } from "@/lib/app-context";
 import { splitQualities, type Anime } from "@/lib/catalog";
 import { cn, faDigits, faScore } from "@/lib/utils";
 import { Poster } from "@/components/ui/poster";
+import { getLatestEpisode, getScoreLabel, hasReportedScore } from "@/lib/catalog-metadata";
 
 /**
  * One decision per card: picture, title, two facts. Nothing else.
@@ -23,6 +24,8 @@ export function AnimeCard({
 }) {
   const { isFavorite, toggleFavorite } = useApp();
   const fav = isFavorite(anime.slug);
+  const latestEpisode = anime.type !== "فیلم" ? getLatestEpisode(anime) : null;
+  const episodeLabel = anime.type === "فیلم" ? "فیلم" : latestEpisode ? `آخرین قسمت ${faDigits(latestEpisode.number)}` : "";
   const qualities = splitQualities(anime.quality);
   const qualityLabel = qualities.base.length
     ? [qualities.base[0], qualities.x265 ? "x265" : null].filter(Boolean).join(" · ")
@@ -36,11 +39,11 @@ export function AnimeCard({
         className,
       )}
     >
-      <div className="glass-card relative overflow-hidden rounded-3xl transition-[transform,border-color,box-shadow] duration-300 ease-spring group-hover/card:-translate-y-1.5 group-hover/card:border-amber-400/45 group-hover/card:shadow-lift">
+      <div className="glass-card relative overflow-hidden rounded-3xl transition-[transform,border-color,box-shadow] duration-300 ease-spring active:scale-[.985] group-hover/card:-translate-y-1.5 group-hover/card:border-amber-400/45 group-hover/card:shadow-lift motion-reduce:transform-none">
         <Link
           href={`/anime/${anime.slug}`}
           className="block"
-          aria-label={`${anime.titleEn} — ${faDigits(anime.year)}`}
+          aria-label={`${anime.titleEn}${anime.year > 0 ? ` — ${faDigits(anime.year)}` : ""}`}
         >
           <div className="relative aspect-[17/24] overflow-hidden">
             <Poster
@@ -50,10 +53,10 @@ export function AnimeCard({
               position="50% 18%"
               className="absolute inset-0 transition-transform duration-700 ease-snap group-hover/card:scale-[1.05]"
             >
-              <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full border border-gold-300/25 bg-ink-950/70 px-2 py-1 text-[11px] font-black text-gold-300">
+              {hasReportedScore(anime) ? <span title={getScoreLabel(anime)} aria-label={`${getScoreLabel(anime)}: ${faScore(anime.score)}`} className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full border border-gold-300/25 bg-ink-950/70 px-2 py-1 text-[11px] font-black text-gold-300">
                 <Star className="size-2.5 fill-gold-400 text-gold-400" />
                 {faScore(anime.score)}
-              </span>
+              </span> : null}
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-ink-950/85 via-ink-950/30 to-transparent"
@@ -75,11 +78,10 @@ export function AnimeCard({
             >
               {anime.titleEn}
             </h3>
-            <p className="mt-1 text-center text-xs text-content-muted">
-              {faDigits(anime.year)} ·{" "}
-              {anime.type === "فیلم"
-                ? "فیلم"
-                : `${faDigits(anime.availableEpisodes ?? anime.episodes)} قسمت`}
+            <p className="mt-1.5 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 text-[10.5px] leading-5 text-content-muted">
+              {anime.year > 0 ? <span dir="ltr" className="font-medium tabular-nums text-content-soft">{faDigits(anime.year)}</span> : null}
+              {anime.year > 0 && episodeLabel ? <span aria-hidden className="text-white/25">·</span> : null}
+              {episodeLabel ? <span className="tabular-nums">{episodeLabel}</span> : null}
             </p>
           </div>
         </Link>
@@ -89,14 +91,11 @@ export function AnimeCard({
           onClick={() => toggleFavorite(anime.slug)}
           aria-label={fav ? "حذف از علاقه‌مندی‌ها" : "افزودن به علاقه‌مندی‌ها"}
           aria-pressed={fav}
-          className={cn(
-            "absolute left-2 top-2 z-20 grid size-11 place-items-center rounded-full border transition-all duration-200 hover:scale-105",
-            fav
-              ? "border-rose-400/45 bg-rose-500/30 text-rose-300"
-              : "border-white/15 bg-ink-950/50 text-white/85 hover:border-rose-400/45 hover:text-rose-300",
-          )}
+          className="poster-favorite absolute left-1.5 top-1.5 z-20 grid size-11 place-items-center rounded-2xl"
         >
-          <Heart className={cn("size-3.5", fav && "fill-rose-400 text-rose-400")} />
+          <span className="poster-favorite-face grid size-9 place-items-center rounded-[14px]">
+            <Heart aria-hidden strokeWidth={1.8} className={cn("size-[18px]", fav && "fill-current")} />
+          </span>
         </button>
       </div>
     </article>

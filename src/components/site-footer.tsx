@@ -13,7 +13,7 @@ const COLUMNS: FooterColumn[] = [
   {
     title: "کتابخانه",
     links: [
-      { label: "علاقه‌مندی‌ها", href: "/favorites" },
+      { label: "کتابخانهٔ من", href: "/favorites" },
       { label: "ورود", href: "/login" },
       { label: "حریم خصوصی", href: "/privacy" },
       { label: "قوانین استفاده", href: "/terms" },

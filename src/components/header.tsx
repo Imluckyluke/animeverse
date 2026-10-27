@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LogOut, ShieldCheck, UserRound } from "lucide-react";
+import { Download, LogOut, ShieldCheck, UserRound } from "lucide-react";
+import { useDownloadActions, useDownloads } from "@/components/downloads/downloads-provider";
 import { CommandPalette } from "@/components/command-palette";
 import { canShowAdmin } from "@/lib/admin-visibility";
 import {
@@ -17,6 +18,7 @@ import { createPortal } from "react-dom";
 import { useApp } from "@/lib/app-context";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { InstallAppButton } from "@/components/install-app-button";
 import { TelegramNotifyRow } from "@/components/telegram-notify-row";
 import { useTelegramNotify } from "@/components/telegram-notify-provider";
@@ -24,7 +26,7 @@ import { useTelegramNotify } from "@/components/telegram-notify-provider";
 const NAV = [
   { href: "/", label: "خانه" },
   { href: "/browse", label: "آرشیو" },
-  { href: "/favorites", label: "علاقه‌مندی" },
+  { href: "/favorites", label: "کتابخانه" },
 ];
 
 const MENU_WIDTH = 236;
@@ -35,6 +37,8 @@ type MenuPhase = "closed" | "open" | "closing";
 export function Header() {
   const pathname = usePathname();
   const { user, logout } = useApp();
+  const { openDownloads } = useDownloadActions();
+  const { activeCount } = useDownloads();
   const { refresh: refreshNotifications } = useTelegramNotify();
   const [scrolled, setScrolled] = useState(false);
   const [menuPhase, setMenuPhase] = useState<MenuPhase>("closed");
@@ -152,7 +156,7 @@ export function Header() {
       <header className="fixed inset-x-0 top-0 z-[70] px-3 pt-3 sm:px-4">
         <div
           className={cn(
-            "mx-auto flex h-14 w-full max-w-[1280px] items-center justify-between gap-4 rounded-3xl border px-3 shadow-lift backdrop-blur-[6px] backdrop-saturate-150 transition-colors duration-500 sm:h-16 sm:px-6 lg:px-10",
+            "glass-surface mx-auto flex h-14 w-full max-w-[1280px] items-center justify-between gap-4 rounded-3xl border px-3 shadow-lift backdrop-blur-[6px] backdrop-saturate-150 transition-colors duration-500 sm:h-16 sm:px-6 lg:px-10",
             scrolled
               ? "border-white/[0.12] bg-[rgba(10,10,16,.48)] sm:bg-[rgba(10,10,16,.58)]"
               : "border-white/[0.09] bg-[rgba(10,10,16,.32)] sm:bg-[rgba(10,10,16,.32)]",
@@ -180,6 +184,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <CommandPalette compact shortcut={pathname !== "/browse"} />
             {user ? (
               <div className="relative">
@@ -192,22 +197,22 @@ export function Header() {
                   aria-label={user ? `حساب ${user.name}` : "حساب کاربری"}
                   title="حساب کاربری"
                   className={cn(
-                    "group grid size-10 shrink-0 place-items-center rounded-full outline-none transition-transform duration-200 hover:scale-[1.04] active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-300/45 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950",
+                    "group grid size-11 shrink-0 place-items-center rounded-full outline-none transition-transform duration-200 hover:scale-[1.04] active:scale-95 focus-visible:ring-2 focus-visible:ring-amber-300/45 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-950",
                     menuOpen && "scale-[1.04]",
                   )}
                 >
                   <span
                     className={cn(
-                      "grid size-9 place-items-center rounded-full bg-amber-400 text-[#1a1206] shadow-[inset_0_1px_0_rgba(255,255,255,.28),0_8px_18px_-12px_rgba(255,214,10,.65)] ring-1 ring-white/15 transition-shadow duration-200",
+                      "header-account-disc grid size-11 place-items-center rounded-full bg-amber-400 text-[#1a1206] shadow-[inset_0_1px_0_rgba(255,255,255,.28),0_8px_18px_-12px_rgba(255,214,10,.65)] ring-1 ring-white/15 transition-shadow duration-200",
                       menuOpen && "ring-2 ring-amber-200/40",
                     )}
                   >
-                    <UserRound className="size-5" strokeWidth={2.2} />
+                    <UserRound className="size-5" strokeWidth={2} />
                   </span>
                 </button>
               </div>
             ) : (
-              <Link href="/login" className="btn btn-glass btn-sm">
+              <Link href="/login" className="btn btn-glass size-11 shrink-0 p-0 text-xs text-amber-300">
                 ورود
               </Link>
             )}
@@ -227,7 +232,7 @@ export function Header() {
                 />
               ) : null}
               <div
-                role="menu"
+                data-account-menu-positioner
                 style={{ top: menuPos.top, left: menuPos.left }}
                 className={cn(
                   "fixed z-[85] w-[236px] origin-top-left transition-[opacity,transform] duration-[460ms] ease-[cubic-bezier(0.16,1,0.3,1)]",
@@ -248,6 +253,8 @@ export function Header() {
                 />
                 <div
                   ref={menuRef}
+                  role="menu"
+                  aria-label="حساب کاربری"
                   tabIndex={-1}
                   className="relative overflow-hidden rounded-2xl border border-white/[0.11] bg-[rgba(8,8,13,.82)] p-1.5 shadow-[0_24px_60px_rgba(0,0,0,.55),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-[18px] backdrop-saturate-[1.55]"
                 >
@@ -270,6 +277,12 @@ export function Header() {
                     <div className="border-b border-white/[0.06] py-1">
                       <TelegramNotifyRow variant="menu" />
                     </div>
+
+                    <button type="button" role="menuitem" onClick={() => { closeMenu(); openDownloads(); }}
+                      className="flex min-h-11 w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-right text-xs text-content-soft transition-colors hover:bg-white/[0.06] hover:text-white">
+                      <Download className="size-3.5" />دانلودهای من
+                      {activeCount > 0 && <span className="ms-auto rounded-full bg-amber-400/15 px-2 py-0.5 text-[10px] text-amber-300">{activeCount > 99 ? "۹۹+" : activeCount.toLocaleString("fa-IR")}</span>}
+                    </button>
 
                     {adminVisible ? <Link href="/admin" role="menuitem" onClick={closeMenu}
                       className="mt-1 flex min-h-11 items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-content-soft hover:bg-white/[0.06] hover:text-white">

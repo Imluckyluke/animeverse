@@ -35,7 +35,7 @@ export function GET(request: NextRequest) {
   const episode = Number(request.nextUrl.searchParams.get("ep") ?? "0");
   const quality = request.nextUrl.searchParams.get("q") ?? "";
 
-  const anime = ANIME.find((item) => item.slug === slug && item.source === "aniplus");
+  const anime = ANIME.find((item) => item.slug === slug && (item.source === "aniplus" || item.source === "archive"));
   if (!anime) {
     return NextResponse.json({ ok: false, status: "not-found" }, { status: 404 });
   }

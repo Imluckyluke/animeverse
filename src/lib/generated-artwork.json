@@ -1,0 +1,776 @@
+{
+  "artwork": {
+    "bunny-drop": {
+      "cover": "/covers/enriched/bunny-drop-10162-9ed30073d3d5.webp"
+    },
+    "violet-evergarden": {
+      "cover": "/covers/enriched/violet-evergarden-21827-99bae524edb2.webp"
+    },
+    "ergo-proxy": {
+      "cover": "/covers/enriched/ergo-proxy-790-8ab7c1bc9c35.webp"
+    },
+    "marriagetoxin": {
+      "cover": "/covers/enriched/marriagetoxin-199547-1eb565d74359.webp"
+    },
+    "kaiju-girl-caramelise": {
+      "cover": "/covers/enriched/kaiju-girl-caramelise-204466-1f545eaca4d0.webp"
+    },
+    "bang-dream-yume-mita": {
+      "cover": "/covers/enriched/bang-dream-yume-mita-198376-f833c1559100.webp"
+    },
+    "bungo-stray-dogs-wan-2": {
+      "cover": "/covers/enriched/bungo-stray-dogs-wan-2-201667-810a0738a674.webp"
+    },
+    "the-beginning-after-the-end-season-2": {
+      "cover": "/covers/enriched/the-beginning-after-the-end-season-2-194317-26299216501d.webp"
+    },
+    "pardon-the-intrusion-im-home": {
+      "cover": "/covers/enriched/pardon-the-intrusion-im-home-202985-8e91d1e85bf6.webp"
+    },
+    "snowball-earth": {
+      "cover": "/covers/enriched/snowball-earth-196144-25cdde4feeba.webp"
+    },
+    "agents-of-the-four-seasons-dance-of-spring": {
+      "cover": "/covers/enriched/agents-of-the-four-seasons-dance-of-spring-190143-45e6a1ee132a.webp"
+    },
+    "even-a-replica-can-fall-in-love": {
+      "cover": "/covers/enriched/even-a-replica-can-fall-in-love-186744-89b94252df36.webp"
+    },
+    "petals-of-reincarnation": {
+      "cover": "/covers/enriched/petals-of-reincarnation-179950-8b60c4a27372.webp"
+    },
+    "the-klutzy-class-monitor-and-the-girl-with-the-short-skirt": {
+      "cover": "/covers/enriched/the-klutzy-class-monitor-and-the-girl-with-the-short-skirt-189987-1c99a9dc2ba5.webp"
+    },
+    "nippon-sangoku-the-three-nations-of-the-crimson-sun": {
+      "cover": "/covers/enriched/nippon-sangoku-the-three-nations-of-the-crimson-sun-206914-605a6bc58131.webp"
+    },
+    "kujima-why-sing-when-you-can-warble": {
+      "cover": "/covers/enriched/kujima-why-sing-when-you-can-warble-177508-44453ddc3581.webp"
+    },
+    "botan-kamiina-fully-blossoms-when-drunk": {
+      "cover": "/covers/enriched/botan-kamiina-fully-blossoms-when-drunk-187869-5d94b4803b9b.webp"
+    },
+    "hokuto-no-ken-fist-of-the-north-star": {
+      "cover": "/covers/enriched/hokuto-no-ken-fist-of-the-north-star-169228-195f0c8d201d.webp"
+    },
+    "a-hundred-scenes-of-awajima": {
+      "cover": "/covers/enriched/a-hundred-scenes-of-awajima-177501-dece068a4569.webp"
+    },
+    "kusunokis-garden-of-gods": {
+      "cover": "/covers/enriched/kusunokis-garden-of-gods-196029-c5ace70d5c1e.webp"
+    },
+    "eren-the-southpaw": {
+      "cover": "/covers/enriched/eren-the-southpaw-158036-e6186b0c25d9.webp"
+    },
+    "the-dinner-table-detective": {
+      "cover": "/covers/enriched/the-dinner-table-detective-184989-af89ba337537.webp"
+    },
+    "muromi-san": {
+      "cover": "/covers/enriched/muromi-san-16910-f1b3f15399de.webp"
+    },
+    "i-want-to-end-this-love-game": {
+      "cover": "/covers/enriched/i-want-to-end-this-love-game-194393-0ffb199b4ffc.webp"
+    },
+    "scum-of-the-brave": {
+      "cover": "/covers/enriched/scum-of-the-brave-187989-cf4ac855b0d5.webp"
+    },
+    "always-a-catch": {
+      "cover": "/covers/enriched/always-a-catch-201817-d6717e84bdaf.webp"
+    },
+    "needy-girl-overdose": {
+      "cover": "/covers/enriched/needy-girl-overdose-202102-e0170adf4467.webp"
+    },
+    "the-food-diary-of-miss-maid": {
+      "cover": "/covers/enriched/the-food-diary-of-miss-maid-197868-523b1e758721.webp"
+    },
+    "kirio-fan-club": {
+      "cover": "/covers/enriched/kirio-fan-club-181284-fafa617893ce.webp"
+    },
+    "reborn-as-a-vending-machine-i-now-wander-the-dungeon-season-3": {
+      "cover": "/covers/enriched/reborn-as-a-vending-machine-i-now-wander-the-dungeon-season-3-198939-060201f07b21.webp"
+    },
+    "haibaras-teenage-new-game-plus": {
+      "cover": "/covers/enriched/haibaras-teenage-new-game-plus-195333-0ba8f7bb0df5.webp"
+    },
+    "my-hero-academia-vigilantes-season-2": {
+      "cover": "/covers/enriched/my-hero-academia-vigilantes-season-2-195322-3a151b2eb423.webp"
+    },
+    "you-cant-be-in-a-rom-com-with-your-childhood-friends": {
+      "cover": "/covers/enriched/you-cant-be-in-a-rom-com-with-your-childhood-friends-189565-10e2a2867fba.webp"
+    },
+    "in-the-clear-moonlit-dusk": {
+      "cover": "/covers/enriched/in-the-clear-moonlit-dusk-192507-7b6cd5ccdd3a.webp"
+    },
+    "the-banished-court-magician-aims-to-become-the-strongest": {
+      "cover": "/covers/enriched/the-banished-court-magician-aims-to-become-the-strongest-188487-00f4d969494d.webp"
+    },
+    "chillin-in-another-world-with-level-2-super-cheat-powers": {
+      "cover": "/covers/enriched/chillin-in-another-world-with-level-2-super-cheat-powers-170130-c78f3a1bb7d1.webp"
+    },
+    "golden-time": {
+      "cover": "/covers/enriched/golden-time-17895-a28b4619edbf.webp"
+    },
+    "the-invisible-man-and-his-soon-to-be-wife": {
+      "cover": "/covers/enriched/the-invisible-man-and-his-soon-to-be-wife-185039-bd32af886924.webp"
+    },
+    "reincarnated-as-a-dragon-hatchling": {
+      "cover": "/covers/enriched/reincarnated-as-a-dragon-hatchling-187941-e8169cf933e4.webp"
+    },
+    "tamons-b-side": {
+      "cover": "/covers/enriched/tamons-b-side-178005-323569a8ea56.webp"
+    },
+    "trigun-stargaze": {
+      "cover": "/covers/enriched/trigun-stargaze-163144-d68c0cc4dec3.webp"
+    },
+    "tune-in-to-the-midnight-heart": {
+      "cover": "/covers/enriched/tune-in-to-the-midnight-heart-187942-b43f3ae9e94e.webp"
+    },
+    "kaya-chan-isnt-scary": {
+      "cover": "/covers/enriched/kaya-chan-isnt-scary-183660-86bfe130b645.webp"
+    },
+    "rokka-braves-of-the-six-flowers": {
+      "cover": "/covers/enriched/rokka-braves-of-the-six-flowers-20955-78f3985f7137.webp"
+    },
+    "akame-ga-kill": {
+      "cover": "/covers/enriched/akame-ga-kill-20613-ab53780a8e13.webp"
+    },
+    "terror-in-resonance": {
+      "cover": "/covers/enriched/terror-in-resonance-20661-1946016df8d7.webp"
+    },
+    "erased": {
+      "cover": "/covers/enriched/erased-21234-73e0ff7e03a2.webp"
+    },
+    "death-parade": {
+      "cover": "/covers/enriched/death-parade-20931-b438a1a5454b.webp"
+    },
+    "angel-beats": {
+      "cover": "/covers/enriched/angel-beats-6547-2336f2ed8c68.webp"
+    },
+    "tonikawa-over-the-moon-for-you": {
+      "cover": "/covers/enriched/tonikawa-over-the-moon-for-you-116267-2073919b712a.webp"
+    },
+    "fate-zero": {
+      "cover": "/covers/enriched/fate-zero-10087-fdd8eef25838.webp"
+    },
+    "dororo": {
+      "cover": "/covers/enriched/dororo-101347-b2bd24f69ec2.webp"
+    },
+    "high-school-of-the-dead": {
+      "cover": "/covers/enriched/high-school-of-the-dead-8074-bc6259a57b06.webp"
+    },
+    "steins-gate": {
+      "cover": "/covers/enriched/steins-gate-9253-4feafa488857.webp"
+    },
+    "aiura": {
+      "cover": "/covers/enriched/aiura-17082-33e8443408f3.webp"
+    },
+    "hells-paradise": {
+      "cover": "/covers/enriched/hells-paradise-128893-eacfaa2cf2b6.webp"
+    },
+    "the-eminence-in-shadow": {
+      "cover": "/covers/enriched/the-eminence-in-shadow-130298-7819d10fc555.webp"
+    },
+    "wolfs-rain": {
+      "cover": "/covers/enriched/wolfs-rain-202-fe589d197e73.webp"
+    },
+    "young-black-jack": {
+      "cover": "/covers/enriched/young-black-jack-21187-c03835f364ef.webp"
+    },
+    "wise-mans-grandchild": {
+      "cover": "/covers/enriched/wise-mans-grandchild-100112-68284ec9a835.webp"
+    },
+    "a-certain-scientific-accelerator": {
+      "cover": "/covers/enriched/a-certain-scientific-accelerator-104463-863a63985118.webp"
+    },
+    "noragami": {
+      "cover": "/covers/enriched/noragami-20447-a946fb2143df.webp"
+    },
+    "your-lie-in-april": {
+      "cover": "/covers/enriched/your-lie-in-april-20665-df4914413fa4.webp"
+    },
+    "izetta-the-last-witch": {
+      "cover": "/covers/enriched/izetta-the-last-witch-21838-67874a3aa5f3.webp"
+    },
+    "grand-blue-dreaming": {
+      "cover": "/covers/enriched/grand-blue-dreaming-100922-4063110b2fe8.webp"
+    },
+    "psychic-detective-yakumo": {
+      "cover": "/covers/enriched/psychic-detective-yakumo-7662-742e2f6d5d68.webp"
+    },
+    "tokyo-underground": {
+      "cover": "/covers/enriched/tokyo-underground-175-75fde5a4b83d.webp"
+    },
+    "havent-you-heard-im-sakamoto": {
+      "cover": "/covers/enriched/havent-you-heard-im-sakamoto-21595-2c83661fb313.webp"
+    },
+    "the-rose-of-versailles": {
+      "cover": "/covers/enriched/the-rose-of-versailles-338-4159600521fa.webp"
+    },
+    "fruits-basket-the-final": {
+      "cover": "/covers/enriched/fruits-basket-the-final-124194-3dab1f741bd3.webp"
+    },
+    "the-chosen-one": {
+      "cover": "/covers/enriched/the-chosen-one-168087-1bfd90eb399c.webp"
+    },
+    "terror-man": {
+      "cover": "/covers/enriched/terror-man-166039-1cc0f2465b73.webp"
+    },
+    "inuyasha-the-movie-affections-touching-across-time": {
+      "cover": "/covers/enriched/inuyasha-the-movie-affections-touching-across-time-452-5bffbb82db63.webp"
+    },
+    "release-that-witch": {
+      "cover": "/covers/enriched/release-that-witch-137662-02a1a88cbe53.webp"
+    },
+    "mary-and-the-witchs-flower": {
+      "cover": "/covers/enriched/mary-and-the-witchs-flower-97981-8525b23b7ecc.webp"
+    },
+    "isekai-nonbiri-nouka-2": {
+      "cover": "/covers/enriched/isekai-nonbiri-nouka-2-197824-d1366c983c30.webp"
+    },
+    "higeki-no-genkyou-to-naru-saikyou-gedou-last-boss-joou-wa-tami-no-tame-ni-tsukus": {
+      "cover": "/covers/enriched/higeki-no-genkyou-to-naru-saikyou-gedou-last-boss-joou-wa-tami-no-tame-ni-tsukus-195268-5f0a63e47313.webp"
+    },
+    "himekishi-wa-barbaroi-no-yome": {
+      "cover": "/covers/enriched/himekishi-wa-barbaroi-no-yome-182483-36ee6a1e0bcb.webp"
+    },
+    "kill-ao": {
+      "cover": "/covers/enriched/kill-ao-198113-52759552f389.webp"
+    },
+    "diamond-no-ace-act-ii-second-season": {
+      "cover": "/covers/enriched/diamond-no-ace-act-ii-second-season-177634-4cb0a040e4d8.webp"
+    },
+    "spirited-away": {
+      "cover": "/covers/enriched/spirited-away-199-983d0ecae4d7.webp"
+    },
+    "tsue-to-tsurugi-no-wistoria-season-2": {
+      "cover": "/covers/enriched/tsue-to-tsurugi-no-wistoria-season-2-182300-e60591bc5f5c.webp"
+    },
+    "garakowa-restore-the-world": {
+      "cover": "/covers/enriched/garakowa-restore-the-world-21042-5d48a8daae23.webp"
+    },
+    "vampire-hunter-d-bloodlust": {
+      "cover": "/covers/enriched/vampire-hunter-d-bloodlust-543-286d5767a41a.webp"
+    },
+    "gangsta": {
+      "cover": "/covers/enriched/gangsta-20773-5823a656c819.webp"
+    },
+    "ne-zha-2": {
+      "cover": "/covers/enriched/ne-zha-2-186861-0a92ed60d9e2.webp"
+    },
+    "yu-ling-shi": {
+      "cover": "/covers/enriched/yu-ling-shi-199411-049f1f10311d.webp"
+    },
+    "black-clover-sword-of-the-wizard-king": {
+      "cover": "/covers/enriched/black-clover-sword-of-the-wizard-king-131680-268b455b85fc.webp"
+    },
+    "sousou-no-frieren-2nd-season": {
+      "cover": "/covers/enriched/sousou-no-frieren-2nd-season-182255-72d057461d50.webp"
+    },
+    "kusuriya-no-hitorigoto": {
+      "cover": "/covers/enriched/kusuriya-no-hitorigoto-161645-e43368b3bddb.webp"
+    },
+    "hibi-wa-sugiredo-meshi-umashi": {
+      "cover": "/covers/enriched/hibi-wa-sugiredo-meshi-umashi-185939-82aabfae7a31.webp"
+    },
+    "hana-wa-saku-shura-no-gotoku": {
+      "cover": "/covers/enriched/hana-wa-saku-shura-no-gotoku-178022-8b3e6122adf2.webp"
+    },
+    "dr-stone-2": {
+      "cover": "/covers/enriched/dr-stone-2-105333-e24a547ba3c4.webp"
+    },
+    "chitose-kun-wa-ramune-bin-no-naka": {
+      "cover": "/covers/enriched/chitose-kun-wa-ramune-bin-no-naka-180082-736a96c98d5d.webp"
+    },
+    "91-days": {
+      "cover": "/covers/enriched/91-days-21711-8217f8329656.webp"
+    },
+    "bungou-stray-dogs-5th-season": {
+      "cover": "/covers/enriched/bungou-stray-dogs-5th-season-163263-22fe805a1090.webp"
+    },
+    "the-new-gate-2": {
+      "cover": "/covers/enriched/the-new-gate-2-170890-1047edb6076f.webp"
+    },
+    "ameku-takao-no-suiri-karte": {
+      "cover": "/covers/enriched/ameku-takao-no-suiri-karte-176642-9b58d4f49219.webp"
+    },
+    "blue-lock-2": {
+      "cover": "/covers/enriched/blue-lock-2-137822-55f837b7985a.webp"
+    },
+    "chainsaw-man-2": {
+      "cover": "/covers/enriched/chainsaw-man-2-127230-21f481a7b1ae.webp"
+    },
+    "aru-majo-ga-shinu-made": {
+      "cover": "/covers/enriched/aru-majo-ga-shinu-made-178701-6a33dc016935.webp"
+    },
+    "teogonia-2": {
+      "cover": "/covers/enriched/teogonia-2-176702-c3ba53e32a68.webp"
+    },
+    "made-in-abyss-2": {
+      "cover": "/covers/enriched/made-in-abyss-2-97986-6d1171334d43.webp"
+    },
+    "left-hand-layup": {
+      "cover": "/covers/enriched/left-hand-layup-131485-66479f6f8cfc.webp"
+    },
+    "mythical-creatures-are-my-dinners": {
+      "cover": "/covers/enriched/mythical-creatures-are-my-dinners-156097-3ed665aa4079.webp"
+    },
+    "hige-wo-soru-soshite-joshikousei-wo-hirou": {
+      "cover": "/covers/enriched/hige-wo-soru-soshite-joshikousei-wo-hirou-114232-a4326f27b39a.webp"
+    }
+  },
+  "variants": {
+    "/covers/enriched/inuyasha-the-movie-affections-touching-across-time-452-5bffbb82db63.webp": {
+      "thumb": "/covers/enriched/inuyasha-the-movie-affections-touching-across-time-452-5bffbb82db63-thumb.webp",
+      "srcSet": "/covers/enriched/inuyasha-the-movie-affections-touching-across-time-452-5bffbb82db63.webp 460w"
+    },
+    "/covers/enriched/spirited-away-199-983d0ecae4d7.webp": {
+      "thumb": "/covers/enriched/spirited-away-199-983d0ecae4d7-thumb.webp",
+      "srcSet": "/covers/enriched/spirited-away-199-983d0ecae4d7.webp 460w"
+    },
+    "/covers/enriched/mary-and-the-witchs-flower-97981-8525b23b7ecc.webp": {
+      "thumb": "/covers/enriched/mary-and-the-witchs-flower-97981-8525b23b7ecc-thumb.webp",
+      "srcSet": "/covers/enriched/mary-and-the-witchs-flower-97981-8525b23b7ecc.webp 460w"
+    },
+    "/covers/enriched/bunny-drop-10162-9ed30073d3d5.webp": {
+      "thumb": "/covers/enriched/bunny-drop-10162-9ed30073d3d5-thumb.webp",
+      "srcSet": "/covers/enriched/bunny-drop-10162-9ed30073d3d5.webp 460w"
+    },
+    "/covers/enriched/violet-evergarden-21827-99bae524edb2.webp": {
+      "thumb": "/covers/enriched/violet-evergarden-21827-99bae524edb2-thumb.webp",
+      "srcSet": "/covers/enriched/violet-evergarden-21827-99bae524edb2.webp 460w"
+    },
+    "/covers/enriched/ergo-proxy-790-8ab7c1bc9c35.webp": {
+      "thumb": "/covers/enriched/ergo-proxy-790-8ab7c1bc9c35-thumb.webp",
+      "srcSet": "/covers/enriched/ergo-proxy-790-8ab7c1bc9c35.webp 460w"
+    },
+    "/covers/enriched/the-chosen-one-168087-1bfd90eb399c.webp": {
+      "thumb": "/covers/enriched/the-chosen-one-168087-1bfd90eb399c-thumb.webp",
+      "srcSet": "/covers/enriched/the-chosen-one-168087-1bfd90eb399c.webp 460w"
+    },
+    "/covers/enriched/terror-man-166039-1cc0f2465b73.webp": {
+      "thumb": "/covers/enriched/terror-man-166039-1cc0f2465b73-thumb.webp",
+      "srcSet": "/covers/enriched/terror-man-166039-1cc0f2465b73.webp 460w"
+    },
+    "/covers/enriched/marriagetoxin-199547-1eb565d74359.webp": {
+      "thumb": "/covers/enriched/marriagetoxin-199547-1eb565d74359-thumb.webp",
+      "srcSet": "/covers/enriched/marriagetoxin-199547-1eb565d74359.webp 460w"
+    },
+    "/covers/enriched/kaiju-girl-caramelise-204466-1f545eaca4d0.webp": {
+      "thumb": "/covers/enriched/kaiju-girl-caramelise-204466-1f545eaca4d0-thumb.webp",
+      "srcSet": "/covers/enriched/kaiju-girl-caramelise-204466-1f545eaca4d0.webp 460w"
+    },
+    "/covers/enriched/bang-dream-yume-mita-198376-f833c1559100.webp": {
+      "thumb": "/covers/enriched/bang-dream-yume-mita-198376-f833c1559100-thumb.webp",
+      "srcSet": "/covers/enriched/bang-dream-yume-mita-198376-f833c1559100.webp 460w"
+    },
+    "/covers/enriched/bungo-stray-dogs-wan-2-201667-810a0738a674.webp": {
+      "thumb": "/covers/enriched/bungo-stray-dogs-wan-2-201667-810a0738a674-thumb.webp",
+      "srcSet": "/covers/enriched/bungo-stray-dogs-wan-2-201667-810a0738a674.webp 460w"
+    },
+    "/covers/enriched/the-beginning-after-the-end-season-2-194317-26299216501d.webp": {
+      "thumb": "/covers/enriched/the-beginning-after-the-end-season-2-194317-26299216501d-thumb.webp",
+      "srcSet": "/covers/enriched/the-beginning-after-the-end-season-2-194317-26299216501d.webp 460w"
+    },
+    "/covers/enriched/pardon-the-intrusion-im-home-202985-8e91d1e85bf6.webp": {
+      "thumb": "/covers/enriched/pardon-the-intrusion-im-home-202985-8e91d1e85bf6-thumb.webp",
+      "srcSet": "/covers/enriched/pardon-the-intrusion-im-home-202985-8e91d1e85bf6.webp 460w"
+    },
+    "/covers/enriched/snowball-earth-196144-25cdde4feeba.webp": {
+      "thumb": "/covers/enriched/snowball-earth-196144-25cdde4feeba-thumb.webp",
+      "srcSet": "/covers/enriched/snowball-earth-196144-25cdde4feeba.webp 460w"
+    },
+    "/covers/enriched/agents-of-the-four-seasons-dance-of-spring-190143-45e6a1ee132a.webp": {
+      "thumb": "/covers/enriched/agents-of-the-four-seasons-dance-of-spring-190143-45e6a1ee132a-thumb.webp",
+      "srcSet": "/covers/enriched/agents-of-the-four-seasons-dance-of-spring-190143-45e6a1ee132a.webp 460w"
+    },
+    "/covers/enriched/even-a-replica-can-fall-in-love-186744-89b94252df36.webp": {
+      "thumb": "/covers/enriched/even-a-replica-can-fall-in-love-186744-89b94252df36-thumb.webp",
+      "srcSet": "/covers/enriched/even-a-replica-can-fall-in-love-186744-89b94252df36.webp 460w"
+    },
+    "/covers/enriched/petals-of-reincarnation-179950-8b60c4a27372.webp": {
+      "thumb": "/covers/enriched/petals-of-reincarnation-179950-8b60c4a27372-thumb.webp",
+      "srcSet": "/covers/enriched/petals-of-reincarnation-179950-8b60c4a27372.webp 460w"
+    },
+    "/covers/enriched/the-klutzy-class-monitor-and-the-girl-with-the-short-skirt-189987-1c99a9dc2ba5.webp": {
+      "thumb": "/covers/enriched/the-klutzy-class-monitor-and-the-girl-with-the-short-skirt-189987-1c99a9dc2ba5-thumb.webp",
+      "srcSet": "/covers/enriched/the-klutzy-class-monitor-and-the-girl-with-the-short-skirt-189987-1c99a9dc2ba5.webp 460w"
+    },
+    "/covers/enriched/nippon-sangoku-the-three-nations-of-the-crimson-sun-206914-605a6bc58131.webp": {
+      "thumb": "/covers/enriched/nippon-sangoku-the-three-nations-of-the-crimson-sun-206914-605a6bc58131-thumb.webp",
+      "srcSet": "/covers/enriched/nippon-sangoku-the-three-nations-of-the-crimson-sun-206914-605a6bc58131.webp 460w"
+    },
+    "/covers/enriched/kujima-why-sing-when-you-can-warble-177508-44453ddc3581.webp": {
+      "thumb": "/covers/enriched/kujima-why-sing-when-you-can-warble-177508-44453ddc3581-thumb.webp",
+      "srcSet": "/covers/enriched/kujima-why-sing-when-you-can-warble-177508-44453ddc3581.webp 460w"
+    },
+    "/covers/enriched/botan-kamiina-fully-blossoms-when-drunk-187869-5d94b4803b9b.webp": {
+      "thumb": "/covers/enriched/botan-kamiina-fully-blossoms-when-drunk-187869-5d94b4803b9b-thumb.webp",
+      "srcSet": "/covers/enriched/botan-kamiina-fully-blossoms-when-drunk-187869-5d94b4803b9b.webp 460w"
+    },
+    "/covers/enriched/hokuto-no-ken-fist-of-the-north-star-169228-195f0c8d201d.webp": {
+      "thumb": "/covers/enriched/hokuto-no-ken-fist-of-the-north-star-169228-195f0c8d201d-thumb.webp",
+      "srcSet": "/covers/enriched/hokuto-no-ken-fist-of-the-north-star-169228-195f0c8d201d.webp 460w"
+    },
+    "/covers/enriched/a-hundred-scenes-of-awajima-177501-dece068a4569.webp": {
+      "thumb": "/covers/enriched/a-hundred-scenes-of-awajima-177501-dece068a4569-thumb.webp",
+      "srcSet": "/covers/enriched/a-hundred-scenes-of-awajima-177501-dece068a4569.webp 460w"
+    },
+    "/covers/enriched/kusunokis-garden-of-gods-196029-c5ace70d5c1e.webp": {
+      "thumb": "/covers/enriched/kusunokis-garden-of-gods-196029-c5ace70d5c1e-thumb.webp",
+      "srcSet": "/covers/enriched/kusunokis-garden-of-gods-196029-c5ace70d5c1e.webp 460w"
+    },
+    "/covers/enriched/eren-the-southpaw-158036-e6186b0c25d9.webp": {
+      "thumb": "/covers/enriched/eren-the-southpaw-158036-e6186b0c25d9-thumb.webp",
+      "srcSet": "/covers/enriched/eren-the-southpaw-158036-e6186b0c25d9.webp 460w"
+    },
+    "/covers/enriched/the-dinner-table-detective-184989-af89ba337537.webp": {
+      "thumb": "/covers/enriched/the-dinner-table-detective-184989-af89ba337537-thumb.webp",
+      "srcSet": "/covers/enriched/the-dinner-table-detective-184989-af89ba337537.webp 460w"
+    },
+    "/covers/enriched/muromi-san-16910-f1b3f15399de.webp": {
+      "thumb": "/covers/enriched/muromi-san-16910-f1b3f15399de-thumb.webp",
+      "srcSet": "/covers/enriched/muromi-san-16910-f1b3f15399de.webp 460w"
+    },
+    "/covers/enriched/i-want-to-end-this-love-game-194393-0ffb199b4ffc.webp": {
+      "thumb": "/covers/enriched/i-want-to-end-this-love-game-194393-0ffb199b4ffc-thumb.webp",
+      "srcSet": "/covers/enriched/i-want-to-end-this-love-game-194393-0ffb199b4ffc.webp 460w"
+    },
+    "/covers/enriched/scum-of-the-brave-187989-cf4ac855b0d5.webp": {
+      "thumb": "/covers/enriched/scum-of-the-brave-187989-cf4ac855b0d5-thumb.webp",
+      "srcSet": "/covers/enriched/scum-of-the-brave-187989-cf4ac855b0d5.webp 460w"
+    },
+    "/covers/enriched/always-a-catch-201817-d6717e84bdaf.webp": {
+      "thumb": "/covers/enriched/always-a-catch-201817-d6717e84bdaf-thumb.webp",
+      "srcSet": "/covers/enriched/always-a-catch-201817-d6717e84bdaf.webp 460w"
+    },
+    "/covers/enriched/needy-girl-overdose-202102-e0170adf4467.webp": {
+      "thumb": "/covers/enriched/needy-girl-overdose-202102-e0170adf4467-thumb.webp",
+      "srcSet": "/covers/enriched/needy-girl-overdose-202102-e0170adf4467.webp 460w"
+    },
+    "/covers/enriched/the-food-diary-of-miss-maid-197868-523b1e758721.webp": {
+      "thumb": "/covers/enriched/the-food-diary-of-miss-maid-197868-523b1e758721-thumb.webp",
+      "srcSet": "/covers/enriched/the-food-diary-of-miss-maid-197868-523b1e758721.webp 460w"
+    },
+    "/covers/enriched/kirio-fan-club-181284-fafa617893ce.webp": {
+      "thumb": "/covers/enriched/kirio-fan-club-181284-fafa617893ce-thumb.webp",
+      "srcSet": "/covers/enriched/kirio-fan-club-181284-fafa617893ce.webp 460w"
+    },
+    "/covers/enriched/reborn-as-a-vending-machine-i-now-wander-the-dungeon-season-3-198939-060201f07b21.webp": {
+      "thumb": "/covers/enriched/reborn-as-a-vending-machine-i-now-wander-the-dungeon-season-3-198939-060201f07b21-thumb.webp",
+      "srcSet": "/covers/enriched/reborn-as-a-vending-machine-i-now-wander-the-dungeon-season-3-198939-060201f07b21.webp 460w"
+    },
+    "/covers/enriched/haibaras-teenage-new-game-plus-195333-0ba8f7bb0df5.webp": {
+      "thumb": "/covers/enriched/haibaras-teenage-new-game-plus-195333-0ba8f7bb0df5-thumb.webp",
+      "srcSet": "/covers/enriched/haibaras-teenage-new-game-plus-195333-0ba8f7bb0df5.webp 460w"
+    },
+    "/covers/enriched/my-hero-academia-vigilantes-season-2-195322-3a151b2eb423.webp": {
+      "thumb": "/covers/enriched/my-hero-academia-vigilantes-season-2-195322-3a151b2eb423-thumb.webp",
+      "srcSet": "/covers/enriched/my-hero-academia-vigilantes-season-2-195322-3a151b2eb423.webp 460w"
+    },
+    "/covers/enriched/you-cant-be-in-a-rom-com-with-your-childhood-friends-189565-10e2a2867fba.webp": {
+      "thumb": "/covers/enriched/you-cant-be-in-a-rom-com-with-your-childhood-friends-189565-10e2a2867fba-thumb.webp",
+      "srcSet": "/covers/enriched/you-cant-be-in-a-rom-com-with-your-childhood-friends-189565-10e2a2867fba.webp 460w"
+    },
+    "/covers/enriched/in-the-clear-moonlit-dusk-192507-7b6cd5ccdd3a.webp": {
+      "thumb": "/covers/enriched/in-the-clear-moonlit-dusk-192507-7b6cd5ccdd3a-thumb.webp",
+      "srcSet": "/covers/enriched/in-the-clear-moonlit-dusk-192507-7b6cd5ccdd3a.webp 460w"
+    },
+    "/covers/enriched/release-that-witch-137662-02a1a88cbe53.webp": {
+      "thumb": "/covers/enriched/release-that-witch-137662-02a1a88cbe53-thumb.webp",
+      "srcSet": "/covers/enriched/release-that-witch-137662-02a1a88cbe53.webp 460w"
+    },
+    "/covers/enriched/synduality-noir-154643-0ecda35f2c5f.webp": {
+      "thumb": "/covers/enriched/synduality-noir-154643-0ecda35f2c5f-thumb.webp",
+      "srcSet": "/covers/enriched/synduality-noir-154643-0ecda35f2c5f.webp 460w"
+    },
+    "/covers/enriched/the-banished-court-magician-aims-to-become-the-strongest-188487-00f4d969494d.webp": {
+      "thumb": "/covers/enriched/the-banished-court-magician-aims-to-become-the-strongest-188487-00f4d969494d-thumb.webp",
+      "srcSet": "/covers/enriched/the-banished-court-magician-aims-to-become-the-strongest-188487-00f4d969494d.webp 460w"
+    },
+    "/covers/enriched/chillin-in-another-world-with-level-2-super-cheat-powers-170130-c78f3a1bb7d1.webp": {
+      "thumb": "/covers/enriched/chillin-in-another-world-with-level-2-super-cheat-powers-170130-c78f3a1bb7d1-thumb.webp",
+      "srcSet": "/covers/enriched/chillin-in-another-world-with-level-2-super-cheat-powers-170130-c78f3a1bb7d1.webp 460w"
+    },
+    "/covers/enriched/golden-time-17895-a28b4619edbf.webp": {
+      "thumb": "/covers/enriched/golden-time-17895-a28b4619edbf-thumb.webp",
+      "srcSet": "/covers/enriched/golden-time-17895-a28b4619edbf.webp 460w"
+    },
+    "/covers/enriched/garakowa-restore-the-world-21042-5d48a8daae23.webp": {
+      "thumb": "/covers/enriched/garakowa-restore-the-world-21042-5d48a8daae23-thumb.webp",
+      "srcSet": "/covers/enriched/garakowa-restore-the-world-21042-5d48a8daae23.webp 460w"
+    },
+    "/covers/enriched/ginyuu-mokushiroku-meine-liebe-336-c1319abfc59d.webp": {
+      "thumb": "/covers/enriched/ginyuu-mokushiroku-meine-liebe-336-c1319abfc59d-thumb.webp",
+      "srcSet": "/covers/enriched/ginyuu-mokushiroku-meine-liebe-336-c1319abfc59d.webp 460w"
+    },
+    "/covers/enriched/the-invisible-man-and-his-soon-to-be-wife-185039-bd32af886924.webp": {
+      "thumb": "/covers/enriched/the-invisible-man-and-his-soon-to-be-wife-185039-bd32af886924-thumb.webp",
+      "srcSet": "/covers/enriched/the-invisible-man-and-his-soon-to-be-wife-185039-bd32af886924.webp 460w"
+    },
+    "/covers/enriched/reincarnated-as-a-dragon-hatchling-187941-e8169cf933e4.webp": {
+      "thumb": "/covers/enriched/reincarnated-as-a-dragon-hatchling-187941-e8169cf933e4-thumb.webp",
+      "srcSet": "/covers/enriched/reincarnated-as-a-dragon-hatchling-187941-e8169cf933e4.webp 460w"
+    },
+    "/covers/enriched/tamons-b-side-178005-323569a8ea56.webp": {
+      "thumb": "/covers/enriched/tamons-b-side-178005-323569a8ea56-thumb.webp",
+      "srcSet": "/covers/enriched/tamons-b-side-178005-323569a8ea56.webp 460w"
+    },
+    "/covers/enriched/trigun-stargaze-163144-d68c0cc4dec3.webp": {
+      "thumb": "/covers/enriched/trigun-stargaze-163144-d68c0cc4dec3-thumb.webp",
+      "srcSet": "/covers/enriched/trigun-stargaze-163144-d68c0cc4dec3.webp 460w"
+    },
+    "/covers/enriched/tune-in-to-the-midnight-heart-187942-b43f3ae9e94e.webp": {
+      "thumb": "/covers/enriched/tune-in-to-the-midnight-heart-187942-b43f3ae9e94e-thumb.webp",
+      "srcSet": "/covers/enriched/tune-in-to-the-midnight-heart-187942-b43f3ae9e94e.webp 460w"
+    },
+    "/covers/enriched/kaya-chan-isnt-scary-183660-86bfe130b645.webp": {
+      "thumb": "/covers/enriched/kaya-chan-isnt-scary-183660-86bfe130b645-thumb.webp",
+      "srcSet": "/covers/enriched/kaya-chan-isnt-scary-183660-86bfe130b645.webp 460w"
+    },
+    "/covers/enriched/rokka-braves-of-the-six-flowers-20955-78f3985f7137.webp": {
+      "thumb": "/covers/enriched/rokka-braves-of-the-six-flowers-20955-78f3985f7137-thumb.webp",
+      "srcSet": "/covers/enriched/rokka-braves-of-the-six-flowers-20955-78f3985f7137.webp 460w"
+    },
+    "/covers/enriched/akame-ga-kill-20613-ab53780a8e13.webp": {
+      "thumb": "/covers/enriched/akame-ga-kill-20613-ab53780a8e13-thumb.webp",
+      "srcSet": "/covers/enriched/akame-ga-kill-20613-ab53780a8e13.webp 460w"
+    },
+    "/covers/enriched/terror-in-resonance-20661-1946016df8d7.webp": {
+      "thumb": "/covers/enriched/terror-in-resonance-20661-1946016df8d7-thumb.webp",
+      "srcSet": "/covers/enriched/terror-in-resonance-20661-1946016df8d7.webp 460w"
+    },
+    "/covers/enriched/erased-21234-73e0ff7e03a2.webp": {
+      "thumb": "/covers/enriched/erased-21234-73e0ff7e03a2-thumb.webp",
+      "srcSet": "/covers/enriched/erased-21234-73e0ff7e03a2.webp 460w"
+    },
+    "/covers/enriched/death-parade-20931-b438a1a5454b.webp": {
+      "thumb": "/covers/enriched/death-parade-20931-b438a1a5454b-thumb.webp",
+      "srcSet": "/covers/enriched/death-parade-20931-b438a1a5454b.webp 460w"
+    },
+    "/covers/enriched/angel-beats-6547-2336f2ed8c68.webp": {
+      "thumb": "/covers/enriched/angel-beats-6547-2336f2ed8c68-thumb.webp",
+      "srcSet": "/covers/enriched/angel-beats-6547-2336f2ed8c68.webp 460w"
+    },
+    "/covers/enriched/vampire-hunter-d-bloodlust-543-286d5767a41a.webp": {
+      "thumb": "/covers/enriched/vampire-hunter-d-bloodlust-543-286d5767a41a-thumb.webp",
+      "srcSet": "/covers/enriched/vampire-hunter-d-bloodlust-543-286d5767a41a.webp 460w"
+    },
+    "/covers/enriched/tonikawa-over-the-moon-for-you-116267-2073919b712a.webp": {
+      "thumb": "/covers/enriched/tonikawa-over-the-moon-for-you-116267-2073919b712a-thumb.webp",
+      "srcSet": "/covers/enriched/tonikawa-over-the-moon-for-you-116267-2073919b712a.webp 460w"
+    },
+    "/covers/enriched/fate-zero-10087-fdd8eef25838.webp": {
+      "thumb": "/covers/enriched/fate-zero-10087-fdd8eef25838-thumb.webp",
+      "srcSet": "/covers/enriched/fate-zero-10087-fdd8eef25838.webp 460w"
+    },
+    "/covers/enriched/dororo-101347-b2bd24f69ec2.webp": {
+      "thumb": "/covers/enriched/dororo-101347-b2bd24f69ec2-thumb.webp",
+      "srcSet": "/covers/enriched/dororo-101347-b2bd24f69ec2.webp 460w"
+    },
+    "/covers/enriched/high-school-of-the-dead-8074-bc6259a57b06.webp": {
+      "thumb": "/covers/enriched/high-school-of-the-dead-8074-bc6259a57b06-thumb.webp",
+      "srcSet": "/covers/enriched/high-school-of-the-dead-8074-bc6259a57b06.webp 460w"
+    },
+    "/covers/enriched/steins-gate-9253-4feafa488857.webp": {
+      "thumb": "/covers/enriched/steins-gate-9253-4feafa488857-thumb.webp",
+      "srcSet": "/covers/enriched/steins-gate-9253-4feafa488857.webp 460w"
+    },
+    "/covers/enriched/aiura-17082-33e8443408f3.webp": {
+      "thumb": "/covers/enriched/aiura-17082-33e8443408f3-thumb.webp",
+      "srcSet": "/covers/enriched/aiura-17082-33e8443408f3.webp 460w"
+    },
+    "/covers/enriched/hells-paradise-128893-eacfaa2cf2b6.webp": {
+      "thumb": "/covers/enriched/hells-paradise-128893-eacfaa2cf2b6-thumb.webp",
+      "srcSet": "/covers/enriched/hells-paradise-128893-eacfaa2cf2b6.webp 460w"
+    },
+    "/covers/enriched/gangsta-20773-5823a656c819.webp": {
+      "thumb": "/covers/enriched/gangsta-20773-5823a656c819-thumb.webp",
+      "srcSet": "/covers/enriched/gangsta-20773-5823a656c819.webp 460w"
+    },
+    "/covers/enriched/the-eminence-in-shadow-130298-7819d10fc555.webp": {
+      "thumb": "/covers/enriched/the-eminence-in-shadow-130298-7819d10fc555-thumb.webp",
+      "srcSet": "/covers/enriched/the-eminence-in-shadow-130298-7819d10fc555.webp 460w"
+    },
+    "/covers/enriched/pui-pui-molcar-127690-d94d6011da2a.webp": {
+      "thumb": "/covers/enriched/pui-pui-molcar-127690-d94d6011da2a-thumb.webp",
+      "srcSet": "/covers/enriched/pui-pui-molcar-127690-d94d6011da2a.webp 460w"
+    },
+    "/covers/enriched/wolfs-rain-202-fe589d197e73.webp": {
+      "thumb": "/covers/enriched/wolfs-rain-202-fe589d197e73-thumb.webp",
+      "srcSet": "/covers/enriched/wolfs-rain-202-fe589d197e73.webp 460w"
+    },
+    "/covers/enriched/arc-the-lad-55-f1badb8a81cd.webp": {
+      "thumb": "/covers/enriched/arc-the-lad-55-f1badb8a81cd-thumb.webp",
+      "srcSet": "/covers/enriched/arc-the-lad-55-f1badb8a81cd.webp 460w"
+    },
+    "/covers/enriched/ne-zha-2-186861-0a92ed60d9e2.webp": {
+      "thumb": "/covers/enriched/ne-zha-2-186861-0a92ed60d9e2-thumb.webp",
+      "srcSet": "/covers/enriched/ne-zha-2-186861-0a92ed60d9e2.webp 460w"
+    },
+    "/covers/enriched/baise-shandian-137802-52e278f11fbd.webp": {
+      "thumb": "/covers/enriched/baise-shandian-137802-52e278f11fbd-thumb.webp",
+      "srcSet": "/covers/enriched/baise-shandian-137802-52e278f11fbd.webp 460w"
+    },
+    "/covers/enriched/black-clover-sword-of-the-wizard-king-131680-268b455b85fc.webp": {
+      "thumb": "/covers/enriched/black-clover-sword-of-the-wizard-king-131680-268b455b85fc-thumb.webp",
+      "srcSet": "/covers/enriched/black-clover-sword-of-the-wizard-king-131680-268b455b85fc.webp 460w"
+    },
+    "/covers/enriched/young-black-jack-21187-c03835f364ef.webp": {
+      "thumb": "/covers/enriched/young-black-jack-21187-c03835f364ef-thumb.webp",
+      "srcSet": "/covers/enriched/young-black-jack-21187-c03835f364ef.webp 460w"
+    },
+    "/covers/enriched/wise-mans-grandchild-100112-68284ec9a835.webp": {
+      "thumb": "/covers/enriched/wise-mans-grandchild-100112-68284ec9a835-thumb.webp",
+      "srcSet": "/covers/enriched/wise-mans-grandchild-100112-68284ec9a835.webp 460w"
+    },
+    "/covers/enriched/kimi-dake-ni-motetainda-111290-c8669674a97b.webp": {
+      "thumb": "/covers/enriched/kimi-dake-ni-motetainda-111290-c8669674a97b-thumb.webp",
+      "srcSet": "/covers/enriched/kimi-dake-ni-motetainda-111290-c8669674a97b.webp 460w"
+    },
+    "/covers/enriched/a-certain-scientific-accelerator-104463-863a63985118.webp": {
+      "thumb": "/covers/enriched/a-certain-scientific-accelerator-104463-863a63985118-thumb.webp",
+      "srcSet": "/covers/enriched/a-certain-scientific-accelerator-104463-863a63985118.webp 460w"
+    },
+    "/covers/enriched/noragami-20447-a946fb2143df.webp": {
+      "thumb": "/covers/enriched/noragami-20447-a946fb2143df-thumb.webp",
+      "srcSet": "/covers/enriched/noragami-20447-a946fb2143df.webp 460w"
+    },
+    "/covers/enriched/your-lie-in-april-20665-df4914413fa4.webp": {
+      "thumb": "/covers/enriched/your-lie-in-april-20665-df4914413fa4-thumb.webp",
+      "srcSet": "/covers/enriched/your-lie-in-april-20665-df4914413fa4.webp 460w"
+    },
+    "/covers/enriched/izetta-the-last-witch-21838-67874a3aa5f3.webp": {
+      "thumb": "/covers/enriched/izetta-the-last-witch-21838-67874a3aa5f3-thumb.webp",
+      "srcSet": "/covers/enriched/izetta-the-last-witch-21838-67874a3aa5f3.webp 460w"
+    },
+    "/covers/enriched/grand-blue-dreaming-100922-4063110b2fe8.webp": {
+      "thumb": "/covers/enriched/grand-blue-dreaming-100922-4063110b2fe8-thumb.webp",
+      "srcSet": "/covers/enriched/grand-blue-dreaming-100922-4063110b2fe8.webp 460w"
+    },
+    "/covers/enriched/psychic-detective-yakumo-7662-742e2f6d5d68.webp": {
+      "thumb": "/covers/enriched/psychic-detective-yakumo-7662-742e2f6d5d68-thumb.webp",
+      "srcSet": "/covers/enriched/psychic-detective-yakumo-7662-742e2f6d5d68.webp 460w"
+    },
+    "/covers/enriched/tokyo-underground-175-75fde5a4b83d.webp": {
+      "thumb": "/covers/enriched/tokyo-underground-175-75fde5a4b83d-thumb.webp",
+      "srcSet": "/covers/enriched/tokyo-underground-175-75fde5a4b83d.webp 460w"
+    },
+    "/covers/enriched/havent-you-heard-im-sakamoto-21595-2c83661fb313.webp": {
+      "thumb": "/covers/enriched/havent-you-heard-im-sakamoto-21595-2c83661fb313-thumb.webp",
+      "srcSet": "/covers/enriched/havent-you-heard-im-sakamoto-21595-2c83661fb313.webp 460w"
+    },
+    "/covers/enriched/kyou-kara-ore-wa-851-fd5975ee950b.webp": {
+      "thumb": "/covers/enriched/kyou-kara-ore-wa-851-fd5975ee950b-thumb.webp",
+      "srcSet": "/covers/enriched/kyou-kara-ore-wa-851-fd5975ee950b.webp 460w"
+    },
+    "/covers/enriched/the-rose-of-versailles-338-4159600521fa.webp": {
+      "thumb": "/covers/enriched/the-rose-of-versailles-338-4159600521fa-thumb.webp",
+      "srcSet": "/covers/enriched/the-rose-of-versailles-338-4159600521fa.webp 460w"
+    },
+    "/covers/enriched/left-hand-layup-131485-66479f6f8cfc.webp": {
+      "thumb": "/covers/enriched/left-hand-layup-131485-66479f6f8cfc-thumb.webp",
+      "srcSet": "/covers/enriched/left-hand-layup-131485-66479f6f8cfc.webp 460w"
+    },
+    "/covers/enriched/mythical-creatures-are-my-dinners-156097-3ed665aa4079.webp": {
+      "thumb": "/covers/enriched/mythical-creatures-are-my-dinners-156097-3ed665aa4079-thumb.webp",
+      "srcSet": "/covers/enriched/mythical-creatures-are-my-dinners-156097-3ed665aa4079.webp 460w"
+    },
+    "/covers/enriched/hige-wo-soru-soshite-joshikousei-wo-hirou-114232-a4326f27b39a.webp": {
+      "thumb": "/covers/enriched/hige-wo-soru-soshite-joshikousei-wo-hirou-114232-a4326f27b39a-thumb.webp",
+      "srcSet": "/covers/enriched/hige-wo-soru-soshite-joshikousei-wo-hirou-114232-a4326f27b39a.webp 460w"
+    },
+    "/covers/enriched/fruits-basket-the-final-124194-3dab1f741bd3.webp": {
+      "thumb": "/covers/enriched/fruits-basket-the-final-124194-3dab1f741bd3-thumb.webp",
+      "srcSet": "/covers/enriched/fruits-basket-the-final-124194-3dab1f741bd3.webp 460w"
+    },
+    "/covers/enriched/isekai-nonbiri-nouka-2-197824-d1366c983c30.webp": {
+      "thumb": "/covers/enriched/isekai-nonbiri-nouka-2-197824-d1366c983c30-thumb.webp",
+      "srcSet": "/covers/enriched/isekai-nonbiri-nouka-2-197824-d1366c983c30.webp 460w"
+    },
+    "/covers/enriched/higeki-no-genkyou-to-naru-saikyou-gedou-last-boss-joou-wa-tami-no-tame-ni-tsukus-195268-5f0a63e47313.webp": {
+      "thumb": "/covers/enriched/higeki-no-genkyou-to-naru-saikyou-gedou-last-boss-joou-wa-tami-no-tame-ni-tsukus-195268-5f0a63e47313-thumb.webp",
+      "srcSet": "/covers/enriched/higeki-no-genkyou-to-naru-saikyou-gedou-last-boss-joou-wa-tami-no-tame-ni-tsukus-195268-5f0a63e47313.webp 460w"
+    },
+    "/covers/enriched/himekishi-wa-barbaroi-no-yome-182483-36ee6a1e0bcb.webp": {
+      "thumb": "/covers/enriched/himekishi-wa-barbaroi-no-yome-182483-36ee6a1e0bcb-thumb.webp",
+      "srcSet": "/covers/enriched/himekishi-wa-barbaroi-no-yome-182483-36ee6a1e0bcb.webp 460w"
+    },
+    "/covers/enriched/kill-ao-198113-52759552f389.webp": {
+      "thumb": "/covers/enriched/kill-ao-198113-52759552f389-thumb.webp",
+      "srcSet": "/covers/enriched/kill-ao-198113-52759552f389.webp 460w"
+    },
+    "/covers/enriched/diamond-no-ace-act-ii-second-season-177634-4cb0a040e4d8.webp": {
+      "thumb": "/covers/enriched/diamond-no-ace-act-ii-second-season-177634-4cb0a040e4d8-thumb.webp",
+      "srcSet": "/covers/enriched/diamond-no-ace-act-ii-second-season-177634-4cb0a040e4d8.webp 460w"
+    },
+    "/covers/enriched/tsue-to-tsurugi-no-wistoria-season-2-182300-e60591bc5f5c.webp": {
+      "thumb": "/covers/enriched/tsue-to-tsurugi-no-wistoria-season-2-182300-e60591bc5f5c-thumb.webp",
+      "srcSet": "/covers/enriched/tsue-to-tsurugi-no-wistoria-season-2-182300-e60591bc5f5c.webp 460w"
+    },
+    "/covers/enriched/yu-ling-shi-199411-049f1f10311d.webp": {
+      "thumb": "/covers/enriched/yu-ling-shi-199411-049f1f10311d-thumb.webp",
+      "srcSet": "/covers/enriched/yu-ling-shi-199411-049f1f10311d.webp 460w"
+    },
+    "/covers/enriched/sousou-no-frieren-2nd-season-182255-72d057461d50.webp": {
+      "thumb": "/covers/enriched/sousou-no-frieren-2nd-season-182255-72d057461d50-thumb.webp",
+      "srcSet": "/covers/enriched/sousou-no-frieren-2nd-season-182255-72d057461d50.webp 460w"
+    },
+    "/covers/enriched/kusuriya-no-hitorigoto-161645-e43368b3bddb.webp": {
+      "thumb": "/covers/enriched/kusuriya-no-hitorigoto-161645-e43368b3bddb-thumb.webp",
+      "srcSet": "/covers/enriched/kusuriya-no-hitorigoto-161645-e43368b3bddb.webp 460w"
+    },
+    "/covers/enriched/hibi-wa-sugiredo-meshi-umashi-185939-82aabfae7a31.webp": {
+      "thumb": "/covers/enriched/hibi-wa-sugiredo-meshi-umashi-185939-82aabfae7a31-thumb.webp",
+      "srcSet": "/covers/enriched/hibi-wa-sugiredo-meshi-umashi-185939-82aabfae7a31.webp 460w"
+    },
+    "/covers/enriched/hana-wa-saku-shura-no-gotoku-178022-8b3e6122adf2.webp": {
+      "thumb": "/covers/enriched/hana-wa-saku-shura-no-gotoku-178022-8b3e6122adf2-thumb.webp",
+      "srcSet": "/covers/enriched/hana-wa-saku-shura-no-gotoku-178022-8b3e6122adf2.webp 460w"
+    },
+    "/covers/enriched/dr-stone-2-105333-e24a547ba3c4.webp": {
+      "thumb": "/covers/enriched/dr-stone-2-105333-e24a547ba3c4-thumb.webp",
+      "srcSet": "/covers/enriched/dr-stone-2-105333-e24a547ba3c4.webp 460w"
+    },
+    "/covers/enriched/chitose-kun-wa-ramune-bin-no-naka-180082-736a96c98d5d.webp": {
+      "thumb": "/covers/enriched/chitose-kun-wa-ramune-bin-no-naka-180082-736a96c98d5d-thumb.webp",
+      "srcSet": "/covers/enriched/chitose-kun-wa-ramune-bin-no-naka-180082-736a96c98d5d.webp 460w"
+    },
+    "/covers/enriched/91-days-21711-8217f8329656.webp": {
+      "thumb": "/covers/enriched/91-days-21711-8217f8329656-thumb.webp",
+      "srcSet": "/covers/enriched/91-days-21711-8217f8329656.webp 460w"
+    },
+    "/covers/enriched/bungou-stray-dogs-5th-season-163263-22fe805a1090.webp": {
+      "thumb": "/covers/enriched/bungou-stray-dogs-5th-season-163263-22fe805a1090-thumb.webp",
+      "srcSet": "/covers/enriched/bungou-stray-dogs-5th-season-163263-22fe805a1090.webp 460w"
+    },
+    "/covers/enriched/the-new-gate-2-170890-1047edb6076f.webp": {
+      "thumb": "/covers/enriched/the-new-gate-2-170890-1047edb6076f-thumb.webp",
+      "srcSet": "/covers/enriched/the-new-gate-2-170890-1047edb6076f.webp 460w"
+    },
+    "/covers/enriched/ameku-takao-no-suiri-karte-176642-9b58d4f49219.webp": {
+      "thumb": "/covers/enriched/ameku-takao-no-suiri-karte-176642-9b58d4f49219-thumb.webp",
+      "srcSet": "/covers/enriched/ameku-takao-no-suiri-karte-176642-9b58d4f49219.webp 460w"
+    },
+    "/covers/enriched/blue-lock-2-137822-55f837b7985a.webp": {
+      "thumb": "/covers/enriched/blue-lock-2-137822-55f837b7985a-thumb.webp",
+      "srcSet": "/covers/enriched/blue-lock-2-137822-55f837b7985a.webp 460w"
+    },
+    "/covers/enriched/chainsaw-man-2-127230-21f481a7b1ae.webp": {
+      "thumb": "/covers/enriched/chainsaw-man-2-127230-21f481a7b1ae-thumb.webp",
+      "srcSet": "/covers/enriched/chainsaw-man-2-127230-21f481a7b1ae.webp 460w"
+    },
+    "/covers/enriched/aru-majo-ga-shinu-made-178701-6a33dc016935.webp": {
+      "thumb": "/covers/enriched/aru-majo-ga-shinu-made-178701-6a33dc016935-thumb.webp",
+      "srcSet": "/covers/enriched/aru-majo-ga-shinu-made-178701-6a33dc016935.webp 460w"
+    },
+    "/covers/enriched/teogonia-2-176702-c3ba53e32a68.webp": {
+      "thumb": "/covers/enriched/teogonia-2-176702-c3ba53e32a68-thumb.webp",
+      "srcSet": "/covers/enriched/teogonia-2-176702-c3ba53e32a68.webp 460w"
+    },
+    "/covers/enriched/made-in-abyss-2-97986-6d1171334d43.webp": {
+      "thumb": "/covers/enriched/made-in-abyss-2-97986-6d1171334d43-thumb.webp",
+      "srcSet": "/covers/enriched/made-in-abyss-2-97986-6d1171334d43.webp 460w"
+    }
+  }
+}

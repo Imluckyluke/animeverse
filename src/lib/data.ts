@@ -1,69 +1,14 @@
 import realCatalog from "./real-catalog.json";
+import { ARTWORK_OVERRIDES } from "./artwork-overrides";
+import { normalizeGenres } from "./genres";
+import artworkDimensions from "./artwork-dimensions.json";
+import { cleanCatalogueRecord } from "./catalog-quality";
+import generatedMetadata from "./generated-metadata.json";
+import { applyMetadata, type MetadataEntry } from "./metadata-enrichment";
 
-export type AnimeStatus = "در حال پخش" | "پایان یافته" | "به‌زودی";
-export type AnimeType = "سریال" | "فیلم" | "OVA";
-
-export type Art = {
-  from: string;
-  to: string;
-  accent: string;
-  glyph: string;
-};
-
-export type EpisodeQuality = {
-  label: string;
-  deepLink: string;
-  status: "pending" | "done" | "failed";
-  url?: string;
-  size?: number;
-};
-
-export type EpisodeData = {
-  number: number;
-  title: string;
-  runtime: string;
-  releasedAt: string;
-  qualities: EpisodeQuality[];
-};
-
-export type Anime = {
-  slug: string;
-  title: string;
-  titleEn: string;
-  titleJa: string;
-  year: number;
-  season: string;
-  score: number;
-  votes: number;
-  episodes: number;
-  /** Episodes currently present in the archive (may be fewer than the series total). */
-  availableEpisodes?: number;
-  duration: string;
-  type: AnimeType;
-  format?: string;
-  status: AnimeStatus;
-  studio: string;
-  producers?: string;
-  genres: string[];
-  synopsis: string;
-  tagline: string;
-  art: Art;
-  quality: string[];
-  audio: string[];
-  ageRating: string;
-  featured?: boolean;
-  rank?: number;
-  weeklyViews: number;
-  popularity: number;
-  updatedAt: string;
-  nextEpisodeAt?: string;
-  cover?: string;
-  banner?: string;
-  source?: "demo" | "aniplus";
-  aniplusId?: string;
-  watchUrl?: string;
-  episodeData?: EpisodeData[];
-};
+import type { Anime, AnimeType, Art, EpisodeQuality } from "./catalog";
+export type { Anime, AnimeStatus, AnimeType, Art, EpisodeData, EpisodeQuality, ScoreSource } from "./catalog";
+export { getEpisodeAvailability, getScoreLabel, hasReportedScore } from "./catalog-metadata";
 
 const BASE_SITE = {
   name: "انیمه‌ورس",
@@ -825,7 +770,25 @@ const DEMO_ANIME: Anime[] = [
 ];
 
 const REAL_ANIME = Array.isArray(realCatalog) ? (realCatalog as unknown as Anime[]) : [];
-export const ANIME: Anime[] = REAL_ANIME.length ? REAL_ANIME : DEMO_ANIME;
+export const ANIME: Anime[] = (REAL_ANIME.length ? REAL_ANIME : DEMO_ANIME)
+  .map(cleanCatalogueRecord)
+  .map(anime => applyMetadata(anime, generatedMetadata.metadata as Record<string, MetadataEntry>))
+  .map(anime => ({ ...anime, genres: normalizeGenres(anime.genres) }))
+  .map(anime => {
+    const artwork = ARTWORK_OVERRIDES[anime.slug];
+    if (!artwork) return anime;
+    return {
+      ...anime,
+      ...artwork,
+      // A duplicated low-resolution poster is not an independent banner.
+      ...(!artwork.banner && artwork.cover && anime.banner === anime.cover ? { banner: artwork.cover } : {}),
+    };
+  }).map(anime => {
+    const dimensions = artworkDimensions as Record<string, number[]>;
+    const cover = dimensions[(anime.cover ?? "").split("?")[0]];
+    const banner = dimensions[(anime.banner ?? "").split("?")[0]];
+    return { ...anime, coverAspectRatio: cover ? cover[0] / cover[1] : undefined, bannerAspectRatio: banner ? banner[0] / banner[1] : undefined };
+  });
 
 export const SITE = {
   ...BASE_SITE,
@@ -845,7 +808,7 @@ export const GENRES = [
   { name: "عاشقانه", en: "Romance", from: "#ff8fbc", to: "#a78bfa", icon: "heart" },
   { name: "علمی-تخیلی", en: "Sci-Fi", from: "#38d6ff", to: "#6366f1", icon: "rocket" },
   { name: "معمایی", en: "Mystery", from: "#8b5cf6", to: "#1e1b4b", icon: "search" },
-  { name: "روانشناختی", en: "Psychological", from: "#6d28d9", to: "#db2777", icon: "brain" },
+  { name: "روان‌شناختی", en: "Psychological", from: "#6d28d9", to: "#db2777", icon: "brain" },
   { name: "ورزشی", en: "Sports", from: "#22c55e", to: "#0ea5e9", icon: "trophy" },
   { name: "موسیقی", en: "Music", from: "#ec4899", to: "#f59e0b", icon: "music" },
   { name: "ایسکای", en: "Isekai", from: "#6366f1", to: "#10b981", icon: "door" },
@@ -929,7 +892,10 @@ export function splitQualities(qualities: string[]) {
 }
 
 export function getPopular(limit = 12): Anime[] {
-  return [...ANIME].sort((a, b) => b.weeklyViews - a.weeklyViews).slice(0, limit);
+  // There is no measured audience count in the channel data. Rank reported
+  // ratings instead of presenting seeded view counts as popularity.
+  return [...ANIME].filter(anime => anime.scoreSource === "mal" || anime.scoreSource === "aniplus")
+    .sort((a, b) => b.score - a.score || b.updatedAt.localeCompare(a.updatedAt)).slice(0, limit);
 }
 
 const CHINESE_STUDIOS = new Set([

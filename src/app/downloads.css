@@ -1,0 +1,77 @@
+.downloads-layer,.downloads-launcher{--dm-text:#f8f7f2;--dm-muted:#aaa5b1;--dm-gold:#ffd60a;--dm-line:rgba(255,255,255,.11);--dm-card:rgba(255,255,255,.035);color:var(--dm-text)}
+.downloads-layer{position:fixed;inset:0;z-index:110;display:grid;place-items:center;padding:48px 12px 24px;isolation:isolate}
+.downloads-backdrop{position:absolute;inset:0;border:0;background:rgba(3,3,8,.4);-webkit-backdrop-filter:blur(6px) saturate(1.12);backdrop-filter:blur(6px) saturate(1.12);cursor:default;will-change:opacity}
+.downloads-panel{position:relative;display:flex;flex-direction:column;width:min(540px,calc(100vw - 24px));max-height:calc(100dvh - 108px);overflow:hidden;border:1px solid var(--dm-line);border-radius:24px;background:linear-gradient(145deg,rgba(24,24,32,.94),rgba(9,9,15,.97));box-shadow:0 28px 80px rgba(0,0,0,.46),inset 0 1px rgba(255,255,255,.1);outline:none;will-change:transform,opacity}
+/* The backdrop already frosts the page. Blurring the moving panel again,
+   especially through an opacity-animated ancestor, forces expensive reraster. */
+html .downloads-panel,html[data-theme="light"] .downloads-panel{-webkit-backdrop-filter:none;backdrop-filter:none}
+.downloads-layer[data-closing="true"] .downloads-panel{pointer-events:none}
+.downloads-heading{display:flex;flex:none;align-items:center;gap:10px;padding:16px;border-bottom:1px solid var(--dm-line)}
+.downloads-close{display:grid;width:36px;height:36px;place-items:center;flex:none;border:1px solid var(--dm-line);border-radius:50%;background:var(--dm-card);color:var(--dm-muted);transition:background .15s,transform .15s}
+.downloads-close:active{transform:scale(.95)}
+.downloads-scroll{overflow-y:auto;overscroll-behavior:contain;min-height:100px;padding:12px;scrollbar-width:thin;scrollbar-color:var(--dm-line) transparent}
+.downloads-records{display:grid;gap:12px}
+.download-record{overflow:hidden;border:1px solid var(--dm-line);border-radius:18px;background:var(--dm-card)}
+.download-record.is-focused{border-color:color-mix(in srgb,var(--dm-gold) 28%,transparent)}
+.download-record-heading{display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--dm-line)}
+.download-record-icon{display:grid;place-items:center;width:36px;height:36px;flex:none;color:var(--dm-gold);border:1px solid color-mix(in srgb,var(--dm-gold) 22%,transparent);background:color-mix(in srgb,var(--dm-gold) 7%,transparent);border-radius:13px}
+.download-episode{padding:12px;border-bottom:1px solid color-mix(in srgb,var(--dm-line) 65%,transparent)}
+.download-episode:last-child{border-bottom:0}
+.download-episode-head{display:flex;align-items:center;gap:9px}
+.download-episode-number{display:grid;place-items:center;min-width:30px;height:32px;padding:0 5px;border:1px solid var(--dm-line);border-radius:10px;font-size:11px;font-weight:900;color:var(--dm-gold);background:var(--dm-card)}
+.download-action{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:38px;flex:none;padding:6px 10px;border:1px solid color-mix(in srgb,var(--dm-gold) 28%,transparent);border-radius:12px;color:var(--dm-gold);background:color-mix(in srgb,var(--dm-gold) 8%,transparent);font-size:10px;font-weight:700;transition:background .15s}
+.download-action:hover{background:color-mix(in srgb,var(--dm-gold) 15%,transparent)}
+.download-percent{font-size:11px;font-weight:700;color:var(--dm-gold);font-variant-numeric:tabular-nums}
+.download-muted{color:var(--dm-muted)}
+.download-error{color:#f0a3aa}
+.download-progress{position:relative;height:5px;margin-top:12px;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--dm-muted) 14%,transparent)}
+.download-progress>span{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,color-mix(in srgb,var(--dm-gold) 60%,transparent),var(--dm-gold));transform-origin:right center;transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.download-progress.is-ready>span{background:#52b891}
+.download-progress.is-waiting:after{content:"";position:absolute;inset-block:0;left:0;right:auto;width:100%;background:linear-gradient(90deg,transparent 28%,color-mix(in srgb,var(--dm-gold) 55%,transparent) 50%,transparent 72%);animation:download-pending 1.8s linear infinite}
+/* Translate a full-track texture, not 32% of an RTL right-anchored strip.
+   The halo's centre crosses both ends before the next pass begins. */
+@keyframes download-pending{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+.downloads-footer{padding:12px 16px;border-top:1px solid var(--dm-line);color:var(--dm-muted);font-size:10px;line-height:1.9;flex:none;background:var(--dm-card)}
+.downloads-bulk{padding:10px 6px 14px}
+.download-quality-select{margin-top:8px;width:100%;height:44px;padding:0 12px;border:1px solid var(--dm-line);border-radius:12px;color:var(--dm-text);background:color-mix(in srgb,var(--dm-muted) 9%,#101015);font-family:inherit;font-size:12px}
+.download-more{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;min-height:40px;color:var(--dm-gold);font-size:11px;font-weight:700}
+.download-connection-error{padding:10px 12px;color:var(--dm-muted);border-bottom:1px solid var(--dm-line);font-size:10px;line-height:1.9;background:color-mix(in srgb,var(--dm-gold) 5%,transparent)}
+.download-connection-error button{display:inline-flex;align-items:center;gap:4px;color:var(--dm-gold);font-weight:700;min-height:32px}
+.download-registering{display:flex;align-items:center;justify-content:center;gap:8px;padding:24px 12px;font-size:11px;color:var(--dm-muted)}
+.downloads-empty{padding:36px 16px;text-align:center;color:var(--dm-muted)}
+.downloads-launcher{position:fixed;z-index:76;inset-inline-end:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);width:52px;height:48px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.1);border-radius:24px;background:rgba(10,10,16,.5);-webkit-backdrop-filter:blur(8px) saturate(1.5);backdrop-filter:blur(8px) saturate(1.5);color:var(--dm-gold);transform:translate3d(0,calc(-1 * var(--av-download-dock-lift,88px)),0);transition:transform 300ms ease-out;isolation:isolate}
+.downloads-launcher-icon{display:grid;place-items:center;width:36px;height:34px;border-radius:14px;border:1px solid rgba(255,255,255,.045);background:linear-gradient(155deg,rgba(255,255,255,.04),rgba(255,255,255,.012));box-shadow:inset 0 1px 0 rgba(255,255,255,.055);transition:transform 150ms ease-out}
+.downloads-launcher:active .downloads-launcher-icon{transform:scale(.94)}
+.downloads-launcher-badge{position:absolute;top:-4px;inset-inline-end:-4px;min-width:18px;padding:1px 4px;background:var(--dm-gold);color:#2a2110;border:1px solid rgba(255,255,255,.18);border-radius:12px;font-size:8px;font-weight:900}
+.downloads-panel :is(button,a,select):focus-visible,.downloads-launcher:focus-visible{outline:2px solid var(--dm-gold);outline-offset:3px}
+html[data-theme="light"] :is(.downloads-layer,.downloads-launcher){--dm-text:#2a2722;--dm-muted:#635a4e;--dm-gold:#855709;--dm-line:rgba(120,94,51,.2);--dm-card:rgba(255,251,240,.28)}
+html[data-theme="light"] .downloads-backdrop{background:rgba(74,58,32,.16)}
+html[data-theme="light"] .downloads-panel{background:linear-gradient(145deg,rgba(249,245,234,.95),rgba(229,218,196,.96));box-shadow:0 28px 80px rgba(85,62,26,.22),inset 0 1px rgba(255,255,255,.8)}
+html[data-theme="light"] .download-quality-select{background:#eee5d4}
+html[data-theme="light"] .download-error{color:#9b3044}
+html[data-theme="light"] .downloads-launcher{background:var(--av-floating-glass);border-color:rgba(120,94,51,.18);box-shadow:var(--av-glass-shadow)}
+html[data-theme="light"] .downloads-launcher-icon{border-color:rgba(115,87,38,.08);background:linear-gradient(150deg,rgba(255,255,255,.1),rgba(125,95,40,.025));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+html[data-theme="light"] .download-progress.is-ready>span{background:#26805f}
+@media(min-width:768px){.downloads-launcher{bottom:24px;transform:none}}
+@media(prefers-reduced-motion:reduce){.download-progress>span,.downloads-close,.download-action,.downloads-launcher,.downloads-launcher-icon{transition:none}.download-progress.is-waiting:after{animation:none;opacity:.35}}
+
+/* Static glass shell; only the inset selection pill moves between RTL tabs. */
+.download-method-tabs{position:relative;isolation:isolate;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:4px;border:1px solid rgba(255,255,255,.13);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.015)),rgba(14,14,22,.56);box-shadow:inset 0 1px rgba(255,255,255,.1),0 10px 24px -18px rgba(0,0,0,.65);-webkit-backdrop-filter:blur(8px) saturate(1.3);backdrop-filter:blur(8px) saturate(1.3)}
+.download-method-indicator{position:absolute;z-index:-1;top:4px;bottom:4px;right:4px;width:calc((100% - 8px)/2);border:1px solid rgba(255,214,10,.3);border-radius:16px;background:linear-gradient(145deg,rgba(255,239,175,.12),rgba(255,214,10,.035)),rgba(255,214,10,.07);box-shadow:inset 0 1px rgba(255,243,191,.2),inset 0 -1px rgba(0,0,0,.18),0 3px 10px -5px rgba(255,214,10,.2);transform:translateX(0);transition:transform 280ms cubic-bezier(.22,1,.36,1)}
+.download-method-tabs[data-method="telegram"] .download-method-indicator{transform:translateX(-100%)}
+.download-method-tab{display:flex;min-width:0;min-height:46px;align-items:center;justify-content:center;gap:8px;padding:8px;border-radius:15px;color:#aaa5b1;font-size:12px;font-weight:700;transition:color 180ms ease-out}
+.download-method-tab[aria-selected="true"]{color:#ffe08b}
+.download-method-tab:hover{color:#f8f7f2}
+.download-method-tab:focus-visible{outline:2px solid #ffd60a;outline-offset:-3px}
+.download-method-tab>svg{transition:transform 180ms ease-out}
+.download-method-tab:active>svg{transform:scale(.91)}
+.download-method-description{min-height:40px;padding:9px 8px 0;color:rgb(var(--av-content-muted,170 165 177));font-size:10px;line-height:1.9}
+.episode-quality-actions{animation:download-method-enter 180ms ease-out both}
+@keyframes download-method-enter{from{opacity:.25;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+html[data-theme="light"] .download-method-tabs{background:var(--av-floating-glass);border-color:rgba(120,94,51,.2);box-shadow:var(--av-glass-shadow)}
+html[data-theme="light"] .download-method-indicator{border-color:rgba(143,95,13,.3);background:linear-gradient(145deg,rgba(255,255,255,.55),rgba(255,237,184,.18)),rgba(190,145,54,.12);box-shadow:inset 0 1px rgba(255,255,255,.8),inset 0 -1px rgba(115,87,38,.07),0 3px 9px -6px rgba(106,74,19,.3)}
+html[data-theme="light"] .download-method-tab{color:#635a4e}
+html[data-theme="light"] .download-method-tab[aria-selected="true"]{color:#795109}
+html[data-theme="light"] .download-method-tab:hover{color:#2a2722}
+html[data-theme="light"] .download-method-tab:focus-visible{outline-color:#855709}
+@media(prefers-reduced-motion:reduce){.download-method-indicator,.download-method-tab,.download-method-tab>svg{transition:none}.episode-quality-actions{animation:none}}

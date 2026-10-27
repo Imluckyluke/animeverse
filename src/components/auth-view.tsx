@@ -241,7 +241,7 @@ export function AuthView({
                         type="button"
                         onClick={() => setShowPassword((v) => !v)}
                         aria-label={showPassword ? "پنهان کردن رمز" : "نمایش رمز"}
-                        className="grid size-8 place-items-center rounded-full text-content-faint transition-colors hover:text-white"
+                        className="grid size-10 place-items-center rounded-full text-content-faint transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/45"
                       >
                         {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                       </button>

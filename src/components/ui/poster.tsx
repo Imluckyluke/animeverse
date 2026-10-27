@@ -43,6 +43,7 @@ export function Poster({
 
   return (
     <div
+      data-art-surface
       className={cn(
         "isolate overflow-hidden bg-ink-800",
         !positioned && "relative",

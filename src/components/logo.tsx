@@ -6,7 +6,7 @@ export function Logo({ className, compact = false }: { className?: string; compa
     <Link
       href="/"
       aria-label="انیمه‌ورس — صفحهٔ اصلی"
-      className={cn("group flex shrink-0 items-center", className)}
+      className={cn("group -my-2 flex shrink-0 items-center py-2", className)}
     >
       {!compact ? (
         <span className="flex flex-col leading-none">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CatalogView } from "@/components/catalog-view";
 import { ANIME, isChineseAnime } from "@/lib/data";
+import { normalizeGenres } from "@/lib/genres";
 
 const BROWSE_DESCRIPTION =
   "آرشیو کامل انیمه‌ورس: جست‌وجو کن و بر اساس ژانر، سال، نوع و وضعیت پخش فیلتر کن — لینک دانلود مستقیم با زیرنویس فارسی.";
@@ -47,10 +48,7 @@ export default function BrowsePage({
   // shortcuts (e.g. شونن / ترسناک). Accept every genre that exists in the
   // catalog so a genre link always lands on a filtered archive.
   const availableGenres = new Set(ANIME.flatMap((anime) => anime.genres));
-  const initialGenres = rawGenre
-    .split(",")
-    .map((g) => g.trim())
-    .filter((g) => g && availableGenres.has(g));
+  const initialGenres = normalizeGenres(rawGenre).filter((g) => availableGenres.has(g));
   const initialQuery = Array.isArray(searchParams.q) ? searchParams.q[0] ?? "" : searchParams.q ?? "";
 
   // Cards do not need the heavy per-episode download payload. Sending it for

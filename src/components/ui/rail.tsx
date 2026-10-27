@@ -1,16 +1,30 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { Children, cloneElement, isValidElement, useCallback, useEffect, useRef, useState, type ReactElement, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { useDragScroll } from "@/lib/use-drag-scroll";
+import { CenteredCarousel } from "@/components/ui/centered-carousel";
 
 /** Fraction of the viewport a plain (non-stepping) rail travels per arrow press. */
 const PAGE = 0.72;
 /** One wheel gesture may claim the rail for this long, in milliseconds. */
 const WHEEL_LOCK = 520;
 
-export function Rail({
+export function Rail(props: {
+  children: ReactNode; className?: string; innerClassName?: string; ariaLabel?: string;
+  stepping?: boolean; centered?: boolean; onActiveChange?: (index: number) => void;
+}) {
+  if (props.stepping && props.centered) {
+    const items = Children.toArray(props.children);
+    return <CenteredCarousel count={items.length} mode="cinema" ariaLabel={props.ariaLabel || "اسلایدر"} className={props.className} onIndexChange={props.onActiveChange}
+      renderItem={(index, active) => isValidElement(items[index])
+        ? cloneElement(items[index] as ReactElement<{ active?: boolean }>, { active }) : items[index]} />;
+  }
+  return <PlainRail {...props} />;
+}
+
+function PlainRail({
   children,
   className,
   innerClassName,
@@ -26,36 +40,23 @@ export function Rail({
   ariaLabel?: string;
   /** Stop on one card per gesture instead of free scrolling. */
   stepping?: boolean;
-  /** Park the resting card in the middle of the track (phones only). */
+  /** The nearest card to the viewport centre is the resting/focused card. */
   centered?: boolean;
-  /** Reports the card resting at the leading edge as the rail moves. */
+  /** Reports the focused card as the rail moves. */
   onActiveChange?: (index: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const drag = useDragScroll(ref);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(false);
-  const [middle, setMiddle] = useState(false);
+  const middle = centered;
   const [pad, setPad] = useState(0);
   const activeRef = useRef(0);
   const onActive = useRef(onActiveChange);
   onActive.current = onActiveChange;
 
-  // A phone shows one card at a time, so it belongs in the middle; wider
-  // screens keep the row hugging the leading edge.
-  useEffect(() => {
-    if (!centered) {
-      setMiddle(false);
-      return;
-    }
-    const query = window.matchMedia("(max-width: 639px)");
-    const read = () => setMiddle(query.matches);
-    read();
-    query.addEventListener("change", read);
-    return () => query.removeEventListener("change", read);
-  }, [centered]);
-
-  // Room for the first and last cards to reach the middle of the track.
+  // Focus is centre-based on every screen, but the first card still hugs the
+  // leading shell edge. Do not add half-viewport gutters at either end.
   useEffect(() => {
     const el = ref.current;
     if (!el || !middle) {
@@ -63,9 +64,7 @@ export function Rail({
       return;
     }
     const measure = () => {
-      const card = el.firstElementChild as HTMLElement | null;
-      if (!card) return;
-      setPad(Math.max(0, (el.clientWidth - card.getBoundingClientRect().width) / 2));
+      setPad(window.matchMedia("(min-width: 640px)").matches ? 0 : 16);
     };
     measure();
     window.addEventListener("resize", measure);
@@ -200,6 +199,8 @@ export function Rail({
         role="group"
         tabIndex={0}
         aria-label={ariaLabel}
+        data-fade-left={canNext}
+        data-fade-right={canPrev}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft") {
             event.preventDefault();
@@ -211,22 +212,12 @@ export function Rail({
         }}
         style={pad ? { paddingInline: pad, scrollPaddingInline: pad } : undefined}
         className={cn(
-          "hide-scrollbar -mx-4 flex cursor-grab select-none snap-x snap-mandatory gap-3.5 overflow-x-auto scroll-px-4 px-4 pb-2 sm:mx-0 sm:gap-4 sm:scroll-px-0 sm:px-0",
+          "edge-feather hide-scrollbar -mx-4 flex cursor-grab select-none snap-x snap-mandatory gap-3.5 overflow-x-auto scroll-px-4 px-4 pb-2 sm:mx-0 sm:gap-4 sm:scroll-px-0 sm:px-0",
           innerClassName,
         )}
       >
         {children}
       </div>
-
-      {/* The black pours out to the viewport corners, then fades across the first card. */}
-      <div
-        aria-hidden
-        className={cn("flow-fade flow-fade-left", canNext ? "opacity-100" : "opacity-0")}
-      />
-      <div
-        aria-hidden
-        className={cn("flow-fade flow-fade-right", canPrev ? "opacity-100" : "opacity-0")}
-      />
 
       <button
         type="button"

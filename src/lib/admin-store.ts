@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import type { AdminPatchable, Anime } from "@/lib/catalog";
 
 /**
@@ -62,20 +62,32 @@ export function clearAdmin() {
 }
 
 export function useAdminState(): AdminState {
-  const [state, setState] = useState<AdminState>(EMPTY_ADMIN);
+  return useSyncExternalStore(subscribeAdmin, adminSnapshot, () => EMPTY_ADMIN);
+}
 
-  useEffect(() => {
-    const sync = () => setState(readAdmin());
-    sync();
-    window.addEventListener("av-admin", sync);
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener("av-admin", sync);
-      window.removeEventListener("storage", sync);
-    };
-  }, []);
+let snapshotKey: string | null | undefined;
+let snapshotState = EMPTY_ADMIN;
 
-  return state;
+function adminSnapshot(): AdminState {
+  try {
+    const key = window.localStorage.getItem(ADMIN_KEY);
+    if (key !== snapshotKey) {
+      snapshotKey = key;
+      snapshotState = readAdmin();
+    }
+    return snapshotState;
+  } catch {
+    return EMPTY_ADMIN;
+  }
+}
+
+function subscribeAdmin(notify: () => void) {
+  window.addEventListener("av-admin", notify);
+  window.addEventListener("storage", notify);
+  return () => {
+    window.removeEventListener("av-admin", notify);
+    window.removeEventListener("storage", notify);
+  };
 }
 
 /** Applies admin overrides: hide, pin, and small field patches. */

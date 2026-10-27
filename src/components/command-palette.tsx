@@ -9,8 +9,9 @@ import type { Anime } from "@/lib/catalog";
 import { CoverImage } from "@/components/ui/cover-image";
 import { cn, faDigits } from "@/lib/utils";
 import { lockPageScroll } from "@/lib/scroll-lock";
+import { searchTitles } from "@/lib/search";
 
-type PaletteItem = Pick<Anime, "slug" | "title" | "titleEn" | "year" | "cover" | "banner">;
+type PaletteItem = Pick<Anime, "slug" | "title" | "titleEn" | "year" | "cover" | "banner"> & Partial<Pick<Anime, "titleJa">>;
 let cachedIndex: PaletteItem[] | null = null;
 let indexRequest: Promise<PaletteItem[]> | null = null;
 function loadIndex() {
@@ -23,7 +24,7 @@ function loadIndex() {
   return indexRequest;
 }
 
-/** Portalled outside transformed cards; sized to the keyboard's visual viewport. */
+/** Full-height backdrop; only the dialog follows the keyboard's visual viewport. */
 export function CommandPalette({ items, searchHref = "/browse", compact = false, shortcut = true }: {
   items?: PaletteItem[]; searchHref?: string; compact?: boolean; shortcut?: boolean;
 }) {
@@ -36,18 +37,24 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   const openRef = useRef(open);
   openRef.current = open;
   const [query, setQuery] = useState("");
-  const [cursor, setCursor] = useState(0);
+  const [cursor, setCursor] = useState(-1);
+  const [moreBelow, setMoreBelow] = useState(false);
+  const resultList = useRef<HTMLUListElement>(null);
+  const measureResults = useCallback(() => {
+    const node = resultList.current;
+    setMoreBelow(Boolean(node && node.scrollHeight - node.clientHeight - node.scrollTop > 2));
+  }, []);
   const [remote, setRemote] = useState<PaletteItem[]>(cachedIndex ?? []);
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [retry, setRetry] = useState(0);
-  const [viewport, setViewport] = useState<{ top: number; height: number } | null>(null);
+  const viewport = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const show = useCallback(() => {
     setQuery("");
-    setCursor(0);
+    setCursor(-1);
     setFailed(false);
     setLoading(!items && !cachedIndex);
     if (!items && cachedIndex) setRemote(cachedIndex);
@@ -86,7 +93,7 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   useEffect(() => {
     if (!shortcut) return;
     const onKey = (event: KeyboardEvent) => {
-      const target = event.target as HTMLElement | null;
+      const target = event.target instanceof HTMLElement ? event.target : null;
       const typing = target?.isContentEditable || target?.closest("input,textarea,select");
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
@@ -102,10 +109,10 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   }, [shortcut, show]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) { input.current?.blur(); return; }
     setPresent(true);
     setQuery("");
-    setCursor(0);
+    setCursor(-1);
   }, [open]);
 
   useEffect(() => {
@@ -117,9 +124,13 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
+        if (!openRef.current) return; // Keep exit geometry still while the OS keyboard retracts.
         const top = window.visualViewport?.offsetTop ?? 0;
         const height = window.visualViewport?.height ?? window.innerHeight;
-        setViewport((previous) => previous && previous.top === top && previous.height === height ? previous : { top, height });
+        // Keyboard frames should not reconcile the result images or resize the
+        // backdrop texture. Only this small layout layer follows the keyboard.
+        viewport.current?.style.setProperty("--search-top", `${top}px`);
+        viewport.current?.style.setProperty("--search-height", `${height}px`);
       });
     };
     sync();
@@ -161,11 +172,16 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
   }, [present, id, reduce]);
 
   const source = items ?? remote;
-  const matches = useMemo(() => {
-    const needle = query.trim().toLocaleLowerCase("fa");
-    return needle ? source.filter((item) => `${item.title} ${item.titleEn}`.toLocaleLowerCase("fa").includes(needle)) : source;
-  }, [source, query]);
+  const matches = useMemo(() => searchTitles(source, query), [source, query]);
   const results = matches.slice(0, 6);
+  useEffect(() => {
+    const node = resultList.current;
+    if (!node || !open) return;
+    measureResults();
+    const observer = new ResizeObserver(measureResults);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [open, loading, failed, query, results.length, measureResults]);
   useEffect(() => {
     if (open) document.getElementById(`${id}-${cursor}`)?.scrollIntoView({ block: "nearest" });
   }, [cursor, open, id, query, results[cursor]?.slug]);
@@ -192,35 +208,37 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
       {!compact ? <span className="min-w-0 flex-1 truncate text-sm text-content-muted">جست‌وجو در آرشیو…</span> : null}
     </button>
     {mounted ? createPortal(<AnimatePresence onExitComplete={() => setPresent(false)}>{open ? (
-      <div key="search-overlay" className="fixed inset-x-0 z-[220] flex items-start justify-center px-3 pb-3 pt-[6dvh] sm:px-6 sm:pb-6 sm:pt-[9dvh]"
-        style={{ top: viewport?.top ?? 0, height: viewport?.height ?? "100dvh" }}
-        onClick={() => setOpen(false)}>
-        {/* Blur stays static. Only this tint and the small panel fade/move. */}
+      <motion.div key="search-overlay" className="search-overlay fixed inset-x-0 top-0 z-[220]" onClick={() => setOpen(false)}
+        initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        transition={{ duration: reduce ? 0 : 0.26, ease: [0.4, 0, 0.6, 1] }}>
+        {/* Fade the already-frosted layer as one texture on exit, never animate
+            blur radius or leave a static backdrop behind the disappearing panel. */}
         <div aria-hidden className="search-backdrop pointer-events-none absolute inset-0" />
         <motion.div aria-hidden className="pointer-events-none absolute inset-0 bg-black/35"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: reduce ? 0 : 0.18 }} />
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reduce ? 0 : 0.18 }} />
+        <div ref={viewport} className="search-viewport absolute inset-x-0 flex items-start justify-center px-3 pb-3 pt-[6svh] sm:px-6 sm:pb-6 sm:pt-[9svh]">
         <motion.div ref={panel} role="dialog" aria-modal="true" aria-labelledby={`${id}-title`} tabIndex={-1}
           data-search-open={open ? "true" : "false"}
           className="relative flex max-h-full w-full max-w-md flex-col overflow-hidden rounded-[22px] border border-white/15 bg-[rgba(13,13,20,.9)] shadow-[0_24px_64px_-20px_rgba(0,0,0,.75)]"
-          initial={{ opacity: 0, y: reduce ? 0 : -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: reduce ? 0 : -5 }}
+          initial={{ opacity: 0, y: reduce ? 0 : -8 }} animate={{ opacity: 1, y: 0 }} exit={{ y: reduce ? 0 : -6, transition: { duration: reduce ? 0 : 0.26, ease: [0.4, 0, 0.6, 1] } }}
           transition={{ duration: reduce ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }} onClick={(event) => event.stopPropagation()}>
           <div className="flex shrink-0 items-center justify-between ps-4 pe-2 pt-1">
             <h2 id={`${id}-title`} className="text-xs font-bold text-content-soft">جست‌وجوی انیمه</h2>
             <button type="button" aria-label="بستن جست‌وجو" onClick={() => setOpen(false)} className="grid size-11 place-items-center rounded-full text-content-muted transition-colors hover:bg-white/5 hover:text-white"><X className="size-4" /></button>
           </div>
-          <div className="mx-3 mb-2 flex shrink-0 items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-3">
+          <div className="search-field mx-3 mb-2 flex shrink-0 items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-3">
             <Search className="size-5 shrink-0 text-amber-300" />
             <input ref={input} role="combobox" aria-autocomplete="list" aria-expanded="true" aria-controls={`${id}-results`}
               aria-activedescendant={!loading && !failed && results[cursor] ? `${id}-${cursor}` : undefined}
               aria-label="نام انیمه" value={query} placeholder="نام فارسی یا انگلیسی…"
-              onChange={(event) => { setQuery(event.target.value); setCursor(0); }}
+              onChange={(event) => { setQuery(event.target.value); setCursor(-1); }}
               onKeyDown={(event) => {
                 if (event.key === "ArrowDown") { event.preventDefault(); setCursor((value) => Math.min(Math.max(0, results.length - 1), value + 1)); }
                 else if (event.key === "ArrowUp") { event.preventDefault(); setCursor((value) => Math.max(0, value - 1)); }
-                else if (event.key === "Enter") { event.preventDefault(); if (event.ctrlKey || event.metaKey) all(); else go(results[cursor]); }
+                else if (event.key === "Enter") { event.preventDefault(); if (event.ctrlKey || event.metaKey) all(); else go(results[Math.max(cursor, 0)]); }
               }} className="h-11 min-w-0 flex-1 bg-transparent text-base text-white outline-none placeholder:text-content-faint" />
           </div>
-          <ul id={`${id}-results`} role="listbox" aria-label="نتایج جست‌وجو" className="min-h-0 max-h-[min(40dvh,320px)] flex-1 overflow-y-auto overscroll-contain px-2 pb-2">
+          <ul ref={resultList} onScroll={measureResults} data-more-below={moreBelow} id={`${id}-results`} role="listbox" aria-label="نتایج جست‌وجو" className="search-results hide-scrollbar min-h-0 max-h-[min(40dvh,320px)] flex-1 overflow-y-auto overscroll-contain px-2 pb-2">
             {loading ? <li role="presentation" className="flex h-[min(40dvh,320px)] items-center justify-center gap-2 p-6 text-sm text-content-muted"><Loader2 className="size-5 animate-spin" /> در حال جست‌وجو…</li> : failed ? <li role="presentation" className="p-4 text-center"><button type="button" className="btn btn-glass btn-md" onClick={() => setRetry((value) => value + 1)}>دریافت فهرست ناموفق بود؛ تلاش دوباره</button></li> : !results.length ? <li role="presentation" className="px-3 py-8 text-center text-sm text-content-muted">چیزی پیدا نشد؛ نام دیگری را امتحان کن.</li> : results.map((anime, index) => (
               <li key={anime.slug} id={`${id}-${index}`} role="option" aria-selected={index === cursor}>
                 <button type="button" tabIndex={-1} onMouseEnter={() => setCursor(index)} onClick={() => go(anime)}
@@ -236,7 +254,8 @@ export function CommandPalette({ items, searchHref = "/browse", compact = false,
             <button type="button" onClick={all} className="btn btn-md w-full border border-white/10 bg-white/[0.035] px-2 hover:bg-white/[0.07]"><span className="truncate">{query.trim() ? `همهٔ نتایج برای «${query.trim()}»` : "دیدن همهٔ آرشیو"}</span><span className="text-xs text-content-muted">({faDigits(matches.length)})</span><ArrowLeft className="size-4 shrink-0" /></button>
           </div>
         </motion.div>
-      </div>
+        </div>
+      </motion.div>
     ) : null}</AnimatePresence>, document.body) : null}
   </>;
 }

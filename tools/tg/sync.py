@@ -153,13 +153,13 @@ async def _watch_ingest_loop(
             anime_done, _new_count, _updated_count, changed_keys = await ingest_new(
                 client, state, status
             )
-            if anime_done == 0:
+            covers_changed = await prepare_covers(state, status)
+            if anime_done == 0 and not covers_changed:
                 continue
-            await prepare_covers(state, status)
             save_state(state)
             catalog, _ = write_catalog(state)
             status.update(catalogCount=len(catalog))
-            if changed_keys and not no_rebuild:
+            if (changed_keys or covers_changed) and not no_rebuild:
                 async with rebuild_lock:
                     await asyncio.to_thread(rebuild_site, status)
         except asyncio.CancelledError:
@@ -227,7 +227,8 @@ async def run(args: argparse.Namespace) -> int:
                 client, state, status, args.posts
             )
             should_rebuild = should_rebuild or bool(changed_keys) or new_count > 0 or updated_count > 0
-            await prepare_covers(state, status)
+            covers_changed = await prepare_covers(state, status)
+            should_rebuild = should_rebuild or bool(covers_changed)
             save_state(state)
             catalog, links = write_catalog(state)
             status.update(catalogCount=len(catalog))
@@ -238,9 +239,14 @@ async def run(args: argparse.Namespace) -> int:
             elif args.no_rebuild:
                 status.log("ساخت مجدد سایت رد شد (--no-rebuild)", "warn")
         else:
+            covers_changed = await prepare_covers(state, status)
+            save_state(state)
             catalog, links = write_catalog(state)
             status.update(catalogCount=len(catalog))
             status.log(f"کاتالوگ فعلی: {len(catalog)} عنوان، {len(links)} لینک آماده")
+            if (should_rebuild or covers_changed) and not args.no_rebuild:
+                async with rebuild_lock:
+                    await asyncio.to_thread(rebuild_site, status)
 
         flow = BotFlow(client, mini, end, dest, state, status)
         # Archive-first: most releases can be copied straight from the private
