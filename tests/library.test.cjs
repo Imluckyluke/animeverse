@@ -78,7 +78,7 @@ test("the library shows only categories with saved titles, not six empty folders
   const { renderToStaticMarkup } = require("react-dom/server");
   function render(state) {
     const { FavoritesView } = load("src/components/favorites-view.tsx", {
-      "@/lib/app-context": { useApp: () => ({ ready: true, favorites: [], watched: {}, library: {}, setLibraryStatus: () => {}, ...state }) },
+      "@/lib/app-context": { useApp: () => ({ ready: true, user: { id: "reader", email: "reader@example.test", name: "Reader" }, favorites: [], watched: {}, library: {}, setLibraryStatus: () => {}, ...state }) },
       "@/lib/admin-store": { useCatalog: items => items },
       "@/components/favorites-folder": { FavoritesFolder: ({ label }) => React.createElement("div", { "data-folder": label }, label) },
       "@/components/loading-previews": { LibraryStoragePreview: () => null },
@@ -96,6 +96,9 @@ test("the library shows only categories with saved titles, not six empty folders
   assert.ok(used.includes('data-folder="دیده‌شده‌ها"'));
   assert.equal(used.includes('data-folder="تمام‌شده‌ها"'), false);
   assert.equal(render({ favorites: ["missing"] }).includes("data-folder"), false);
+  const guest = render({ user: null, favorites: ["one"] });
+  assert.equal(guest.includes("data-folder"), false);
+  assert.ok(guest.includes("برای دیدن کتابخانه وارد شو"));
 });
 
 test("folder scrolling does not trigger opening and labels stay on the glass", () => {
@@ -147,8 +150,33 @@ test("latest episode uses its own release date, never the metadata-post date", (
   assert.deepEqual(getLatestEpisode({ episodeData: [episode(9, "bad-date")] }), { number: 9, releasedAt: null });
   assert.equal(getLatestEpisode({ sourcePostAt: anime.sourcePostAt, episodeData: [] }), null);
   const hero = fs.readFileSync(path.join(__dirname, "../src/components/anime/anime-detail-hero.tsx"), "utf8");
-  assert.ok(hero.includes("آخرین اپیزود"));
+  assert.ok(hero.includes("آخرین قسمت"));
+  assert.equal(hero.includes("آخرین اپیزود"), false);
+  assert.equal(hero.includes("data-latest-episode"), false);
+  const poster = hero.slice(hero.indexOf('<Poster'), hero.indexOf('</Poster>'));
+  assert.equal(poster.includes('latestEpisode'), false, 'Latest episode belongs only in metadata, not over the cover');
   assert.equal(hero.includes("آخرین به‌روزرسانی اطلاعات"), false);
   assert.equal(hero.includes("بالاترین شماره در آرشیو"), false);
   assert.equal(hero.includes("sourcePostLabel"), false);
+});
+
+test("next episode dates come from verified airing data rather than the Telegram catalogue", () => {
+  const hero = fs.readFileSync(path.join(__dirname, '../src/components/anime/anime-detail-hero.tsx'), 'utf8');
+  const page = fs.readFileSync(path.join(__dirname, '../src/app/anime/[slug]/page.tsx'), 'utf8');
+  assert.ok(page.includes('getNextAiringEpisode(anime)'));
+  assert.ok(page.includes('timeZone: "Asia/Tehran"'));
+  assert.ok(page.includes('nextEpisode={nextEpisode}'));
+  assert.equal(hero.includes('anime.nextEpisodeAt'), false);
+  assert.equal(page.includes('anime.nextEpisodeAt'), false);
+  assert.equal(hero.includes('زمان انتشار هنوز اعلام نشده'), false, 'Do not repeat an empty schedule under every cover');
+  assert.ok(hero.includes('زمان پخش اصلی · به وقت تهران'));
+  assert.ok(hero.includes('window.clearInterval(timer)'));
+  assert.ok(hero.includes('Date.parse(nextEpisodeAt) > clock'), 'Expired dates are hidden after hydration');
+});
+
+test("about facts omit archive bookkeeping but retain the announced episode total", () => {
+  const page = fs.readFileSync(path.join(__dirname, '../src/app/anime/[slug]/page.tsx'), 'utf8');
+  assert.equal(page.includes('قسمت‌های ثبت‌شده در آرشیو'), false);
+  assert.equal(page.includes('قسمت‌های دارای لینک آماده در آخرین همگام‌سازی'), false);
+  assert.ok(page.includes('کل قسمت‌های اعلام‌شده'));
 });

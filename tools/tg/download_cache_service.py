@@ -8,6 +8,7 @@ written into either public repository.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import fcntl
 import hashlib
 import hmac
@@ -29,6 +30,7 @@ from telethon.sessions import StringSession
 
 from common import API_ID, API_HASH, ROOT, read_session
 from download_cache import CacheError, CacheStore, ReadyCatalog, REPOSITORIES
+from local_downloads import LocalStore, MediaServer
 
 PRIVATE = Path(os.environ.get('AV_CACHE_PRIVATE', str(Path.home()/'.local/share/animeverse-download-cache')))
 TOKEN = os.environ.get('AV_CACHE_API_TOKEN', '')
@@ -124,6 +126,8 @@ async def transfer(client, github, store, job):
     async def chunks():
         count,last_report = 0,0.0
         async for chunk in client.iter_download(message.media,request_size=512*1024,chunk_size=512*1024):
+            if not store.has_active_demand(job['key']):
+                raise CacheError('انتقال متوقف شد.',409)
             count += len(chunk)
             if count>size:
                 raise CacheError('اندازهٔ فایل مبدأ تغییر کرده است.',502)
@@ -134,6 +138,13 @@ async def transfer(client, github, store, job):
             yield chunk
         if count!=size:
             raise CacheError('دریافت فایل مبدأ کامل نشد.',502)
+
+    if isinstance(store, LocalStore):
+        await store.receive(client,message,job,name,size,
+                            streams=int(os.environ.get('AV_LOCAL_DOWNLOAD_STREAMS','4')))
+        with contextlib.suppress(OSError):
+            print('CACHE_LOCAL_FILE_READY',job['key'][:12],size,flush=True)
+        return
 
     asset,checksum = await github.upload(bucket,name,size,chunks(),digest)
     store.finish(job['key'],bucket,asset,checksum)
@@ -151,9 +162,11 @@ async def worker(store, stopped):
     last_cleanup = 0.0
     try:
         async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=2)) as session:
-            github = GitHub(session)
+            github = None if isinstance(store, LocalStore) else GitHub(session)
             while not stopped.is_set():
-                if time.monotonic()-last_cleanup>300:
+                if isinstance(store, LocalStore):
+                    store.cleanup()
+                elif time.monotonic()-last_cleanup>300:
                     rows,retired = store.expired_assets()
                     for row in rows:
                         try:
@@ -183,6 +196,11 @@ async def worker(store, stopped):
                     # Obey the complete Telegram wait; never retry it early.
                     await asyncio.sleep(delay)
                 except Exception as error:
+                    if not store.has_active_demand(job['key']):
+                        store.suspend(job['key'])
+                        if github:
+                            github.releases.clear()
+                        continue
                     message = str(error) if isinstance(error,CacheError) else 'انتقال انجام نشد؛ کمی بعد دوباره تلاش کن.'
                     if isinstance(error,CacheError) and 'ظرفیت' in message:
                         store.defer(job['key'],message)
@@ -270,11 +288,17 @@ class Handler(BaseHTTPRequestHandler):
             return
         try:
             length = int(self.headers.get('Content-Length','0'))
-            if self.path not in ('/v1/downloads','/v1/batches') or not 0<length<=4096:
+            if self.path not in ('/v1/downloads','/v1/batches','/v1/controls') or not 0<length<=4096:
                 raise CacheError('درخواست نامعتبر است.')
             payload = json.loads(self.rfile.read(length))
             if not isinstance(payload,dict):
                 raise CacheError('درخواست نامعتبر است.')
+            if self.path=='/v1/controls':
+                if payload.get('action') not in ('pause','resume') or type(payload.get('batch')) is not bool:
+                    raise CacheError('درخواست معتبر نیست.',400)
+                result=self.server.store.control_request(payload.get('requestId'),payload.get('id'),payload['batch'],payload['action']=='pause',payload.get('job'))
+                self.reply(200,result)
+                return
             if self.path=='/v1/batches':
                 items=self.server.catalog.resolve_all(payload.get('slug'),payload.get('quality'))
                 batch=self.server.store.request_batch(items,payload.get('client',''),payload.get('requestId',''))
@@ -295,12 +319,21 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    if len(TOKEN)<32 or not os.environ.get('GH_TOKEN'):
+    if len(TOKEN)<32 or (os.environ.get('AV_CACHE_STORAGE')!='local' and not os.environ.get('GH_TOKEN')):
         raise SystemExit('Private cache credentials are not configured')
     PRIVATE.mkdir(mode=0o700,parents=True,exist_ok=True)
     lock = (PRIVATE/'worker.lock').open('a')
     fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-    store = CacheStore(PRIVATE/'cache.sqlite',ttl=int(os.environ.get('AV_CACHE_TTL','86400')))
+    if os.environ.get('AV_CACHE_STORAGE')=='local':
+        store = LocalStore(PRIVATE/'cache.sqlite',PRIVATE/'media',TOKEN,
+                           limit=int(os.environ.get('AV_LOCAL_LIMIT','16106127360')),
+                           read_wait=float(os.environ.get('AV_LOCAL_READ_WAIT','45')),
+                           stall_seconds=float(os.environ.get('AV_LOCAL_STALL_SECONDS','90')))
+        media = MediaServer(('127.0.0.1',8788),store)
+        threading.Thread(target=media.serve_forever,daemon=True).start()
+    else:
+        store = CacheStore(PRIVATE/'cache.sqlite',ttl=int(os.environ.get('AV_CACHE_TTL','86400')))
+
     server = CacheHTTPServer(('127.0.0.1',int(os.environ.get('AV_CACHE_PORT','8443'))),Handler)
     server.store,server.catalog = store,ReadyCatalog(ROOT/'src/lib/real-catalog.json')
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
@@ -308,6 +341,14 @@ def main():
     context.load_cert_chain(str(PRIVATE/'server.crt'),str(PRIVATE/'server.key'))
     server.tls_context = context
     stopped = threading.Event()
+    if isinstance(store, LocalStore):
+        def janitor():
+            while not stopped.wait(10):
+                try:
+                    store.cleanup()
+                except Exception:
+                    print('CACHE_LOCAL_CLEANUP_RETRY',flush=True)
+        threading.Thread(target=janitor,daemon=True).start()
     threading.Thread(target=server.serve_forever,daemon=True).start()
     for signum in (signal.SIGTERM,signal.SIGINT):
         signal.signal(signum,lambda *_:stopped.set())

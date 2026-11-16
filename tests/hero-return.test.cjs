@@ -4,9 +4,13 @@ const fs = require("node:fs");
 const path = require("node:path");
 const read = name => fs.readFileSync(path.join(__dirname, "../src", name), "utf8");
 
-test("hero reads one synchronous admin snapshot, not an empty mount-time copy", () => {
+test("hero uses server-published pins; legacy browser drafts cannot hide or replace public titles", () => {
   const store = read("lib/admin-store.ts");
-  assert.match(store, /useSyncExternalStore\(subscribeAdmin, adminSnapshot/);
+  assert.match(store, /export function useAdminState\(\): AdminState \{\s*return EMPTY_ADMIN;/);
+  assert.doesNotMatch(store, /useSyncExternalStore\(subscribeAdmin, adminSnapshot/);
+  const data = read("lib/data.ts");
+  assert.match(data, /applyPublishedAdmin\(anime/);
+  assert.match(data, /return withPins\(out\)/);
   assert.doesNotMatch(store, /useState<AdminState>\(EMPTY_ADMIN\)/);
   const hero = read("components/home/hero.tsx");
   assert.match(hero, /applyAdmin\(candidates, admin\)/);

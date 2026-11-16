@@ -2,47 +2,78 @@
 
 import { Bell, BellRing, Loader2, RefreshCw, Unlink } from "lucide-react";
 import { cn, faNum } from "@/lib/utils";
-import { useTelegramNotify } from "@/components/telegram-notify-provider";
+import { useApp } from "@/lib/app-context";
+import {
+  notificationAccountId,
+  useTelegramNotify,
+} from "@/components/telegram-notify-provider";
+
+const EXPLANATION =
+  "فقط برای انیمه‌هایی که لایک کرده‌ای و قسمت‌های تازهٔ منتشرشده و تأییدشده پیام می‌آید؛ فایل‌های قدیمی کپی‌شده اعلان نمی‌شوند.";
 
 /**
  * Telegram episode alerts. `menu` is the compact row inside the account
  * popover; `card` is the full-width settings block used on the account page.
+ *
+ * Signed-out and device-local profiles never see this personal row.
  */
 export function TelegramNotifyRow({ variant = "menu" }: { variant?: "menu" | "card" }) {
+  const { user } = useApp();
   const {
     ready,
     available,
     status,
     busy,
     pending,
+    error,
+    warning,
     connect,
     setEnabled,
     refresh,
     disconnect,
   } = useTelegramNotify();
-  if (!available) return null;
+
+  if (!notificationAccountId(user)) return null;
+
   const linked = Boolean(status?.linked);
   const enabled = linked && Boolean(status?.enabled);
   const menu = variant === "menu";
+  const retryOnly = Boolean(error) && !status;
+  const workerDown = Boolean(status?.available && status.workerHealthy === false);
 
-  const description = !ready
+  const description = !ready && !error
     ? "در حال بررسی اتصال…"
-    : linked
-      ? enabled
-        ? `فعال · ${faNum(status?.favoritesCount ?? 0)} انیمه لایک‌شده`
-        : "اتصال برقرار است، اعلان خاموش است"
-      : pending
-        ? "در تلگرام Start را بزن…"
-        : "اتصال به ربات تلگرام";
+    : retryOnly
+      ? "وضعیت اعلان در دسترس نیست"
+      : linked
+        ? enabled
+          ? `فعال · ${faNum(status?.favoritesCount ?? 0)} انیمه لایک‌شده`
+          : "اتصال برقرار است، اعلان خاموش است"
+        : workerDown
+          ? "ربات موقتاً در دسترس نیست"
+          : pending
+            ? "در تلگرام Start را بزن…"
+            : "اتصال به ربات تلگرام";
+
+  const primary = () => {
+    if (busy || !ready) return;
+    if (retryOnly) void refresh();
+    else if (linked) void setEnabled(!enabled);
+    else if (workerDown || pending) void refresh();
+    else void connect();
+  };
 
   return (
     <div
+      data-telegram-notify={variant}
       className={cn(
         menu ? "px-2 py-1.5" : "rounded-2xl border border-white/[0.09] bg-white/[0.035] p-3.5",
       )}
+      aria-busy={busy}
     >
       <div className="flex items-center gap-2.5">
         <span
+          aria-hidden
           className={cn(
             "grid shrink-0 place-items-center rounded-xl border",
             menu ? "size-8" : "size-10",
@@ -60,22 +91,40 @@ export function TelegramNotifyRow({ variant = "menu" }: { variant?: "menu" | "ca
 
         <button
           type="button"
-          onClick={() =>
-            linked ? void setEnabled(!enabled) : pending ? void refresh() : void connect()
-          }
+          onClick={primary}
           disabled={busy || !ready}
-          className="min-w-0 flex-1 text-right disabled:opacity-60"
+          aria-label={
+            retryOnly
+              ? "بررسی دوباره وضعیت اعلان تلگرام"
+              : linked
+                ? enabled
+                  ? "خاموش کردن اعلان قسمت جدید"
+                  : "روشن کردن اعلان قسمت جدید"
+                : workerDown
+                  ? "بررسی دوباره وضعیت ربات تلگرام"
+                  : pending
+                    ? "بررسی اتصال تلگرام"
+                    : "اتصال به ربات تلگرام"
+          }
+          className="min-w-0 flex-1 text-right disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span className={cn("block font-bold text-white", menu ? "text-[11px]" : "text-[12.5px]")}>
             اعلان قسمت جدید
           </span>
-          <span className={cn("mt-0.5 block text-content-faint", menu ? "text-[9px]" : "text-[10.5px]")}>
+          <span
+            className={cn(
+              "mt-0.5 block text-content-faint",
+              menu ? "text-[9px]" : "text-[10.5px]",
+            )}
+          >
             {description}
           </span>
         </button>
 
         {busy ? (
-          <Loader2 className="size-4 shrink-0 animate-spin text-amber-300" />
+          <Loader2 aria-hidden className="size-4 shrink-0 animate-spin text-amber-300" />
+        ) : !ready ? (
+          <Loader2 aria-hidden className="size-4 shrink-0 animate-spin text-content-faint" />
         ) : linked ? (
           <button
             type="button"
@@ -83,14 +132,16 @@ export function TelegramNotifyRow({ variant = "menu" }: { variant?: "menu" | "ca
             aria-checked={enabled}
             aria-label={enabled ? "خاموش کردن اعلان قسمت جدید" : "روشن کردن اعلان قسمت جدید"}
             onClick={() => void setEnabled(!enabled)}
+            disabled={busy}
             className={cn(
-              "flex h-6 w-10 shrink-0 items-center rounded-full border p-0.5 transition-colors",
+              "flex h-6 w-10 shrink-0 items-center rounded-full border p-0.5 transition-colors disabled:cursor-not-allowed disabled:opacity-60",
               enabled
                 ? "justify-end border-amber-300/50 bg-amber-400"
                 : "justify-start border-white/15 bg-white/10",
             )}
           >
             <span
+              aria-hidden
               className={cn(
                 "block size-4 rounded-full shadow-sm transition-colors",
                 enabled ? "bg-[#1a1206]" : "bg-white/70",
@@ -100,33 +151,97 @@ export function TelegramNotifyRow({ variant = "menu" }: { variant?: "menu" | "ca
         ) : (
           <button
             type="button"
-            onClick={() => (pending ? void refresh() : void connect())}
-            disabled={busy || !ready}
-            className="grid size-8 shrink-0 place-items-center rounded-lg border border-amber-400/30 bg-amber-400/10 text-amber-300 transition-colors hover:bg-amber-400/15 disabled:opacity-50"
-            aria-label={pending ? "بررسی اتصال" : "اتصال به ربات تلگرام"}
-            title={pending ? "بررسی اتصال" : "اتصال به ربات تلگرام"}
+            onClick={() => (pending || workerDown || retryOnly ? void refresh() : void connect())}
+            disabled={busy || !ready || !available}
+            className="grid size-8 shrink-0 place-items-center rounded-lg border border-amber-400/30 bg-amber-400/10 text-amber-300 transition-colors hover:bg-amber-400/15 disabled:cursor-not-allowed disabled:opacity-50"
+            aria-label={
+              pending
+                ? "بررسی اتصال"
+                : retryOnly
+                  ? "تلاش دوباره برای وضعیت اعلان"
+                  : workerDown
+                    ? "بررسی دوباره وضعیت ربات تلگرام"
+                    : "اتصال به ربات تلگرام"
+            }
+            title={
+              pending
+                ? "بررسی اتصال"
+                : retryOnly
+                  ? "تلاش دوباره"
+                  : workerDown
+                    ? "ربات موقتاً در دسترس نیست"
+                    : available
+                      ? "اتصال به ربات تلگرام"
+                      : "اعلان تلگرام در دسترس نیست"
+            }
           >
-            {pending ? <RefreshCw className="size-3.5" /> : <Bell className="size-3.5" />}
+            {pending || retryOnly || workerDown ? (
+              <RefreshCw aria-hidden className="size-3.5" />
+            ) : (
+              <Bell aria-hidden className="size-3.5" />
+            )}
           </button>
         )}
       </div>
 
-      {!menu && linked ? (
-        <div className="mt-3 flex items-center justify-between gap-2 border-t border-white/[0.07] pt-2.5">
-          <p className="text-[10px] leading-5 text-content-faint">
-            فقط برای انیمه‌هایی که قلبشان را زده‌ای پیام می‌آید.
-          </p>
+      {error ? (
+        <div
+          role="alert"
+          className={cn(
+            "flex items-start gap-2 text-danger/90",
+            menu ? "mt-1.5 pe-10 text-[9px] leading-4" : "mt-2.5 text-[10px] leading-5",
+          )}
+        >
+          <p className="min-w-0 flex-1">{error}</p>
           <button
             type="button"
-            onClick={() => void disconnect()}
+            onClick={() => void refresh()}
             disabled={busy}
-            className="inline-flex shrink-0 items-center gap-1 text-[10px] font-semibold text-danger/75 transition-colors hover:text-danger disabled:opacity-50"
+            className="shrink-0 font-semibold underline decoration-danger/40 underline-offset-2 transition-colors hover:text-danger disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Unlink className="size-3" />
-            قطع اتصال
+            تلاش دوباره
           </button>
         </div>
       ) : null}
+
+      {warning && !error ? (
+        <div
+          role="status"
+          className={cn(
+            "flex items-start gap-2 text-amber-300/90",
+            menu ? "mt-1.5 pe-10 text-[9px] leading-4" : "mt-2.5 text-[10px] leading-5",
+          )}
+        >
+          <p className="min-w-0 flex-1">{warning}</p>
+          <button
+            type="button"
+            onClick={() => void refresh()}
+            disabled={busy}
+            className="shrink-0 font-semibold underline decoration-amber-300/40 underline-offset-2 transition-colors hover:text-amber-200 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            بررسی دوباره
+          </button>
+        </div>
+      ) : null}
+
+      {!menu ? (
+        <div className="mt-3 flex items-start justify-between gap-3 border-t border-white/[0.07] pt-2.5">
+          <p className="text-[10px] leading-5 text-content-faint">{EXPLANATION}</p>
+          {linked ? (
+            <button
+              type="button"
+              onClick={() => void disconnect()}
+              disabled={busy}
+              className="inline-flex shrink-0 items-center gap-1 text-[10px] font-semibold text-danger/75 transition-colors hover:text-danger disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <Unlink aria-hidden className="size-3" />
+              قطع اتصال
+            </button>
+          ) : null}
+        </div>
+      ) : (
+        <span className="sr-only">{EXPLANATION}</span>
+      )}
     </div>
   );
 }

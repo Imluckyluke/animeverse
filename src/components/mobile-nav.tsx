@@ -22,7 +22,7 @@ function syncDownloadLift(hidden: boolean) {
 
 export function MobileNav() {
   const pathname = usePathname();
-  const { favorites, library, watched } = useApp();
+  const { user, favorites, library, watched } = useApp();
   const libraryCount = new Set([...favorites, ...Object.keys(library), ...Object.keys(watched).filter(slug => watched[slug].length > 0)]).size;
   const [hidden, setHidden] = useState(false);
   const lastY = useRef(0);
@@ -62,8 +62,8 @@ export function MobileNav() {
       )}
       style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 0.75rem)" }}
     >
-      <div className="dock-tray mx-auto grid h-[74px] w-full grid-cols-4 gap-1 p-1.5">
-        {ITEMS.map((item) => {
+      <div className={cn("dock-tray mx-auto grid h-[74px] w-full gap-1 p-1.5", user ? "grid-cols-4" : "grid-cols-3")}>
+        {ITEMS.filter(item => user || item.href !== "/favorites").map((item) => {
           const active =
             item.href === "/"
               ? pathname === "/"

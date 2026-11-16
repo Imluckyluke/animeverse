@@ -32,9 +32,57 @@ is performed here. Existing native `/api/link` clients remain compatible.
   Temporary storage pressure defers accepted work instead of dropping it or
   retrying the Telegram API in a tight loop. Temporary links can still expire
   after inactivity; the popup exposes expiration and explicit preparation retry.
-- The server streams media through bounded buffers. No video is saved locally.
+- In GitHub mode the server streams through bounded buffers without saving a
+  local video. Production `AV_CACHE_STORAGE=local` instead uses a private,
+  quota-bounded temporary file and signed URLs on `anime.bayerkashan.ir`.
 - GitHub's excessive-bandwidth/IP policies still apply; this is not a guarantee
   of unlimited hosting or an authorization to distribute third-party content.
+
+### Progressive local downloads
+
+The local producer still uses up to four Telegram shards, but HTTP readers see
+only the gap-free prefix actually written with positional writes. Shard totals
+are server progress, not the number of contiguous bytes safe to send. Completed
+shards are traversed when computing that prefix; taking the minimum shard offset
+would incorrectly stop the watermark at the end of the first shard.
+
+Once a prefix exists, status may include `live: true`, `streamBytes` and a short,
+generation-bound signed URL while `status` remains `uploading`. The user can
+use the existing “دانلود مستقیم” click without waiting for the whole server
+copy. An explicit single-file click arms an in-memory, one-shot download intent.
+The first valid live URL (or an already-ready cache URL) is handed to the native
+browser downloader automatically; there is no separate progressive-mode button
+or second required preparation click. If the phone catches up it waits for more
+data. The UI cannot measure a native browser
+download's progress and must not invent a phone percentage.
+
+The intent is opt-in only at explicit episode/retry clicks and is consumed
+before native navigation. History hydration, URL-query preparation, focus,
+ordinary polls, batch membership and resume controls never arm one. Removal,
+pause (including another tab), clear and request-ID replacement cancel pending
+intent. A live-to-ready transition cannot start a second download. A zero-size,
+off-screen iframe keeps the current page intact without a popup or a full-file
+Blob; do not remove its browsing context on a short timer. Browser/OS automatic
+download permissions still apply, particularly on iOS. The same direct-download
+link remains the manual fallback; the UI cannot reliably detect permission
+denial or claim that bytes reached the user's phone.
+
+Live bytes have not passed the final full-file size/SHA-256 processing yet.
+Only catalog-authorized source messages are used; no identity check is relaxed.
+The final byte is withheld until commit succeeds, so a failed producer never
+finishes a falsely successful HTTP body. Live reads use `pread`, never buffered
+read-ahead across sparse holes. On a stall after headers, the connection closes
+without zero padding. A range beyond the current prefix waits and then gets
+503/Retry-After if the producer cannot supply it in time; invalid ranges get 416.
+
+Ephemeral live grants are kept separately from verified `local_files` and never
+enter `jobs.url`. They are revoked after failure, pause of all demand, retry or
+restart. A successful commit retains the generation for existing readers.
+Both producers and readers pin cleanup. Eight live readers are bounded
+separately from other media/status requests. Tunables:
+`AV_LOCAL_READ_WAIT` (45 seconds) and `AV_LOCAL_STALL_SECONDS` (90 seconds).
+Proxy streaming must not buffer the entire response; keep response compression
+off for media. The endpoint sends no-store and `X-Accel-Buffering: no`.
 
 ## Control plane and secrets
 

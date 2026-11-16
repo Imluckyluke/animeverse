@@ -1,0 +1,30 @@
+
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ページがみつかりません。</title>
+    <link rel="icon" href="/html/user_data/assets/img/common/favicon.ico">
+    <link rel="stylesheet" href="/errors/css/style.css">
+</head>
+<body>
+<div class="ec-layoutRole">
+    <div class="ec-404Role">
+        <div class="ec-role">
+            <div class="ec-404Role__contents">
+                <div class="ec-404Role__contents-inner">
+                    <p class="ec-404Role__title">ページがみつかりません。</p>
+                    <p class="ec-404Role__description ec-reportDescription">URLに間違いがないかご確認ください。</p>
+                    <a class="ec-404Role__textlink" href="/media/">トップページへ</a>
+                </div>
+            </div>
+        </div>
+        <div class="ec-404Role__footer">
+            <p>株式会社A3<br>
+                お問い合わせ：info@eeo.today</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

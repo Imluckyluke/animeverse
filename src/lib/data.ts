@@ -4,6 +4,8 @@ import { normalizeGenres } from "./genres";
 import artworkDimensions from "./artwork-dimensions.json";
 import { cleanCatalogueRecord } from "./catalog-quality";
 import generatedMetadata from "./generated-metadata.json";
+import publishedAdmin from "./admin-public-overrides.json";
+import { applyPublishedAdmin } from "./admin-public";
 import { applyMetadata, type MetadataEntry } from "./metadata-enrichment";
 
 import type { Anime, AnimeType, Art, EpisodeQuality } from "./catalog";
@@ -770,7 +772,7 @@ const DEMO_ANIME: Anime[] = [
 ];
 
 const REAL_ANIME = Array.isArray(realCatalog) ? (realCatalog as unknown as Anime[]) : [];
-export const ANIME: Anime[] = (REAL_ANIME.length ? REAL_ANIME : DEMO_ANIME)
+export const ANIME: Anime[] = (REAL_ANIME.length || publishedAdmin.enabled ? REAL_ANIME : DEMO_ANIME)
   .map(cleanCatalogueRecord)
   .map(anime => applyMetadata(anime, generatedMetadata.metadata as Record<string, MetadataEntry>))
   .map(anime => ({ ...anime, genres: normalizeGenres(anime.genres) }))
@@ -783,7 +785,7 @@ export const ANIME: Anime[] = (REAL_ANIME.length ? REAL_ANIME : DEMO_ANIME)
       // A duplicated low-resolution poster is not an independent banner.
       ...(!artwork.banner && artwork.cover && anime.banner === anime.cover ? { banner: artwork.cover } : {}),
     };
-  }).map(anime => {
+  }).map(anime => applyPublishedAdmin(anime, (publishedAdmin.overrides as Record<string, { revision: number; patch: Record<string, unknown> }>)[anime.slug])).map(anime => {
     const dimensions = artworkDimensions as Record<string, number[]>;
     const cover = dimensions[(anime.cover ?? "").split("?")[0]];
     const banner = dimensions[(anime.banner ?? "").split("?")[0]];
@@ -873,12 +875,14 @@ export function tehranDay(): number {
  */
 export function getDailyPopularHero(limit = 5): Anime[] {
   const pool = getPopular(Math.max(limit * 4, 20));
-  if (pool.length <= limit) return pool;
+  const pins = ANIME.filter(anime => (publishedAdmin.overrides as Record<string, { patch: Record<string, unknown> }>)[anime.slug]?.patch.pinned === true);
+  const withPins = (items: Anime[]) => [...pins, ...items.filter(anime => !pins.some(pin => pin.slug === anime.slug))].slice(0, limit);
+  if (pool.length <= limit) return withPins(pool);
 
   const offset = (((tehranDay() * limit) % pool.length) + pool.length) % pool.length;
   const out: Anime[] = [];
   for (let i = 0; i < limit; i += 1) out.push(pool[(offset + i) % pool.length]);
-  return out;
+  return withPins(out);
 }
 
 /** Split quality labels into readable base badges and the x265 codec family. */

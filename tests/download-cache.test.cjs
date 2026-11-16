@@ -9,7 +9,8 @@ function load(file,dependencies={}){
  const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
  new Function('require','module','exports',js)(name=>dependencies[name]??require(name),shim,shim.exports);return shim.exports;
 }
-const {isGitHubCacheUrl,validDownloadTarget}=load('src/lib/download-cache-contract.ts');
+const contract=load('src/lib/download-cache-contract.ts');
+const {isGitHubCacheUrl,isSafeDownloadReply,validDownloadTarget}=contract;
 test('direct Telegram downloads use only the exact ready public file URL',()=>{
  const {telegramDownloadUrl}=load('src/lib/download-cache-contract.ts');
  const url='https://t.me/testanivers/123';
@@ -43,9 +44,66 @@ test('GitHub downloads accept only the two public cache asset paths',()=>{
  assert.ok(validDownloadTarget('https://t.me/testanivers/100'));
  assert.equal(validDownloadTarget('https://t.me/private/100'),false);
 });
+test('live replies require uploading local provider, a signed local URL and contiguous bytes',()=>{
+ const local='https://anime.bayerkashan.ir/media/'+'a'.repeat(64)+'/'+'b'.repeat(32)+'/1800000000/'+'c'.repeat(64);
+ const live={status:'uploading',provider:'local',live:true,streamBytes:50,size:100,url:local};
+ assert.equal(isSafeDownloadReply(live),true);
+ assert.equal(isSafeDownloadReply({status:'ready',provider:'local',url:local}),true);
+ const unsafe=[
+  {...live,url:'javascript:alert(1)'},
+  {...live,url:'https://attacker.example/media/'+'a'.repeat(64)+'/'+'b'.repeat(32)+'/1800000000/'+'c'.repeat(64)},
+  {...live,url:'https://github.com/itisluckyluke-dev/animeverse-temporary-downloads/releases/download/cache/file.mkv'},
+  {...live,url:'https://t.me/testanivers/123'},
+  {...live,url:local+'?download=1'},
+  {...live,provider:'github'},
+  {...live,provider:'telegram'},
+  {...live,status:'ready'},
+  {...live,status:'queued'},
+  {...live,streamBytes:undefined},
+  {...live,streamBytes:-1},
+  {...live,streamBytes:'50'},
+   {...live,streamBytes:101},
+   {...live,streamBytes:0},
+   {...live,streamBytes:1.5},
+   {...live,streamBytes:100},
+   {...live,size:undefined},
+   {...live,size:NaN},
+   {...live,bytes:49},
+  {...live,url:undefined},
+  {...live,live:'true'},
+  {status:'uploading',provider:'local',url:local,streamBytes:10},
+   {status:'ready',provider:'local',url:'javascript:alert(1)'},
+   {status:'ready',provider:'local'},
+ ];
+ for(const item of unsafe)assert.equal(isSafeDownloadReply(item),false,JSON.stringify(item));
+ const provider=fs.readFileSync(path.join(__dirname,'../src/components/downloads/downloads-provider.tsx'),'utf8');
+ const server=fs.readFileSync(path.join(__dirname,'../src/lib/download-cache.ts'),'utf8');
+ assert.ok(provider.includes('!isSafeDownloadReply(item)'));
+ assert.ok(server.includes('!isSafeDownloadReply(item)'));
+});
+test('server rejects a live reply from the wrong provider before exposing it',async()=>{
+ const previous=process.env.AV_DOWNLOAD_CACHE_TOKEN;
+ process.env.AV_DOWNLOAD_CACHE_TOKEN='test-only-shared-key-not-a-production-credential';
+ const EventEmitter=require('node:events');
+ const unsafe={job:'a'.repeat(64),status:'uploading',provider:'telegram',live:true,streamBytes:1,size:2,url:'https://t.me/testanivers/123'};
+ const https={default:{request(_url,_options,callback){
+  const request=new EventEmitter();
+  request.setTimeout=()=>{};
+  request.destroy=error=>{if(error)request.emit('error',error);};
+  request.end=()=>{
+   const response=new EventEmitter();response.statusCode=200;callback(response);
+   queueMicrotask(()=>{response.emit('data',Buffer.from(JSON.stringify(unsafe)));response.emit('end');});
+  };
+  return request;
+ }}};
+ try{
+  const {cacheRequest}=load('src/lib/download-cache.ts',{'./download-cache-contract':contract,'node:https':https});
+  await assert.rejects(cacheRequest('/v1/jobs/'+'a'.repeat(64)),/پاسخ سرویس دانلود معتبر نیست/);
+ }finally{if(previous===undefined)delete process.env.AV_DOWNLOAD_CACHE_TOKEN;else process.env.AV_DOWNLOAD_CACHE_TOKEN=previous;}
+});
 test('discovery must be freshly HMAC-signed before a backend receives authorization',()=>{
  const crypto=require('node:crypto');const secret='test-only-shared-key-not-a-production-credential';
- const {signedCacheOrigin}=load('src/lib/download-cache.ts',{'./download-cache-contract':{isGitHubCacheUrl}});
+ const {signedCacheOrigin}=load('src/lib/download-cache.ts',{'./download-cache-contract':contract});
  const now=Date.now();const payload={version:1,origin:'https://test-cache.trycloudflare.com',updatedAt:new Date(now).toISOString()};
  payload.signature=crypto.createHmac('sha256',secret).update('1\n'+payload.origin+'\n'+payload.updatedAt).digest('hex');
  assert.equal(signedCacheOrigin(payload,secret,now),payload.origin);
@@ -61,7 +119,7 @@ test('preparation stays in the site popup rather than opening tabs',()=>{
  const bridge=fs.readFileSync(path.join(__dirname,'../src/app/download/page.tsx'),'utf8');assert.ok(bridge.includes('redirect('));
 });
 test('download history restores identifiers, rechecks stale URLs and rejects malformed entries',()=>{
- const model=load('src/lib/download-manager.ts',{'./download-cache-contract':{validDownloadTarget}});
+ const model=load('src/lib/download-manager.ts',{'./download-cache-contract':contract});
  const row={id:'valid-record-uuid-12345',slug:'example',title:'Title',quality:'720p',episode:3,all:false,total:1,createdAt:100,updatedAt:110,serverId:'a'.repeat(64),items:[{episode:3,quality:'720p',status:'ready',size:100,bytes:100,url:'https://github.com/itisluckyluke-dev/animeverse-temporary-downloads/releases/download/cache/video.mkv'}]};
  const restored=model.parseDownloadHistory(JSON.stringify([row,{...row,id:'bad'}]));
  assert.equal(restored.length,1);assert.equal(restored[0].serverId,row.serverId);assert.equal(restored[0].items[0].status,'checking');
@@ -73,24 +131,46 @@ test('download history restores identifiers, rechecks stale URLs and rejects mal
  const migrated=model.parseDownloadHistory(JSON.stringify([legacy]));
  assert.equal(migrated[0].serverId,row.serverId);assert.equal(migrated[0].items[0].url,undefined);assert.equal(migrated[0].items[0].status,'checking');
 });
+test('persisted live metadata is sanitized and stale live URLs are discarded on recheck',()=>{
+ const model=load('src/lib/download-manager.ts',{'./download-cache-contract':contract});
+ const local='https://anime.bayerkashan.ir/media/'+'a'.repeat(64)+'/'+'b'.repeat(32)+'/1800000000/'+'c'.repeat(64);
+ const row={id:'valid-record-uuid-12345',slug:'example',title:'Title',quality:'720p',episode:1,all:false,total:1,createdAt:100,updatedAt:110,serverId:'a'.repeat(64),items:[{episode:1,quality:'720p',status:'uploading',provider:'local',live:true,streamBytes:40,size:100,bytes:50,url:local}]};
+ const restored=model.parseDownloadHistory(JSON.stringify([row]))[0].items[0];
+ assert.equal(restored.live,false);assert.equal(restored.url,undefined);assert.equal(restored.streamBytes,undefined);assert.equal(restored.status,'uploading');
+ const crossTab=model.parseDownloadHistory(JSON.stringify([row]),false)[0].items[0];
+ assert.equal(crossTab.live,true);assert.equal(crossTab.url,local);assert.equal(crossTab.streamBytes,40);
+ for(const unsafe of [
+  {...row.items[0],provider:'github'},
+  {...row.items[0],status:'ready'},
+  {...row.items[0],url:'https://github.com/itisluckyluke-dev/animeverse-temporary-downloads/releases/download/cache/file.mkv'},
+  {...row.items[0],streamBytes:undefined},
+  {...row.items[0],live:'true'},
+  {...row.items[0],url:'javascript:alert(1)'},
+ ]){
+  const item=model.parseDownloadHistory(JSON.stringify([{...row,items:[unsafe]}]),false)[0].items[0];
+  assert.equal(item.live,false);assert.equal(item.url,undefined);assert.equal(item.streamBytes,undefined);
+ }
+});
 test('legacy account discovery is rejected before fetching or forwarding authorization',async()=>{
  const previous={AV_DOWNLOAD_CACHE_DISCOVERY_URL:process.env.AV_DOWNLOAD_CACHE_DISCOVERY_URL,AV_DOWNLOAD_CACHE_TOKEN:process.env.AV_DOWNLOAD_CACHE_TOKEN};
  process.env.AV_DOWNLOAD_CACHE_DISCOVERY_URL='https://raw.githubusercontent.com/Imluckyluke/animeverse-temporary-downloads/main/cache-origin.json';
  process.env.AV_DOWNLOAD_CACHE_TOKEN='test-only-shared-key-not-a-production-credential';
  try{
-  const {cacheRequest}=load('src/lib/download-cache.ts',{'./download-cache-contract':{isGitHubCacheUrl},'node:https':{request(){throw Error('Legacy discovery must not make a request');}}});
+  const {cacheRequest}=load('src/lib/download-cache.ts',{'./download-cache-contract':contract,'node:https':{request(){throw Error('Legacy discovery must not make a request');}}});
   await assert.rejects(cacheRequest('/v1/jobs/'+'a'.repeat(64)),/پیکربندی کش معتبر نیست/);
  }finally{for(const [key,value]of Object.entries(previous)){if(value===undefined)delete process.env[key];else process.env[key]=value;}}
 });
 test('unchanged status polls reuse rows and only the changed episode is replaced',()=>{
- const {reconcileTransfers}=load('src/lib/download-manager.ts',{'./download-cache-contract':{validDownloadTarget}});
+ const {reconcileTransfers}=load('src/lib/download-manager.ts',{'./download-cache-contract':contract});
  const previous=[{episode:1,quality:'720p',status:'queued',bytes:0},{episode:2,quality:'720p',status:'uploading',bytes:10,size:100}];
  assert.equal(reconcileTransfers(previous,previous.map(row=>({...row}))),previous);
  const next=reconcileTransfers(previous,[{...previous[0]},{...previous[1],bytes:20}]);
  assert.equal(next[0],previous[0]);assert.notEqual(next[1],previous[1]);assert.equal(next[1].bytes,20);
+ const live=reconcileTransfers(previous,[{...previous[0]},{...previous[1],live:true,streamBytes:15,status:'uploading',provider:'local'}]);
+ assert.equal(live[0],previous[0]);assert.notEqual(live[1],previous[1]);assert.equal(live[1].streamBytes,15);
 });
 test('large registered batches persist a compact preview without losing their server identity',()=>{
- const model=load('src/lib/download-manager.ts',{'./download-cache-contract':{validDownloadTarget}});
+ const model=load('src/lib/download-manager.ts',{'./download-cache-contract':contract});
  const row={id:'valid-history-uuid-12345',slug:'example',title:'Title',quality:'720p',all:true,total:1000,createdAt:100,updatedAt:110,serverId:'f'.repeat(64),items:Array.from({length:1000},(_,n)=>({episode:n+1,quality:'720p',status:'waiting',bytes:0}))};
  const compact=model.persistableDownloadHistory([row]);assert.equal(compact[0].items.length,20);assert.equal(compact[0].total,1000);assert.equal(compact[0].serverId,row.serverId);
  const restored=model.parseDownloadHistory(JSON.stringify(compact));assert.equal(restored[0].serverId,row.serverId);assert.equal(restored[0].total,1000);

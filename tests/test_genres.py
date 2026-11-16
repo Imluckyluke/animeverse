@@ -22,10 +22,16 @@ class GenreTests(unittest.TestCase):
         rows = json.loads((ROOT / "src/lib/real-catalog.json").read_text())
         before = copy.deepcopy(rows)
         names = {genre for row in rows for genre in normalize_genres(row.get("genres"))}
-        self.assertLess(len(names), 100)
+        # Matching another real title can add a legitimate genre. Do not make
+        # catalogue growth fail a preservation test at an arbitrary count.
+        self.assertTrue(names)
         self.assertNotIn("👥 اطلاعات تیم ترجمه :", names)
         self.assertFalse(any("#" in name or "_" in name for name in names))
         self.assertEqual(rows, before)
+
+    def test_new_legitimate_combat_sports_genre_is_not_discarded_to_keep_inventory_small(self):
+        values=['کمدی','شونن','ورزشی','ورزش های رزمی']
+        self.assertEqual(normalize_genres(values),values)
 
     def test_catalogue_splits_before_limiting_and_keeps_all_real_genres(self):
         state = {"anime": {"one": {"slug": "one", "titleEn": "Test", "episodes": {"1": {"720p": "link"}}, "genres": [

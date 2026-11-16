@@ -19,6 +19,7 @@ import sqlite3
 import time
 
 from backfill import _archive_record_better, _season_compatible_record
+from archive_file_review import reviewed_queue_allowed, reviewed_record_allowed
 from catalog import _http_url, build_catalog, write_catalog
 from common import API_ID, API_HASH, DATA, DEST_CHANNEL, DEST_USERNAME, ROOT, STATE_PATH, atomic_write_json, load_state, now_iso, read_json, read_session, save_state
 
@@ -28,7 +29,7 @@ REPORT_PATH = DATA / "availability-repair-report.json"
 def ready_slot(state, anime, episode, quality):
     deep = anime.get("episodes", {}).get(str(episode), {}).get(quality)
     item = state.get("queue", {}).get(deep, {})
-    return item.get("status") == "done" and _http_url(item.get("url"))
+    return item.get("status") == "done" and _http_url(item.get("url")) and reviewed_queue_allowed(anime, item)
 
 
 def inventory(state):
@@ -59,12 +60,18 @@ def reconcile(state, db, publish_record):
         if not anime:
             continue
         record = json.loads(row["record"])
-        if anime.get('metadataSource') == 'anilist':
+        from admin_commands import manual_record, manual_compatible
+        manual = manual_record(record, key)
+        if manual and not manual_compatible(anime, record, key):
+            stats['ambiguousFiles'] += 1
+            continue
+        if not manual and anime.get('metadataSource') == 'anilist':
             from archive_identity import compatible_record
             if not compatible_record(anime, record):
                 stats['ambiguousFiles'] += 1
                 continue
-        if row["binding_conflict"] or not _season_compatible_record(anime, record.get("title", ""), record):
+        certified = bool(anime.get('archiveFileReview')) and reviewed_record_allowed(anime, record, row['document_id'])
+        if (row["binding_conflict"] and not (manual or certified)) or (not manual and anime.get('metadataSource') != 'anilist' and not _season_compatible_record(anime, record.get("title", ""), record)):
             stats["ambiguousFiles"] += 1
             continue
         number = record.get("episode")

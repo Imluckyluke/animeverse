@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { Header } from "@/components/header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileNav } from "@/components/mobile-nav";
 import { Providers } from "@/components/providers";
+import { NavigationScroll } from "@/components/navigation-scroll";
 import { SITE } from "@/lib/data";
 import "./globals.css";
 import "./light-theme.css";
@@ -88,6 +89,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: `try{document.documentElement.dataset.theme=localStorage.getItem('av_theme')==='dark'?'dark':'light'}catch(e){}` }} />
       </head>
       <body className="relative min-h-screen overflow-x-hidden">
+        <Suspense fallback={null}><NavigationScroll /></Suspense>
         <a
           href="#main"
           className="fixed right-4 top-4 z-[200] inline-flex min-h-11 -translate-y-24 items-center rounded-xl bg-amber-400 px-4 py-2 text-xs font-bold text-[#1a1206] transition-transform focus:translate-y-0"

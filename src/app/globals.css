@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.download-route-menu { background: rgba(24, 23, 33, .98); }
+html[data-theme="light"] .download-route-menu { background: rgba(250, 247, 237, .98); }
+
 /* Feather real pixels into whatever is behind the track, rather than painting
    a flat-colour rectangle over its edges. Eased alpha stops avoid a hard knee. */
 .edge-feather {
@@ -79,6 +82,39 @@ html:not([data-theme="light"]) :is(.glass,.glass-strong,.glass-card,.glass-surfa
 .poster-favorite[aria-pressed="true"] .poster-favorite-face { color: #ffc8d5; background: #442231; border-color: #bb7189; }
 .poster-favorite:active .poster-favorite-face { transform: scale(.94); }
 @media (prefers-reduced-motion: reduce) { .poster-favorite-face { transition: none; } }
+
+/* Quiet editorial tabs: type and one thin active line, no stacked controls. */
+.connections-tabs {
+  border-bottom: 1px solid rgba(213,195,151,.13);
+}
+.connection-tab {
+  color: #9b978f;
+  background: transparent;
+  transition: color 180ms ease;
+}
+.connection-tab[aria-selected="true"] {
+  color: #e5ce9a;
+}
+.connection-tab::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  inset-inline: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0;
+  transform: scaleX(.8);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.connection-tab[aria-selected="true"]::after { opacity: .85; transform: scaleX(1); }
+.connection-tab:focus-visible { outline: 2px solid #d8b86f; outline-offset: -4px; border-radius: 4px; }
+@media (hover: hover) {
+  .connection-tab:not([aria-selected="true"]):hover { color: #e0d8c9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .connection-tab, .connection-tab::after { transition: none; }
+}
 
 .dock-item {
   border: 1px solid rgba(255,255,255,.045);

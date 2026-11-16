@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
 
 /** Search lives inside the archive now — keep old links working. */
-export default function SearchPage({
-  searchParams,
+export default async function SearchPage({
+  searchParams: pending,
 }: {
-  searchParams: Record<string, string | string[] | undefined>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const searchParams = await pending;
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(searchParams)) {
     if (typeof value === "string") params.set(key, value);

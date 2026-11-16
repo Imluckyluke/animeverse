@@ -1464,6 +1464,2307 @@
         "studio": "Makaria",
         "format": "TV"
       }
+    },
+    "elegy-for-the-henchmen-fist-of-the-north-star-part-2": {
+      "identity": {
+        "titleEn": "Elegy for the Henchmen: Fist of the North Star Part 2",
+        "titleJa": "北斗の拳 拳王軍ザコたちの挽歌 第2クール"
+      },
+      "providerId": 213506,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "duration": "۴ دقیقه",
+        "studio": "Doraku",
+        "format": "TV_SHORT"
+      }
+    },
+    "the-100-girlfriends-who-really-really-really-really-really-love-you-season-3": {
+      "identity": {
+        "titleEn": "The 100 Girlfriends Who Really, Really, Really, Really, Really Love You Season 3",
+        "titleJa": "君のことが大大大大大好きな100人の彼女 3期"
+      },
+      "providerId": 200637,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Bibury Animation Studios",
+        "format": "TV"
+      }
+    },
+    "iron-wok-jan": {
+      "identity": {
+        "titleEn": "Iron Wok Jan!",
+        "titleJa": "鉄鍋のジャン！"
+      },
+      "providerId": 204060,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "TROYCA",
+        "format": "TV"
+      }
+    },
+    "black-torch": {
+      "identity": {
+        "titleEn": "Black Torch",
+        "titleJa": "BLACK TORCH"
+      },
+      "providerId": 187538,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "100studio",
+        "format": "TV"
+      }
+    },
+    "the-frontier-lord-begins-with-zero-subjects": {
+      "identity": {
+        "titleEn": "The Frontier Lord Begins with Zero Subjects",
+        "titleJa": "領民0人スタートの辺境領主様"
+      },
+      "providerId": 196218,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۵ دقیقه",
+        "studio": "animation studio42",
+        "format": "ONA"
+      }
+    },
+    "the-oblivious-saint-cant-contain-her-power": {
+      "identity": {
+        "titleEn": "The Oblivious Saint Can't Contain Her Power",
+        "titleJa": "無自覚聖女は今日も無意識に力を垂れ流す"
+      },
+      "providerId": 196219,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Magic Bus / Picante Circus",
+        "format": "TV"
+      }
+    },
+    "bleach-sennen-kessen-hen-kashin-tan": {
+      "identity": {
+        "titleEn": "Bleach: Thousand-Year Blood War - The Calamity",
+        "titleJa": "BLEACH 千年血戦篇-禍進譚-"
+      },
+      "providerId": 185874,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 10,
+        "studio": "PIERROT FILMS",
+        "format": "TV"
+      }
+    },
+    "jaadugar-a-witch-in-mongolia": {
+      "identity": {
+        "titleEn": "Jaadugar: A Witch in Mongolia",
+        "titleJa": "天幕のジャードゥーガル"
+      },
+      "providerId": 190569,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "Science SARU",
+        "format": "TV"
+      }
+    },
+    "neko-to-ryuu": {
+      "identity": {
+        "titleEn": "The Cat and the Dragon",
+        "titleJa": "猫と竜"
+      },
+      "providerId": 186863,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "OLM",
+        "format": "ONA"
+      }
+    },
+    "reborn-as-a-cat": {
+      "identity": {
+        "titleEn": "Reborn as a Cat",
+        "titleJa": "为喵人生"
+      },
+      "providerId": 203710,
+      "data": {
+        "year": 2025,
+        "totalEpisodes": 36,
+        "duration": "۱۰ دقیقه",
+        "studio": "Paper Plane Animation Studio",
+        "format": "ONA"
+      }
+    },
+    "kaiju-girl-caramelise": {
+      "identity": {
+        "titleEn": "Kaiju Girl Caramelise",
+        "titleJa": "乙女怪獣キャラメリゼ"
+      },
+      "providerId": 204466,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "LIDENFILMS",
+        "format": "TV"
+      }
+    },
+    "bang-dream-yume-mita": {
+      "identity": {
+        "titleEn": "BanG Dream! Yume∞Mita",
+        "titleJa": "バンドリ！ ゆめ∞みた"
+      },
+      "providerId": 198376,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "NICHICALINE",
+        "format": "TV"
+      }
+    },
+    "bungo-stray-dogs-wan-2": {
+      "identity": {
+        "titleEn": "Bungo Stray Dogs Wan! 2",
+        "titleJa": "文豪ストレイドッグスわん！2"
+      },
+      "providerId": 201667,
+      "data": {
+        "year": 2026,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۱۲ دقیقه",
+        "studio": "bones / Nomad",
+        "format": "TV_SHORT"
+      }
+    },
+    "yu-ling-shi": {
+      "identity": {
+        "titleEn": "B.King",
+        "titleJa": "驭灵师"
+      },
+      "providerId": 199411,
+      "data": {
+        "year": 2026,
+        "totalEpisodes": 18,
+        "duration": "۲۲ دقیقه",
+        "format": "ONA"
+      }
+    },
+    "my-hero-academia-vigilantes-season-2": {
+      "identity": {
+        "titleEn": "My Hero Academia: Vigilantes Season 2",
+        "titleJa": "ヴィジランテ -僕のヒーローアカデミア ILLEGALS- 第2期"
+      },
+      "providerId": 195322,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "bones film",
+        "format": "TV"
+      }
+    },
+    "bunny-drop": {
+      "identity": {
+        "titleEn": "Bunny Drop",
+        "titleJa": "うさぎドロップ"
+      },
+      "providerId": 10162,
+      "data": {
+        "year": 2011,
+        "season": "تابستان",
+        "totalEpisodes": 11,
+        "duration": "۲۲ دقیقه",
+        "studio": "Production I.G",
+        "format": "TV"
+      }
+    },
+    "you-cant-be-in-a-rom-com-with-your-childhood-friends": {
+      "identity": {
+        "titleEn": "You Can't Be In a Rom-Com with Your Childhood Friends!",
+        "titleJa": "幼馴染とはラブコメにならない"
+      },
+      "providerId": 189565,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Tezuka Productions",
+        "format": "TV"
+      }
+    },
+    "sousou-no-frieren-2nd-season": {
+      "identity": {
+        "titleEn": "Frieren: Beyond Journey's End Season 2",
+        "titleJa": "葬送のフリーレン 第2期"
+      },
+      "providerId": 182255,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 10,
+        "duration": "۲۴ دقیقه",
+        "studio": "MADHOUSE",
+        "format": "TV"
+      }
+    },
+    "in-the-clear-moonlit-dusk": {
+      "identity": {
+        "titleEn": "In the Clear Moonlit Dusk",
+        "titleJa": "うるわしの宵の月"
+      },
+      "providerId": 192507,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "East Fish Studio / Atelier Peuplier",
+        "format": "TV"
+      }
+    },
+    "chitose-kun-wa-ramune-bin-no-naka": {
+      "identity": {
+        "titleEn": "Chitose Is in the Ramune Bottle",
+        "titleJa": "千歳くんはラムネ瓶のなか"
+      },
+      "providerId": 180082,
+      "data": {
+        "year": 2025,
+        "season": "پاییز",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "feel.",
+        "format": "TV"
+      }
+    },
+    "the-banished-court-magician-aims-to-become-the-strongest": {
+      "identity": {
+        "titleEn": "The Banished Court Magician Aims to Become the Strongest",
+        "titleJa": "味方が弱すぎて補助魔法に徹していた宮廷魔法師、追放されて最強を目指す"
+      },
+      "providerId": 188487,
+      "data": {
+        "year": 2025,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "Gekkou",
+        "format": "TV"
+      }
+    },
+    "chillin-in-another-world-with-level-2-super-cheat-powers": {
+      "identity": {
+        "titleEn": "Chillin' in Another World with Level 2 Super Cheat Powers",
+        "titleJa": "Lv2からチートだった元勇者候補のまったり異世界ライフ"
+      },
+      "providerId": 170130,
+      "data": {
+        "year": 2024,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "J.C.STAFF",
+        "format": "TV"
+      }
+    },
+    "golden-time": {
+      "identity": {
+        "titleEn": "Golden Time",
+        "titleJa": "ゴールデンタイム"
+      },
+      "providerId": 17895,
+      "data": {
+        "year": 2013,
+        "season": "پاییز",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "J.C.STAFF",
+        "format": "TV"
+      }
+    },
+    "the-invisible-man-and-his-soon-to-be-wife": {
+      "identity": {
+        "titleEn": "The Invisible Man and His Soon-to-Be Wife",
+        "titleJa": "透明男と人間女～そのうち夫婦になるふたり～"
+      },
+      "providerId": 185039,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "project No.9",
+        "format": "TV"
+      }
+    },
+    "link-click-season-3": {
+      "identity": {
+        "titleEn": "Link Click Season 3 Part 1",
+        "titleJa": "时光代理人 第三季 Part One"
+      },
+      "providerId": 191832,
+      "data": {
+        "year": 2026,
+        "totalEpisodes": 12,
+        "duration": "۲۱ دقیقه",
+        "format": "ONA"
+      }
+    },
+    "golden-kamuy-final-season": {
+      "identity": {
+        "titleEn": "Golden Kamuy Final Season",
+        "titleJa": "ゴールデンカムイ 最終章"
+      },
+      "providerId": 166521,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Brain's Base",
+        "format": "TV"
+      }
+    },
+    "reincarnated-as-a-dragon-hatchling": {
+      "identity": {
+        "titleEn": "Reincarnated as a Dragon Hatchling",
+        "titleJa": "転生したらドラゴンの卵だった"
+      },
+      "providerId": 187941,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "GA-CREW / Felix Film",
+        "format": "TV"
+      }
+    },
+    "tamons-b-side": {
+      "identity": {
+        "titleEn": "Tamon's B-Side",
+        "titleJa": "多聞くん今どっち!?"
+      },
+      "providerId": 178005,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "J.C.STAFF",
+        "format": "ONA"
+      }
+    },
+    "trigun-stargaze": {
+      "identity": {
+        "titleEn": "Trigun Stargaze",
+        "titleJa": "TRIGUN STARGAZE"
+      },
+      "providerId": 163144,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Orange",
+        "format": "TV"
+      }
+    },
+    "tune-in-to-the-midnight-heart": {
+      "identity": {
+        "titleEn": "Tune In to the Midnight Heart",
+        "titleJa": "真夜中ハートチューン"
+      },
+      "providerId": 187942,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Gekkou",
+        "format": "TV"
+      }
+    },
+    "kaya-chan-isnt-scary": {
+      "identity": {
+        "titleEn": "Kaya-chan Isn't Scary",
+        "titleJa": "カヤちゃんはコワくない"
+      },
+      "providerId": 183660,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "East Fish Studio",
+        "format": "TV"
+      }
+    },
+    "violet-evergarden": {
+      "identity": {
+        "titleEn": "Violet Evergarden",
+        "titleJa": "ヴァイオレット・エヴァーガーデン"
+      },
+      "providerId": 21827,
+      "data": {
+        "year": 2018,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Kyoto Animation",
+        "format": "TV"
+      }
+    },
+    "rokka-braves-of-the-six-flowers": {
+      "identity": {
+        "titleEn": "Rokka: Braves of the Six Flowers",
+        "titleJa": "六花の勇者"
+      },
+      "providerId": 20955,
+      "data": {
+        "year": 2015,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Passione",
+        "format": "TV"
+      }
+    },
+    "ergo-proxy": {
+      "identity": {
+        "titleEn": "Ergo Proxy",
+        "titleJa": "エルゴプラクシー"
+      },
+      "providerId": 790,
+      "data": {
+        "year": 2006,
+        "season": "زمستان",
+        "totalEpisodes": 23,
+        "duration": "۲۵ دقیقه",
+        "studio": "Manglobe",
+        "format": "TV"
+      }
+    },
+    "akame-ga-kill": {
+      "identity": {
+        "titleEn": "Akame ga Kill!",
+        "titleJa": "アカメが斬る！"
+      },
+      "providerId": 20613,
+      "data": {
+        "year": 2014,
+        "season": "تابستان",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "WHITE FOX",
+        "format": "TV"
+      }
+    },
+    "terror-in-resonance": {
+      "identity": {
+        "titleEn": "Terror in Resonance",
+        "titleJa": "残響のテロル"
+      },
+      "providerId": 20661,
+      "data": {
+        "year": 2014,
+        "season": "تابستان",
+        "totalEpisodes": 11,
+        "duration": "۲۳ دقیقه",
+        "studio": "MAPPA",
+        "format": "TV"
+      }
+    },
+    "erased": {
+      "identity": {
+        "titleEn": "Erased",
+        "titleJa": "僕だけがいない街"
+      },
+      "providerId": 21234,
+      "data": {
+        "year": 2016,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "A-1 Pictures",
+        "format": "TV"
+      }
+    },
+    "death-parade": {
+      "identity": {
+        "titleEn": "Death Parade",
+        "titleJa": "デス・パレード"
+      },
+      "providerId": 20931,
+      "data": {
+        "year": 2015,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "MADHOUSE",
+        "format": "TV"
+      }
+    },
+    "angel-beats": {
+      "identity": {
+        "titleEn": "Angel Beats!",
+        "titleJa": "Angel Beats!（エンジェルビーツ!）"
+      },
+      "providerId": 6547,
+      "data": {
+        "year": 2010,
+        "season": "بهار",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "P.A.WORKS",
+        "format": "TV"
+      }
+    },
+    "tonikawa-over-the-moon-for-you": {
+      "identity": {
+        "titleEn": "Tonikawa: Over The Moon For You",
+        "titleJa": "トニカクカワイイ"
+      },
+      "providerId": 116267,
+      "data": {
+        "year": 2020,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Seven Arcs",
+        "format": "TV"
+      }
+    },
+    "fate-zero": {
+      "identity": {
+        "titleEn": "Fate/Zero",
+        "titleJa": "フェイト/ゼロ"
+      },
+      "providerId": 10087,
+      "data": {
+        "year": 2011,
+        "season": "پاییز",
+        "duration": "۲۴ دقیقه",
+        "studio": "ufotable",
+        "format": "TV"
+      }
+    },
+    "dororo": {
+      "identity": {
+        "titleEn": "Dororo",
+        "titleJa": "どろろ"
+      },
+      "providerId": 101347,
+      "data": {
+        "year": 2019,
+        "season": "زمستان",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "MAPPA / Tezuka Productions",
+        "format": "TV"
+      }
+    },
+    "high-school-of-the-dead": {
+      "identity": {
+        "titleEn": "High School of the Dead",
+        "titleJa": "学園黙示録 HIGHSCHOOL OF THE DEAD"
+      },
+      "providerId": 8074,
+      "data": {
+        "year": 2010,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "MADHOUSE",
+        "format": "TV"
+      }
+    },
+    "tokyo-ghoul": {
+      "identity": {
+        "titleEn": "Tokyo Ghoul",
+        "titleJa": "東京喰種-トーキョーグール-"
+      },
+      "providerId": 20605,
+      "data": {
+        "year": 2014,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Studio Pierrot",
+        "format": "TV"
+      }
+    },
+    "steins-gate": {
+      "identity": {
+        "titleEn": "Steins;Gate",
+        "titleJa": "STEINS;GATE"
+      },
+      "providerId": 9253,
+      "data": {
+        "year": 2011,
+        "season": "بهار",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "WHITE FOX",
+        "format": "TV"
+      }
+    },
+    "aiura": {
+      "identity": {
+        "titleEn": "Aiura",
+        "titleJa": "あいうら"
+      },
+      "providerId": 17082,
+      "data": {
+        "year": 2013,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۴ دقیقه",
+        "studio": "LIDENFILMS",
+        "format": "TV_SHORT"
+      }
+    },
+    "91-days": {
+      "identity": {
+        "titleEn": "91 Days",
+        "titleJa": "91Days"
+      },
+      "providerId": 21711,
+      "data": {
+        "year": 2016,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Shuka",
+        "format": "TV"
+      }
+    },
+    "hells-paradise": {
+      "identity": {
+        "titleEn": "Hell's Paradise",
+        "titleJa": "地獄楽"
+      },
+      "providerId": 128893,
+      "data": {
+        "year": 2023,
+        "season": "بهار",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "MAPPA",
+        "format": "TV"
+      }
+    },
+    "gangsta": {
+      "identity": {
+        "titleEn": "Gangsta.",
+        "titleJa": "GANGSTA. ギャングスタ"
+      },
+      "providerId": 20773,
+      "data": {
+        "year": 2015,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Manglobe",
+        "format": "TV"
+      }
+    },
+    "bungou-stray-dogs-5th-season": {
+      "identity": {
+        "titleEn": "Bungo Stray Dogs 5",
+        "titleJa": "文豪ストレイドッグス"
+      },
+      "providerId": 163263,
+      "data": {
+        "year": 2023,
+        "season": "تابستان",
+        "totalEpisodes": 11,
+        "duration": "۲۴ دقیقه",
+        "studio": "bones",
+        "format": "TV"
+      }
+    },
+    "the-eminence-in-shadow": {
+      "identity": {
+        "titleEn": "The Eminence in Shadow",
+        "titleJa": "陰の実力者になりたくて！"
+      },
+      "providerId": 130298,
+      "data": {
+        "year": 2022,
+        "season": "پاییز",
+        "totalEpisodes": 20,
+        "duration": "۲۴ دقیقه",
+        "studio": "Nexus",
+        "format": "TV"
+      }
+    },
+    "wolfs-rain": {
+      "identity": {
+        "titleEn": "Wolf's Rain",
+        "titleJa": "ウルフズレイン"
+      },
+      "providerId": 202,
+      "data": {
+        "year": 2003,
+        "season": "زمستان",
+        "totalEpisodes": 26,
+        "duration": "۲۳ دقیقه",
+        "studio": "bones",
+        "format": "TV"
+      }
+    },
+    "ruri-rocks": {
+      "identity": {
+        "titleEn": "Ruri Rocks",
+        "titleJa": "瑠璃の宝石"
+      },
+      "providerId": 180929,
+      "data": {
+        "year": 2025,
+        "season": "تابستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Studio Bind",
+        "format": "TV"
+      }
+    },
+    "nyaight-of-the-living-cat": {
+      "identity": {
+        "titleEn": "Nyaight of the Living Cat",
+        "titleJa": "ニャイト・オブ・ザ・リビングキャット"
+      },
+      "providerId": 175124,
+      "data": {
+        "year": 2025,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۵ دقیقه",
+        "studio": "OLM",
+        "format": "ONA"
+      }
+    },
+    "summer-pockets": {
+      "identity": {
+        "titleEn": "Summer Pockets",
+        "titleJa": "サマーポケッツ"
+      },
+      "providerId": 143200,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 26,
+        "duration": "۲۴ دقیقه",
+        "studio": "feel.",
+        "format": "TV"
+      }
+    },
+    "witch-watch": {
+      "identity": {
+        "titleEn": "Witch Watch",
+        "titleJa": "ウィッチウォッチ"
+      },
+      "providerId": 180367,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 25,
+        "duration": "۲۴ دقیقه",
+        "studio": "Bibury Animation Studios",
+        "format": "TV"
+      }
+    },
+    "young-black-jack": {
+      "identity": {
+        "titleEn": "Young Black Jack",
+        "titleJa": "ヤング ブラック・ジャック"
+      },
+      "providerId": 21187,
+      "data": {
+        "year": 2015,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Tezuka Productions",
+        "format": "TV"
+      }
+    },
+    "everyday-host": {
+      "identity": {
+        "titleEn": "Everyday Host",
+        "titleJa": "えぶりでいホスト"
+      },
+      "providerId": 185584,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 24,
+        "duration": "۴ دقیقه",
+        "studio": "Fanworks",
+        "format": "TV_SHORT"
+      }
+    },
+    "wise-mans-grandchild": {
+      "identity": {
+        "titleEn": "Wise Man's Grandchild",
+        "titleJa": "賢者の孫"
+      },
+      "providerId": 100112,
+      "data": {
+        "year": 2019,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "SILVER LINK.",
+        "format": "TV"
+      }
+    },
+    "boogiepop-and-others": {
+      "identity": {
+        "titleEn": "Boogiepop and Others",
+        "titleJa": "ブギーポップは笑わない"
+      },
+      "providerId": 101283,
+      "data": {
+        "year": 2019,
+        "season": "زمستان",
+        "totalEpisodes": 18,
+        "duration": "۲۴ دقیقه",
+        "studio": "MADHOUSE",
+        "format": "TV"
+      }
+    },
+    "a-certain-scientific-accelerator": {
+      "identity": {
+        "titleEn": "A Certain Scientific Accelerator",
+        "titleJa": "とある科学の一方通行〈アクセラレータ〉"
+      },
+      "providerId": 104463,
+      "data": {
+        "year": 2019,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "J.C.STAFF / A.C.G.T.",
+        "format": "TV"
+      }
+    },
+    "noragami": {
+      "identity": {
+        "titleEn": "Noragami",
+        "titleJa": "ノラガミ"
+      },
+      "providerId": 20447,
+      "data": {
+        "year": 2014,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "bones",
+        "format": "TV"
+      }
+    },
+    "your-lie-in-april": {
+      "identity": {
+        "titleEn": "Your Lie in April",
+        "titleJa": "四月は君の嘘"
+      },
+      "providerId": 20665,
+      "data": {
+        "year": 2014,
+        "season": "پاییز",
+        "totalEpisodes": 22,
+        "duration": "۲۳ دقیقه",
+        "studio": "A-1 Pictures",
+        "format": "TV"
+      }
+    },
+    "the-apothecary-diaries-season-2": {
+      "identity": {
+        "titleEn": "The Apothecary Diaries Season 2",
+        "titleJa": "薬屋のひとりごと 第2期"
+      },
+      "providerId": 176301,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "TOHO animation STUDIO / OLM",
+        "format": "TV"
+      }
+    },
+    "izetta-the-last-witch": {
+      "identity": {
+        "titleEn": "Izetta: The Last Witch",
+        "titleJa": "終末のイゼッタ"
+      },
+      "providerId": 21838,
+      "data": {
+        "year": 2016,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۵ دقیقه",
+        "studio": "Ajiado",
+        "format": "TV"
+      }
+    },
+    "grand-blue-dreaming": {
+      "identity": {
+        "titleEn": "Grand Blue Dreaming",
+        "titleJa": "ぐらんぶる"
+      },
+      "providerId": 100922,
+      "data": {
+        "year": 2018,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Zero-G",
+        "format": "TV"
+      }
+    },
+    "kowloon-generic-romance": {
+      "identity": {
+        "titleEn": "Kowloon Generic Romance",
+        "titleJa": "九龍ジェネリックロマンス"
+      },
+      "providerId": 182814,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 13,
+        "duration": "۲۵ دقیقه",
+        "studio": "Arvo Animation",
+        "format": "TV"
+      }
+    },
+    "teogonia": {
+      "identity": {
+        "titleEn": "Teogonia",
+        "titleJa": "神統記"
+      },
+      "providerId": 176702,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Asahi Production",
+        "format": "TV"
+      }
+    },
+    "rock-is-a-ladys-modesty": {
+      "identity": {
+        "titleEn": "Rock Is a Lady's Modesty",
+        "titleJa": "ロックは淑女の嗜みでして"
+      },
+      "providerId": 179694,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Bandai Namco Pictures",
+        "format": "TV"
+      }
+    },
+    "our-last-crusade-or-the-rise-of-a-new-world-season-2": {
+      "identity": {
+        "titleEn": "Our Last Crusade or the Rise of a New World Season 2",
+        "titleJa": "キミと僕の最後の戦場、あるいは世界が始まる聖戦 Season Ⅱ"
+      },
+      "providerId": 139825,
+      "data": {
+        "year": 2024,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "SILVER LINK. / Studio Palette",
+        "format": "TV"
+      }
+    },
+    "a-ninja-and-an-assassin-under-one-roof": {
+      "identity": {
+        "titleEn": "A Ninja and an Assassin Under One Roof",
+        "titleJa": "忍者と殺し屋のふたりぐらし"
+      },
+      "providerId": 177120,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Shaft",
+        "format": "TV"
+      }
+    },
+    "your-forma": {
+      "identity": {
+        "titleEn": "Your Forma",
+        "titleJa": "ユア・フォルマ"
+      },
+      "providerId": 167142,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Geno Studio",
+        "format": "TV"
+      }
+    },
+    "mobile-suit-gundam-gquuuuuux": {
+      "identity": {
+        "titleEn": "Mobile Suit Gundam: GQuuuuuuX",
+        "titleJa": "機動戦士ガンダム GのレコンギスタX"
+      },
+      "providerId": 185213,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۵ دقیقه",
+        "studio": "Studio Khara / Sunrise",
+        "format": "TV"
+      }
+    },
+    "apocalypse-hotel": {
+      "identity": {
+        "titleEn": "Apocalypse Hotel",
+        "titleJa": "アポカリプスホテル"
+      },
+      "providerId": 180675,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "CygamesPictures",
+        "format": "TV"
+      }
+    },
+    "maebashi-witches": {
+      "identity": {
+        "titleEn": "Maebashi Witches",
+        "titleJa": "前橋ウィッチーズ"
+      },
+      "providerId": 180825,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Sunrise",
+        "format": "TV"
+      }
+    },
+    "shoushimin-series-2nd-season": {
+      "identity": {
+        "titleEn": "Shoushimin Series 2nd Season",
+        "titleJa": "〈小市民〉シリーズ"
+      },
+      "providerId": 181182,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "Lapin Track",
+        "format": "TV"
+      }
+    },
+    "wind-breaker-season-2": {
+      "identity": {
+        "titleEn": "Wind Breaker Season 2",
+        "titleJa": "ウィンドブレイカー シーズン2"
+      },
+      "providerId": 178680,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "CloverWorks",
+        "format": "TV"
+      }
+    },
+    "catch-me-at-the-ballpark": {
+      "identity": {
+        "titleEn": "Catch Me at the Ballpark!​",
+        "titleJa": "ボールパークでつかまえて！​"
+      },
+      "providerId": 184279,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "EMT Squared",
+        "format": "TV"
+      }
+    },
+    "until-the-witch-dies": {
+      "identity": {
+        "titleEn": "Until the Witch Dies",
+        "titleJa": "ある魔女が死ぬまで"
+      },
+      "providerId": 178701,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "EMT Squared",
+        "format": "TV"
+      }
+    },
+    "psyren-2": {
+      "identity": {
+        "titleEn": "Psyren",
+        "titleJa": "PSYЯEN -サイレン-"
+      },
+      "providerId": 204011,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "duration": "۲۴ دقیقه",
+        "studio": "Satelight",
+        "format": "TV"
+      }
+    },
+    "tensei-goblin-dakedo-shitsumon-aru": {
+      "identity": {
+        "titleEn": "So What's Wrong with Getting Reborn as a Goblin?",
+        "titleJa": "転生ゴブリンだけど質問ある？"
+      },
+      "providerId": 209219,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "duration": "۲۴ دقیقه",
+        "studio": "BAKKKA",
+        "format": "ONA"
+      }
+    },
+    "kikansha-no-mahou-wa-tokubetsu-desu-2nd-season": {
+      "identity": {
+        "titleEn": "A Returner's Magic Should Be Special Season 2",
+        "titleJa": "帰還者の魔法は特別です 2期"
+      },
+      "providerId": 172192,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "studio": "Arvo Animation",
+        "format": "TV"
+      }
+    },
+    "wangu-zhizun-li-yunxiao-zhuan": {
+      "identity": {
+        "titleEn": "The Eternal Supreme, Li Yunxiao",
+        "titleJa": "万古至尊：李云霄传"
+      },
+      "providerId": 206282,
+      "data": {
+        "year": 2026,
+        "totalEpisodes": 34,
+        "duration": "۱۱ دقیقه",
+        "studio": "Dancing CG Studio",
+        "format": "ONA"
+      }
+    },
+    "dragon-ball-super-beerus-2": {
+      "identity": {
+        "titleEn": "Dragon Ball Super: Beerus",
+        "titleJa": "ドラゴンボール超 ビルス"
+      },
+      "providerId": 206814,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "duration": "۲۳ دقیقه",
+        "studio": "Toei Animation",
+        "format": "TV"
+      }
+    },
+    "kanata-kara": {
+      "identity": {
+        "titleEn": "From Far Away",
+        "titleJa": "彼方から"
+      },
+      "providerId": 209463,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "studio": "Studio DEEN",
+        "format": "TV"
+      }
+    },
+    "shinja-zero-no-megami-sama-to-hajimeru-isekai-kouryaku": {
+      "identity": {
+        "titleEn": "Full Clearing Another World under a Goddess with Zero Believers",
+        "titleJa": "信者ゼロの女神サマと始める異世界攻略"
+      },
+      "providerId": 205896,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "studio": "HORNETS",
+        "format": "TV"
+      }
+    },
+    "tank-chair-2": {
+      "identity": {
+        "titleEn": "Tank Chair",
+        "titleJa": "TANK CHAIR-戦車椅子-"
+      },
+      "providerId": 209499,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "duration": "۲۵ دقیقه",
+        "studio": "POLYGON PICTURES",
+        "format": "TV"
+      }
+    },
+    "ojisan-wa-kawaii-mono-ga-osuki": {
+      "identity": {
+        "titleEn": "Uncle's Obsession with Cute Things",
+        "titleJa": "おじさんはカワイイものがお好き。"
+      },
+      "providerId": 202079,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "LIDENFILMS",
+        "format": "TV"
+      }
+    },
+    "mezametara-saikyou-soubi-to-uchuusenmochi-datta-node-ikkodate-mezashite-youhei-t": {
+      "identity": {
+        "titleEn": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship!",
+        "titleJa": "目覚めたら最強装備と宇宙船持ちだったので、一戸建て目指して傭兵として自由に生きたい"
+      },
+      "providerId": 186541,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "studio A-CAT",
+        "format": "TV"
+      }
+    },
+    "ao-ashi-season-2": {
+      "identity": {
+        "titleEn": "Aoashi Season 2",
+        "titleJa": "アオアシ Season2"
+      },
+      "providerId": 191788,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "TMS Entertainment",
+        "format": "TV"
+      }
+    },
+    "yozakura-san-chi-no-daisakusen-2nd-season-part-2": {
+      "identity": {
+        "titleEn": "Mission: Yozakura Family Season 2 Part 2",
+        "titleJa": "夜桜さんちの大作戦 第2期2クール"
+      },
+      "providerId": 213657,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "studio": "SILVER LINK.",
+        "format": "TV"
+      }
+    },
+    "shiotaiou-no-satou-san-ga-ore-ni-dake-amai": {
+      "identity": {
+        "titleEn": "The Cold Sato-san is Only Sweet to Me",
+        "titleJa": "塩対応の佐藤さんが俺にだけ甘い"
+      },
+      "providerId": 209502,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Tezuka Productions",
+        "format": "TV"
+      }
+    },
+    "choujun-choujou-senpai": {
+      "identity": {
+        "titleEn": "Super Psychic Policeman Chojo",
+        "titleJa": "超巡!超条先輩"
+      },
+      "providerId": 200294,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Arvo Animation",
+        "format": "TV"
+      }
+    },
+    "jingai-kyoushitsu-no-ningengirai-kyoushi-2": {
+      "identity": {
+        "titleEn": "A Misanthrope Teaches a Class for Demi-Humans",
+        "titleJa": "人外教室の人間嫌い教師"
+      },
+      "providerId": 198374,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Asread",
+        "format": "TV"
+      }
+    },
+    "nanatsu-no-maken-ga-shihai-suru-2": {
+      "identity": {
+        "titleEn": "Reign of the Seven Spellblades",
+        "titleJa": "七つの魔剣が支配する"
+      },
+      "providerId": 142598,
+      "data": {
+        "year": 2023,
+        "season": "تابستان",
+        "totalEpisodes": 15,
+        "duration": "۲۴ دقیقه",
+        "studio": "J.C.STAFF",
+        "format": "TV"
+      }
+    },
+    "kikaijikake-no-marie-2": {
+      "identity": {
+        "titleEn": "Mechanical Marie",
+        "titleJa": "機械じかけのマリー"
+      },
+      "providerId": 179992,
+      "data": {
+        "year": 2025,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Zero-G / Liber",
+        "format": "TV"
+      }
+    },
+    "yuusha-party-wo-oidasareta-kiyoubinbou": {
+      "identity": {
+        "titleEn": "Jack-of-All-Trades, Party of None",
+        "titleJa": "勇者パーティを追い出された器用貧乏"
+      },
+      "providerId": 187264,
+      "data": {
+        "year": 2026,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "animation studio42",
+        "format": "ONA"
+      }
+    },
+    "guilty-gear-strive-dual-rulers": {
+      "identity": {
+        "titleEn": "Guilty Gear Strive: Dual Rulers",
+        "titleJa": "GUILTY GEAR STRIVE: DUAL RULERS"
+      },
+      "providerId": 178046,
+      "data": {
+        "year": 2025,
+        "season": "بهار",
+        "totalEpisodes": 8,
+        "duration": "۲۴ دقیقه",
+        "studio": "SANZIGEN",
+        "format": "TV"
+      }
+    },
+    "psychic-detective-yakumo": {
+      "identity": {
+        "titleEn": "Psychic Detective Yakumo",
+        "titleJa": "心霊探偵 八雲"
+      },
+      "providerId": 7662,
+      "data": {
+        "year": 2010,
+        "season": "پاییز",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Bee Train",
+        "format": "TV"
+      }
+    },
+    "tokyo-underground": {
+      "identity": {
+        "titleEn": "Tokyo Underground",
+        "titleJa": "東京アンダーグラウンド"
+      },
+      "providerId": 175,
+      "data": {
+        "year": 2002,
+        "season": "بهار",
+        "totalEpisodes": 26,
+        "duration": "۲۵ دقیقه",
+        "studio": "Studio Pierrot",
+        "format": "TV"
+      }
+    },
+    "havent-you-heard-im-sakamoto": {
+      "identity": {
+        "titleEn": "Haven't You Heard? I'm Sakamoto",
+        "titleJa": "坂本ですが？"
+      },
+      "providerId": 21595,
+      "data": {
+        "year": 2016,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Studio DEEN",
+        "format": "TV"
+      }
+    },
+    "the-rose-of-versailles": {
+      "identity": {
+        "titleEn": "The Rose of Versailles",
+        "titleJa": "ベルサイユのばら"
+      },
+      "providerId": 338,
+      "data": {
+        "year": 1979,
+        "season": "پاییز",
+        "totalEpisodes": 40,
+        "duration": "۲۳ دقیقه",
+        "studio": "Tokyo Movie Shinsha",
+        "format": "TV"
+      }
+    },
+    "trillion-game": {
+      "identity": {
+        "titleEn": "TRILLION GAME",
+        "titleJa": "トリリオンゲーム"
+      },
+      "providerId": 169315,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 26,
+        "duration": "۲۴ دقیقه",
+        "studio": "MADHOUSE",
+        "format": "TV"
+      }
+    },
+    "momentary-lily": {
+      "identity": {
+        "titleEn": "Momentary Lily",
+        "titleJa": "もめんたりー・リリィ"
+      },
+      "providerId": 177159,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "duration": "۲۴ دقیقه",
+        "studio": "GoHands",
+        "format": "TV"
+      }
+    },
+    "the-daily-life-of-a-middle-aged-online-shopper-in-another-world": {
+      "identity": {
+        "titleEn": "The Daily Life of a Middle-Aged Online Shopper in Another World",
+        "titleJa": "アラフォー男の異世界通販"
+      },
+      "providerId": 180292,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۳ دقیقه",
+        "studio": "East Fish Studio",
+        "format": "TV"
+      }
+    },
+    "ameku-m-d-doctor-detective": {
+      "identity": {
+        "titleEn": "Ameku M.D.: Doctor Detective",
+        "titleJa": "天久鷹央の推理カルテ"
+      },
+      "providerId": 176642,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۵ دقیقه",
+        "studio": "project No.9",
+        "format": "TV"
+      }
+    },
+    "the-red-ranger-becomes-an-adventurer-in-another-world": {
+      "identity": {
+        "titleEn": "The Red Ranger Becomes an Adventurer in Another World",
+        "titleJa": "戦隊レッド 異世界で冒険者になる"
+      },
+      "providerId": 180052,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Satelight",
+        "format": "TV"
+      }
+    },
+    "toilet-bound-hanako-kun-season-2": {
+      "identity": {
+        "titleEn": "Toilet-Bound Hanako-kun Season 2",
+        "titleJa": "地縛少年花子くん2"
+      },
+      "providerId": 170892,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Lerche",
+        "format": "TV"
+      }
+    },
+    "shangri-la-frontier-kusoge-hunter-kamige-ni-idoman-to-su-2nd-season": {
+      "identity": {
+        "titleEn": "Shangri-La Frontier Season 2",
+        "titleJa": "シャングリラ・フロンティア～クソゲーハンター、神ゲーに挑まんとす～ 2nd season"
+      },
+      "providerId": 176508,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 25,
+        "duration": "۲۴ دقیقه",
+        "studio": "C2C",
+        "format": "TV"
+      }
+    },
+    "ore-dake-level-up-na-ken-season-2-arise-from-the-shadow": {
+      "identity": {
+        "titleEn": "Solo Leveling Season 2: Arise from the Shadow",
+        "titleJa": "俺だけレベルアップな件 Season 2 -Arise from the Shadow-"
+      },
+      "providerId": 176496,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "A-1 Pictures",
+        "format": "TV"
+      }
+    },
+    "ao-no-miburo": {
+      "identity": {
+        "titleEn": "Blue Miburo",
+        "titleJa": "青のミブロ"
+      },
+      "providerId": 169258,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "Maho Film",
+        "format": "TV"
+      }
+    },
+    "ubel-blatt": {
+      "identity": {
+        "titleEn": "Ubel Blatt",
+        "titleJa": "Übel Blatt～ユーベルブラット～"
+      },
+      "providerId": 175198,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Satelight / Staple Entertainment",
+        "format": "TV"
+      }
+    },
+    "farmagia": {
+      "identity": {
+        "titleEn": "Farmagia",
+        "titleJa": "FARMAGIA（ファーマギア）"
+      },
+      "providerId": 178312,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Bridge",
+        "format": "TV"
+      }
+    },
+    "welcome-to-japan-ms-elf": {
+      "identity": {
+        "titleEn": "Welcome to Japan, Ms. Elf!",
+        "titleJa": "日本へようこそエルフさん。"
+      },
+      "providerId": 172439,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Zero-G",
+        "format": "TV"
+      }
+    },
+    "from-bureaucrat-to-villainess-dads-been-reincarnated": {
+      "identity": {
+        "titleEn": "From Bureaucrat to Villainess: Dad's Been Reincarnated!",
+        "titleJa": "悪役令嬢転生おじさん"
+      },
+      "providerId": 172453,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Ajiado",
+        "format": "TV"
+      }
+    },
+    "anyway-im-falling-in-love-with-you": {
+      "identity": {
+        "titleEn": "Anyway, I'm Falling in Love with You.",
+        "titleJa": "どうせ、恋してしまうんだ。"
+      },
+      "providerId": 175409,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "TYPHOON GRAPHICS",
+        "format": "TV"
+      }
+    },
+    "dr-stone-science-future": {
+      "identity": {
+        "titleEn": "Dr. Stone: Science Future",
+        "titleJa": "Dr.STONE SCIENCE FUTURE"
+      },
+      "providerId": 172019,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "TMS Entertainment",
+        "format": "TV"
+      }
+    },
+    "ave-mujica-the-die-is-cast": {
+      "identity": {
+        "titleEn": "Ave Mujica: The Die is Cast",
+        "titleJa": "BanG Dream! Ave Mujica"
+      },
+      "providerId": 169295,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "SANZIGEN",
+        "format": "TV"
+      }
+    },
+    "honey-lemon-soda": {
+      "identity": {
+        "titleEn": "Honey Lemon Soda",
+        "titleJa": "ハニーレモンソーダ"
+      },
+      "providerId": 175443,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "J.C.STAFF",
+        "format": "TV"
+      }
+    },
+    "re-zero-kara-hajimeru-isekai-seikatsu-3rd-season": {
+      "identity": {
+        "titleEn": "Re:ZERO -Starting Life in Another World- Season 3",
+        "titleJa": "Re:ゼロから始める異世界生活"
+      },
+      "providerId": 163134,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 16,
+        "duration": "۲۴ دقیقه",
+        "studio": "WHITE FOX",
+        "format": "TV"
+      }
+    },
+    "flower-and-asura": {
+      "identity": {
+        "titleEn": "Flower and Asura",
+        "titleJa": "花は咲く、修羅の如く"
+      },
+      "providerId": 178022,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "Studio Bind",
+        "format": "TV"
+      }
+    },
+    "unnamed-memory-season-2": {
+      "identity": {
+        "titleEn": "Unnamed Memory Season 2",
+        "titleJa": "Unnamed Memory Act.2"
+      },
+      "providerId": 178550,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "ENGI",
+        "format": "TV"
+      }
+    },
+    "tying-the-knot-with-an-amagami-sister": {
+      "identity": {
+        "titleEn": "Tying the Knot with an Amagami Sister",
+        "titleJa": "甘神さんちの縁結び"
+      },
+      "providerId": 164172,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 24,
+        "duration": "۲۴ دقیقه",
+        "studio": "Drive",
+        "format": "TV"
+      }
+    },
+    "medaka-kuroiwa-is-impervious-to-my-charms": {
+      "identity": {
+        "titleEn": "Medaka Kuroiwa is Impervious to My Charms",
+        "titleJa": "黒岩メダカに私の可愛いが通じない"
+      },
+      "providerId": 177552,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "SynergySP",
+        "format": "TV"
+      }
+    },
+    "can-you-keep-a-secret": {
+      "identity": {
+        "titleEn": "Can You Keep a Secret?",
+        "titleJa": "この会社に好きな人がいます"
+      },
+      "providerId": 179696,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "BLADE",
+        "format": "TV"
+      }
+    },
+    "zenshu": {
+      "identity": {
+        "titleEn": "Zenshu",
+        "titleJa": "全修。"
+      },
+      "providerId": 176273,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "MAPPA",
+        "format": "TV"
+      }
+    },
+    "i-want-to-escape-from-princess-lessons": {
+      "identity": {
+        "titleEn": "I Want to Escape from Princess Lessons",
+        "titleJa": "妃教育から逃げたい私"
+      },
+      "providerId": 170650,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "EMT Squared",
+        "format": "TV"
+      }
+    },
+    "ao-no-exorcist-yosuga-hen": {
+      "identity": {
+        "titleEn": "Blue Exorcist: The Blue Night Saga",
+        "titleJa": "青の祓魔師 終夜篇"
+      },
+      "providerId": 185880,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Studio VOLN",
+        "format": "TV"
+      }
+    },
+    "ao-no-hako": {
+      "identity": {
+        "titleEn": "Blue Box",
+        "titleJa": "アオのハコ"
+      },
+      "providerId": 170942,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 25,
+        "duration": "۲۴ دقیقه",
+        "studio": "Telecom Animation Film",
+        "format": "ONA"
+      }
+    },
+    "possibly-the-greatest-alchemist-of-all-time": {
+      "identity": {
+        "titleEn": "Possibly the Greatest Alchemist of All Time",
+        "titleJa": "いずれ最強の錬金術師?"
+      },
+      "providerId": 177506,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "Studio Comet",
+        "format": "TV"
+      }
+    },
+    "orb-on-the-movements-of-the-earth": {
+      "identity": {
+        "titleEn": "Orb: On the Movements of the Earth",
+        "titleJa": "チ。―地球の運動について―"
+      },
+      "providerId": 151514,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 25,
+        "duration": "۲۵ دقیقه",
+        "studio": "MADHOUSE",
+        "format": "TV"
+      }
+    },
+    "sakamoto-days": {
+      "identity": {
+        "titleEn": "Sakamoto Days",
+        "titleJa": "SAKAMOTO DAYS"
+      },
+      "providerId": 177709,
+      "data": {
+        "year": 2025,
+        "season": "زمستان",
+        "duration": "۲۴ دقیقه",
+        "studio": "TMS Entertainment",
+        "format": "ONA"
+      }
+    },
+    "dragon-ball-daima": {
+      "identity": {
+        "titleEn": "Dragon Ball DAIMA",
+        "titleJa": "ドラゴンボール ダイマ"
+      },
+      "providerId": 170083,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 20,
+        "duration": "۲۴ دقیقه",
+        "format": "TV"
+      }
+    },
+    "0-saiji-start-dash-monogatari": {
+      "identity": {
+        "titleEn": "0-saiji Start Dash Monogatari",
+        "titleJa": "0歳児スタートダッシュ物語"
+      },
+      "providerId": 177879,
+      "data": {
+        "year": 2024,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۳ دقیقه",
+        "format": "TV_SHORT"
+      }
+    },
+    "baka-and-test-summon-the-beasts": {
+      "identity": {
+        "titleEn": "Baka & Test - Summon the Beasts",
+        "titleJa": "バカとテストと召喚獣"
+      },
+      "providerId": 6347,
+      "data": {
+        "year": 2010,
+        "season": "زمستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "SILVER LINK.",
+        "format": "TV"
+      }
+    },
+    "ao-chan-cant-study": {
+      "identity": {
+        "titleEn": "Ao-chan Can't Study!",
+        "titleJa": "淫らな青ちゃんは勉強ができない"
+      },
+      "providerId": 105989,
+      "data": {
+        "year": 2019,
+        "season": "بهار",
+        "totalEpisodes": 12,
+        "duration": "۱۳ دقیقه",
+        "studio": "SILVER LINK.",
+        "format": "TV_SHORT"
+      }
+    },
+    "recovery-of-an-mmo-junkie": {
+      "identity": {
+        "titleEn": "Recovery of an MMO Junkie",
+        "titleJa": "ネト充のススメ"
+      },
+      "providerId": 99726,
+      "data": {
+        "year": 2017,
+        "season": "پاییز",
+        "duration": "۲۴ دقیقه",
+        "studio": "Signal.MD",
+        "format": "TV"
+      }
+    },
+    "kokoro-connect": {
+      "identity": {
+        "titleEn": "Kokoro Connect",
+        "titleJa": "ココロコネクト"
+      },
+      "providerId": 11887,
+      "data": {
+        "year": 2012,
+        "season": "تابستان",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "SILVER LINK.",
+        "format": "TV"
+      }
+    },
+    "fairy-tail-100-years-quest": {
+      "identity": {
+        "titleEn": "Fairy Tail: 100 Years Quest",
+        "titleJa": "FAIRY TAIL 100年クエスト"
+      },
+      "providerId": 139095,
+      "data": {
+        "year": 2024,
+        "season": "تابستان",
+        "totalEpisodes": 25,
+        "duration": "۲۴ دقیقه",
+        "studio": "J.C.STAFF",
+        "format": "TV"
+      }
+    },
+    "humanity-has-declined": {
+      "identity": {
+        "titleEn": "Humanity Has Declined",
+        "titleJa": "人類は衰退しました"
+      },
+      "providerId": 10357,
+      "data": {
+        "year": 2012,
+        "season": "تابستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "AIC A.S.T.A.",
+        "format": "TV"
+      }
+    },
+    "the-troubled-life-of-miss-kotoura": {
+      "identity": {
+        "titleEn": "The Troubled Life of Miss Kotoura",
+        "titleJa": "琴浦さん"
+      },
+      "providerId": 15379,
+      "data": {
+        "year": 2013,
+        "season": "زمستان",
+        "totalEpisodes": 12,
+        "duration": "۲۳ دقیقه",
+        "studio": "AIC",
+        "format": "TV"
+      }
+    },
+    "tower-of-god-season-2": {
+      "identity": {
+        "titleEn": "Tower of God Season 2",
+        "titleJa": "神之塔 -Tower of God- 王子の帰還"
+      },
+      "providerId": 153406,
+      "data": {
+        "year": 2024,
+        "season": "تابستان",
+        "totalEpisodes": 26,
+        "duration": "۲۴ دقیقه",
+        "studio": "The Answer Studio",
+        "format": "TV"
+      }
+    },
+    "bleach-sennen-kessen-hen-soukoku-tan": {
+      "identity": {
+        "titleEn": "Bleach: Thousand-Year Blood War - The Conflict",
+        "titleJa": "BLEACH 千年血戦篇-相剋譚-"
+      },
+      "providerId": 169755,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 14,
+        "duration": "۲۴ دقیقه",
+        "studio": "PIERROT FILMS",
+        "format": "TV"
+      }
+    },
+    "blue-lock-vs-u-20-japan": {
+      "identity": {
+        "titleEn": "Blue Lock 2nd Season",
+        "titleJa": "ブルーロック VS. U-20 JAPAN"
+      },
+      "providerId": 163146,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 14,
+        "duration": "۲۴ دقیقه",
+        "studio": "8-bit",
+        "format": "TV"
+      }
+    },
+    "the-seven-deadly-sins-four-knights-of-the-apocalypse-season-2": {
+      "identity": {
+        "titleEn": "The Seven Deadly Sins: Four Knights of the Apocalypse Season 2",
+        "titleJa": "七つの大罪 黙示録の四騎士 第2期"
+      },
+      "providerId": 176292,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Telecom Animation Film",
+        "format": "TV"
+      }
+    },
+    "tasuketsu-fate-of-the-majority": {
+      "identity": {
+        "titleEn": "Tasuketsu -Fate of the Majority-",
+        "titleJa": "多数欠"
+      },
+      "providerId": 174070,
+      "data": {
+        "year": 2024,
+        "season": "تابستان",
+        "totalEpisodes": 24,
+        "duration": "۲۳ دقیقه",
+        "studio": "Satelight",
+        "format": "TV"
+      }
+    },
+    "ill-become-a-villainess-who-goes-down-in-history": {
+      "identity": {
+        "titleEn": "I'll Become a Villainess Who Goes Down in History",
+        "titleJa": "歴史に残る悪女になるぞ"
+      },
+      "providerId": 168139,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 13,
+        "duration": "۲۴ دقیقه",
+        "studio": "Maho Film",
+        "format": "TV"
+      }
+    },
+    "natsumes-book-of-friends-season-7": {
+      "identity": {
+        "titleEn": "Natsume's Book of Friends Season 7",
+        "titleJa": "夏目友人帳 漆"
+      },
+      "providerId": 166611,
+      "data": {
+        "year": 2024,
+        "season": "پاییز",
+        "totalEpisodes": 12,
+        "duration": "۲۴ دقیقه",
+        "studio": "Shuka",
+        "format": "TV"
+      }
+    },
+    "cheng-ye-xiao-he": {
+      "identity": {
+        "titleEn": "To Be Winner",
+        "titleJa": "成也萧河"
+      },
+      "providerId": 166444,
+      "data": {
+        "year": 2026,
+        "totalEpisodes": 16,
+        "format": "ONA"
+      }
+    },
+    "tsuihou-sareta-cheat-fuyo-majutsushi-wa-kimama-na-second-life-wo-ouka-suru-ore-w": {
+      "identity": {
+        "titleEn": "The Laid-Off Cheat-Granting Mage Enjoys a Second Lease on Life",
+        "titleJa": "追放されたチート付与魔術師は気ままなセカンドライフを謳歌する。 ～俺は武器だけじゃなく、あらゆるものに『強化ポイント』を付与できるし、俺の意思でいつでも効果を解除できるけど、残った人たち大丈夫？～"
+      },
+      "providerId": 207329,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "duration": "۲۴ دقیقه",
+        "studio": "P.A.WORKS",
+        "format": "TV"
+      }
+    },
+    "caishen-dou-zhanlong": {
+      "identity": {
+        "titleEn": "Golden Curse",
+        "titleJa": "财神窦占龙"
+      },
+      "providerId": 215522,
+      "data": {
+        "year": 2026,
+        "totalEpisodes": 16,
+        "duration": "۲۴ دقیقه",
+        "studio": "CG Year",
+        "format": "ONA"
+      }
+    },
+    "sekai-saikyou-no-majo-hajimemashita": {
+      "identity": {
+        "titleEn": "The World's Strongest Witch",
+        "titleJa": "世界最強の魔女、始めました"
+      },
+      "providerId": 211778,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "duration": "۲۴ دقیقه",
+        "studio": "Bridge / Aisle",
+        "format": "TV"
+      }
+    },
+    "magic-knight-rayearth-2026": {
+      "identity": {
+        "titleEn": "Magic Knight Rayearth (2026)",
+        "titleJa": "魔法騎士レイアース"
+      },
+      "providerId": 178868,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "studio": "E&H Production",
+        "format": "TV"
+      }
+    },
+    "juuou-mujin-dandivine": {
+      "identity": {
+        "titleEn": "Dandivine",
+        "titleJa": "獣王武神ダンデヴァイン"
+      },
+      "providerId": 213068,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "studio": "LIDENFILMS / Kayac Animation",
+        "format": "TV"
+      }
+    },
+    "koori-no-jouheki-2nd-season": {
+      "identity": {
+        "titleEn": "The Ramparts of Ice Season 2",
+        "titleJa": "氷の城壁 第2期"
+      },
+      "providerId": 213805,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "duration": "۲۵ دقیقه",
+        "studio": "Studio KAI",
+        "format": "TV"
+      }
+    },
+    "demons-crest": {
+      "identity": {
+        "titleEn": "Devils' Crest",
+        "titleJa": "デモンズ・クレスト"
+      },
+      "providerId": 203275,
+      "data": {
+        "year": 2026,
+        "season": "پاییز",
+        "studio": "Production I.G",
+        "format": "ONA"
+      }
     }
   }
 }

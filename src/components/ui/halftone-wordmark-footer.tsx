@@ -203,9 +203,29 @@ const HWF_CSS = `
 }
 .hwf-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 720px) {
-  .hwf-top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); row-gap: 24px; }
-  .hwf-brand { grid-column: 1 / -1; }
-  .hwf-col h3 { margin-bottom: 8px; }
+  /* Give the brand its own row and each navigation link a full column.
+     Contact links share a separate wide row, never four narrow link columns. */
+  .hwf-top {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; row-gap: 18px;
+    padding: 20px 20px 0; font-size: 12.5px; line-height: 1.75; letter-spacing: 0;
+  }
+  .hwf-brand { grid-column: 1 / -1; min-width: 0; }
+  .hwf-brand strong { font-size: 14px; }
+  .hwf-brand span { margin-top: 4px; font-size: 11.5px; line-height: 1.7; }
+  .hwf-col { min-width: 0; }
+  .hwf-col h3 { margin-bottom: 6px; font-size: 11.5px; line-height: 1.6; letter-spacing: 0; }
+  .hwf-col h3::before { width: 4px; height: 4px; margin-inline-end: 6px; }
+  .hwf-col ul { display: block; }
+  .hwf-col li { min-width: 0; }
+  .hwf-col li + li { margin-top: 0; }
+  .hwf-col a, .hwf-up { min-height: 40px; padding: 3px 0; line-height: 1.6; }
+  .hwf-col a { display: flex; width: 100%; }
+  .hwf-top > .hwf-col:last-child { grid-column: 1 / -1; display: flex; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .hwf-top > .hwf-col:last-child h3 { margin-bottom: 0; flex-shrink: 0; }
+  .hwf-top > .hwf-col:last-child ul { display: flex; flex-wrap: wrap; column-gap: 24px; }
+  .hwf-top > .hwf-col:last-child a { width: auto; }
+  .hwf-rule { margin: 14px 20px 0; padding-top: 12px; }
+  .hwf-rule .hwf-up { padding: 6px 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hwf-col a, .hwf-up { transition: none; }

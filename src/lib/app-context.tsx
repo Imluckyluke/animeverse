@@ -3,10 +3,22 @@
 import { createContext, useContext } from "react";
 import type { LibraryState, LibraryStatus } from "@/lib/library";
 
+/**
+ * Roles come from the server session only. A device-local profile (or a
+ * matching email) never grants anything on its own.
+ */
+export type UserRole = "user" | "owner" | "editor" | "reviewer";
+
 export type User = {
+  /** Server account id. Local demo accounts from older builds have none. */
+  id?: string;
   name: string;
   email: string;
   joinedAt: string;
+  /** Server-assigned role; the API is authoritative, never the email. */
+  role?: UserRole;
+  /** Verified only against a legacy account on this device; never server staff. */
+  localOnly?: boolean;
 };
 
 export type ToastItem = {
@@ -38,6 +50,15 @@ export type AppContextValue = {
   lastWatched: (slug: string) => number | null;
   toast: (title: string, description?: string, tone?: ToastItem["tone"]) => void;
   dismissToast: (id: number) => void;
+  /** True when the one-time local backup belongs to the signed-in account. */
+  canImportLocalPreferences: boolean;
+  /** Explicit, user-triggered move of the local backup into the account. */
+  importLocalPreferences: () => Promise<AuthResult>;
+  /** Changes waiting to reach the server (0 while signed out). */
+  pendingSyncCount: number;
+  syncing: boolean;
+  /** Last cloud-sync failure, shown verbatim in the account panel. */
+  syncError: string | null;
 };
 
 export const AppContext = createContext<AppContextValue | null>(null);

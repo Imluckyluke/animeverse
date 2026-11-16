@@ -6,15 +6,16 @@ import { normalizeGenres } from "@/lib/genres";
 const BROWSE_DESCRIPTION =
   "آرشیو کامل انیمه‌ورس: جست‌وجو کن و بر اساس ژانر، سال، نوع و وضعیت پخش فیلتر کن — لینک دانلود مستقیم با زیرنویس فارسی.";
 
-export function generateMetadata({
-  searchParams,
+export async function generateMetadata({
+  searchParams: pending,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     genre?: string | string[];
     q?: string | string[];
     collection?: string | string[];
-  };
-}): Metadata {
+  }>;
+}): Promise<Metadata> {
+  const searchParams = await pending;
   // Filtered views are near-duplicates; keep them out of the index.
   const filtered = ["genre", "q", "collection"].some((key) => {
     const value = searchParams[key as "genre" | "q" | "collection"];
@@ -28,15 +29,16 @@ export function generateMetadata({
   };
 }
 
-export default function BrowsePage({
-  searchParams,
+export default async function BrowsePage({
+  searchParams: pending,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     genre?: string | string[];
     q?: string | string[];
     collection?: string | string[];
-  };
+  }>;
 }) {
+  const searchParams = await pending;
   const rawGenre = Array.isArray(searchParams.genre)
     ? searchParams.genre.join(",")
     : searchParams.genre ?? "";

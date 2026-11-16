@@ -18,11 +18,15 @@ function load(relative, dependencies = {}) {
 }
 
 const { canShowAdmin } = load("src/lib/admin-visibility.ts");
-test("only the owner email shows admin UI (not server authorization)", () => {
+test("only the requested Gmail shows the admin entry; server access is checked separately", () => {
   assert.equal(canShowAdmin(null), false);
   assert.equal(canShowAdmin({ email: "reader@example.com" }), false);
   assert.equal(canShowAdmin({ email: "Hadighgh84@gmail.com" }), true);
   assert.equal(canShowAdmin({ email: "  HADIGHGH84@GMAIL.COM  " }), true);
+  assert.equal(canShowAdmin({ id: "other-owner", email: "owner@example.test", role: "owner" }), false);
+  for (const role of ["editor", "reviewer"]) assert.equal(canShowAdmin({ id: "staff", email: "staff@example.test", role }), false);
+  assert.equal(canShowAdmin({ email: "owner@example.test", role: "owner", localOnly: true }), false);
+  assert.equal(canShowAdmin({ email: "reader@example.test", role: "user" }), false);
   assert.equal(canShowAdmin({ email: "hadighgh84@gmail.com.attacker.example" }), false);
 });
 
@@ -155,4 +159,128 @@ test("the primary hero cover stays sharp while its separate atmosphere stays sof
   assert.match(front, /scale\(1\.055\)/);
   assert.match(css, /backdrop-filter: blur\(1\.5px\)/);
   assert.match(css, /aspect-ratio: var\(--hero-banner-ratio\)/);
+});
+
+function navigationFixture() {
+  const callbacks = new Map();
+  const listeners = new Map();
+  let nextId = 1;
+  const history = { state: { __NA: true, routerTree: { keep: true } }, scrollRestoration: "auto",
+    replaceState(state) { this.state = state; } };
+  const location = { pathname: "/browse", search: "?sort=alpha", hash: "", origin: "https://example.test" };
+  const docListeners = new Map();
+  const document = { documentElement: { scrollHeight: 5000 }, body: {},
+    addEventListener: (name, callback) => docListeners.set(name, callback),
+    removeEventListener: (name) => docListeners.delete(name) };
+  const win = { history, location, document, scrollX: 0, scrollY: 0, innerHeight: 800, calls: [],
+    addEventListener: (name, callback) => listeners.set(name, callback),
+    removeEventListener: (name) => listeners.delete(name),
+    requestAnimationFrame: (callback) => { const id = nextId++; callbacks.set(id, callback); return id; },
+    cancelAnimationFrame: (id) => callbacks.delete(id),
+    setTimeout: (callback) => { const id = nextId++; callbacks.set(id, callback); return id; },
+    clearTimeout: (id) => callbacks.delete(id),
+    scrollTo(point) { this.calls.push(point); this.scrollX = point.left; this.scrollY = point.top; } };
+  const utility = load("src/lib/navigation-scroll.ts");
+  const controller = utility.installScrollRestoration(win);
+  const emit = (name, event = {}) => listeners.get(name)?.(event);
+  const flush = () => { const pending = [...callbacks.values()]; callbacks.clear(); pending.forEach(callback => callback()); };
+  const save = (y) => { win.scrollY = y; emit("scroll"); flush(); return structuredClone(history.state); };
+  return { win, utility, controller, emit, flush, save, callbacks, listeners, docListeners };
+}
+
+test("scroll and expanded results preserve Next state, remain per-entry, and respect result identity", () => {
+  const f = navigationFixture();
+  f.save(2200);
+  f.utility.rememberCatalogPage(f.win, "filter-A", 90);
+  assert.deepEqual(f.win.history.state.routerTree, { keep: true });
+  assert.equal(f.win.history.state.__NA, true);
+  assert.equal(f.win.history.state.__avNavigation.scroll.y, 2200);
+  assert.equal(f.utility.readCatalogPage(f.win, "filter-A", 200), 90);
+  assert.equal(f.utility.readCatalogPage(f.win, "filter-A", 45), 45);
+  assert.equal(f.utility.readCatalogPage(f.win, "filter-B", 200), 30);
+  f.win.history.state = { __NA: true };
+  assert.equal(f.utility.readCatalogPage(f.win, "filter-A", 200), 30);
+  f.controller.dispose();
+  assert.equal(f.win.history.scrollRestoration, "auto");
+  assert.equal(f.listeners.size, 0);
+  assert.equal(f.docListeners.size, 0);
+});
+
+test("back waits for the committed long page instead of clamping to a short loading screen", () => {
+  const f = navigationFixture();
+  const browse = f.save(2200);
+  f.win.location.pathname = "/anime/example";
+  f.win.location.search = "";
+  f.win.history.state = { __NA: true };
+  f.win.scrollY = 0;
+  f.controller.commit("/anime/example?");
+  assert.equal(f.win.calls.length, 0, "Fresh detail navigation is not restored to the list's position");
+  f.win.location.pathname = "/browse";
+  f.win.location.search = "?sort=alpha";
+  f.win.history.state = browse;
+  f.win.document.documentElement.scrollHeight = 1000;
+  f.emit("popstate");
+  f.emit("scroll");
+  assert.equal(f.win.history.state.__avNavigation.scroll.y, 2200);
+  f.controller.commit("/browse?sort=alpha");
+  // Execute just the animation frame; the final fallback is separate.
+  const frame = [...f.callbacks.entries()].at(-1);
+  f.callbacks.delete(frame[0]); frame[1]();
+  assert.equal(f.win.calls.length, 0);
+  f.win.document.documentElement.scrollHeight = 5000;
+  f.flush();
+  assert.equal(f.win.scrollY, 2200);
+  assert.equal(f.win.calls[0].behavior, "instant");
+  f.controller.dispose();
+});
+
+test("a user's touch cancels a delayed restore, and hash targets keep native navigation", () => {
+  for (const cancel of ["touchstart", "wheel", "pointerdown", "keydown"]) {
+    const f = navigationFixture();
+    const state = f.save(2200);
+    f.win.history.state = state;
+    f.win.document.documentElement.scrollHeight = 1000;
+    f.emit("popstate");
+    f.emit(cancel);
+    f.win.document.documentElement.scrollHeight = 5000;
+    f.flush();
+    assert.equal(f.win.calls.length, 0, cancel);
+    f.controller.dispose();
+  }
+  const f = navigationFixture();
+  f.win.location.hash = "#episodes";
+  f.save(1200);
+  f.emit("popstate");
+  f.flush();
+  assert.equal(f.win.calls.length, 0);
+  f.controller.dispose();
+});
+
+test("restricted history falls back without breaking navigation or using account/local storage", () => {
+  const f = navigationFixture();
+  f.win.history.replaceState = () => { throw new Error("History blocked"); };
+  assert.doesNotThrow(() => f.save(1500));
+  assert.equal(f.win.history.scrollRestoration, "auto");
+  assert.doesNotThrow(() => f.utility.rememberCatalogPage(f.win, "filter", 60));
+  f.controller.dispose();
+});
+
+test("filter URL updates retain checkpoints without bypassing Next's native History integration", () => {
+  const f = navigationFixture();
+  f.save(1800);
+  f.utility.rememberCatalogPage(f.win, "filter-A", 90);
+  let nextUrl;
+  f.win.history.replaceState = function (data, _unused, url) {
+    assert.equal(data.__NA, undefined, "The internal router flag would bypass search-param synchronization");
+    nextUrl = url;
+    this.state = { ...data, __NA: true, routerTree: this.state.routerTree };
+  };
+  f.utility.replaceNavigationUrl(f.win, "/browse?genre=action#main");
+  assert.equal(nextUrl, "/browse?genre=action#main");
+  assert.equal(f.win.history.state.__NA, true);
+  assert.equal(f.utility.readCatalogPage(f.win, "filter-A", 200), 90);
+  assert.equal(f.win.history.state.__avNavigation.scroll.y, 1800);
+  // Cleanup normally writes no new URL, unlike this narrow integration stub.
+  f.win.history.replaceState = function (state) { this.state = state; };
+  f.controller.dispose();
 });

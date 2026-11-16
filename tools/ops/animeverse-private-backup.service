@@ -1,0 +1,19 @@
+[Unit]
+Description=AnimeVerse encrypted off-host backup and restore verification
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=bot-host
+WorkingDirectory=/var/lib/bot-host/animeverse
+EnvironmentFile=/var/lib/bot-host/.config/animeverse-ops/runtime.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 tools/ops/run_ops.py backup
+ExecStopPost=/usr/bin/python3 tools/ops/run_ops.py resume-archive
+TimeoutStartSec=1800
+UMask=0077
+Nice=10
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only

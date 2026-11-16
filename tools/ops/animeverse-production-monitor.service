@@ -1,0 +1,17 @@
+[Unit]
+Description=AnimeVerse production health and owner alerts
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=bot-host
+WorkingDirectory=/var/lib/bot-host/animeverse
+EnvironmentFile=/var/lib/bot-host/.config/animeverse-ops/runtime.env
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 tools/ops/run_ops.py monitor
+TimeoutStartSec=150
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=read-only

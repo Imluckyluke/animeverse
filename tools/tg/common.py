@@ -42,14 +42,14 @@ DEST_USERNAME = "testanivers"
 # Private archive that already contains the same releases with clean filenames.
 # The invite hash is not a secret in the usual sense, but it is kept in the
 # environment so the worker can be moved to another archive without code edits.
-ARCHIVE_INVITE = os.environ.get("AV_ARCHIVE_INVITE", "7JuDxCB9FNo2ZWRk").strip()
+ARCHIVE_INVITE = os.environ.get('AV_ARCHIVE_INVITE', '').strip()
 ARCHIVE_TITLE = os.environ.get("AV_ARCHIVE_TITLE", "انیمه سکای").strip()
 ARCHIVE_SEARCH_LIMIT = max(10, int(os.environ.get("AV_ARCHIVE_SEARCH_LIMIT", "30")))
 ARCHIVE_COPY_DELAY = float(os.environ.get("AV_ARCHIVE_COPY_DELAY", "4"))
 ARCHIVE_SEARCH_DELAY = float(os.environ.get("AV_ARCHIVE_SEARCH_DELAY", "1.5"))
 
-API_ID = int(os.environ.get("TG_API_ID", "2040"))
-API_HASH = os.environ.get("TG_API_HASH", "b18441a1ff607e10a989891a5462e627")
+API_ID = int(os.environ.get("TG_API_ID") or "2040")
+API_HASH = os.environ.get("TG_API_HASH") or "b18441a1ff607e10a989891a5462e627"
 
 # MiniBot is much more sensitive than a normal user account. Keep generous
 # spacing and take a longer break before the next link. Archive hits bypass

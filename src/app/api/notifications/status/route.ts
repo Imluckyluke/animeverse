@@ -1,15 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getNotificationStatus, validClientId } from "@/lib/notify-store";
-
+import { NextRequest } from "next/server";
+import { handleControl } from "@/lib/admin-server";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
-export async function GET(request: NextRequest) {
-  const clientId = request.nextUrl.searchParams.get("clientId") ?? "";
-  if (!validClientId(clientId)) {
-    return NextResponse.json({ error: "شناسهٔ دستگاه معتبر نیست." }, { status: 400 });
-  }
-  return NextResponse.json(await getNotificationStatus(clientId), {
-    headers: { "Cache-Control": "no-store" },
-  });
+export function GET(request: NextRequest) {
+  return handleControl(request, ["notifications", "status"], true);
 }

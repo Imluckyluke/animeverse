@@ -136,7 +136,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
     return () => controller.abort();
   }, [sheet, isReal, anime.slug, anime.quality]);
 
-  const download = (episode: number, quality: string) => startDownload({ slug: anime.slug, title: anime.titleEn, episode, quality, size: episodes.find(ep => ep.number === episode)?.qualities?.find(q => q.label === quality)?.size });
+  const download = (episode: number, quality: string) => startDownload({ slug: anime.slug, title: anime.titleEn, episode, quality, size: episodes.find(ep => ep.number === episode)?.qualities?.find(q => q.label === quality)?.size }, { autoStart: true });
   const qualityEpisodes = new Map<string, Set<number>>();
   for (const ep of episodes) for (const quality of ep.qualities || []) {
     if (quality.status !== "done" || !/^https?:\/\//i.test(quality.url || "") || (quality.size || 0) >= 2 ** 31) continue;
@@ -146,7 +146,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
     const url = new URL(window.location.href);
     const episode = Number(url.searchParams.get("download")), quality = url.searchParams.get("q");
     if (!episode || !quality || !anime.episodeData?.some(ep => ep.number === episode && ep.qualities.some(q => q.label === quality && q.status === "done"))) return;
-    startDownload({ slug: anime.slug, title: anime.titleEn, episode, quality });
+    startDownload({ slug: anime.slug, title: anime.titleEn, episode, quality }, { autoStart: false });
     url.searchParams.delete("download"); url.searchParams.delete("q"); history.replaceState(history.state, "", url);
   }, [anime.slug, anime.titleEn, anime.episodeData, startDownload]);
 
@@ -271,7 +271,7 @@ export function EpisodeList({ anime }: { anime: Anime }) {
                       {size ? <span className="text-xs text-content-muted">· {faBytes(size)}</span> : null}
                   </>;
                   return method === "github" ? <button key={quality.label} type="button"
-                    aria-label={`آماده‌سازی قسمت ${faDigits(ep.number)} با کیفیت ${quality.label} از گیت‌هاب`}
+                    aria-label={`دانلود مستقیم قسمت ${faDigits(ep.number)} با کیفیت ${quality.label}`}
                     onClick={() => download(ep.number, quality.label)} className={className}>{content}</button>
                     : telegramUrl ? <a key={quality.label} href={telegramUrl} target="_blank" rel="noopener noreferrer"
                       aria-label={`دانلود قسمت ${faDigits(ep.number)} با کیفیت ${quality.label} از تلگرام`} className={className}>{content}</a>
@@ -302,14 +302,14 @@ export function EpisodeList({ anime }: { anime: Anime }) {
 
   return (
     <div>
-      <DownloadMethodTabs id={methodId} value={method} onChange={setMethod} />
-      <div id={`${methodId}-panel`} role="tabpanel" aria-labelledby={`${methodId}-${method}`} tabIndex={0}>
+      <div id={`${methodId}-panel`} role="region" aria-label="قسمت‌های قابل دانلود">
       <div className="mb-5 flex min-h-11 flex-wrap items-center gap-2.5">
         <h2 className="headline text-xl sm:text-2xl">قسمت‌ها</h2>
         <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-bold text-content-muted">
           {faDigits(episodes.length)} قسمت
         </span>
-        {method === "github" && qualityEpisodes.size > 0 && <button type="button" className="btn btn-glass ms-auto min-h-11 gap-2 px-3 text-xs" onClick={() => chooseBulk({ slug: anime.slug, title: anime.titleEn, total: episodes.length, qualities: [...qualityEpisodes].map(([label, numbers]) => ({ label, count: numbers.size })) })}><Layers3 className="size-4" />دانلود همهٔ قسمت‌ها</button>}
+        <DownloadMethodTabs id={methodId} value={method} onChange={setMethod} />
+        {method === "github" && qualityEpisodes.size > 0 && <button type="button" aria-label="دانلود همهٔ قسمت‌ها" title="دانلود همهٔ قسمت‌ها" className="btn btn-glass min-h-10 gap-1.5 rounded-xl px-2.5 text-[11px]" onClick={() => chooseBulk({ slug: anime.slug, title: anime.titleEn, total: episodes.length, qualities: [...qualityEpisodes].map(([label, numbers]) => ({ label, count: numbers.size })) })}><Layers3 className="size-3.5" />همه</button>}
         {lastSeen ? (
           <button type="button" onClick={jumpToLastSeen} className="inline-flex min-h-11 items-center gap-1.5 rounded-full border border-amber-400/25 bg-amber-400/10 px-3 py-2 text-xs font-bold text-amber-200">
             <Eye className="size-3" />

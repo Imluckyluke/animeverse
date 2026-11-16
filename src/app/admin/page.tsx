@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { AdminView } from "@/components/admin-view";
-import { ANIME, SITE } from "@/lib/data";
+import { AdminConsole } from "@/components/admin/admin-console";
+import { notFound } from "next/navigation";
+import { ownerAccountSession } from "@/lib/admin-server";
 
 export const metadata: Metadata = {
   title: "پنل ادمین",
-  description: "پنل مدیریت محلی انیمه‌ورس.",
+  description: "کنسول امن مدیریت آرشیو، محتوا و انتشار انیمه‌ورس.",
   robots: { index: false, follow: false },
 };
 
-export default function AdminPage() {
-  // Slim payload: the admin list never needs the per-episode download data.
-  const items = ANIME.map(({ episodeData: _episodeData, ...anime }) => anime);
-  return <AdminView items={items} telegramHandle={SITE.telegramHandle} />;
+export const dynamic = "force-dynamic";
+export default async function AdminPage() {
+  if (!await ownerAccountSession()) notFound();
+  return <AdminConsole />;
 }

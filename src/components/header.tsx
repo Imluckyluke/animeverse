@@ -54,7 +54,8 @@ export function Header() {
   const menuMounted = menuPhase !== "closed";
 
   const adminVisible = canShowAdmin(user);
-  const nav = adminVisible ? [...NAV, { href: "/admin", label: "پنل ادمین" }] : NAV;
+  const publicNav = user ? NAV : NAV.filter(item => item.href !== "/favorites");
+  const nav = adminVisible ? [...publicNav, { href: "/admin", label: "پنل ادمین" }] : publicNav;
 
   const closeMenu = useCallback(() => {
     setMenuPhase((current) => (current === "closed" ? current : "closing"));

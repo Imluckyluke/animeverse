@@ -55,6 +55,8 @@ from common import (
 )
 from ingest import merge_post, prepare_covers
 from parse import parse_post
+from archive_file_review import reviewed_record_allowed
+from season_identity import ambiguous_roman_change, conflicts, page_markers, record_markers, roman_tokens, sequence_markers
 from resolver import (
     ArchiveResolver,
     BotFlow,
@@ -305,10 +307,42 @@ async def scan_aniposts(
 
 VIDEO_EXTS = {".mkv", ".mp4", ".avi", ".mov", ".webm", ".m4v", ".ts", ".m2ts"}
 QUALITY_TOKEN_RE = re.compile(
-    r"\b(?:2160p?|1440p?|1080p?|720p?|480p?|4k|uhd)\b",
+    r"\b(?:2160p?|1440p?|1080p?|720p?|576p?|480p?|4k|uhd)\b",
     re.IGNORECASE,
 )
 ARCHIVE_PREFIX_RE = re.compile(r"^\s*(?:\[@?[^\]]+\]|@[A-Za-z0-9_]+)\s*")
+MOVIE_MARKER_RE = re.compile(r"\bmovie(?=$|[\s._:\-]|\d)", re.IGNORECASE)
+
+
+def trailing_archive_episode(value: str) -> int | None:
+    """Read a bare numbered episode, not a film index, season, year or quality."""
+    text = str(value or '').replace('_', ' ').strip()
+    if MOVIE_MARKER_RE.search(text):
+        return None
+    text = re.sub(r'\.(?:mkv|mp4|avi|mov|webm|m4v|ts|m2ts)\s*$', '', text, flags=re.I)
+    text = re.sub(r'(?<=\d)\s+(?:-\s*)?END\s*$', '', text, flags=re.I)
+    text = re.sub(r'\[[^\]]*\]|\{[^}]*\}', ' ', text)
+    text = re.sub(r'\(\s*(?:2160p?|1440p?|1080p?|720p?|480p?|4k|uhd)\b[^)]*\)', ' ', text, flags=re.I)
+    text = QUALITY_TOKEN_RE.sub(' ', text)
+    text = re.sub(r'\b(?:هاردساب|hardsub|x265|hevc|fhd)\b', ' ', text, flags=re.I).strip()
+    match = re.search(r'\s+(\d{1,4})\s*$', text)
+    if not match:
+        return None
+    before = text[:match.start()].strip(' -–—')
+    number = int(match[1])
+    from season_identity import season_label_has_ordinal_prefix
+    label = re.search(r'\b(season|part|series|movie|cd|disc|disk)\s*[:.\-]?$', before, re.I)
+    ordinal_season = bool(label and label[1].casefold() == 'season'
+                          and season_label_has_ordinal_prefix(before, label.start()))
+    if len(match[1]) < 2 and not ordinal_season:
+        return None
+    label_number = bool(label and not ordinal_season)
+    if (not before or number < 1 or 1900 <= number <= 2100
+            or number in {480, 720, 1080, 1440, 2160}
+            or label_number
+            or re.search(r'\d[.,]$', before)):
+        return None
+    return number
 
 
 def parse_archive_fields(
@@ -317,6 +351,7 @@ def parse_archive_fields(
     message_id: int,
     size: Any = None,
     date: str = "",
+    allow_incomplete: bool = False,
 ) -> dict[str, Any] | None:
     raw = (caption or name or "").strip()
     if not raw:
@@ -331,38 +366,53 @@ def parse_archive_fields(
 
     ep_text = raw.replace("_", " ").replace("\n", " ")
     ep_text = ARCHIVE_PREFIX_RE.sub("", ep_text)
+    ep_text = re.sub(r"^\s*MrAnime[.\s]+pw\s+", "", ep_text, flags=re.IGNORECASE)
     ep_text = re.sub(
         r"\.(?:mkv|mp4|avi|mov|webm|m4v|ts|m2ts)\s*$",
         "",
         ep_text,
         flags=re.IGNORECASE,
     )
+    ep_text = re.sub(r'(?<=\d)\s+(?:-\s*)?END\s*$', '', ep_text, flags=re.I)
     episode: int | None = None
+    movie = bool(MOVIE_MARKER_RE.search(ep_text))
+    bare_episode = trailing_archive_episode(ep_text)
     patterns = (
-        r"\bS\d+\s*[._ ]\s*E\s*0*(\d{1,4})\b",
-        r"\bEp?\s*0*(\d{1,4})\b",
-        r"(?:-|_)\s*0*(\d{1,4})\s*(?:\[|\()?\s*(?:2160p?|1440p?|1080p?|720p?|480p?|4k|uhd)\b",
+        r"\bS\d+[._\s-]*E\s*0*(\d{1,4})\b",
+        r"\b(?:Ep?|Episode)\s*0*(\d{1,4})\b",
+        r"\bS\d{1,2}\.(\d{1,4})(?=\.(?:2160|1440|1080|720|576|480)p\b)",
+        r"(?:-|_)\s*0*(\d{1,4})\s*(?:\[|\()?\s*(?:2160p?|1440p?|1080p?|720p?|576p?|480p?|4k|uhd)\b",
         r"(?:-|_)\s*0*(\d{1,4})\s*\{",
         r"\s+0*(\d{1,4})\s*\{\s*\}\s*$",
-        r"(?:^|[_\s])(\d{1,4})[_\s]+(?:2160p?|1440p?|1080p?|720p?|480p?|4k|uhd)\b",
+        r"(?:^|[_\s])(\d{1,4})[_\s]+(?:2160p?|1440p?|1080p?|720p?|576p?|480p?|4k|uhd)\b",
         r"قسمت\s*:?\s*0*(\d{1,4})\b",
     )
-    for pattern in patterns:
+    for index, pattern in enumerate(patterns):
+        if movie and index >= 2:
+            continue
         match = re.search(pattern, ep_text, re.IGNORECASE)
         if match:
+            if index >= 2 and re.search(r'\b(?:season|part|series|cd|disc|disk)\s*[:.\-]?\s*0*$', ep_text[:match.start(1)], re.I):
+                continue
             episode = int(match.group(1))
             break
+    if episode is None:
+        episode = bare_episode
 
     title = re.sub(r"\[[^\]]*\]", " ", ep_text)
-    title = re.sub(r"\bS\d+\s*[._ ]\s*E\s*0*\d+\b", " ", title, flags=re.IGNORECASE)
+    # Keep the explicit season in the extracted title; only remove the episode.
+    if not movie:
+        title = re.sub(r"\b(S\d+)[._\s-]*E\s*0*\d+\b", r"\1 ", title, flags=re.IGNORECASE)
+        title = re.sub(r"\b(S\d{1,2})\.\d{1,4}\.(?:2160|1440|1080|720|576|480)p\b.*$",
+                       r"\1", title, flags=re.IGNORECASE)
     title = re.sub(
-        r"\s*[-–—]\s*(?:S\d+\s*)?(?:Ep?\s*)?\d{1,4}\s*(?:\[|\()?\s*(?:2160p?|1440p?|1080p?|720p?|480p?|4k|uhd).*$",
+        r"\s*[-–—]\s*(?:S\d+\s*)?(?:Ep?\s*)?\d{1,4}\s*(?:\[|\()?\s*(?:2160p?|1440p?|1080p?|720p?|576p?|480p?|4k|uhd).*$",
         "",
         title,
         flags=re.IGNORECASE,
-    )
+    ) if not movie else title
     title = re.sub(
-        r"\s*[-–—]\s*(?:2160p?|1440p?|1080p?|720p?|480p?|4k|uhd).*$",
+        r"\s*[-–—]\s*(?:2160p?|1440p?|1080p?|720p?|576p?|480p?|4k|uhd).*$",
         "",
         title,
         flags=re.IGNORECASE,
@@ -372,32 +422,43 @@ def parse_archive_fields(
         "",
         title,
         flags=re.IGNORECASE,
-    )
-    title = re.sub(r"\b(?:Ep?|Episode)\s*0*\d+\b", " ", title, flags=re.IGNORECASE)
-    title = re.sub(r"قسمت\s*:?\s*0*\d+\b", " ", title)
+    ) if not movie else title
+    if not movie:
+        title = re.sub(r"\b(?:Ep?|Episode)\s*0*\d+\b", " ", title, flags=re.IGNORECASE)
+        title = re.sub(r"قسمت\s*:?\s*0*\d+\b", " ", title)
     title = re.sub(r"\b(?:کیفیت|حجم)\s*:?.*$", " ", title)
     title = QUALITY_TOKEN_RE.sub(" ", title)
     title = re.sub(r"\b(?:هاردساب|hardsub|x265|hevc|fhd)\b", " ", title, flags=re.IGNORECASE)
     title = re.sub(r"\s*\{[^}]*\}\s*$", " ", title)
-    title = re.sub(r"\s*[-–—]\s*(?:Ep?\s*)?\d{1,4}\s*$", "", title, flags=re.IGNORECASE)
+    if not movie:
+        title = re.sub(r"\s*[-–—]\s*(?:Ep?\s*)?\d{1,4}\s*$", "", title, flags=re.IGNORECASE)
     title = re.sub(r"\s{2,}", " ", title).strip(" -–—_[]()")
 
-    # Some archive files put the episode number directly at the end without a
-    # separator ("Dr. Stone 07", "Vivy Fluorite Eyes Song 01"). Strip it when
-    # it is zero-padded or at least two digits, and keep real numbered titles
-    # such as "86" or "Edgerunners 2" intact.
+    # Strip only the same bare number found in the unedited filename/caption.
+    # Never strip a numeric title left behind by removing an explicit E marker.
     trailing = re.search(r"\s+(\d{1,3})\s*$", title)
     if trailing:
         number_text = trailing.group(1)
         before = title[: trailing.start()].strip(" -–—_")
-        if before and (len(number_text) >= 2 or number_text.startswith("0")):
-            episode = int(number_text)
+        from season_identity import season_label_has_ordinal_prefix
+        label = re.search(r'\b(season|part|series)\s*$', before, re.I)
+        label_number = bool(label and not (label[1].casefold() == 'season'
+                            and season_label_has_ordinal_prefix(before, label.start())))
+        if (before and bare_episode is not None and int(number_text) == bare_episode
+                and not label_number):
             title = before
     if len(title) < 2:
         return None
 
+    # HD is a source label, not proof of a numeric resolution. In the
+    # identity-only view it must not erase an otherwise explicit title/episode.
+    quality_hint = ''
+    if allow_incomplete and episode is not None and re.search(r'\s+HD$', title, re.I):
+        title = re.sub(r'\s+HD$', '', title, flags=re.I)
+        quality_hint = 'HD'
+
     base, x265, hardsub = _quality_of(raw)
-    if not base:
+    if not base and not allow_incomplete:
         return None
     season, part = _season_part(raw)
     if season is None:
@@ -409,9 +470,11 @@ def parse_archive_fields(
         "title": title,
         "norm": _norm_text(title),
         "episode": episode,
+        **({"mediaKind": "MOVIE"} if movie else {}),
         "season": season,
         "part": part,
-        "quality": base + (" x265" if x265 else "") + (" هاردساب" if hardsub else ""),
+        "quality": base + (" x265" if x265 else "") + (" هاردساب" if hardsub else "") if base else '',
+        **({'qualityHint': quality_hint} if quality_hint else {}),
         "x265": x265,
         "hardsub": hardsub,
         "name": (name or "")[:300],
@@ -419,6 +482,32 @@ def parse_archive_fields(
         "size": size,
         "date": date or "",
     }
+
+
+def archive_identity_hint(record):
+    """Read-only display/review hint. Unknown quality never hides a known title.
+
+    This does not certify an assignment or modify the canonical source record.
+    Existing fields always win; contradictory episode/quality evidence is not
+    repaired by a display fallback.
+    """
+    if record.get('title'):
+        return record
+    parsed = parse_archive_fields(record.get('name') or '', '', record.get('id') or 0,
+                                  record.get('size'), record.get('date', ''), allow_incomplete=True)
+    from archive_literal_files import lost_girls_filename
+    literal = lost_girls_filename(record)
+    if parsed and literal:
+        parsed.update(literal)
+    if parsed and re.fullmatch(r'\d{6,}(?:\s+\d+)?', re.sub(r'[^\w]+', ' ', parsed['title']).strip()):
+        # Long download IDs are not anime titles. Do not turn an opaque numeric
+        # filename into a recovered identity merely to remove the empty label.
+        return record
+    if not parsed or any(record.get(key) not in (None, '') and record[key] != parsed.get(key)
+                         for key in ('episode', 'quality', 'season', 'part')):
+        return record
+    return {**parsed, **record, **{key: parsed[key] for key in
+            ('title', 'episode', 'quality', 'season', 'part') if not record.get(key)}}
 
 
 def parse_archive_record(message: Any) -> dict[str, Any] | None:
@@ -559,6 +648,16 @@ def _season_compatible_record(
     record_title: str,
     metadata: dict[str, Any] | None = None,
 ) -> bool:
+    if not reviewed_record_allowed(parsed, metadata or {}):
+        return False
+    record_text = record_title + ' ' + ' '.join(str((metadata or {}).get(field) or '') for field in ('name', 'caption'))
+    if conflicts(page_markers(parsed), record_markers({**(metadata or {}), 'title': record_title})):
+        return False
+    if ambiguous_roman_change(parsed, {**(metadata or {}), 'title': record_title}):
+        return False
+    if ((metadata or {}).get('mediaKind') == 'MOVIE' or MOVIE_MARKER_RE.search(record_text)):
+        if parsed.get('format') != 'MOVIE' and parsed.get('type') != 'فیلم':
+            return False
     if not _season_compatible(parsed, record_title):
         return False
     parsed_title = (
@@ -1247,25 +1346,11 @@ async def discover(
     return new_keys
 
 
-ROMAN_SEASONS = {
-    "ii": 2,
-    "iii": 3,
-    "iv": 4,
-    "v": 5,
-    "vi": 6,
-    "vii": 7,
-    "viii": 8,
-    "ix": 9,
-    "x": 10,
-}
-
-
 def _roman_season(title: str) -> int | None:
-    # Roman numerals can appear before a subtitle ("Mushoku Tensei II:
-    # Isekai Ittara...") as well as at the end. Only treat a standalone
-    # uppercase roman token as a season marker.
-    match = re.search(r"\b(III|II|IV|V|VI|VII|VIII|IX|X)\b", title or "")
-    return ROMAN_SEASONS.get(match.group(1).lower()) if match else None
+    if not roman_tokens(title):
+        return None
+    seasons = {number for kind, number in sequence_markers(title) if kind == 'season'}
+    return next(iter(seasons)) if len(seasons) == 1 else None
 
 
 def _pick_archive_record(
@@ -1287,6 +1372,8 @@ def _pick_archive_record(
     )
     candidates: list[tuple[int, int, dict[str, Any]]] = []
     for record in records:
+        if not _season_compatible_record(anime, str(record.get('title') or ''), record):
+            continue
         record_ep = record.get("episode")
         if record_ep is None:
             if not single:
@@ -1440,6 +1527,8 @@ def populate_archive_episodes(
                 anime["episodes"].pop(episode, None)
         chosen: dict[tuple[int, str], dict[str, Any]] = {}
         for record in records:
+            if not _season_compatible_record(anime, str(record.get('title') or ''), record):
+                continue
             raw_episode = record.get("episode")
             if raw_episode is None:
                 if not single:

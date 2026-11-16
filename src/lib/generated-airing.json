@@ -1,0 +1,565 @@
+{
+ "version": 1,
+ "provider": "anilist",
+ "checkedAt": "2026-10-30T06:48:23+00:00",
+ "status": "partial",
+ "coverage": {
+  "verifiedLocalIds": 1643,
+  "cachedIds": 25
+ },
+ "providerState": {
+  "blockedUntil": 0
+ },
+ "entries": {
+  "160803": {
+   "sourceUrl": "https://anilist.co/anime/160803",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 160803,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Mahou Shoujo Ikusei Keikaku: Restart",
+     "titleJa": "魔法少女育成計画 restart",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-02T17:00:00Z"
+   }
+  },
+  "179876": {
+   "sourceUrl": "https://anilist.co/anime/179876",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 179876,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Dark Machine: The Animation",
+     "titleJa": "DARK MACHINE -The Animation-",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-11-03T16:45:00Z"
+   }
+  },
+  "180894": {
+   "sourceUrl": "https://anilist.co/anime/180894",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 180894,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "ONA",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Romelia War Chronicle",
+     "titleJa": "ロメリア戦記",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-10-31T12:00:00Z"
+   }
+  },
+  "185756": {
+   "sourceUrl": "https://anilist.co/anime/185756",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 185756,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "As a Reincarnated Aristocrat, I'll Use My Appraisal Skill to Rise in the World Season 3",
+     "titleJa": "転生貴族、鑑定スキルで成り上がる 第3期",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 6,
+    "airingAt": "2026-11-01T14:30:00Z"
+   }
+  },
+  "186541": {
+   "sourceUrl": "https://anilist.co/anime/186541",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 186541,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Reborn as a Space Mercenary: I Woke Up Piloting the Strongest Starship!",
+     "titleJa": "目覚めたら最強装備と宇宙船持ちだったので、一戸建て目指して傭兵として自由に生きたい",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-01T12:30:00Z"
+   }
+  },
+  "186742": {
+   "sourceUrl": "https://anilist.co/anime/186742",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 186742,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "A Certain Dark Item",
+     "titleJa": "とある暗部の少女共棲",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-10-30T13:30:00Z"
+   }
+  },
+  "187316": {
+   "sourceUrl": "https://anilist.co/anime/187316",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 187316,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Suikoden: The Anime",
+     "titleJa": "幻想水滸伝",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-03T14:30:00Z"
+   }
+  },
+  "187990": {
+   "sourceUrl": "https://anilist.co/anime/187990",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 187990,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Battle Spirits [Re] Zekkai no Ku",
+     "titleJa": "Battle Spirits [Re] 絶界の空",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-03T14:00:00Z"
+   }
+  },
+  "191788": {
+   "sourceUrl": "https://anilist.co/anime/191788",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 191788,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Aoashi Season 2",
+     "titleJa": "アオアシ Season2",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-01T08:00:00Z"
+   }
+  },
+  "195571": {
+   "sourceUrl": "https://anilist.co/anime/195571",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 195571,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "The Vermilion Mask",
+     "titleJa": "朱色の仮面",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-10-31T08:30:00Z"
+   }
+  },
+  "198727": {
+   "sourceUrl": "https://anilist.co/anime/198727",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 198727,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Chitose Is in the Ramune Bottle Part 2",
+     "titleJa": "千歳くんはラムネ瓶のなか 第2クール",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-11-03T14:00:00Z"
+   }
+  },
+  "200294": {
+   "sourceUrl": "https://anilist.co/anime/200294",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 200294,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Super Psychic Policeman Chojo",
+     "titleJa": "超巡!超条先輩",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-03T14:00:00Z"
+   }
+  },
+  "202079": {
+   "sourceUrl": "https://anilist.co/anime/202079",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 202079,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Uncle's Obsession with Cute Things",
+     "titleJa": "おじさんはカワイイものがお好き。",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-01T13:00:00Z"
+   }
+  },
+  "204011": {
+   "sourceUrl": "https://anilist.co/anime/204011",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 204011,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Psyren",
+     "titleJa": "PSYЯEN -サイレン-",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-09T14:00:00Z"
+   }
+  },
+  "205896": {
+   "sourceUrl": "https://anilist.co/anime/205896",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 205896,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Full Clearing Another World under a Goddess with Zero Believers",
+     "titleJa": "信者ゼロの女神サマと始める異世界攻略",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-11-01T14:30:00Z"
+   }
+  },
+  "205909": {
+   "sourceUrl": "https://anilist.co/anime/205909",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 205909,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Firefly Wedding",
+     "titleJa": "ホタルの嫁入り",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-10-30T14:30:00Z"
+   }
+  },
+  "206814": {
+   "sourceUrl": "https://anilist.co/anime/206814",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 206814,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Dragon Ball Super: Beerus",
+     "titleJa": "ドラゴンボール超 ビルス",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-11-01T14:16:00Z"
+   }
+  },
+  "206949": {
+   "sourceUrl": "https://anilist.co/anime/206949",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 206949,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Nia Liston: The Merciless Maiden",
+     "titleJa": "凶乱令嬢ニア・リストン 病弱令嬢に転生した神殺しの武人の華麗なる無双録",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-03T12:26:00Z"
+   }
+  },
+  "208025": {
+   "sourceUrl": "https://anilist.co/anime/208025",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 208025,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV_SHORT",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "I'm Dating a Dark Summoner",
+     "titleJa": "ダークサモナーとデキている",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-01T16:20:00Z"
+   }
+  },
+  "209219": {
+   "sourceUrl": "https://anilist.co/anime/209219",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 209219,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "ONA",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "So What's Wrong with Getting Reborn as a Goblin?",
+     "titleJa": "転生ゴブリンだけど質問ある？",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 6,
+    "airingAt": "2026-11-02T13:00:00Z"
+   }
+  },
+  "209463": {
+   "sourceUrl": "https://anilist.co/anime/209463",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 209463,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "From Far Away",
+     "titleJa": "彼方から",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-01T15:00:00Z"
+   }
+  },
+  "209499": {
+   "sourceUrl": "https://anilist.co/anime/209499",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 209499,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Tank Chair",
+     "titleJa": "TANK CHAIR-戦車椅子-",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-01T14:00:00Z"
+   }
+  },
+  "209502": {
+   "sourceUrl": "https://anilist.co/anime/209502",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 209502,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "The Cold Sato-san is Only Sweet to Me",
+     "titleJa": "塩対応の佐藤さんが俺にだけ甘い",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 5,
+    "airingAt": "2026-11-03T13:00:00Z"
+   }
+  },
+  "212144": {
+   "sourceUrl": "https://anilist.co/anime/212144",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 212144,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV_SHORT",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "With Vengeance, Sincerely, Your Broken Saintess Season 2",
+     "titleJa": "傷だらけ聖女より報復をこめて Season2",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 6,
+    "airingAt": "2026-11-05T15:00:00Z"
+   }
+  },
+  "213657": {
+   "sourceUrl": "https://anilist.co/anime/213657",
+   "checkedAt": "2026-10-30T06:48:23+00:00",
+   "identity": {
+    "providerId": 213657,
+    "type": "ANIME",
+    "status": "RELEASING",
+    "format": "TV",
+    "year": 2026
+   },
+   "sources": [
+    {
+     "titleEn": "Mission: Yozakura Family Season 2 Part 2",
+     "titleJa": "夜桜さんちの大作戦 第2期2クール",
+     "year": 2026
+    }
+   ],
+   "nextAiringEpisode": {
+    "episode": 4,
+    "airingAt": "2026-11-01T08:00:00Z"
+   }
+  }
+ }
+}

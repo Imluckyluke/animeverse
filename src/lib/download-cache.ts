@@ -1,9 +1,11 @@
 import https from "node:https";
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { isGitHubCacheUrl, type DownloadCacheReply, type DownloadBatchReply } from "./download-cache-contract";
+import { isCacheDownloadUrl, isSafeDownloadReply, type DownloadCacheReply, type DownloadBatchReply } from "./download-cache-contract";
+
+const directCacheOrigin = process.env.AV_DIRECT_CACHE_ORIGIN ?? "https://anime.bayerkashan.ir";
 
 export function cacheConfigured() {
-  return Boolean(process.env.AV_DOWNLOAD_CACHE_TOKEN && (process.env.AV_DOWNLOAD_CACHE_DISCOVERY_URL || process.env.AV_DOWNLOAD_CACHE_ORIGIN && process.env.AV_DOWNLOAD_CACHE_CA_PEM));
+  return Boolean(process.env.AV_DOWNLOAD_CACHE_TOKEN && (directCacheOrigin || process.env.AV_DOWNLOAD_CACHE_DISCOVERY_URL || process.env.AV_DOWNLOAD_CACHE_ORIGIN && process.env.AV_DOWNLOAD_CACHE_CA_PEM));
 }
 
 let cachedOrigin: { value: string; until: number } | undefined;
@@ -21,6 +23,11 @@ export function signedCacheOrigin(payload: unknown, secret: string, now = Date.n
 }
 
 async function currentOrigin() {
+  if (directCacheOrigin) {
+    const url = new URL(directCacheOrigin);
+    if (url.protocol !== "https:" || url.hostname !== "anime.bayerkashan.ir" || url.username || url.password || url.port || url.pathname !== "/" || url.search || url.hash) throw new Error("Download origin is not allowed");
+    return url.origin;
+  }
   const discovery = process.env.AV_DOWNLOAD_CACHE_DISCOVERY_URL;
   if (!discovery) return process.env.AV_DOWNLOAD_CACHE_ORIGIN!;
   if (cachedOrigin && cachedOrigin.until > Date.now()) return cachedOrigin.value;
@@ -40,14 +47,14 @@ export function downloadClientId(ip: string) {
  * shipped to browsers, and redirects never receive the shared authorization. */
 export async function cacheRequest<T extends DownloadCacheReply | DownloadBatchReply = DownloadCacheReply>(path: string, payload?: Record<string, unknown>): Promise<{ code: number; body: T }> {
   if (!cacheConfigured()) throw new Error("سرویس دانلود هنوز پیکربندی نشده است.");
-  if (!/^\/v1\/(downloads|batches|(?:jobs|batches)\/[a-f0-9]{64})$/.test(path)) throw new Error("درخواست نامعتبر است.");
+  if (!/^\/v1\/(downloads|batches|controls|(?:jobs|batches)\/[a-f0-9]{64})$/.test(path)) throw new Error("درخواست نامعتبر است.");
   const origin = new URL(await currentOrigin());
   if (origin.protocol !== "https:" || origin.username || origin.password || origin.pathname !== "/") throw new Error("پیکربندی سرویس دانلود معتبر نیست.");
   const data = payload ? JSON.stringify(payload) : undefined;
   return new Promise((resolve, reject) => {
     const request = https.request(new URL(path, origin), {
       method: data ? "POST" : "GET",
-      ...(!process.env.AV_DOWNLOAD_CACHE_DISCOVERY_URL ? { ca: process.env.AV_DOWNLOAD_CACHE_CA_PEM!.replace(/\\n/g, "\n") } : {}),
+      ...(!directCacheOrigin && !process.env.AV_DOWNLOAD_CACHE_DISCOVERY_URL ? { ca: process.env.AV_DOWNLOAD_CACHE_CA_PEM!.replace(/\\n/g, "\n") } : {}),
       rejectUnauthorized: true,
       headers: {
         Authorization: "Bearer " + process.env.AV_DOWNLOAD_CACHE_TOKEN!,
@@ -67,8 +74,13 @@ export async function cacheRequest<T extends DownloadCacheReply | DownloadBatchR
           const body = JSON.parse(Buffer.concat(chunks).toString()) as T;
           const code = response.statusCode || 502;
           if (code >= 300 && code < 400) throw new Error("تغییر مسیر سرویس دانلود مجاز نیست.");
+          if (code >= 400) {
+            if (!body || !("error" in body) || typeof body.error !== "string" || body.error.length > 1200) throw new Error("پاسخ خطای سرویس دانلود معتبر نیست.");
+            resolve({ code, body });
+            return;
+          }
           const items: DownloadCacheReply[] = "items" in body ? body.items : [body as DownloadCacheReply];
-          if (!Array.isArray(items) || items.length > 2000 || items.some(item => item.status === "ready" && !isGitHubCacheUrl(item.url))) throw new Error("آدرس دانلود تأیید نشد.");
+          if (!Array.isArray(items) || items.length > 2000 || items.some(item => !isSafeDownloadReply(item) || item.url !== undefined && !isCacheDownloadUrl(item.url))) throw new Error("آدرس دانلود تأیید نشد.");
           resolve({ code, body });
         } catch { reject(new Error("پاسخ سرویس دانلود معتبر نیست.")); }
       });

@@ -8,10 +8,17 @@
  * the page tells it to take over (see pwa-provider.tsx) once the reader has
  * been told a new version is ready.
  */
-const VERSION = "v4";
+const VERSION = "v6-local-media";
 const CACHE = `animeverse-shell-${VERSION}`;
 const OFFLINE_URL = "/offline";
 const SHELL = ["/", "/browse", OFFLINE_URL, "/manifest.webmanifest", "/icons/icon-192.png"];
+const PRIVATE_PATH = /^\/(?:api|admin|account|login|favorites|media)(?:\/|$)/;
+async function storePublic(request, response) {
+  const cache = await caches.open(CACHE);
+  await cache.put(request, response);
+  const keys = await cache.keys();
+  await Promise.all(keys.slice(0, Math.max(0, keys.length - 250)).map(key => cache.delete(key)));
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -23,7 +30,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
       const keys = await caches.keys();
-      await Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)));
+      await Promise.all(keys.filter((key) => key.startsWith('animeverse-shell-') && key !== CACHE).map((key) => caches.delete(key)));
       await self.clients.claim();
     })(),
   );
@@ -42,8 +49,7 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-  if (url.pathname.startsWith("/api/")) return;
-  if (url.pathname.startsWith("/admin")) return;
+  if (PRIVATE_PATH.test(url.pathname)) return;
 
   if (request.mode === "navigate") {
     event.respondWith(
@@ -51,7 +57,7 @@ self.addEventListener("fetch", (event) => {
         .then((response) => {
           if (response.ok) {
             const copy = response.clone();
-            caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => undefined);
+            storePublic(request, copy).catch(() => undefined);
           }
           return response;
         })
@@ -73,7 +79,7 @@ self.addEventListener("fetch", (event) => {
           .then((response) => {
             if (response.ok) {
               const copy = response.clone();
-              caches.open(CACHE).then((cache) => cache.put(request, copy)).catch(() => undefined);
+              storePublic(request, copy).catch(() => undefined);
             }
             return response;
           })

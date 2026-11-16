@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useSyncExternalStore } from "react";
+import { useMemo } from "react";
 import type { AdminPatchable, Anime } from "@/lib/catalog";
 
 /**
- * Demo admin layer: everything lives in localStorage and is applied on top of
- * the static catalogue at render time (no backend in this preview).
+ * Legacy local drafts are preserved for explicit migration. Public catalogue
+ * overrides now come from a verified server publication, never this browser.
  */
 export type AdminState = {
   hidden: string[];
@@ -62,32 +62,7 @@ export function clearAdmin() {
 }
 
 export function useAdminState(): AdminState {
-  return useSyncExternalStore(subscribeAdmin, adminSnapshot, () => EMPTY_ADMIN);
-}
-
-let snapshotKey: string | null | undefined;
-let snapshotState = EMPTY_ADMIN;
-
-function adminSnapshot(): AdminState {
-  try {
-    const key = window.localStorage.getItem(ADMIN_KEY);
-    if (key !== snapshotKey) {
-      snapshotKey = key;
-      snapshotState = readAdmin();
-    }
-    return snapshotState;
-  } catch {
-    return EMPTY_ADMIN;
-  }
-}
-
-function subscribeAdmin(notify: () => void) {
-  window.addEventListener("av-admin", notify);
-  window.addEventListener("storage", notify);
-  return () => {
-    window.removeEventListener("av-admin", notify);
-    window.removeEventListener("storage", notify);
-  };
+  return EMPTY_ADMIN;
 }
 
 /** Applies admin overrides: hide, pin, and small field patches. */

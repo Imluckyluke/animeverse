@@ -13,14 +13,29 @@ html .downloads-panel,html[data-theme="light"] .downloads-panel{-webkit-backdrop
 .downloads-records{display:grid;gap:12px}
 .download-record{overflow:hidden;border:1px solid var(--dm-line);border-radius:18px;background:var(--dm-card)}
 .download-record.is-focused{border-color:color-mix(in srgb,var(--dm-gold) 28%,transparent)}
-.download-record-heading{display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid var(--dm-line)}
+.download-record-heading{display:flex;align-items:center;gap:10px;padding:14px 14px 10px;border:0}
+.download-record-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0 14px 12px}
+.download-episode-tools{display:flex;align-items:center;gap:8px;margin-top:9px}
+.download-episode-tools .download-icon-action{width:40px;min-height:40px}
+.download-confirm>span{min-width:0;line-height:1.9}
+.download-parts{border-top:1px solid var(--dm-line)}
+.download-confirm{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:11px;background:color-mix(in srgb,#e75a72 7%,transparent)}
+.download-confirm .download-action{min-height:34px;padding:4px 9px;border-radius:10px}
+.download-action.download-icon-action{width:36px;min-height:36px;padding:0;border-color:transparent}
+.download-action.download-danger{color:#f5a0ae;border-color:rgba(229,78,108,.3);background:rgba(229,78,108,.12)}
+.download-action.download-danger:hover{background:rgba(229,78,108,.22)}
+.download-action.download-neutral{color:var(--dm-muted);background:color-mix(in srgb,var(--dm-muted) 6%,transparent);border-color:var(--dm-line)}
+.download-action.download-resume{color:#62d5a2;border-color:rgba(77,192,143,.3);background:rgba(77,192,143,.1)}
+html[data-theme="light"] .download-action.download-danger{color:#a32642;background:rgba(192,48,78,.08);border-color:rgba(192,48,78,.22)}
+html[data-theme="light"] .download-action.download-resume{color:#176d4a;background:rgba(31,139,91,.08);border-color:rgba(31,139,91,.22)}
 .download-record-icon{display:grid;place-items:center;width:36px;height:36px;flex:none;color:var(--dm-gold);border:1px solid color-mix(in srgb,var(--dm-gold) 22%,transparent);background:color-mix(in srgb,var(--dm-gold) 7%,transparent);border-radius:13px}
-.download-episode{padding:12px;border-bottom:1px solid color-mix(in srgb,var(--dm-line) 65%,transparent)}
+.download-episode{overflow:hidden;padding:12px;border-bottom:1px solid color-mix(in srgb,var(--dm-line) 65%,transparent)}
 .download-episode:last-child{border-bottom:0}
 .download-episode-head{display:flex;align-items:center;gap:9px}
 .download-episode-number{display:grid;place-items:center;min-width:30px;height:32px;padding:0 5px;border:1px solid var(--dm-line);border-radius:10px;font-size:11px;font-weight:900;color:var(--dm-gold);background:var(--dm-card)}
 .download-action{display:inline-flex;align-items:center;justify-content:center;gap:5px;min-height:38px;flex:none;padding:6px 10px;border:1px solid color-mix(in srgb,var(--dm-gold) 28%,transparent);border-radius:12px;color:var(--dm-gold);background:color-mix(in srgb,var(--dm-gold) 8%,transparent);font-size:10px;font-weight:700;transition:background .15s}
 .download-action:hover{background:color-mix(in srgb,var(--dm-gold) 15%,transparent)}
+.download-action:disabled{opacity:.38;cursor:not-allowed}
 .download-percent{font-size:11px;font-weight:700;color:var(--dm-gold);font-variant-numeric:tabular-nums}
 .download-muted{color:var(--dm-muted)}
 .download-error{color:#f0a3aa}

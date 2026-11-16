@@ -43,6 +43,19 @@ class ArchiveIdentityTests(unittest.TestCase):
         self.assertFalse(compatible_record(anime,video(name='Example (2021) - 02 [720p].mkv')))
         self.assertTrue(compatible_record(anime,video(name='Example (2004) - 02 [720p].mkv')))
 
+    def test_approved_season_alias_requires_its_provider_evidence(self):
+        provider=media(20626,title={'romaji':'FAIRY TAIL (2014)'},synonyms=['Fairy Tail Season 2'],episodes=102,startDate={'year':2014})
+        chosen,_=choose_identity('Fairy Tail S2',[video()],[provider])
+        self.assertEqual(chosen['id'],20626)
+        self.assertIsNone(choose_identity('Fairy Tail S2',[video()],[{**provider,'synonyms':[]}])[0])
+        anime={'year':2014,'declaredEpisodes':102,'verifiedArchiveTitles':['Fairy Tail S2']}
+        self.assertFalse(compatible_record(anime,video(title='Fairy Tail S2',episode=103)))
+
+    def test_approved_alias_never_accepts_another_season_at_publication(self):
+        anime={'year':2014,'declaredEpisodes':102,'verifiedArchiveTitles':['Fairy Tail S2']}
+        self.assertTrue(compatible_record(anime,video(title='Fairy Tail S2',name='Fairy Tail S2 - 02 [720p].mkv')))
+        self.assertFalse(compatible_record(anime,video(title='Fairy Tail S3',name='Fairy Tail S3 - 02 [720p].mkv')))
+
     def test_episode_bound_and_unreleased_provider_are_rejected(self):
         for candidate in [media(episodes=1),media(episodes=None),media(status='NOT_YET_RELEASED')]:
             self.assertIsNone(choose_identity('Example',[video()],[candidate])[0])
@@ -54,6 +67,8 @@ class ArchiveIdentityTests(unittest.TestCase):
         self.assertFalse(safe_episode_record(video(caption='Example - 02 [1080p]')))
         self.assertFalse(safe_episode_record(video(episode=2024)))
         self.assertTrue(safe_episode_record(video()))
+        self.assertTrue(safe_episode_record(video(title='Example Part 5',name='Example Part Five - 02 [720p].mkv',caption='Example Part 5 - 02 [720p]')))
+        self.assertFalse(safe_episode_record(video(title='Example Part 5',name='Example Part Five - 01-02 [720p].mkv')))
 
     def test_filename_season_cannot_be_erased_by_caption_title(self):
         self.assertFalse(safe_episode_record(video(name='Example S2 - 02 [720p].mkv')))

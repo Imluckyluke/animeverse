@@ -9,6 +9,7 @@ from metadata import apply_metadata
 from artwork import ROOT, read_json
 from typing import Any
 from urllib.parse import urlsplit
+from archive_file_review import reviewed_queue_allowed
 
 from common import (
     CATALOG_PATH,
@@ -119,7 +120,7 @@ def _qualities_of(anime: dict[str, Any]) -> list[str]:
     return ordered_qualities(labels)
 
 
-def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
+def build_catalog(state: dict[str, Any], admin: bool = True) -> list[dict[str, Any]]:
     queue = state.get("queue") or {}
     rows: list[dict[str, Any]] = []
     enrichment = read_json(ROOT / 'src/lib/generated-metadata.json', {}).get('metadata', {})
@@ -134,6 +135,7 @@ def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
                 label: deep for label, deep in labels.items()
                 if (queue.get(deep) or {}).get("status") == "done"
                 and _http_url((queue.get(deep) or {}).get("url"))
+                and reviewed_queue_allowed(anime, queue.get(deep) or {})
             }
             for number, labels in (anime.get("episodes") or {}).items()
         }
@@ -260,7 +262,11 @@ def build_catalog(state: dict[str, Any]) -> list[dict[str, Any]]:
     for item in rows:
         item.pop("lastPostId", None)
         item.pop("firstPostId", None)
-    return [apply_metadata(row, enrichment) for row in rows]
+    enriched = [apply_metadata(row, enrichment) for row in rows]
+    if not admin:
+        return enriched
+    from admin_catalog import apply_overrides, read_overrides
+    return apply_overrides(enriched, read_overrides(ROOT))
 
 
 def build_links(state: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -273,7 +279,7 @@ def build_links(state: dict[str, Any]) -> dict[str, dict[str, Any]]:
         for number, qualities in (anime.get("episodes") or {}).items():
             for label, deep_link in qualities.items():
                 queued = queue.get(deep_link) or {}
-                if queued.get("status") != "done" or not _http_url(queued.get("url")):
+                if queued.get("status") != "done" or not _http_url(queued.get("url")) or not reviewed_queue_allowed(anime, queued):
                     continue
                 key = f"{slug}|{int(number)}|{label}"
                 links[key] = {
@@ -291,4 +297,10 @@ def write_catalog(state: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str
     links = build_links(state)
     atomic_write_json(CATALOG_PATH, catalog)
     atomic_write_json(LINKS_PATH, links)
+    from admin_catalog import public_overrides, read_overrides
+    import hashlib
+    manifest = public_overrides(read_overrides(ROOT))
+    manifest['allowEmpty'] = not catalog and bool(build_catalog(state, admin=False))
+    manifest['catalogSha256'] = hashlib.sha256(CATALOG_PATH.read_bytes()).hexdigest()
+    atomic_write_json(ROOT / 'src/lib/admin-public-overrides.json', manifest)
     return catalog, links

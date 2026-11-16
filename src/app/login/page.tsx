@@ -11,11 +11,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-export default function LoginPage({
-  searchParams,
+export default async function LoginPage({
+  searchParams: pending,
 }: {
-  searchParams: { mode?: string };
+  searchParams: Promise<{ mode?: string }>;
 }) {
+  const searchParams = await pending;
   const initialMode = searchParams.mode === "register" ? "register" : "login";
   const art = ANIME.find((a) => a.slug === "frieren") ?? ANIME[0];
   const cover = art?.cover || artworkFor(art?.slug ?? "")?.cover;

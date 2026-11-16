@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily AnimeVerse encrypted private recovery snapshot
+
+[Timer]
+OnCalendar=*-*-* 01:00:00 UTC
+RandomizedDelaySec=5min
+Persistent=true
+Unit=animeverse-private-backup.service
+
+[Install]
+WantedBy=timers.target

@@ -1,5 +1,6 @@
 import { SITE } from "@/lib/data";
-import HalftoneWordmarkFooter, { type FooterColumn } from "@/components/ui/halftone-wordmark-footer";
+import type { FooterColumn } from "@/components/ui/halftone-wordmark-footer";
+import { AccountFooter } from "@/components/account-footer";
 
 const COLUMNS: FooterColumn[] = [
   {
@@ -22,7 +23,7 @@ const COLUMNS: FooterColumn[] = [
   {
     title: "ارتباط",
     links: [
-      { label: "تلگرام", href: SITE.telegram },
+      { label: "تلگرام", href: "https://t.me/ImLuckyluke" },
       { label: "کانال آرشیو", href: SITE.telegram },
     ],
   },
@@ -30,8 +31,8 @@ const COLUMNS: FooterColumn[] = [
 
 export function SiteFooter() {
   return (
-    <div className="relative z-10 mt-8 pb-[calc(env(safe-area-inset-bottom,0px)+5.5rem)] md:pb-0">
-      <HalftoneWordmarkFooter
+    <div className="relative z-10 mt-4 pb-[calc(env(safe-area-inset-bottom,0px)+5.5rem)] md:mt-8 md:pb-0">
+      <AccountFooter
         wordmark=""
         accent="#ffd60a"
         label={SITE.name}
@@ -40,7 +41,7 @@ export function SiteFooter() {
         palette={{ background: "#060609", ink: "#ffffff", warm: "#ff9f0a" }}
         monoFamily="var(--font-vazirmatn), Tahoma, Arial, sans-serif"
         height="0px"
-        band="clamp(64px, 10vw, 110px)"
+        band="max(36px, min(10vw, 110px))"
         glow={0}
         dotGap={5}
         dotScale={0.5}

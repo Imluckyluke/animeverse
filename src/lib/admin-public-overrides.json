@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "enabled": true,
+ "overrides": {
+  "link-click-season-3": {
+   "revision": 3,
+   "patch": {
+    "title": "لینک کلیک — فصل ۳، بخش ۱",
+    "titleEn": "Link Click Season 3 Part 1",
+    "titleJa": "时光代理人 第三季 Part One",
+    "year": 2026,
+    "cover": "/covers/aniplus/link-click-part1-191832-d8c03890322f.jpg",
+    "banner": "/covers/aniplus/link-click-part1-191832-d8c03890322f-banner.jpg"
+   }
+  },
+  "shiguang-dailiren-iii": {
+   "revision": 2,
+   "patch": {
+    "hidden": true
+   }
+  }
+ },
+ "allowEmpty": false,
+ "catalogSha256": "6c486b829dcdd675319c84dac4298c9ea9fb4ce8b02fc4cd8ea41845f833f2ab"
+}

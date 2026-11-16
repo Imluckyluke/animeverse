@@ -21,7 +21,7 @@ const GROUPS: { id: GroupId; label: string }[] = [
 ];
 
 export function FavoritesView({ items: catalogue }: { items: FolderAnime[] }) {
-  const { ready, favorites, watched, library, setLibraryStatus } = useApp();
+  const { ready, user, favorites, watched, library, setLibraryStatus } = useApp();
   const catalog = useCatalog(catalogue);
 
   const catalogBySlug = useMemo(() => new Map(catalog.map((anime) => [anime.slug, anime])), [catalog]);
@@ -43,6 +43,7 @@ export function FavoritesView({ items: catalogue }: { items: FolderAnime[] }) {
   }, [catalogBySlug, favorites, watched, library]);
   const visibleGroups = GROUPS.filter(({ id }) => groups[id].length > 0);
   const isEmpty = visibleGroups.length === 0;
+  if (ready && !user) return <section className="shell py-12"><div className="glass-card mx-auto max-w-lg p-6 text-center"><h1 className="headline text-xl">برای دیدن کتابخانه وارد شو</h1><p className="mt-3 text-sm leading-7 text-content-muted">اطلاعات ذخیره‌شده حذف نشده؛ کتابخانهٔ شخصی فقط پس از ورود نمایش داده می‌شود.</p><Link href="/login" className="btn btn-primary btn-md mt-5">ورود به حساب</Link></div></section>;
 
   return (
     <div className="shell min-h-[calc(100svh-var(--header-h))] py-8 sm:py-10 lg:py-12">
@@ -50,7 +51,7 @@ export function FavoritesView({ items: catalogue }: { items: FolderAnime[] }) {
         <div>
           <div className="mb-3 flex items-center gap-2 text-[11px] font-bold text-amber-300"><Library aria-hidden className="size-4" /> فضای شخصی تماشای تو</div>
           <h1 className="headline text-[clamp(1.7rem,4vw,2.4rem)]">کتابخانهٔ من</h1>
-          <p className="mt-3 max-w-xl text-sm leading-7 text-content-muted">لیست‌ها و سابقهٔ تماشای تو، روی همین دستگاه.</p>
+          <p className="mt-3 max-w-xl text-sm leading-7 text-content-muted">لیست‌ها و سابقهٔ تماشای تو.</p>
         </div>
         <Link href="/browse" className="btn btn-ghost btn-md shrink-0">گشتن در آرشیو<ArrowLeft aria-hidden className="size-4" /></Link>
       </div>

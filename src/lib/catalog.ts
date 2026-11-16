@@ -11,7 +11,7 @@ import { searchTitles } from "./search";
 
 export type AnimeStatus = "در حال پخش" | "پایان یافته" | "به‌زودی";
 export type AnimeType = "سریال" | "فیلم" | "OVA";
-export type ScoreSource = "mal" | "aniplus" | "unknown";
+export type ScoreSource = "mal" | "aniplus" | "admin" | "unknown";
 
 export type Art = {
   from: string;

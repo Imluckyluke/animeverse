@@ -140,7 +140,10 @@ class AvailabilityRepairTests(unittest.TestCase):
         item = {**rows[0], 'episodeNumbers':[2,1]}
         public = [{'slug':'title'}]
         def response(url, **kwargs):
-            if '/api/catalog-search' in url: payload = public
+            if '/api/admin/session' in url or '/api/admin/overview' in url:
+                import urllib.error
+                raise urllib.error.HTTPError(url, 404, 'Not found', {}, None)
+            elif '/api/catalog-search' in url: payload = public
             elif '/api/catalog-items?' in url: payload = [item]
             elif '/api/link?' in url: payload = {'url':'https://t.me/testanivers/102'}
             else: payload = {}

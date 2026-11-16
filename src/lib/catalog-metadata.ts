@@ -67,6 +67,7 @@ export function getLatestEpisode(anime: AvailabilityInput): { number: number; re
 
 /** Legacy seeded scores have no provenance and must not appear as reported. */
 export function hasReportedScore(anime: ScoreInput): boolean {
+  if (anime.scoreSource === "admin") return typeof anime.score === "number" && Number.isFinite(anime.score) && anime.score >= 0 && anime.score <= 10;
   return (anime.scoreSource === "mal" || anime.scoreSource === "aniplus")
     && typeof anime.score === "number" && Number.isFinite(anime.score)
     && anime.score > 0 && anime.score <= 10;
@@ -74,6 +75,7 @@ export function hasReportedScore(anime: ScoreInput): boolean {
 
 export function getScoreLabel(anime: ScoreInput): string {
   if (!hasReportedScore(anime)) return "";
+  if (anime.scoreSource === "admin") return "امتیاز تحریریه";
   // Ingestion provenance stays internal; the public UI does not name channels.
   return anime.scoreSource === "mal" ? "MAL" : "امتیاز ثبت‌شده";
 }

@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useApp } from "@/lib/app-context";
 import type { Anime } from "@/lib/catalog";
+import type { UpcomingEpisode } from "@/lib/airing-schedule";
 import { cn, faDigits, faScore } from "@/lib/utils";
 import { HeroArtwork } from "@/components/ui/hero-artwork";
 import { Poster } from "@/components/ui/poster";
@@ -14,7 +15,7 @@ import { ExpandableSynopsis } from "@/components/anime/expandable-synopsis";
 import { LibraryControl } from "@/components/library-control";
 import { getEpisodeAvailability, getLatestEpisode, getScoreLabel, hasReportedScore } from "@/lib/catalog-metadata";
 
-export function AnimeDetailHero({ anime, latestEpisodeDateLabel = "", nextEpisodeLabel = "" }: { anime: Anime; latestEpisodeDateLabel?: string; nextEpisodeLabel?: string }) {
+export function AnimeDetailHero({ anime, latestEpisodeDateLabel = "", nextEpisode = null, nextEpisodeLabel = "" }: { anime: Anime; latestEpisodeDateLabel?: string; nextEpisode?: UpcomingEpisode | null; nextEpisodeLabel?: string }) {
   const { isFavorite, toggleFavorite } = useApp();
   const fav = isFavorite(anime.slug);
   const { scrollYProgress } = useScroll();
@@ -54,7 +55,15 @@ export function AnimeDetailHero({ anime, latestEpisodeDateLabel = "", nextEpisod
   const availability = getEpisodeAvailability(anime);
   const latestEpisode = anime.type !== "فیلم" ? getLatestEpisode(anime) : null;
   const reportedScore = hasReportedScore(anime);
-  const nextEpisodeAt = anime.nextEpisodeAt && Number.isFinite(Date.parse(anime.nextEpisodeAt)) ? anime.nextEpisodeAt : null;
+  const [clock, setClock] = useState<number | null>(null);
+  const nextEpisodeAt = nextEpisode?.airingAt && Number.isFinite(Date.parse(nextEpisode.airingAt)) ? nextEpisode.airingAt : null;
+  const hasUpcomingEpisode = Boolean(nextEpisodeAt && (clock === null || Date.parse(nextEpisodeAt) > clock));
+  useEffect(() => {
+    if (!nextEpisodeAt) return;
+    setClock(Date.now());
+    const timer = window.setInterval(() => setClock(Date.now()), 60_000);
+    return () => window.clearInterval(timer);
+  }, [nextEpisodeAt]);
   useEffect(() => {
     setProgressHost(document.body);
   }, []);
@@ -104,6 +113,9 @@ export function AnimeDetailHero({ anime, latestEpisodeDateLabel = "", nextEpisod
                 {faScore(anime.score)}
               </span> : <span className="text-white/45">امتیاز اعلام نشده</span>}
               {anime.year > 0 ? <span>{faDigits(anime.year)}</span> : null}
+              {anime.format === "OVA" || anime.format === "SPECIAL" ? (
+                <span className="rounded-full border border-white/20 px-2 py-0.5 text-[11px]">{anime.format === "OVA" ? "OVA" : "قسمت ویژه"}</span>
+              ) : null}
               <span className="inline-flex items-center gap-1.5">
                 <Layers3 className="size-3.5 text-white/50" />
                 {anime.type === "فیلم"
@@ -165,15 +177,10 @@ export function AnimeDetailHero({ anime, latestEpisodeDateLabel = "", nextEpisod
                   {reportedScore ? <span title={getScoreLabel(anime)} className="absolute right-3 top-3 rounded-full border border-gold-300/30 bg-ink-950/70 px-2.5 py-1.5 text-[11px] font-black text-gold-300">
                     ★ {faScore(anime.score)}
                   </span> : null}
-                  {latestEpisode ? <span data-latest-episode className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent px-2 pb-3 pt-10 text-center text-xs leading-5 text-white">
-                    <span className="block text-white/70">آخرین اپیزود</span>
-                    <span className="block font-bold">قسمت {faDigits(latestEpisode.number)}</span>
-                    {latestEpisode.releasedAt && latestEpisodeDateLabel ? <time dateTime={latestEpisode.releasedAt} className="mt-0.5 block text-[10px] text-white/65">{latestEpisodeDateLabel}</time> : null}
-                  </span> : null}
                 </Poster>
               </div>
               <div className="mt-3 space-y-1 text-center text-xs leading-6 text-content-muted">
-                {anime.status === "در حال پخش" ? <p>قسمت بعد: {nextEpisodeAt && nextEpisodeLabel ? <time dateTime={nextEpisodeAt} className="text-amber-200">{nextEpisodeLabel}</time> : "زمان انتشار هنوز اعلام نشده"}</p> : null}
+                {hasUpcomingEpisode && nextEpisode && nextEpisodeAt && nextEpisodeLabel ? <p data-next-airing>پخش قسمت {faDigits(nextEpisode.episode)}: <time dateTime={nextEpisodeAt} className="text-amber-200">{nextEpisodeLabel}</time><span className="block text-[10px] text-content-faint">زمان پخش اصلی · به وقت تهران</span></p> : null}
               </div>
             </div>
           </div>

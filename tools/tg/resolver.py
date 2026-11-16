@@ -13,6 +13,8 @@ import time
 from datetime import datetime, timedelta, timezone
 from typing import Any, Callable
 
+from season_identity import ambiguous_roman_change, conflicts, page_markers, sequence_markers
+
 from telethon import TelegramClient, events, errors
 from telethon.tl.functions.account import GetNotifySettingsRequest, UpdateNotifySettingsRequest
 from telethon.tl.functions.channels import JoinChannelRequest
@@ -179,42 +181,19 @@ def _season_part(text: str) -> tuple[int | None, int | None]:
     Archive files often use ``S2`` while the site title says ``Season 2``.
     Matching without this check lets a Season 3 entry receive a Season 2 file.
     """
-    value = (text or "").translate(FA2EN)
-    season: int | None = None
-    part: int | None = None
-    patterns = (
-        r"\bseason\s*0*(\d{1,2})\b",
-        r"\bs\s*0*(\d{1,2})\b",
-        r"\b(\d{1,2})(?:st|nd|rd|th)\s+season\b",
-        r"\bفصل\s*0*(\d{1,2})\b",
-    )
-    for pattern in patterns:
-        match = re.search(pattern, value, re.IGNORECASE)
-        if match:
-            candidate = int(match.group(1))
-            # A title such as "86 2nd Season" can put "86" immediately after
-            # the word "Season" when title fields are concatenated. No real
-            # anime has 86 seasons; ignore absurd values and keep searching.
-            if 1 <= candidate <= 20:
-                season = candidate
-                break
-    for pattern in (
-        r"\bpart\s*0*(\d{1,2})\b",
-        r"\bبخش\s*0*(\d{1,2})\b",
-    ):
-        match = re.search(pattern, value, re.IGNORECASE)
-        if match:
-            candidate = int(match.group(1))
-            if 1 <= candidate <= 20:
-                part = candidate
-                break
-    return season, part
+    markers = sequence_markers((text or '').translate(FA2EN))
+    values = [{number for label, number in markers if label == kind} for kind in ('season', 'part')]
+    return tuple(next(iter(numbers)) if len(numbers) == 1 else None for numbers in values)
 
 
 def _season_compatible(anime: dict[str, Any], text: str) -> bool:
-    title_season, title_part = _season_part(
-        f"{anime.get('titleEn') or ''} {anime.get('titleOriginal') or ''}"
-    )
+    title_markers, candidate_markers = page_markers(anime), sequence_markers(text)
+    # Read fields independently; concatenation can invent a marker across the
+    # boundary. Captions may not hide a contradictory filename Roman numeral.
+    if conflicts(title_markers, candidate_markers) or ambiguous_roman_change(anime, {'title': text}):
+        return False
+    title_season, title_part = tuple(next((number for kind, number in title_markers if kind == wanted), None)
+                                    for wanted in ('season', 'part'))
     candidate_season, candidate_part = _season_part(text)
     # Never copy a file explicitly marked as another season. Some archive
     # files omit the season tag while still belonging to the current one
@@ -239,15 +218,19 @@ def _season_compatible(anime: dict[str, Any], text: str) -> bool:
 
 def _quality_of(text: str) -> tuple[str, bool, bool]:
     low = _norm_text(text)
-    if "2160" in low or "4k" in low or "uhd" in low:
+    def resolution(number):
+        return bool(re.search(r'(?<![a-z0-9])' + str(number) + r'p?(?=$|[^a-z0-9]|x26[45]\b|hevc\b)', low))
+    if resolution(2160) or re.search(r'(?<![a-z0-9])(?:4k|uhd)(?![a-z0-9])', low):
         base = "2160p"
-    elif "1440" in low:
+    elif resolution(1440):
         base = "1440p"
-    elif "1080" in low:
+    elif resolution(1080):
         base = "1080p"
-    elif "720" in low:
+    elif resolution(720):
         base = "720p"
-    elif "480" in low:
+    elif resolution(576):
+        base = "576p"
+    elif resolution(480):
         base = "480p"
     else:
         base = ""
@@ -788,6 +771,12 @@ class BotFlow:
     async def forward(self, document_message: Any, item: dict[str, Any]) -> dict[str, Any]:
         return await self.copy_document(document_message, item, "MiniBot")
 
+    def callback_for(self, message: Any) -> bytes | None:
+        return find_callback(message)
+
+    def sponsors_for(self, message: Any) -> list[str]:
+        return _invites_from(message)
+
     async def resolve_one(self, item: dict[str, Any]) -> tuple[bool, Any]:
         payload = start_param(item.get("deepLink") or "")
         if not payload:
@@ -857,8 +846,8 @@ class BotFlow:
             if is_document(message):
                 document = message
                 break
-            invites = _invites_from(message)
-            callback = find_callback(message)
+            invites = self.sponsors_for(message)
+            callback = self.callback_for(message)
             if invites or callback:
                 rounds += 1
                 if rounds > 5:

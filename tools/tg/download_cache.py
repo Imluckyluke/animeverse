@@ -4,6 +4,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import sqlite3
@@ -11,7 +12,7 @@ import threading
 import time
 
 GIB = 1024 ** 3
-MAX_FILE = 2 * GIB - 1
+MAX_FILE = int(os.environ.get('AV_LOCAL_MAX_FILE', str(10 * GIB))) if os.environ.get('AV_CACHE_STORAGE') == 'local' else 2 * GIB - 1
 REPOSITORIES = {'hot': 'itisluckyluke-dev/animeverse-popular-downloads',
                 'temp': 'itisluckyluke-dev/animeverse-temporary-downloads'}
 
@@ -49,7 +50,7 @@ class ReadyCatalog:
             if not result:
                 raise CacheError('این فایل در آرشیو آماده وجود ندارد.', 404)
             if result['size'] > MAX_FILE:
-                raise CacheError('این فایل از سقف هر فایل در گیت‌هاب بزرگ‌تر است.', 413)
+                raise CacheError('حجم فایل از سقف مجاز دانلود بزرگ‌تر است.', 413)
             return result.copy()
 
     def resolve_all(self, slug, quality):
@@ -103,6 +104,11 @@ class CacheStore:
               slug TEXT,quality TEXT,created REAL);
             CREATE TABLE IF NOT EXISTS batch_jobs (batch_id TEXT,key TEXT,episode INTEGER,quality TEXT,
               PRIMARY KEY(batch_id,key));
+            CREATE TABLE IF NOT EXISTS request_controls (request_id TEXT PRIMARY KEY,paused INTEGER NOT NULL DEFAULT 0);
+            CREATE TABLE IF NOT EXISTS request_job_controls (request_id TEXT,key TEXT,paused INTEGER NOT NULL DEFAULT 0,
+              PRIMARY KEY(request_id,key));
+            CREATE INDEX IF NOT EXISTS request_job_key ON requests(key);
+            CREATE INDEX IF NOT EXISTS batch_job_key ON batch_jobs(key);
         ''')
         with self.transaction():
             self.db.execute("UPDATE jobs SET state=CASE WHEN url<>'' THEN 'ready' ELSE 'queued' END WHERE state='uploading'")
@@ -196,13 +202,55 @@ class CacheStore:
             return {'batch':batch,'slug':row['slug'],'quality':row['quality'],'total':len(items),
                     'status':'ready' if all(item['status']=='ready' for item in items) else 'queued','items':items}
 
+    def has_active_demand(self, key):
+        with self.lock:
+            return bool(self.db.execute('''SELECT 1 FROM requests r LEFT JOIN request_controls c ON c.request_id=r.id
+              LEFT JOIN request_job_controls j ON j.request_id=r.id AND j.key=?
+              WHERE COALESCE(j.paused,c.paused,0)=0 AND (r.key=? OR r.key IN
+                (SELECT 'batch:'||batch_id FROM batch_jobs WHERE key=?)) LIMIT 1''', (key,key,key)).fetchone())
+
+    def control_request(self, request_id, ident, batch, paused, job=None):
+        if not re.fullmatch(r'[a-zA-Z0-9-]{16,80}', str(request_id)) or not re.fullmatch(r'[a-f0-9]{64}', str(ident)) or type(paused) is not bool or type(batch) is not bool:
+            raise CacheError('درخواست معتبر نیست.',400)
+        if job is not None and not re.fullmatch(r'[a-f0-9]{64}', str(job)):
+            raise CacheError('قسمت معتبر نیست.',400)
+        expected='batch:'+ident if batch else ident
+        with self.transaction():
+            row=self.db.execute('SELECT key FROM requests WHERE id=?',(request_id,)).fetchone()
+            if not row or row['key']!=expected:
+                raise CacheError('درخواست پیدا نشد.',404)
+            if job is not None:
+                member = self.db.execute('SELECT 1 FROM batch_jobs WHERE batch_id=? AND key=?', (ident,job)).fetchone() if batch else job == ident
+                if not member:
+                    raise CacheError('قسمت در این درخواست پیدا نشد.',404)
+                self.db.execute('INSERT INTO request_job_controls VALUES (?,?,?) ON CONFLICT(request_id,key) DO UPDATE SET paused=excluded.paused',(request_id,job,int(paused)))
+                keys=[job]
+            else:
+                self.db.execute('INSERT INTO request_controls VALUES (?,?) ON CONFLICT(request_id) DO UPDATE SET paused=excluded.paused',(request_id,int(paused)))
+                self.db.execute('DELETE FROM request_job_controls WHERE request_id=?',(request_id,))
+                keys=[item[0] for item in self.db.execute('SELECT key FROM batch_jobs WHERE batch_id=?',(ident,))] if batch else [ident]
+            for key in keys:
+                if paused and not self.has_active_demand(key):
+                    self.db.execute("UPDATE jobs SET state='waiting' WHERE key=? AND state='queued'",(key,))
+                elif not paused:
+                    self.db.execute("UPDATE jobs SET next_attempt=0 WHERE key=? AND state='waiting'",(key,))
+            return {'ok':True,'paused':paused}
+
+    def suspend(self, key):
+        with self.transaction():
+            self.db.execute("UPDATE jobs SET state='waiting',progress=0,next_attempt=0,error='' WHERE key=? AND state='uploading'",(key,))
+
     def claim(self):
         now = self.clock()
+        demand = """EXISTS (SELECT 1 FROM requests r LEFT JOIN request_controls c ON c.request_id=r.id
+            LEFT JOIN request_job_controls j ON j.request_id=r.id AND j.key=jobs.key
+            WHERE COALESCE(j.paused,c.paused,0)=0 AND (r.key=jobs.key OR r.key IN
+              (SELECT 'batch:'||batch_id FROM batch_jobs WHERE key=jobs.key)))"""
         with self.transaction():
             active=self.db.execute("SELECT count(*) FROM jobs WHERE state IN ('queued','uploading')").fetchone()[0]
             slots=max(0,self.max_queue-active)
-            self.db.execute("UPDATE jobs SET state='queued' WHERE key IN (SELECT key FROM jobs WHERE state='waiting' AND next_attempt<=? ORDER BY created,episode LIMIT ?)",(now,slots))
-            row = self.db.execute("SELECT * FROM jobs WHERE next_attempt<=? AND (state='queued' OR (state='ready' AND promote=1)) ORDER BY CASE WHEN state='queued' THEN 0 ELSE 1 END,created LIMIT 1", (now,)).fetchone()
+            self.db.execute("UPDATE jobs SET state='queued' WHERE key IN (SELECT key FROM jobs WHERE state='waiting' AND next_attempt<=? AND "+demand+" ORDER BY created,episode LIMIT ?)",(now,slots))
+            row = self.db.execute("SELECT * FROM jobs WHERE next_attempt<=? AND ((state='queued' AND "+demand+") OR (state='ready' AND promote=1)) ORDER BY CASE WHEN state='queued' THEN 0 ELSE 1 END,created LIMIT 1", (now,)).fetchone()
             if not row:
                 return None
             self.db.execute("UPDATE jobs SET state='uploading',attempts=attempts+1,progress=0 WHERE key=?", (row['key'],))

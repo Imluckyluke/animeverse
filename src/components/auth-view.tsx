@@ -37,7 +37,8 @@ export function AuthView({
   blur?: string;
 }) {
   const router = useRouter();
-  const { ready, user, login, register, logout } = useApp();
+  const { ready, user, login, register, logout, canImportLocalPreferences, importLocalPreferences, pendingSyncCount, syncing, syncError } = useApp();
+  const [importing, setImporting] = useState(false);
   const [mode, setMode] = useState<Mode>(initialMode);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,8 +67,8 @@ export function AuthView({
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
       nextErrors.email = "یک ایمیل معتبر وارد کن.";
     }
-    if (password.length < 6) {
-      nextErrors.password = "رمز عبور باید حداقل ۶ کاراکتر باشد.";
+    if (password.length < 6 || password.length > 256) {
+      nextErrors.password = "رمز عبور باید بین ۶ تا ۲۵۶ کاراکتر باشد.";
     }
     if (mode === "register" && !accepted) {
       nextErrors.accepted = "برای ادامه، قوانین را بپذیر.";
@@ -106,8 +107,8 @@ export function AuthView({
             </h1>
             <p className="mt-2 text-[12.5px] leading-6 text-content-muted">
               {user
-                ? "تنظیمات همین دستگاه و اعلان‌های تلگرامت، یک‌جا."
-                : "حساب این دستگاه را بساز؛ علاقه‌مندی‌ها بدون ورود هم ذخیره می‌شوند."}
+                ? "اطلاعات حساب و فهرست‌های شخصی‌ات را مدیریت کن."
+                : "برای دسترسی به کتابخانه و دانلودهای شخصی وارد شو."}
             </p>
           </div>
 
@@ -133,6 +134,15 @@ export function AuthView({
 
               <div className="mt-5">
                 <TelegramNotifyRow variant="card" />
+              </div>
+              <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-3 text-xs leading-6" role="status">
+                {syncError ? <p className="text-danger">ذخیرهٔ تغییرات انجام نشد؛ دوباره تلاش کن.</p> : syncing || pendingSyncCount ? <p>در حال ذخیرهٔ تغییرات…</p> : <p className="text-content-muted">خوش آمدی، {user.name}.</p>}
+                {canImportLocalPreferences ? <button className="btn btn-glass btn-sm mt-2" disabled={importing} onClick={async () => {
+                  setImporting(true);
+                  try { const result = await importLocalPreferences(); if (!result.ok) setFormError(result.error); }
+                  finally { setImporting(false); }
+                }}>{importing ? "در حال بازیابی…" : "بازیابی فهرست قبلی"}</button> : null}
+                {formError ? <p className="mt-2 text-danger">{formError}</p> : null}
               </div>
 
               <div className="mt-5 space-y-2">
@@ -314,7 +324,7 @@ export function AuthView({
                   ) : null}
 
                   <p className="text-center text-xs leading-6 text-content-muted">
-                    حساب و علاقه‌مندی‌ها فقط روی همین دستگاه ذخیره می‌شوند و روی سرور ساخته نمی‌شوند.
+                    با ورود، فهرست‌های شخصی‌ات در دسترس‌اند.
                   </p>
                 </motion.form>
               </AnimatePresence>

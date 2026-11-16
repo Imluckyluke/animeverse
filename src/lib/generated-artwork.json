@@ -1,25 +1,7 @@
 {
   "artwork": {
-    "bunny-drop": {
-      "cover": "/covers/enriched/bunny-drop-10162-9ed30073d3d5.webp"
-    },
-    "violet-evergarden": {
-      "cover": "/covers/enriched/violet-evergarden-21827-99bae524edb2.webp"
-    },
-    "ergo-proxy": {
-      "cover": "/covers/enriched/ergo-proxy-790-8ab7c1bc9c35.webp"
-    },
     "marriagetoxin": {
       "cover": "/covers/enriched/marriagetoxin-199547-1eb565d74359.webp"
-    },
-    "kaiju-girl-caramelise": {
-      "cover": "/covers/enriched/kaiju-girl-caramelise-204466-1f545eaca4d0.webp"
-    },
-    "bang-dream-yume-mita": {
-      "cover": "/covers/enriched/bang-dream-yume-mita-198376-f833c1559100.webp"
-    },
-    "bungo-stray-dogs-wan-2": {
-      "cover": "/covers/enriched/bungo-stray-dogs-wan-2-201667-810a0738a674.webp"
     },
     "the-beginning-after-the-end-season-2": {
       "cover": "/covers/enriched/the-beginning-after-the-end-season-2-194317-26299216501d.webp"
@@ -27,14 +9,8 @@
     "pardon-the-intrusion-im-home": {
       "cover": "/covers/enriched/pardon-the-intrusion-im-home-202985-8e91d1e85bf6.webp"
     },
-    "snowball-earth": {
-      "cover": "/covers/enriched/snowball-earth-196144-25cdde4feeba.webp"
-    },
     "agents-of-the-four-seasons-dance-of-spring": {
       "cover": "/covers/enriched/agents-of-the-four-seasons-dance-of-spring-190143-45e6a1ee132a.webp"
-    },
-    "even-a-replica-can-fall-in-love": {
-      "cover": "/covers/enriched/even-a-replica-can-fall-in-love-186744-89b94252df36.webp"
     },
     "petals-of-reincarnation": {
       "cover": "/covers/enriched/petals-of-reincarnation-179950-8b60c4a27372.webp"
@@ -54,17 +30,11 @@
     "hokuto-no-ken-fist-of-the-north-star": {
       "cover": "/covers/enriched/hokuto-no-ken-fist-of-the-north-star-169228-195f0c8d201d.webp"
     },
-    "a-hundred-scenes-of-awajima": {
-      "cover": "/covers/enriched/a-hundred-scenes-of-awajima-177501-dece068a4569.webp"
-    },
     "kusunokis-garden-of-gods": {
       "cover": "/covers/enriched/kusunokis-garden-of-gods-196029-c5ace70d5c1e.webp"
     },
     "eren-the-southpaw": {
       "cover": "/covers/enriched/eren-the-southpaw-158036-e6186b0c25d9.webp"
-    },
-    "the-dinner-table-detective": {
-      "cover": "/covers/enriched/the-dinner-table-detective-184989-af89ba337537.webp"
     },
     "muromi-san": {
       "cover": "/covers/enriched/muromi-san-16910-f1b3f15399de.webp"
@@ -92,120 +62,6 @@
     },
     "haibaras-teenage-new-game-plus": {
       "cover": "/covers/enriched/haibaras-teenage-new-game-plus-195333-0ba8f7bb0df5.webp"
-    },
-    "my-hero-academia-vigilantes-season-2": {
-      "cover": "/covers/enriched/my-hero-academia-vigilantes-season-2-195322-3a151b2eb423.webp"
-    },
-    "you-cant-be-in-a-rom-com-with-your-childhood-friends": {
-      "cover": "/covers/enriched/you-cant-be-in-a-rom-com-with-your-childhood-friends-189565-10e2a2867fba.webp"
-    },
-    "in-the-clear-moonlit-dusk": {
-      "cover": "/covers/enriched/in-the-clear-moonlit-dusk-192507-7b6cd5ccdd3a.webp"
-    },
-    "the-banished-court-magician-aims-to-become-the-strongest": {
-      "cover": "/covers/enriched/the-banished-court-magician-aims-to-become-the-strongest-188487-00f4d969494d.webp"
-    },
-    "chillin-in-another-world-with-level-2-super-cheat-powers": {
-      "cover": "/covers/enriched/chillin-in-another-world-with-level-2-super-cheat-powers-170130-c78f3a1bb7d1.webp"
-    },
-    "golden-time": {
-      "cover": "/covers/enriched/golden-time-17895-a28b4619edbf.webp"
-    },
-    "the-invisible-man-and-his-soon-to-be-wife": {
-      "cover": "/covers/enriched/the-invisible-man-and-his-soon-to-be-wife-185039-bd32af886924.webp"
-    },
-    "reincarnated-as-a-dragon-hatchling": {
-      "cover": "/covers/enriched/reincarnated-as-a-dragon-hatchling-187941-e8169cf933e4.webp"
-    },
-    "tamons-b-side": {
-      "cover": "/covers/enriched/tamons-b-side-178005-323569a8ea56.webp"
-    },
-    "trigun-stargaze": {
-      "cover": "/covers/enriched/trigun-stargaze-163144-d68c0cc4dec3.webp"
-    },
-    "tune-in-to-the-midnight-heart": {
-      "cover": "/covers/enriched/tune-in-to-the-midnight-heart-187942-b43f3ae9e94e.webp"
-    },
-    "kaya-chan-isnt-scary": {
-      "cover": "/covers/enriched/kaya-chan-isnt-scary-183660-86bfe130b645.webp"
-    },
-    "rokka-braves-of-the-six-flowers": {
-      "cover": "/covers/enriched/rokka-braves-of-the-six-flowers-20955-78f3985f7137.webp"
-    },
-    "akame-ga-kill": {
-      "cover": "/covers/enriched/akame-ga-kill-20613-ab53780a8e13.webp"
-    },
-    "terror-in-resonance": {
-      "cover": "/covers/enriched/terror-in-resonance-20661-1946016df8d7.webp"
-    },
-    "erased": {
-      "cover": "/covers/enriched/erased-21234-73e0ff7e03a2.webp"
-    },
-    "death-parade": {
-      "cover": "/covers/enriched/death-parade-20931-b438a1a5454b.webp"
-    },
-    "angel-beats": {
-      "cover": "/covers/enriched/angel-beats-6547-2336f2ed8c68.webp"
-    },
-    "tonikawa-over-the-moon-for-you": {
-      "cover": "/covers/enriched/tonikawa-over-the-moon-for-you-116267-2073919b712a.webp"
-    },
-    "fate-zero": {
-      "cover": "/covers/enriched/fate-zero-10087-fdd8eef25838.webp"
-    },
-    "dororo": {
-      "cover": "/covers/enriched/dororo-101347-b2bd24f69ec2.webp"
-    },
-    "high-school-of-the-dead": {
-      "cover": "/covers/enriched/high-school-of-the-dead-8074-bc6259a57b06.webp"
-    },
-    "steins-gate": {
-      "cover": "/covers/enriched/steins-gate-9253-4feafa488857.webp"
-    },
-    "aiura": {
-      "cover": "/covers/enriched/aiura-17082-33e8443408f3.webp"
-    },
-    "hells-paradise": {
-      "cover": "/covers/enriched/hells-paradise-128893-eacfaa2cf2b6.webp"
-    },
-    "the-eminence-in-shadow": {
-      "cover": "/covers/enriched/the-eminence-in-shadow-130298-7819d10fc555.webp"
-    },
-    "wolfs-rain": {
-      "cover": "/covers/enriched/wolfs-rain-202-fe589d197e73.webp"
-    },
-    "young-black-jack": {
-      "cover": "/covers/enriched/young-black-jack-21187-c03835f364ef.webp"
-    },
-    "wise-mans-grandchild": {
-      "cover": "/covers/enriched/wise-mans-grandchild-100112-68284ec9a835.webp"
-    },
-    "a-certain-scientific-accelerator": {
-      "cover": "/covers/enriched/a-certain-scientific-accelerator-104463-863a63985118.webp"
-    },
-    "noragami": {
-      "cover": "/covers/enriched/noragami-20447-a946fb2143df.webp"
-    },
-    "your-lie-in-april": {
-      "cover": "/covers/enriched/your-lie-in-april-20665-df4914413fa4.webp"
-    },
-    "izetta-the-last-witch": {
-      "cover": "/covers/enriched/izetta-the-last-witch-21838-67874a3aa5f3.webp"
-    },
-    "grand-blue-dreaming": {
-      "cover": "/covers/enriched/grand-blue-dreaming-100922-4063110b2fe8.webp"
-    },
-    "psychic-detective-yakumo": {
-      "cover": "/covers/enriched/psychic-detective-yakumo-7662-742e2f6d5d68.webp"
-    },
-    "tokyo-underground": {
-      "cover": "/covers/enriched/tokyo-underground-175-75fde5a4b83d.webp"
-    },
-    "havent-you-heard-im-sakamoto": {
-      "cover": "/covers/enriched/havent-you-heard-im-sakamoto-21595-2c83661fb313.webp"
-    },
-    "the-rose-of-versailles": {
-      "cover": "/covers/enriched/the-rose-of-versailles-338-4159600521fa.webp"
     },
     "fruits-basket-the-final": {
       "cover": "/covers/enriched/fruits-basket-the-final-124194-3dab1f741bd3.webp"
@@ -252,20 +108,11 @@
     "vampire-hunter-d-bloodlust": {
       "cover": "/covers/enriched/vampire-hunter-d-bloodlust-543-286d5767a41a.webp"
     },
-    "gangsta": {
-      "cover": "/covers/enriched/gangsta-20773-5823a656c819.webp"
-    },
     "ne-zha-2": {
       "cover": "/covers/enriched/ne-zha-2-186861-0a92ed60d9e2.webp"
     },
-    "yu-ling-shi": {
-      "cover": "/covers/enriched/yu-ling-shi-199411-049f1f10311d.webp"
-    },
     "black-clover-sword-of-the-wizard-king": {
       "cover": "/covers/enriched/black-clover-sword-of-the-wizard-king-131680-268b455b85fc.webp"
-    },
-    "sousou-no-frieren-2nd-season": {
-      "cover": "/covers/enriched/sousou-no-frieren-2nd-season-182255-72d057461d50.webp"
     },
     "kusuriya-no-hitorigoto": {
       "cover": "/covers/enriched/kusuriya-no-hitorigoto-161645-e43368b3bddb.webp"
@@ -278,15 +125,6 @@
     },
     "dr-stone-2": {
       "cover": "/covers/enriched/dr-stone-2-105333-e24a547ba3c4.webp"
-    },
-    "chitose-kun-wa-ramune-bin-no-naka": {
-      "cover": "/covers/enriched/chitose-kun-wa-ramune-bin-no-naka-180082-736a96c98d5d.webp"
-    },
-    "91-days": {
-      "cover": "/covers/enriched/91-days-21711-8217f8329656.webp"
-    },
-    "bungou-stray-dogs-5th-season": {
-      "cover": "/covers/enriched/bungou-stray-dogs-5th-season-163263-22fe805a1090.webp"
     },
     "the-new-gate-2": {
       "cover": "/covers/enriched/the-new-gate-2-170890-1047edb6076f.webp"
@@ -317,6 +155,759 @@
     },
     "hige-wo-soru-soshite-joshikousei-wo-hirou": {
       "cover": "/covers/enriched/hige-wo-soru-soshite-joshikousei-wo-hirou-114232-a4326f27b39a.webp"
+    },
+    "ansatsu-kyoushitsu": {
+      "cover": "/covers/enriched/ansatsu-kyoushitsu-20755-592dcf44b736.webp"
+    },
+    "jun-you-yun": {
+      "cover": "/covers/enriched/jun-you-yun-141869-ec80cfdd0f02.webp"
+    },
+    "shikong-zhi-xi": {
+      "cover": "/covers/enriched/shikong-zhi-xi-126367-bb3390f8d5f4.webp"
+    },
+    "bakemonogatari": {
+      "cover": "/covers/enriched/bakemonogatari-5081-beda61205c56.webp"
+    },
+    "dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii": {
+      "cover": "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii-101167-59210313a8a0.webp"
+    },
+    "blood-c": {
+      "cover": "/covers/enriched/blood-c-10490-aa0f25dbd55a.webp"
+    },
+    "princess-connect-re-dive": {
+      "cover": "/covers/enriched/princess-connect-re-dive-107871-c2246d3835e7.webp"
+    },
+    "zombie-land-saga": {
+      "cover": "/covers/enriched/zombie-land-saga-103871-b9f9fbe87eaa.webp"
+    },
+    "golden-kamuy-2nd-season": {
+      "cover": "/covers/enriched/golden-kamuy-2nd-season-102977-d9b83961e28a.webp"
+    },
+    "yesterday-wo-utatte": {
+      "cover": "/covers/enriched/yesterday-wo-utatte-109020-420339864da7.webp"
+    },
+    "golden-kamuy-3rd-season": {
+      "cover": "/covers/enriched/golden-kamuy-3rd-season-110355-3c582b059f89.webp"
+    },
+    "bem": {
+      "cover": "/covers/enriched/bem-107876-9f310e6a4bb6.webp"
+    },
+    "ssss-dynazenon": {
+      "cover": "/covers/enriched/ssss-dynazenon-113950-5d7d62005457.webp"
+    },
+    "koi-to-yobu-ni-wa-kimochi-warui": {
+      "cover": "/covers/enriched/koi-to-yobu-ni-wa-kimochi-warui-114840-9773ea46d96e.webp"
+    },
+    "listeners": {
+      "cover": "/covers/enriched/listeners-109856-b97441915f1e.webp"
+    },
+    "assassins-pride": {
+      "cover": "/covers/enriched/assassins-pride-104722-5d50f1024acf.webp"
+    },
+    "zombie-land-saga-revenge": {
+      "cover": "/covers/enriched/zombie-land-saga-revenge-110733-91bb34c439d2.webp"
+    },
+    "machikado-mazoku": {
+      "cover": "/covers/enriched/machikado-mazoku-107490-87e0f2c78c4f.webp"
+    },
+    "the-god-of-high-school": {
+      "cover": "/covers/enriched/the-god-of-high-school-116006-2a5b531836fd.webp"
+    },
+    "sakugan": {
+      "cover": "/covers/enriched/sakugan-108987-9d4a4e2828a2.webp"
+    },
+    "renmei-kuugun-koukuu-mahou-ongakutai-luminous-witches": {
+      "cover": "/covers/enriched/renmei-kuugun-koukuu-mahou-ongakutai-luminous-witches-103118-94752a62e97c.webp"
+    },
+    "yoru-no-kuni": {
+      "cover": "/covers/enriched/yoru-no-kuni-132283-84722c8efe01.webp"
+    },
+    "kakkou-no-iinazuke": {
+      "cover": "/covers/enriched/kakkou-no-iinazuke-132052-654a5e1854bb.webp"
+    },
+    "vampire-in-the-garden": {
+      "cover": "/covers/enriched/vampire-in-the-garden-108357-3bc18c09d411.webp"
+    },
+    "hanamonogatari": {
+      "cover": "/covers/enriched/hanamonogatari-20593-b244eec388eb.webp"
+    },
+    "tokyo-mew-mew": {
+      "cover": "/covers/enriched/tokyo-mew-mew-687-034e0fa4710d.webp"
+    },
+    "black-rock-shooter-dawn-fall": {
+      "cover": "/covers/enriched/black-rock-shooter-dawn-fall-139303-d7fa8e04cd22.webp"
+    },
+    "tsukimonogatari": {
+      "cover": "/covers/enriched/tsukimonogatari-20918-152f940bf5b9.webp"
+    },
+    "uma-musume-pretty-derby": {
+      "cover": "/covers/enriched/uma-musume-pretty-derby-98514-39943cdd6a8c.webp"
+    },
+    "oshi-ga-budoukan-ittekuretara-shinu": {
+      "cover": "/covers/enriched/oshi-ga-budoukan-ittekuretara-shinu-104391-7d74387ccf75.webp"
+    },
+    "musashino": {
+      "cover": "/covers/enriched/musashino-98577-3d7ab4cf0221.webp"
+    },
+    "dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-iii": {
+      "cover": "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-iii-112124-22e12178ed17.webp"
+    },
+    "jibaku-shounen-hanako-kun": {
+      "cover": "/covers/enriched/jibaku-shounen-hanako-kun-108463-d9a5723c3153.webp"
+    },
+    "sewayaki-kitsune-no-senko-san": {
+      "cover": "/covers/enriched/sewayaki-kitsune-no-senko-san-105914-dfff411ee18a.webp"
+    },
+    "kaiju-girl-caramelise": {
+      "cover": "/covers/enriched/kaiju-girl-caramelise-204466-1f545eaca4d0.webp"
+    },
+    "bang-dream-yume-mita": {
+      "cover": "/covers/enriched/bang-dream-yume-mita-198376-f833c1559100.webp"
+    },
+    "shadowverse": {
+      "cover": "/covers/enriched/shadowverse-112325-c0beefad4948.webp"
+    },
+    "bungo-stray-dogs-wan-2": {
+      "cover": "/covers/enriched/bungo-stray-dogs-wan-2-201667-810a0738a674.webp"
+    },
+    "summer-time-render": {
+      "cover": "/covers/enriched/summer-time-render-129201-3b46609cfb76.webp"
+    },
+    "yu-ling-shi": {
+      "cover": "/covers/enriched/yu-ling-shi-199411-049f1f10311d.webp"
+    },
+    "my-hero-academia-vigilantes-season-2": {
+      "cover": "/covers/enriched/my-hero-academia-vigilantes-season-2-195322-3a151b2eb423.webp"
+    },
+    "go-toubun-no-hanayome": {
+      "cover": "/covers/enriched/go-toubun-no-hanayome-109261-2f3a9dd74f95.webp"
+    },
+    "bunny-drop": {
+      "cover": "/covers/enriched/bunny-drop-10162-9ed30073d3d5.webp"
+    },
+    "big-order": {
+      "cover": "/covers/enriched/big-order-21445-da143c4a3ecd.webp"
+    },
+    "you-cant-be-in-a-rom-com-with-your-childhood-friends": {
+      "cover": "/covers/enriched/you-cant-be-in-a-rom-com-with-your-childhood-friends-189565-10e2a2867fba.webp"
+    },
+    "sousou-no-frieren-2nd-season": {
+      "cover": "/covers/enriched/sousou-no-frieren-2nd-season-182255-72d057461d50.webp"
+    },
+    "in-the-clear-moonlit-dusk": {
+      "cover": "/covers/enriched/in-the-clear-moonlit-dusk-192507-7b6cd5ccdd3a.webp"
+    },
+    "chitose-kun-wa-ramune-bin-no-naka": {
+      "cover": "/covers/enriched/chitose-kun-wa-ramune-bin-no-naka-180082-736a96c98d5d.webp"
+    },
+    "psycho-pass-movie": {
+      "cover": "/covers/enriched/psycho-pass-movie-20514-9a5cf456abc1.webp"
+    },
+    "the-banished-court-magician-aims-to-become-the-strongest": {
+      "cover": "/covers/enriched/the-banished-court-magician-aims-to-become-the-strongest-188487-00f4d969494d.webp"
+    },
+    "chillin-in-another-world-with-level-2-super-cheat-powers": {
+      "cover": "/covers/enriched/chillin-in-another-world-with-level-2-super-cheat-powers-170130-c78f3a1bb7d1.webp"
+    },
+    "golden-time": {
+      "cover": "/covers/enriched/golden-time-17895-a28b4619edbf.webp"
+    },
+    "the-invisible-man-and-his-soon-to-be-wife": {
+      "cover": "/covers/enriched/the-invisible-man-and-his-soon-to-be-wife-185039-bd32af886924.webp"
+    },
+    "neko-no-ongaeshi": {
+      "cover": "/covers/enriched/neko-no-ongaeshi-597-4d9555e44101.webp"
+    },
+    "link-click-season-3": {
+      "cover": "/covers/enriched/link-click-season-3-191832-508baf447561.webp"
+    },
+    "shokugeki-no-souma-gou-no-sara": {
+      "cover": "/covers/enriched/shokugeki-no-souma-gou-no-sara-114043-68adfd7df0ba.webp"
+    },
+    "kakegurui-2": {
+      "cover": "/covers/enriched/kakegurui-2-100876-fc10fdbd73aa.webp"
+    },
+    "isekai-quartet": {
+      "cover": "/covers/enriched/isekai-quartet-104454-fbd20931904d.webp"
+    },
+    "100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-2nd-season": {
+      "cover": "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-2nd-season-127366-b0fc92ea06fb.webp"
+    },
+    "isekai-quartet-2": {
+      "cover": "/covers/enriched/isekai-quartet-2-110178-51b9d3d5d3e7.webp"
+    },
+    "kamisama-hajimemashita": {
+      "cover": "/covers/enriched/kamisama-hajimemashita-14713-f1211aa92bf0.webp"
+    },
+    "seishun-buta-yarou-wa-bunny-girl-senpai-no-yume-wo-minai": {
+      "cover": "/covers/enriched/seishun-buta-yarou-wa-bunny-girl-senpai-no-yume-wo-minai-101291-3f81802dbc01.webp"
+    },
+    "toaru-kagaku-no-railgun": {
+      "cover": "/covers/enriched/toaru-kagaku-no-railgun-6213-1b7d3f73c45d.webp"
+    },
+    "toaru-majutsu-no-index": {
+      "cover": "/covers/enriched/toaru-majutsu-no-index-4654-5bb644cf4b29.webp"
+    },
+    "clannad-after-story": {
+      "cover": "/covers/enriched/clannad-after-story-4181-4cba302cf2ec.webp"
+    },
+    "shingeki-no-kyojin-season-2": {
+      "cover": "/covers/enriched/shingeki-no-kyojin-season-2-20958-ce5fce318bba.webp"
+    },
+    "sekai-no-owari-ni-shiba-inu-to": {
+      "cover": "/covers/enriched/sekai-no-owari-ni-shiba-inu-to-150575-c99620a80ef7.webp"
+    },
+    "beelzebub": {
+      "cover": "/covers/enriched/beelzebub-9513-a627016374a7.webp"
+    },
+    "shinchou-yuusha-kono-yuusha-ga-ore-tueee-kuse-ni-shinchou-sugiru": {
+      "cover": "/covers/enriched/shinchou-yuusha-kono-yuusha-ga-ore-tueee-kuse-ni-shinchou-sugiru-105156-51aa8b038c04.webp"
+    },
+    "kakuriyo-no-yadomeshi": {
+      "cover": "/covers/enriched/kakuriyo-no-yadomeshi-100500-5ab876071cc3.webp"
+    },
+    "tonari-no-kyuuketsuki-san": {
+      "cover": "/covers/enriched/tonari-no-kyuuketsuki-san-101371-7a5c05a0b49e.webp"
+    },
+    "kokkoku": {
+      "cover": "/covers/enriched/kokkoku-100332-a34a9b772e84.webp"
+    },
+    "wz": {
+      "cover": "/covers/enriched/wz-101337-606a259e92a6.webp"
+    },
+    "a-hundred-scenes-of-awajima": {
+      "cover": "/covers/enriched/a-hundred-scenes-of-awajima-177501-dece068a4569.webp"
+    },
+    "reincarnated-as-a-dragon-hatchling": {
+      "cover": "/covers/enriched/reincarnated-as-a-dragon-hatchling-187941-e8169cf933e4.webp"
+    },
+    "tamons-b-side": {
+      "cover": "/covers/enriched/tamons-b-side-178005-323569a8ea56.webp"
+    },
+    "trigun-stargaze": {
+      "cover": "/covers/enriched/trigun-stargaze-163144-d68c0cc4dec3.webp"
+    },
+    "tune-in-to-the-midnight-heart": {
+      "cover": "/covers/enriched/tune-in-to-the-midnight-heart-187942-b43f3ae9e94e.webp"
+    },
+    "kaya-chan-isnt-scary": {
+      "cover": "/covers/enriched/kaya-chan-isnt-scary-183660-86bfe130b645.webp"
+    },
+    "violet-evergarden": {
+      "cover": "/covers/enriched/violet-evergarden-21827-99bae524edb2.webp"
+    },
+    "rokka-braves-of-the-six-flowers": {
+      "cover": "/covers/enriched/rokka-braves-of-the-six-flowers-20955-78f3985f7137.webp"
+    },
+    "even-a-replica-can-fall-in-love": {
+      "cover": "/covers/enriched/even-a-replica-can-fall-in-love-186744-89b94252df36.webp"
+    },
+    "the-dinner-table-detective": {
+      "cover": "/covers/enriched/the-dinner-table-detective-184989-af89ba337537.webp"
+    },
+    "ergo-proxy": {
+      "cover": "/covers/enriched/ergo-proxy-790-8ab7c1bc9c35.webp"
+    },
+    "akame-ga-kill": {
+      "cover": "/covers/enriched/akame-ga-kill-20613-ab53780a8e13.webp"
+    },
+    "terror-in-resonance": {
+      "cover": "/covers/enriched/terror-in-resonance-20661-1946016df8d7.webp"
+    },
+    "erased": {
+      "cover": "/covers/enriched/erased-21234-73e0ff7e03a2.webp"
+    },
+    "death-parade": {
+      "cover": "/covers/enriched/death-parade-20931-b438a1a5454b.webp"
+    },
+    "angel-beats": {
+      "cover": "/covers/enriched/angel-beats-6547-2336f2ed8c68.webp"
+    },
+    "tonikawa-over-the-moon-for-you": {
+      "cover": "/covers/enriched/tonikawa-over-the-moon-for-you-116267-2073919b712a.webp"
+    },
+    "fate-zero": {
+      "cover": "/covers/enriched/fate-zero-10087-fdd8eef25838.webp"
+    },
+    "dororo": {
+      "cover": "/covers/enriched/dororo-101347-b2bd24f69ec2.webp"
+    },
+    "high-school-of-the-dead": {
+      "cover": "/covers/enriched/high-school-of-the-dead-8074-bc6259a57b06.webp"
+    },
+    "steins-gate": {
+      "cover": "/covers/enriched/steins-gate-9253-4feafa488857.webp"
+    },
+    "aiura": {
+      "cover": "/covers/enriched/aiura-17082-33e8443408f3.webp"
+    },
+    "91-days": {
+      "cover": "/covers/enriched/91-days-21711-8217f8329656.webp"
+    },
+    "hells-paradise": {
+      "cover": "/covers/enriched/hells-paradise-128893-eacfaa2cf2b6.webp"
+    },
+    "gangsta": {
+      "cover": "/covers/enriched/gangsta-20773-5823a656c819.webp"
+    },
+    "bungou-stray-dogs-5th-season": {
+      "cover": "/covers/enriched/bungou-stray-dogs-5th-season-163263-22fe805a1090.webp"
+    },
+    "the-eminence-in-shadow": {
+      "cover": "/covers/enriched/the-eminence-in-shadow-130298-7819d10fc555.webp"
+    },
+    "wolfs-rain": {
+      "cover": "/covers/enriched/wolfs-rain-202-fe589d197e73.webp"
+    },
+    "young-black-jack": {
+      "cover": "/covers/enriched/young-black-jack-21187-c03835f364ef.webp"
+    },
+    "wise-mans-grandchild": {
+      "cover": "/covers/enriched/wise-mans-grandchild-100112-68284ec9a835.webp"
+    },
+    "go-toubun-no-hanayome-movie": {
+      "cover": "/covers/enriched/go-toubun-no-hanayome-movie-131520-e928d795d294.webp"
+    },
+    "a-certain-scientific-accelerator": {
+      "cover": "/covers/enriched/a-certain-scientific-accelerator-104463-863a63985118.webp"
+    },
+    "noragami": {
+      "cover": "/covers/enriched/noragami-20447-a946fb2143df.webp"
+    },
+    "xian-wang-de-richang-shenghuo": {
+      "cover": "/covers/enriched/xian-wang-de-richang-shenghuo-114121-6fbc6976f419.webp"
+    },
+    "your-lie-in-april": {
+      "cover": "/covers/enriched/your-lie-in-april-20665-df4914413fa4.webp"
+    },
+    "izetta-the-last-witch": {
+      "cover": "/covers/enriched/izetta-the-last-witch-21838-67874a3aa5f3.webp"
+    },
+    "kagerou-daze-in-a-days": {
+      "cover": "/covers/enriched/kagerou-daze-in-a-days-21793-8990bb2b3728.webp"
+    },
+    "grand-blue-dreaming": {
+      "cover": "/covers/enriched/grand-blue-dreaming-100922-4063110b2fe8.webp"
+    },
+    "goblin-slayer-goblins-crown": {
+      "cover": "/covers/enriched/goblin-slayer-goblins-crown-108623-c26062dd4c1e.webp"
+    },
+    "omoide-poro-poro": {
+      "cover": "/covers/enriched/omoide-poro-poro-1029-fcdf7fa89888.webp"
+    },
+    "gigigoegoe-sunghyungsoo": {
+      "cover": "/covers/enriched/gigigoegoe-sunghyungsoo-119978-9aeb840d939f.webp"
+    },
+    "c-de-breaker": {
+      "cover": "/covers/enriched/c-de-breaker-11703-469b3b0c0a75.webp"
+    },
+    "wo-de-nitian-shenqi": {
+      "cover": "/covers/enriched/wo-de-nitian-shenqi-101919-44f19cc36303.webp"
+    },
+    "yingxiong-zailin": {
+      "cover": "/covers/enriched/yingxiong-zailin-120193-6dc724802e0c.webp"
+    },
+    "yakunara-mug-cup-mo": {
+      "cover": "/covers/enriched/yakunara-mug-cup-mo-122148-c08dbaf6ee17.webp"
+    },
+    "lie-huo-jiao-chou": {
+      "cover": "/covers/enriched/lie-huo-jiao-chou-126368-891bb2d921bf.webp"
+    },
+    "dou-po-cangqiong-san-nian-zhi-yue": {
+      "cover": "/covers/enriched/dou-po-cangqiong-san-nian-zhi-yue-137729-a3b4f57cae9e.webp"
+    },
+    "quanzhi-gaoshou-3": {
+      "cover": "/covers/enriched/quanzhi-gaoshou-3-137735-ecd4a4e2145d.webp"
+    },
+    "onii-chan-wa-oshimai": {
+      "cover": "/covers/enriched/onii-chan-wa-oshimai-147864-e46abdcef930.webp"
+    },
+    "i-ris-the-movie-full-energy": {
+      "cover": "/covers/enriched/i-ris-the-movie-full-energy-156727-bb728c5d63d2.webp"
+    },
+    "bikkuri-men": {
+      "cover": "/covers/enriched/bikkuri-men-163364-9c516d7ffa48.webp"
+    },
+    "ba-ma-laizi-erci-yuan": {
+      "cover": "/covers/enriched/ba-ma-laizi-erci-yuan-126363-0b7c6d080f7f.webp"
+    },
+    "isekai-wa-smartphone-to-tomo-ni-2": {
+      "cover": "/covers/enriched/isekai-wa-smartphone-to-tomo-ni-2-147571-43d83f7a46a1.webp"
+    },
+    "long-zu-2": {
+      "cover": "/covers/enriched/long-zu-2-157692-5c078d8a1d05.webp"
+    },
+    "amagami-ss": {
+      "cover": "/covers/enriched/amagami-ss-8676-4a439061a5d8.webp"
+    },
+    "kodomo-no-omocha": {
+      "cover": "/covers/enriched/kodomo-no-omocha-1486-342c1a5ab410.webp"
+    },
+    "akagami-no-shirayuki-hime": {
+      "cover": "/covers/enriched/akagami-no-shirayuki-hime-21058-aeea4f509992.webp"
+    },
+    "touhai-ura-rate-mahjong-touhai-roku": {
+      "cover": "/covers/enriched/touhai-ura-rate-mahjong-touhai-roku-173263-7ccf50eb118b.webp"
+    },
+    "amagami-ss-plus-plus": {
+      "cover": "/covers/enriched/amagami-ss-plus-plus-11235-46cd1f4f2f64.webp"
+    },
+    "tearmoon-teikoku-monogatari-dantoudai-kara-hajimaru-hime-no-tensei-gyakuten-stor": {
+      "cover": "/covers/enriched/tearmoon-teikoku-monogatari-dantoudai-kara-hajimaru-hime-no-tensei-gyakuten-stor-154384-319b5834257b.webp"
+    },
+    "hibike-euphonium-3": {
+      "cover": "/covers/enriched/hibike-euphonium-3-109731-eede150f35dc.webp"
+    },
+    "kuroshitsuji-ii": {
+      "cover": "/covers/enriched/kuroshitsuji-ii-6707-168943671030.webp"
+    },
+    "yowamushi-pedal-limit-break": {
+      "cover": "/covers/enriched/yowamushi-pedal-limit-break-142481-dd1bff4f6503.webp"
+    },
+    "puniru-wa-kawaii-slime-2nd-season": {
+      "cover": "/covers/enriched/puniru-wa-kawaii-slime-2nd-season-185755-bb20a7512688.webp"
+    },
+    "dagashi-kashi": {
+      "cover": "/covers/enriched/dagashi-kashi-21365-78431eb34498.webp"
+    },
+    "ququ-bucai-zaixia-ye-guai-2": {
+      "cover": "/covers/enriched/ququ-bucai-zaixia-ye-guai-2-166510-691f967d5366.webp"
+    },
+    "shin-shinka-no-mi-shiranai-uchi-ni-kachigumi-jinsei": {
+      "cover": "/covers/enriched/shin-shinka-no-mi-shiranai-uchi-ni-kachigumi-jinsei-146954-ea14ea6a6291.webp"
+    },
+    "ookami-to-koushinryou-ii": {
+      "cover": "/covers/enriched/ookami-to-koushinryou-ii-5341-a890b8cf628b.webp"
+    },
+    "new-game": {
+      "cover": "/covers/enriched/new-game-21455-2dbc0df532f7.webp"
+    },
+    "new-game-2": {
+      "cover": "/covers/enriched/new-game-2-98292-4170bd75b7d2.webp"
+    },
+    "jormungand-perfect-order": {
+      "cover": "/covers/enriched/jormungand-perfect-order-13331-8686c62e539e.webp"
+    },
+    "goblin-slayer-ii": {
+      "cover": "/covers/enriched/goblin-slayer-ii-129188-6223482efc9c.webp"
+    },
+    "yi-nian-yongheng-3": {
+      "cover": "/covers/enriched/yi-nian-yongheng-3-168104-c604fd3cc0de.webp"
+    },
+    "yamato-nadeshiko-shichi-henge": {
+      "cover": "/covers/enriched/yamato-nadeshiko-shichi-henge-1562-28da1e765c53.webp"
+    },
+    "jii-san-baa-san-wakagaeru": {
+      "cover": "/covers/enriched/jii-san-baa-san-wakagaeru-168138-c0dcd7b7a96d.webp"
+    },
+    "darwins-game": {
+      "cover": "/covers/enriched/darwins-game-105190-a5907b57954c.webp"
+    },
+    "seiken-gakuin-no-maken-tsukai": {
+      "cover": "/covers/enriched/seiken-gakuin-no-maken-tsukai-140501-9faaffe6fa06.webp"
+    },
+    "kitsutsuki-tantei-dokoro": {
+      "cover": "/covers/enriched/kitsutsuki-tantei-dokoro-108629-db281cdaeae7.webp"
+    },
+    "inu-boku-ss": {
+      "cover": "/covers/enriched/inu-boku-ss-11013-7fe6651e7d8f.webp"
+    },
+    "hanabi-chan-wa-okure-gachi": {
+      "cover": "/covers/enriched/hanabi-chan-wa-okure-gachi-137621-8dffa410b7da.webp"
+    },
+    "shingeki-no-kyojin-the-final-season-2": {
+      "cover": "/covers/enriched/shingeki-no-kyojin-the-final-season-2-110277-5c1b6be51d97.webp"
+    },
+    "yuzuki-san-chi-no-yon-kyoudai": {
+      "cover": "/covers/enriched/yuzuki-san-chi-no-yon-kyoudai-164312-9e73b95a076f.webp"
+    },
+    "yi-nian-yongheng": {
+      "cover": "/covers/enriched/yi-nian-yongheng-110595-d60e8bb0518f.webp"
+    },
+    "yarinaoshi-reijou-wa-ryuutei-heika-wo-kouryaku-chuu": {
+      "cover": "/covers/enriched/yarinaoshi-reijou-wa-ryuutei-heika-wo-kouryaku-chuu-164299-82625635c057.webp"
+    },
+    "kekkon-yubiwa-monogatari": {
+      "cover": "/covers/enriched/kekkon-yubiwa-monogatari-160389-2678f783df32.webp"
+    },
+    "100-man-no-inochi-no-ue-ni-ore-wa-tatteiru": {
+      "cover": "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-116242-e84c5e9769e7.webp"
+    },
+    "neet-kunoichi-to-naze-ka-dousei-hajimemashita": {
+      "cover": "/covers/enriched/neet-kunoichi-to-naze-ka-dousei-hajimemashita-174654-f55d23f41cad.webp"
+    },
+    "koi-to-producer-evol-love": {
+      "cover": "/covers/enriched/koi-to-producer-evol-love-110371-80baf124d33f.webp"
+    },
+    "zichuan-yincang-hudong-ju": {
+      "cover": "/covers/enriched/zichuan-yincang-hudong-ju-145611-e3804616f100.webp"
+    },
+    "ranma-1-2-2024-2nd-season": {
+      "cover": "/covers/enriched/ranma-1-2-2024-2nd-season-185731-b280af827625.webp"
+    },
+    "psychic-detective-yakumo": {
+      "cover": "/covers/enriched/psychic-detective-yakumo-7662-742e2f6d5d68.webp"
+    },
+    "hime-sama-goumon-no-jikan-desu": {
+      "cover": "/covers/enriched/hime-sama-goumon-no-jikan-desu-166522-7e337646d8a1.webp"
+    },
+    "maou-no-musume-wa-yasashi-sugiru": {
+      "cover": "/covers/enriched/maou-no-musume-wa-yasashi-sugiru-194742-0f03a4ccb449.webp"
+    },
+    "tokyo-underground": {
+      "cover": "/covers/enriched/tokyo-underground-175-75fde5a4b83d.webp"
+    },
+    "havent-you-heard-im-sakamoto": {
+      "cover": "/covers/enriched/havent-you-heard-im-sakamoto-21595-2c83661fb313.webp"
+    },
+    "durarara-2-shou": {
+      "cover": "/covers/enriched/durarara-2-shou-20652-faac40a36db3.webp"
+    },
+    "the-rose-of-versailles": {
+      "cover": "/covers/enriched/the-rose-of-versailles-338-4159600521fa.webp"
+    },
+    "29-sai-dokushin-chuuken-boukensha-no-nichijou": {
+      "cover": "/covers/enriched/29-sai-dokushin-chuuken-boukensha-no-nichijou-192261-4c34089c9b98.webp"
+    },
+    "yuusha-party-ni-kawaii-ko-ga-ita-no-de-kokuhaku-shitemita": {
+      "cover": "/covers/enriched/yuusha-party-ni-kawaii-ko-ga-ita-no-de-kokuhaku-shitemita-195515-55477ed14b19.webp"
+    },
+    "shibou-yuugi-de-meshi-wo-kuu": {
+      "cover": "/covers/enriched/shibou-yuugi-de-meshi-wo-kuu-180746-69e948f429d4.webp"
+    },
+    "tongling-fei": {
+      "cover": "/covers/enriched/tongling-fei-99935-ba7d54c65916.webp"
+    },
+    "watari-kun-no-ga-houkai-sunzen": {
+      "cover": "/covers/enriched/watari-kun-no-ga-houkai-sunzen-169420-77aec5c6101a.webp"
+    },
+    "zhan-shen-fanchen-shen-yu": {
+      "cover": "/covers/enriched/zhan-shen-fanchen-shen-yu-168105-45d2778ca11d.webp"
+    },
+    "kaginado": {
+      "cover": "/covers/enriched/kaginado-132528-017492460695.webp"
+    },
+    "gin-no-saji": {
+      "cover": "/covers/enriched/gin-no-saji-16918-5d656c88d1ff.webp"
+    },
+    "uchouten-kazoku": {
+      "cover": "/covers/enriched/uchouten-kazoku-17909-5e3682631a73.webp"
+    },
+    "3-gatsu-no-lion": {
+      "cover": "/covers/enriched/3-gatsu-no-lion-21366-c4936e61d483.webp"
+    },
+    "toujima-tanzaburou-wa-kamen-rider-ni-naritai": {
+      "cover": "/covers/enriched/toujima-tanzaburou-wa-kamen-rider-ni-naritai-187464-fd76bd68d217.webp"
+    },
+    "futari-solo-camp": {
+      "cover": "/covers/enriched/futari-solo-camp-185965-fc574fb1f5b2.webp"
+    },
+    "flcl": {
+      "cover": "/covers/enriched/flcl-227-9bcbb0007208.webp"
+    },
+    "ningen-fushin-no-boukensha-tachi-ga-sekai-wo-sukuu-you-desu": {
+      "cover": "/covers/enriched/ningen-fushin-no-boukensha-tachi-ga-sekai-wo-sukuu-you-desu-137909-129fec57dada.webp"
+    },
+    "michiko-to-hatchin": {
+      "cover": "/covers/enriched/michiko-to-hatchin-4087-f73306e7c349.webp"
+    },
+    "log-horizon-2": {
+      "cover": "/covers/enriched/log-horizon-2-20671-fa651ae270ff.webp"
+    },
+    "log-horizon": {
+      "cover": "/covers/enriched/log-horizon-17265-343b88f5677e.webp"
+    },
+    "hajime-no-ippo-the-fighting": {
+      "cover": "/covers/enriched/hajime-no-ippo-the-fighting-263-77c36b91a610.webp"
+    },
+    "shokei-shoujo-no-virgin-road": {
+      "cover": "/covers/enriched/shokei-shoujo-no-virgin-road-129193-d88334b2a5e9.webp"
+    },
+    "shin-tennis-no-ouji-sama-u-17-world-cup": {
+      "cover": "/covers/enriched/shin-tennis-no-ouji-sama-u-17-world-cup-140187-f88505b33b72.webp"
+    },
+    "toaru-majutsu-no-index-endymion-no-kiseki": {
+      "cover": "/covers/enriched/toaru-majutsu-no-index-endymion-no-kiseki-11743-314e1a351422.webp"
+    },
+    "soredemo-ayumu-wa-yosetekuru": {
+      "cover": "/covers/enriched/soredemo-ayumu-wa-yosetekuru-128223-fdeddf03b4ea.webp"
+    },
+    "inu-ou": {
+      "cover": "/covers/enriched/inu-ou-109928-0514a4336b7c.webp"
+    },
+    "the-legend-of-heroes-sen-no-kiseki-northern-war": {
+      "cover": "/covers/enriched/the-legend-of-heroes-sen-no-kiseki-northern-war-130696-826b3675a59b.webp"
+    },
+    "tsurune-kazemai-koukou-kyuudou-bu": {
+      "cover": "/covers/enriched/tsurune-kazemai-koukou-kyuudou-bu-100402-434714380d09.webp"
+    },
+    "carole-and-tuesday": {
+      "cover": "/covers/enriched/carole-and-tuesday-101281-a27277a6657d.webp"
+    },
+    "kuma-kuma-kuma-bear-punch": {
+      "cover": "/covers/enriched/kuma-kuma-kuma-bear-punch-127550-38d716f4b4a1.webp"
+    },
+    "kimi-to-boku-no-saigo-no-senjo-arui-wa-sekai-ga-hajimaru-seisen": {
+      "cover": "/covers/enriched/kimi-to-boku-no-saigo-no-senjo-arui-wa-sekai-ga-hajimaru-seisen-112667-0805fc370254.webp"
+    },
+    "kamitachi-ni-hirowareta-otoko": {
+      "cover": "/covers/enriched/kamitachi-ni-hirowareta-otoko-115740-9d0bf6d9161a.webp"
+    },
+    "shaonian-ge-xing-anhe-zhuan": {
+      "cover": "/covers/enriched/shaonian-ge-xing-anhe-zhuan-133772-7d46e75bdf83.webp"
+    },
+    "biaoren": {
+      "cover": "/covers/enriched/biaoren-122508-0328a3fa47f0.webp"
+    },
+    "sakurasou-no-pet-na-kanojo": {
+      "cover": "/covers/enriched/sakurasou-no-pet-na-kanojo-13759-1ab6327e4a31.webp"
+    },
+    "dandadan-2nd-season": {
+      "cover": "/covers/enriched/dandadan-2nd-season-185660-7c0ac2f8ff6b.webp"
+    },
+    "2-5-jigen-no-ririsa": {
+      "cover": "/covers/enriched/2-5-jigen-no-ririsa-158559-60b8dfd0ec47.webp"
+    },
+    "nier-automata-ver1-1a": {
+      "cover": "/covers/enriched/nier-automata-ver1-1a-145665-31dc14a4c885.webp"
+    },
+    "kubo-san-wa-mob-wo-yurusanai": {
+      "cover": "/covers/enriched/kubo-san-wa-mob-wo-yurusanai-148969-1fc5ba23898e.webp"
+    },
+    "kimi-no-koto-ga-dai-dai-dai-dai-daisuki-na-100-nin-no-kanojo": {
+      "cover": "/covers/enriched/kimi-no-koto-ga-dai-dai-dai-dai-daisuki-na-100-nin-no-kanojo-162694-c0f362ca97d5.webp"
+    },
+    "seija-musou-salaryman-isekai-de-ikinokoru-tame-ni-ayumu-michi": {
+      "cover": "/covers/enriched/seija-musou-salaryman-isekai-de-ikinokoru-tame-ni-ayumu-michi-155418-b41eb3038702.webp"
+    },
+    "uchi-no-shishou-wa-shippo-ga-nai": {
+      "cover": "/covers/enriched/uchi-no-shishou-wa-shippo-ga-nai-137341-32ebd5344204.webp"
+    },
+    "the-first-slam-dunk": {
+      "cover": "/covers/enriched/the-first-slam-dunk-128207-3d021f6146f0.webp"
+    },
+    "shoujo-kageki-revue-starlight-movie": {
+      "cover": "/covers/enriched/shoujo-kageki-revue-starlight-movie-113024-ba81eda96009.webp"
+    },
+    "seitokai-yakuindomo-movie-2": {
+      "cover": "/covers/enriched/seitokai-yakuindomo-movie-2-113692-a5a79d605cdd.webp"
+    },
+    "princess-principal-crown-handler-chapter-2": {
+      "cover": "/covers/enriched/princess-principal-crown-handler-chapter-2-129759-16d8c4d26e6f.webp"
+    },
+    "princess-principal-crown-handler-chapter-1": {
+      "cover": "/covers/enriched/princess-principal-crown-handler-chapter-1-101595-5365b81b59f4.webp"
+    },
+    "giniro-no-kami-no-agito": {
+      "cover": "/covers/enriched/giniro-no-kami-no-agito-1140-cfaa0df54987.webp"
+    },
+    "ookami-kodomo-no-ame-to-yuki": {
+      "cover": "/covers/enriched/ookami-kodomo-no-ame-to-yuki-12355-9afe16589b90.webp"
+    },
+    "usuzumizakura-garo": {
+      "cover": "/covers/enriched/usuzumizakura-garo-101370-7e44207a9873.webp"
+    },
+    "tenki-no-ko": {
+      "cover": "/covers/enriched/tenki-no-ko-106286-5bb0395f036b.webp"
+    },
+    "tamayura-hitotose": {
+      "cover": "/covers/enriched/tamayura-hitotose-10232-71cde37ec835.webp"
+    },
+    "ta-ga-tame-no-alchemist": {
+      "cover": "/covers/enriched/ta-ga-tame-no-alchemist-107864-03bf3e3d1389.webp"
+    },
+    "summer-ghost": {
+      "cover": "/covers/enriched/summer-ghost-130050-ab238f904456.webp"
+    },
+    "ai-no-utagoe-wo-kikasete": {
+      "cover": "/covers/enriched/ai-no-utagoe-wo-kikasete-123899-13bce966eabf.webp"
+    },
+    "shirobako-movie": {
+      "cover": "/covers/enriched/shirobako-movie-101574-ebf433920a17.webp"
+    },
+    "sakasama-no-patema": {
+      "cover": "/covers/enriched/sakasama-no-patema-12477-6329a30da400.webp"
+    },
+    "omoi-omoware-furi-furare": {
+      "cover": "/covers/enriched/omoi-omoware-furi-furare-109125-361dd83e8e7c.webp"
+    },
+    "nezha-zhi-mo-tong-jiang-shi": {
+      "cover": "/covers/enriched/nezha-zhi-mo-tong-jiang-shi-110464-81c1990f490d.webp"
+    },
+    "misaki-no-mayoiga": {
+      "cover": "/covers/enriched/misaki-no-mayoiga-125838-4d5b41f3217d.webp"
+    },
+    "sennen-joyuu": {
+      "cover": "/covers/enriched/sennen-joyuu-1033-b82c22e65563.webp"
+    },
+    "liz-to-aoi-tori": {
+      "cover": "/covers/enriched/liz-to-aoi-tori-100178-24571147c0db.webp"
+    },
+    "kaijuu-no-kodomo": {
+      "cover": "/covers/enriched/kaijuu-no-kodomo-103221-956b68520840.webp"
+    },
+    "godzilla-kessen-kidou-zoushoku-toshi": {
+      "cover": "/covers/enriched/godzilla-kessen-kidou-zoushoku-toshi-100561-9f648120a26f.webp"
+    },
+    "dragon-ball-super-broly": {
+      "cover": "/covers/enriched/dragon-ball-super-broly-101302-300131727ef5.webp"
+    },
+    "youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e-2nd-season": {
+      "cover": "/covers/enriched/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e-2nd-season-145545-c87f550e6e3b.webp"
+    },
+    "chuunibyou-demo-koi-ga-shitai-ren": {
+      "cover": "/covers/enriched/chuunibyou-demo-koi-ga-shitai-ren-18671-6e6f3690e951.webp"
+    },
+    "yahari-ore-no-seishun-love-come-wa-machigatteiru-kan": {
+      "cover": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-kan-108489-3f0c3eea6410.webp"
+    },
+    "non-non-biyori-repeat": {
+      "cover": "/covers/enriched/non-non-biyori-repeat-20694-972e2aa43686.webp"
+    },
+    "log-horizon-entaku-houkai": {
+      "cover": "/covers/enriched/log-horizon-entaku-houkai-114862-f850d521ffb8.webp"
+    },
+    "yahari-ore-no-seishun-love-come-wa-machigatteiru-zoku": {
+      "cover": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-zoku-20698-d6e2dbf624fd.webp"
+    },
+    "shingeki-no-kyojin-lost-girls": {
+      "cover": "/covers/enriched/shingeki-no-kyojin-lost-girls-99634-a503e8c1a502.webp"
+    },
+    "owari-no-seraph-nagoya-kessen-hen": {
+      "cover": "/covers/enriched/owari-no-seraph-nagoya-kessen-hen-20993-968d83450aca.webp"
+    },
+    "nhk-ni-youkoso": {
+      "cover": "/covers/enriched/nhk-ni-youkoso-1210-061825fb0e4f.webp"
+    },
+    "owari-no-seraph": {
+      "cover": "/covers/enriched/owari-no-seraph-20829-a75f6942c62c.webp"
+    },
+    "kiznaiver": {
+      "cover": "/covers/enriched/kiznaiver-21421-ca278114cc02.webp"
+    },
+    "guimi-zhi-zhu-xiaochou-pian": {
+      "cover": "/covers/enriched/guimi-zhi-zhu-xiaochou-pian-137667-e73133bed983.webp"
+    },
+    "tousouchuu-the-great-mission": {
+      "cover": "/covers/enriched/tousouchuu-the-great-mission-159560-7bb6db8a5978.webp"
+    },
+    "yahari-ore-no-seishun-love-come-wa-machigatteiru": {
+      "cover": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-14813-74df2850d3b0.webp"
+    },
+    "fate-grand-order-zettai-majuu-sensen-babylonia": {
+      "cover": "/covers/enriched/fate-grand-order-zettai-majuu-sensen-babylonia-103275-cd7c920a82fa.webp"
+    },
+    "shingetsutan-tsukihime": {
+      "cover": "/covers/enriched/shingetsutan-tsukihime-169-e8b0948d47af.webp"
+    },
+    "kimi-ni-todoke": {
+      "cover": "/covers/enriched/kimi-ni-todoke-6045-33fad1e8b040.webp"
+    },
+    "snowball-earth": {
+      "cover": "/covers/enriched/snowball-earth-196144-25cdde4feeba.webp"
+    },
+    "86-eighty-six-part-2": {
+      "cover": "/covers/enriched/86-eighty-six-part-2-131586-bf37e35ff951.webp"
     }
   },
   "variants": {
@@ -771,6 +1362,794 @@
     "/covers/enriched/made-in-abyss-2-97986-6d1171334d43.webp": {
       "thumb": "/covers/enriched/made-in-abyss-2-97986-6d1171334d43-thumb.webp",
       "srcSet": "/covers/enriched/made-in-abyss-2-97986-6d1171334d43.webp 460w"
+    },
+    "/covers/enriched/ansatsu-kyoushitsu-20755-592dcf44b736.webp": {
+      "thumb": "/covers/enriched/ansatsu-kyoushitsu-20755-592dcf44b736-thumb.webp",
+      "srcSet": "/covers/enriched/ansatsu-kyoushitsu-20755-592dcf44b736.webp 460w"
+    },
+    "/covers/enriched/jun-you-yun-141869-ec80cfdd0f02.webp": {
+      "thumb": "/covers/enriched/jun-you-yun-141869-ec80cfdd0f02-thumb.webp",
+      "srcSet": "/covers/enriched/jun-you-yun-141869-ec80cfdd0f02.webp 460w"
+    },
+    "/covers/enriched/shikong-zhi-xi-126367-bb3390f8d5f4.webp": {
+      "thumb": "/covers/enriched/shikong-zhi-xi-126367-bb3390f8d5f4-thumb.webp",
+      "srcSet": "/covers/enriched/shikong-zhi-xi-126367-bb3390f8d5f4.webp 460w"
+    },
+    "/covers/enriched/bakemonogatari-5081-beda61205c56.webp": {
+      "thumb": "/covers/enriched/bakemonogatari-5081-beda61205c56-thumb.webp",
+      "srcSet": "/covers/enriched/bakemonogatari-5081-beda61205c56.webp 460w"
+    },
+    "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii-101167-59210313a8a0.webp": {
+      "thumb": "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii-101167-59210313a8a0-thumb.webp",
+      "srcSet": "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii-101167-59210313a8a0.webp 460w"
+    },
+    "/covers/enriched/blood-c-10490-aa0f25dbd55a.webp": {
+      "thumb": "/covers/enriched/blood-c-10490-aa0f25dbd55a-thumb.webp",
+      "srcSet": "/covers/enriched/blood-c-10490-aa0f25dbd55a.webp 460w"
+    },
+    "/covers/enriched/princess-connect-re-dive-107871-c2246d3835e7.webp": {
+      "thumb": "/covers/enriched/princess-connect-re-dive-107871-c2246d3835e7-thumb.webp",
+      "srcSet": "/covers/enriched/princess-connect-re-dive-107871-c2246d3835e7.webp 460w"
+    },
+    "/covers/enriched/zombie-land-saga-103871-b9f9fbe87eaa.webp": {
+      "thumb": "/covers/enriched/zombie-land-saga-103871-b9f9fbe87eaa-thumb.webp",
+      "srcSet": "/covers/enriched/zombie-land-saga-103871-b9f9fbe87eaa.webp 460w"
+    },
+    "/covers/enriched/golden-kamuy-2nd-season-102977-d9b83961e28a.webp": {
+      "thumb": "/covers/enriched/golden-kamuy-2nd-season-102977-d9b83961e28a-thumb.webp",
+      "srcSet": "/covers/enriched/golden-kamuy-2nd-season-102977-d9b83961e28a.webp 460w"
+    },
+    "/covers/enriched/yesterday-wo-utatte-109020-420339864da7.webp": {
+      "thumb": "/covers/enriched/yesterday-wo-utatte-109020-420339864da7-thumb.webp",
+      "srcSet": "/covers/enriched/yesterday-wo-utatte-109020-420339864da7.webp 460w"
+    },
+    "/covers/enriched/golden-kamuy-3rd-season-110355-3c582b059f89.webp": {
+      "thumb": "/covers/enriched/golden-kamuy-3rd-season-110355-3c582b059f89-thumb.webp",
+      "srcSet": "/covers/enriched/golden-kamuy-3rd-season-110355-3c582b059f89.webp 460w"
+    },
+    "/covers/enriched/bem-107876-9f310e6a4bb6.webp": {
+      "thumb": "/covers/enriched/bem-107876-9f310e6a4bb6-thumb.webp",
+      "srcSet": "/covers/enriched/bem-107876-9f310e6a4bb6.webp 460w"
+    },
+    "/covers/enriched/ssss-dynazenon-113950-5d7d62005457.webp": {
+      "thumb": "/covers/enriched/ssss-dynazenon-113950-5d7d62005457-thumb.webp",
+      "srcSet": "/covers/enriched/ssss-dynazenon-113950-5d7d62005457.webp 460w"
+    },
+    "/covers/enriched/koi-to-yobu-ni-wa-kimochi-warui-114840-9773ea46d96e.webp": {
+      "thumb": "/covers/enriched/koi-to-yobu-ni-wa-kimochi-warui-114840-9773ea46d96e-thumb.webp",
+      "srcSet": "/covers/enriched/koi-to-yobu-ni-wa-kimochi-warui-114840-9773ea46d96e.webp 460w"
+    },
+    "/covers/enriched/listeners-109856-b97441915f1e.webp": {
+      "thumb": "/covers/enriched/listeners-109856-b97441915f1e-thumb.webp",
+      "srcSet": "/covers/enriched/listeners-109856-b97441915f1e.webp 460w"
+    },
+    "/covers/enriched/assassins-pride-104722-5d50f1024acf.webp": {
+      "thumb": "/covers/enriched/assassins-pride-104722-5d50f1024acf-thumb.webp",
+      "srcSet": "/covers/enriched/assassins-pride-104722-5d50f1024acf.webp 460w"
+    },
+    "/covers/enriched/zombie-land-saga-revenge-110733-91bb34c439d2.webp": {
+      "thumb": "/covers/enriched/zombie-land-saga-revenge-110733-91bb34c439d2-thumb.webp",
+      "srcSet": "/covers/enriched/zombie-land-saga-revenge-110733-91bb34c439d2.webp 460w"
+    },
+    "/covers/enriched/machikado-mazoku-107490-87e0f2c78c4f.webp": {
+      "thumb": "/covers/enriched/machikado-mazoku-107490-87e0f2c78c4f-thumb.webp",
+      "srcSet": "/covers/enriched/machikado-mazoku-107490-87e0f2c78c4f.webp 460w"
+    },
+    "/covers/enriched/the-god-of-high-school-116006-2a5b531836fd.webp": {
+      "thumb": "/covers/enriched/the-god-of-high-school-116006-2a5b531836fd-thumb.webp",
+      "srcSet": "/covers/enriched/the-god-of-high-school-116006-2a5b531836fd.webp 460w"
+    },
+    "/covers/enriched/sakugan-108987-9d4a4e2828a2.webp": {
+      "thumb": "/covers/enriched/sakugan-108987-9d4a4e2828a2-thumb.webp",
+      "srcSet": "/covers/enriched/sakugan-108987-9d4a4e2828a2.webp 460w"
+    },
+    "/covers/enriched/renmei-kuugun-koukuu-mahou-ongakutai-luminous-witches-103118-94752a62e97c.webp": {
+      "thumb": "/covers/enriched/renmei-kuugun-koukuu-mahou-ongakutai-luminous-witches-103118-94752a62e97c-thumb.webp",
+      "srcSet": "/covers/enriched/renmei-kuugun-koukuu-mahou-ongakutai-luminous-witches-103118-94752a62e97c.webp 460w"
+    },
+    "/covers/enriched/yoru-no-kuni-132283-84722c8efe01.webp": {
+      "thumb": "/covers/enriched/yoru-no-kuni-132283-84722c8efe01-thumb.webp",
+      "srcSet": "/covers/enriched/yoru-no-kuni-132283-84722c8efe01.webp 460w"
+    },
+    "/covers/enriched/kakkou-no-iinazuke-132052-654a5e1854bb.webp": {
+      "thumb": "/covers/enriched/kakkou-no-iinazuke-132052-654a5e1854bb-thumb.webp",
+      "srcSet": "/covers/enriched/kakkou-no-iinazuke-132052-654a5e1854bb.webp 460w"
+    },
+    "/covers/enriched/vampire-in-the-garden-108357-3bc18c09d411.webp": {
+      "thumb": "/covers/enriched/vampire-in-the-garden-108357-3bc18c09d411-thumb.webp",
+      "srcSet": "/covers/enriched/vampire-in-the-garden-108357-3bc18c09d411.webp 460w"
+    },
+    "/covers/enriched/hanamonogatari-20593-b244eec388eb.webp": {
+      "thumb": "/covers/enriched/hanamonogatari-20593-b244eec388eb-thumb.webp",
+      "srcSet": "/covers/enriched/hanamonogatari-20593-b244eec388eb.webp 460w"
+    },
+    "/covers/enriched/tokyo-mew-mew-687-034e0fa4710d.webp": {
+      "thumb": "/covers/enriched/tokyo-mew-mew-687-034e0fa4710d-thumb.webp",
+      "srcSet": "/covers/enriched/tokyo-mew-mew-687-034e0fa4710d.webp 460w"
+    },
+    "/covers/enriched/black-rock-shooter-dawn-fall-139303-d7fa8e04cd22.webp": {
+      "thumb": "/covers/enriched/black-rock-shooter-dawn-fall-139303-d7fa8e04cd22-thumb.webp",
+      "srcSet": "/covers/enriched/black-rock-shooter-dawn-fall-139303-d7fa8e04cd22.webp 460w"
+    },
+    "/covers/enriched/tsukimonogatari-20918-152f940bf5b9.webp": {
+      "thumb": "/covers/enriched/tsukimonogatari-20918-152f940bf5b9-thumb.webp",
+      "srcSet": "/covers/enriched/tsukimonogatari-20918-152f940bf5b9.webp 460w"
+    },
+    "/covers/enriched/uma-musume-pretty-derby-98514-39943cdd6a8c.webp": {
+      "thumb": "/covers/enriched/uma-musume-pretty-derby-98514-39943cdd6a8c-thumb.webp",
+      "srcSet": "/covers/enriched/uma-musume-pretty-derby-98514-39943cdd6a8c.webp 460w"
+    },
+    "/covers/enriched/oshi-ga-budoukan-ittekuretara-shinu-104391-7d74387ccf75.webp": {
+      "thumb": "/covers/enriched/oshi-ga-budoukan-ittekuretara-shinu-104391-7d74387ccf75-thumb.webp",
+      "srcSet": "/covers/enriched/oshi-ga-budoukan-ittekuretara-shinu-104391-7d74387ccf75.webp 460w"
+    },
+    "/covers/enriched/musashino-98577-3d7ab4cf0221.webp": {
+      "thumb": "/covers/enriched/musashino-98577-3d7ab4cf0221-thumb.webp",
+      "srcSet": "/covers/enriched/musashino-98577-3d7ab4cf0221.webp 460w"
+    },
+    "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-iii-112124-22e12178ed17.webp": {
+      "thumb": "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-iii-112124-22e12178ed17-thumb.webp",
+      "srcSet": "/covers/enriched/dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-iii-112124-22e12178ed17.webp 460w"
+    },
+    "/covers/enriched/jibaku-shounen-hanako-kun-108463-d9a5723c3153.webp": {
+      "thumb": "/covers/enriched/jibaku-shounen-hanako-kun-108463-d9a5723c3153-thumb.webp",
+      "srcSet": "/covers/enriched/jibaku-shounen-hanako-kun-108463-d9a5723c3153.webp 460w"
+    },
+    "/covers/enriched/sewayaki-kitsune-no-senko-san-105914-dfff411ee18a.webp": {
+      "thumb": "/covers/enriched/sewayaki-kitsune-no-senko-san-105914-dfff411ee18a-thumb.webp",
+      "srcSet": "/covers/enriched/sewayaki-kitsune-no-senko-san-105914-dfff411ee18a.webp 460w"
+    },
+    "/covers/enriched/shadowverse-112325-c0beefad4948.webp": {
+      "thumb": "/covers/enriched/shadowverse-112325-c0beefad4948-thumb.webp",
+      "srcSet": "/covers/enriched/shadowverse-112325-c0beefad4948.webp 460w"
+    },
+    "/covers/enriched/summer-time-render-129201-3b46609cfb76.webp": {
+      "thumb": "/covers/enriched/summer-time-render-129201-3b46609cfb76-thumb.webp",
+      "srcSet": "/covers/enriched/summer-time-render-129201-3b46609cfb76.webp 460w"
+    },
+    "/covers/enriched/go-toubun-no-hanayome-109261-2f3a9dd74f95.webp": {
+      "thumb": "/covers/enriched/go-toubun-no-hanayome-109261-2f3a9dd74f95-thumb.webp",
+      "srcSet": "/covers/enriched/go-toubun-no-hanayome-109261-2f3a9dd74f95.webp 460w"
+    },
+    "/covers/enriched/big-order-21445-da143c4a3ecd.webp": {
+      "thumb": "/covers/enriched/big-order-21445-da143c4a3ecd-thumb.webp",
+      "srcSet": "/covers/enriched/big-order-21445-da143c4a3ecd.webp 460w"
+    },
+    "/covers/enriched/psycho-pass-movie-20514-9a5cf456abc1.webp": {
+      "thumb": "/covers/enriched/psycho-pass-movie-20514-9a5cf456abc1-thumb.webp",
+      "srcSet": "/covers/enriched/psycho-pass-movie-20514-9a5cf456abc1.webp 460w"
+    },
+    "/covers/enriched/neko-no-ongaeshi-597-4d9555e44101.webp": {
+      "thumb": "/covers/enriched/neko-no-ongaeshi-597-4d9555e44101-thumb.webp",
+      "srcSet": "/covers/enriched/neko-no-ongaeshi-597-4d9555e44101.webp 460w"
+    },
+    "/covers/enriched/link-click-season-3-191832-508baf447561.webp": {
+      "thumb": "/covers/enriched/link-click-season-3-191832-508baf447561-thumb.webp",
+      "srcSet": "/covers/enriched/link-click-season-3-191832-508baf447561.webp 460w"
+    },
+    "/covers/enriched/shokugeki-no-souma-gou-no-sara-114043-68adfd7df0ba.webp": {
+      "thumb": "/covers/enriched/shokugeki-no-souma-gou-no-sara-114043-68adfd7df0ba-thumb.webp",
+      "srcSet": "/covers/enriched/shokugeki-no-souma-gou-no-sara-114043-68adfd7df0ba.webp 460w"
+    },
+    "/covers/enriched/kakegurui-2-100876-fc10fdbd73aa.webp": {
+      "thumb": "/covers/enriched/kakegurui-2-100876-fc10fdbd73aa-thumb.webp",
+      "srcSet": "/covers/enriched/kakegurui-2-100876-fc10fdbd73aa.webp 460w"
+    },
+    "/covers/enriched/isekai-quartet-104454-fbd20931904d.webp": {
+      "thumb": "/covers/enriched/isekai-quartet-104454-fbd20931904d-thumb.webp",
+      "srcSet": "/covers/enriched/isekai-quartet-104454-fbd20931904d.webp 460w"
+    },
+    "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-2nd-season-127366-b0fc92ea06fb.webp": {
+      "thumb": "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-2nd-season-127366-b0fc92ea06fb-thumb.webp",
+      "srcSet": "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-2nd-season-127366-b0fc92ea06fb.webp 460w"
+    },
+    "/covers/enriched/isekai-quartet-2-110178-51b9d3d5d3e7.webp": {
+      "thumb": "/covers/enriched/isekai-quartet-2-110178-51b9d3d5d3e7-thumb.webp",
+      "srcSet": "/covers/enriched/isekai-quartet-2-110178-51b9d3d5d3e7.webp 460w"
+    },
+    "/covers/enriched/kamisama-hajimemashita-14713-f1211aa92bf0.webp": {
+      "thumb": "/covers/enriched/kamisama-hajimemashita-14713-f1211aa92bf0-thumb.webp",
+      "srcSet": "/covers/enriched/kamisama-hajimemashita-14713-f1211aa92bf0.webp 460w"
+    },
+    "/covers/enriched/seishun-buta-yarou-wa-bunny-girl-senpai-no-yume-wo-minai-101291-3f81802dbc01.webp": {
+      "thumb": "/covers/enriched/seishun-buta-yarou-wa-bunny-girl-senpai-no-yume-wo-minai-101291-3f81802dbc01-thumb.webp",
+      "srcSet": "/covers/enriched/seishun-buta-yarou-wa-bunny-girl-senpai-no-yume-wo-minai-101291-3f81802dbc01.webp 460w"
+    },
+    "/covers/enriched/toaru-kagaku-no-railgun-6213-1b7d3f73c45d.webp": {
+      "thumb": "/covers/enriched/toaru-kagaku-no-railgun-6213-1b7d3f73c45d-thumb.webp",
+      "srcSet": "/covers/enriched/toaru-kagaku-no-railgun-6213-1b7d3f73c45d.webp 460w"
+    },
+    "/covers/enriched/toaru-majutsu-no-index-4654-5bb644cf4b29.webp": {
+      "thumb": "/covers/enriched/toaru-majutsu-no-index-4654-5bb644cf4b29-thumb.webp",
+      "srcSet": "/covers/enriched/toaru-majutsu-no-index-4654-5bb644cf4b29.webp 460w"
+    },
+    "/covers/enriched/clannad-after-story-4181-4cba302cf2ec.webp": {
+      "thumb": "/covers/enriched/clannad-after-story-4181-4cba302cf2ec-thumb.webp",
+      "srcSet": "/covers/enriched/clannad-after-story-4181-4cba302cf2ec.webp 460w"
+    },
+    "/covers/enriched/shingeki-no-kyojin-season-2-20958-ce5fce318bba.webp": {
+      "thumb": "/covers/enriched/shingeki-no-kyojin-season-2-20958-ce5fce318bba-thumb.webp",
+      "srcSet": "/covers/enriched/shingeki-no-kyojin-season-2-20958-ce5fce318bba.webp 460w"
+    },
+    "/covers/enriched/sekai-no-owari-ni-shiba-inu-to-150575-c99620a80ef7.webp": {
+      "thumb": "/covers/enriched/sekai-no-owari-ni-shiba-inu-to-150575-c99620a80ef7-thumb.webp",
+      "srcSet": "/covers/enriched/sekai-no-owari-ni-shiba-inu-to-150575-c99620a80ef7.webp 460w"
+    },
+    "/covers/enriched/beelzebub-9513-a627016374a7.webp": {
+      "thumb": "/covers/enriched/beelzebub-9513-a627016374a7-thumb.webp",
+      "srcSet": "/covers/enriched/beelzebub-9513-a627016374a7.webp 460w"
+    },
+    "/covers/enriched/shinchou-yuusha-kono-yuusha-ga-ore-tueee-kuse-ni-shinchou-sugiru-105156-51aa8b038c04.webp": {
+      "thumb": "/covers/enriched/shinchou-yuusha-kono-yuusha-ga-ore-tueee-kuse-ni-shinchou-sugiru-105156-51aa8b038c04-thumb.webp",
+      "srcSet": "/covers/enriched/shinchou-yuusha-kono-yuusha-ga-ore-tueee-kuse-ni-shinchou-sugiru-105156-51aa8b038c04.webp 460w"
+    },
+    "/covers/enriched/kakuriyo-no-yadomeshi-100500-5ab876071cc3.webp": {
+      "thumb": "/covers/enriched/kakuriyo-no-yadomeshi-100500-5ab876071cc3-thumb.webp",
+      "srcSet": "/covers/enriched/kakuriyo-no-yadomeshi-100500-5ab876071cc3.webp 460w"
+    },
+    "/covers/enriched/tonari-no-kyuuketsuki-san-101371-7a5c05a0b49e.webp": {
+      "thumb": "/covers/enriched/tonari-no-kyuuketsuki-san-101371-7a5c05a0b49e-thumb.webp",
+      "srcSet": "/covers/enriched/tonari-no-kyuuketsuki-san-101371-7a5c05a0b49e.webp 460w"
+    },
+    "/covers/enriched/kokkoku-100332-a34a9b772e84.webp": {
+      "thumb": "/covers/enriched/kokkoku-100332-a34a9b772e84-thumb.webp",
+      "srcSet": "/covers/enriched/kokkoku-100332-a34a9b772e84.webp 460w"
+    },
+    "/covers/enriched/wz-101337-606a259e92a6.webp": {
+      "thumb": "/covers/enriched/wz-101337-606a259e92a6-thumb.webp",
+      "srcSet": "/covers/enriched/wz-101337-606a259e92a6.webp 460w"
+    },
+    "/covers/enriched/go-toubun-no-hanayome-movie-131520-e928d795d294.webp": {
+      "thumb": "/covers/enriched/go-toubun-no-hanayome-movie-131520-e928d795d294-thumb.webp",
+      "srcSet": "/covers/enriched/go-toubun-no-hanayome-movie-131520-e928d795d294.webp 460w"
+    },
+    "/covers/enriched/xian-wang-de-richang-shenghuo-114121-6fbc6976f419.webp": {
+      "thumb": "/covers/enriched/xian-wang-de-richang-shenghuo-114121-6fbc6976f419-thumb.webp",
+      "srcSet": "/covers/enriched/xian-wang-de-richang-shenghuo-114121-6fbc6976f419.webp 460w"
+    },
+    "/covers/enriched/kagerou-daze-in-a-days-21793-8990bb2b3728.webp": {
+      "thumb": "/covers/enriched/kagerou-daze-in-a-days-21793-8990bb2b3728-thumb.webp",
+      "srcSet": "/covers/enriched/kagerou-daze-in-a-days-21793-8990bb2b3728.webp 460w"
+    },
+    "/covers/enriched/goblin-slayer-goblins-crown-108623-c26062dd4c1e.webp": {
+      "thumb": "/covers/enriched/goblin-slayer-goblins-crown-108623-c26062dd4c1e-thumb.webp",
+      "srcSet": "/covers/enriched/goblin-slayer-goblins-crown-108623-c26062dd4c1e.webp 460w"
+    },
+    "/covers/enriched/omoide-poro-poro-1029-fcdf7fa89888.webp": {
+      "thumb": "/covers/enriched/omoide-poro-poro-1029-fcdf7fa89888-thumb.webp",
+      "srcSet": "/covers/enriched/omoide-poro-poro-1029-fcdf7fa89888.webp 460w"
+    },
+    "/covers/enriched/gigigoegoe-sunghyungsoo-119978-9aeb840d939f.webp": {
+      "thumb": "/covers/enriched/gigigoegoe-sunghyungsoo-119978-9aeb840d939f-thumb.webp",
+      "srcSet": "/covers/enriched/gigigoegoe-sunghyungsoo-119978-9aeb840d939f.webp 460w"
+    },
+    "/covers/enriched/c-de-breaker-11703-469b3b0c0a75.webp": {
+      "thumb": "/covers/enriched/c-de-breaker-11703-469b3b0c0a75-thumb.webp",
+      "srcSet": "/covers/enriched/c-de-breaker-11703-469b3b0c0a75.webp 460w"
+    },
+    "/covers/enriched/wo-de-nitian-shenqi-101919-44f19cc36303.webp": {
+      "thumb": "/covers/enriched/wo-de-nitian-shenqi-101919-44f19cc36303-thumb.webp",
+      "srcSet": "/covers/enriched/wo-de-nitian-shenqi-101919-44f19cc36303.webp 460w"
+    },
+    "/covers/enriched/yingxiong-zailin-120193-6dc724802e0c.webp": {
+      "thumb": "/covers/enriched/yingxiong-zailin-120193-6dc724802e0c-thumb.webp",
+      "srcSet": "/covers/enriched/yingxiong-zailin-120193-6dc724802e0c.webp 460w"
+    },
+    "/covers/enriched/yakunara-mug-cup-mo-122148-c08dbaf6ee17.webp": {
+      "thumb": "/covers/enriched/yakunara-mug-cup-mo-122148-c08dbaf6ee17-thumb.webp",
+      "srcSet": "/covers/enriched/yakunara-mug-cup-mo-122148-c08dbaf6ee17.webp 460w"
+    },
+    "/covers/enriched/lie-huo-jiao-chou-126368-891bb2d921bf.webp": {
+      "thumb": "/covers/enriched/lie-huo-jiao-chou-126368-891bb2d921bf-thumb.webp",
+      "srcSet": "/covers/enriched/lie-huo-jiao-chou-126368-891bb2d921bf.webp 460w"
+    },
+    "/covers/enriched/dou-po-cangqiong-san-nian-zhi-yue-137729-a3b4f57cae9e.webp": {
+      "thumb": "/covers/enriched/dou-po-cangqiong-san-nian-zhi-yue-137729-a3b4f57cae9e-thumb.webp",
+      "srcSet": "/covers/enriched/dou-po-cangqiong-san-nian-zhi-yue-137729-a3b4f57cae9e.webp 460w"
+    },
+    "/covers/enriched/quanzhi-gaoshou-3-137735-ecd4a4e2145d.webp": {
+      "thumb": "/covers/enriched/quanzhi-gaoshou-3-137735-ecd4a4e2145d-thumb.webp",
+      "srcSet": "/covers/enriched/quanzhi-gaoshou-3-137735-ecd4a4e2145d.webp 460w"
+    },
+    "/covers/enriched/onii-chan-wa-oshimai-147864-e46abdcef930.webp": {
+      "thumb": "/covers/enriched/onii-chan-wa-oshimai-147864-e46abdcef930-thumb.webp",
+      "srcSet": "/covers/enriched/onii-chan-wa-oshimai-147864-e46abdcef930.webp 460w"
+    },
+    "/covers/enriched/i-ris-the-movie-full-energy-156727-bb728c5d63d2.webp": {
+      "thumb": "/covers/enriched/i-ris-the-movie-full-energy-156727-bb728c5d63d2-thumb.webp",
+      "srcSet": "/covers/enriched/i-ris-the-movie-full-energy-156727-bb728c5d63d2.webp 460w"
+    },
+    "/covers/enriched/bikkuri-men-163364-9c516d7ffa48.webp": {
+      "thumb": "/covers/enriched/bikkuri-men-163364-9c516d7ffa48-thumb.webp",
+      "srcSet": "/covers/enriched/bikkuri-men-163364-9c516d7ffa48.webp 460w"
+    },
+    "/covers/enriched/ba-ma-laizi-erci-yuan-126363-0b7c6d080f7f.webp": {
+      "thumb": "/covers/enriched/ba-ma-laizi-erci-yuan-126363-0b7c6d080f7f-thumb.webp",
+      "srcSet": "/covers/enriched/ba-ma-laizi-erci-yuan-126363-0b7c6d080f7f.webp 460w"
+    },
+    "/covers/enriched/isekai-wa-smartphone-to-tomo-ni-2-147571-43d83f7a46a1.webp": {
+      "thumb": "/covers/enriched/isekai-wa-smartphone-to-tomo-ni-2-147571-43d83f7a46a1-thumb.webp",
+      "srcSet": "/covers/enriched/isekai-wa-smartphone-to-tomo-ni-2-147571-43d83f7a46a1.webp 460w"
+    },
+    "/covers/enriched/long-zu-2-157692-5c078d8a1d05.webp": {
+      "thumb": "/covers/enriched/long-zu-2-157692-5c078d8a1d05-thumb.webp",
+      "srcSet": "/covers/enriched/long-zu-2-157692-5c078d8a1d05.webp 460w"
+    },
+    "/covers/enriched/amagami-ss-8676-4a439061a5d8.webp": {
+      "thumb": "/covers/enriched/amagami-ss-8676-4a439061a5d8-thumb.webp",
+      "srcSet": "/covers/enriched/amagami-ss-8676-4a439061a5d8.webp 400w"
+    },
+    "/covers/enriched/kodomo-no-omocha-1486-342c1a5ab410.webp": {
+      "thumb": "/covers/enriched/kodomo-no-omocha-1486-342c1a5ab410-thumb.webp",
+      "srcSet": "/covers/enriched/kodomo-no-omocha-1486-342c1a5ab410.webp 460w"
+    },
+    "/covers/enriched/akagami-no-shirayuki-hime-21058-aeea4f509992.webp": {
+      "thumb": "/covers/enriched/akagami-no-shirayuki-hime-21058-aeea4f509992-thumb.webp",
+      "srcSet": "/covers/enriched/akagami-no-shirayuki-hime-21058-aeea4f509992.webp 460w"
+    },
+    "/covers/enriched/touhai-ura-rate-mahjong-touhai-roku-173263-7ccf50eb118b.webp": {
+      "thumb": "/covers/enriched/touhai-ura-rate-mahjong-touhai-roku-173263-7ccf50eb118b-thumb.webp",
+      "srcSet": "/covers/enriched/touhai-ura-rate-mahjong-touhai-roku-173263-7ccf50eb118b.webp 460w"
+    },
+    "/covers/enriched/amagami-ss-plus-plus-11235-46cd1f4f2f64.webp": {
+      "thumb": "/covers/enriched/amagami-ss-plus-plus-11235-46cd1f4f2f64-thumb.webp",
+      "srcSet": "/covers/enriched/amagami-ss-plus-plus-11235-46cd1f4f2f64.webp 460w"
+    },
+    "/covers/enriched/tearmoon-teikoku-monogatari-dantoudai-kara-hajimaru-hime-no-tensei-gyakuten-stor-154384-319b5834257b.webp": {
+      "thumb": "/covers/enriched/tearmoon-teikoku-monogatari-dantoudai-kara-hajimaru-hime-no-tensei-gyakuten-stor-154384-319b5834257b-thumb.webp",
+      "srcSet": "/covers/enriched/tearmoon-teikoku-monogatari-dantoudai-kara-hajimaru-hime-no-tensei-gyakuten-stor-154384-319b5834257b.webp 460w"
+    },
+    "/covers/enriched/hibike-euphonium-3-109731-eede150f35dc.webp": {
+      "thumb": "/covers/enriched/hibike-euphonium-3-109731-eede150f35dc-thumb.webp",
+      "srcSet": "/covers/enriched/hibike-euphonium-3-109731-eede150f35dc.webp 460w"
+    },
+    "/covers/enriched/kuroshitsuji-ii-6707-168943671030.webp": {
+      "thumb": "/covers/enriched/kuroshitsuji-ii-6707-168943671030-thumb.webp",
+      "srcSet": "/covers/enriched/kuroshitsuji-ii-6707-168943671030.webp 460w"
+    },
+    "/covers/enriched/yowamushi-pedal-limit-break-142481-dd1bff4f6503.webp": {
+      "thumb": "/covers/enriched/yowamushi-pedal-limit-break-142481-dd1bff4f6503-thumb.webp",
+      "srcSet": "/covers/enriched/yowamushi-pedal-limit-break-142481-dd1bff4f6503.webp 460w"
+    },
+    "/covers/enriched/puniru-wa-kawaii-slime-2nd-season-185755-bb20a7512688.webp": {
+      "thumb": "/covers/enriched/puniru-wa-kawaii-slime-2nd-season-185755-bb20a7512688-thumb.webp",
+      "srcSet": "/covers/enriched/puniru-wa-kawaii-slime-2nd-season-185755-bb20a7512688.webp 460w"
+    },
+    "/covers/enriched/dagashi-kashi-21365-78431eb34498.webp": {
+      "thumb": "/covers/enriched/dagashi-kashi-21365-78431eb34498-thumb.webp",
+      "srcSet": "/covers/enriched/dagashi-kashi-21365-78431eb34498.webp 460w"
+    },
+    "/covers/enriched/ququ-bucai-zaixia-ye-guai-2-166510-691f967d5366.webp": {
+      "thumb": "/covers/enriched/ququ-bucai-zaixia-ye-guai-2-166510-691f967d5366-thumb.webp",
+      "srcSet": "/covers/enriched/ququ-bucai-zaixia-ye-guai-2-166510-691f967d5366.webp 460w"
+    },
+    "/covers/enriched/shin-shinka-no-mi-shiranai-uchi-ni-kachigumi-jinsei-146954-ea14ea6a6291.webp": {
+      "thumb": "/covers/enriched/shin-shinka-no-mi-shiranai-uchi-ni-kachigumi-jinsei-146954-ea14ea6a6291-thumb.webp",
+      "srcSet": "/covers/enriched/shin-shinka-no-mi-shiranai-uchi-ni-kachigumi-jinsei-146954-ea14ea6a6291.webp 460w"
+    },
+    "/covers/enriched/ookami-to-koushinryou-ii-5341-a890b8cf628b.webp": {
+      "thumb": "/covers/enriched/ookami-to-koushinryou-ii-5341-a890b8cf628b-thumb.webp",
+      "srcSet": "/covers/enriched/ookami-to-koushinryou-ii-5341-a890b8cf628b.webp 460w"
+    },
+    "/covers/enriched/new-game-21455-2dbc0df532f7.webp": {
+      "thumb": "/covers/enriched/new-game-21455-2dbc0df532f7-thumb.webp",
+      "srcSet": "/covers/enriched/new-game-21455-2dbc0df532f7.webp 460w"
+    },
+    "/covers/enriched/new-game-2-98292-4170bd75b7d2.webp": {
+      "thumb": "/covers/enriched/new-game-2-98292-4170bd75b7d2-thumb.webp",
+      "srcSet": "/covers/enriched/new-game-2-98292-4170bd75b7d2.webp 460w"
+    },
+    "/covers/enriched/jormungand-perfect-order-13331-8686c62e539e.webp": {
+      "thumb": "/covers/enriched/jormungand-perfect-order-13331-8686c62e539e-thumb.webp",
+      "srcSet": "/covers/enriched/jormungand-perfect-order-13331-8686c62e539e.webp 460w"
+    },
+    "/covers/enriched/goblin-slayer-ii-129188-6223482efc9c.webp": {
+      "thumb": "/covers/enriched/goblin-slayer-ii-129188-6223482efc9c-thumb.webp",
+      "srcSet": "/covers/enriched/goblin-slayer-ii-129188-6223482efc9c.webp 460w"
+    },
+    "/covers/enriched/yi-nian-yongheng-3-168104-c604fd3cc0de.webp": {
+      "thumb": "/covers/enriched/yi-nian-yongheng-3-168104-c604fd3cc0de-thumb.webp",
+      "srcSet": "/covers/enriched/yi-nian-yongheng-3-168104-c604fd3cc0de.webp 460w"
+    },
+    "/covers/enriched/yamato-nadeshiko-shichi-henge-1562-28da1e765c53.webp": {
+      "thumb": "/covers/enriched/yamato-nadeshiko-shichi-henge-1562-28da1e765c53-thumb.webp",
+      "srcSet": "/covers/enriched/yamato-nadeshiko-shichi-henge-1562-28da1e765c53.webp 460w"
+    },
+    "/covers/enriched/jii-san-baa-san-wakagaeru-168138-c0dcd7b7a96d.webp": {
+      "thumb": "/covers/enriched/jii-san-baa-san-wakagaeru-168138-c0dcd7b7a96d-thumb.webp",
+      "srcSet": "/covers/enriched/jii-san-baa-san-wakagaeru-168138-c0dcd7b7a96d.webp 460w"
+    },
+    "/covers/enriched/darwins-game-105190-a5907b57954c.webp": {
+      "thumb": "/covers/enriched/darwins-game-105190-a5907b57954c-thumb.webp",
+      "srcSet": "/covers/enriched/darwins-game-105190-a5907b57954c.webp 460w"
+    },
+    "/covers/enriched/seiken-gakuin-no-maken-tsukai-140501-9faaffe6fa06.webp": {
+      "thumb": "/covers/enriched/seiken-gakuin-no-maken-tsukai-140501-9faaffe6fa06-thumb.webp",
+      "srcSet": "/covers/enriched/seiken-gakuin-no-maken-tsukai-140501-9faaffe6fa06.webp 460w"
+    },
+    "/covers/enriched/kitsutsuki-tantei-dokoro-108629-db281cdaeae7.webp": {
+      "thumb": "/covers/enriched/kitsutsuki-tantei-dokoro-108629-db281cdaeae7-thumb.webp",
+      "srcSet": "/covers/enriched/kitsutsuki-tantei-dokoro-108629-db281cdaeae7.webp 460w"
+    },
+    "/covers/enriched/inu-boku-ss-11013-7fe6651e7d8f.webp": {
+      "thumb": "/covers/enriched/inu-boku-ss-11013-7fe6651e7d8f-thumb.webp",
+      "srcSet": "/covers/enriched/inu-boku-ss-11013-7fe6651e7d8f.webp 460w"
+    },
+    "/covers/enriched/hanabi-chan-wa-okure-gachi-137621-8dffa410b7da.webp": {
+      "thumb": "/covers/enriched/hanabi-chan-wa-okure-gachi-137621-8dffa410b7da-thumb.webp",
+      "srcSet": "/covers/enriched/hanabi-chan-wa-okure-gachi-137621-8dffa410b7da.webp 460w"
+    },
+    "/covers/enriched/shingeki-no-kyojin-the-final-season-2-110277-5c1b6be51d97.webp": {
+      "thumb": "/covers/enriched/shingeki-no-kyojin-the-final-season-2-110277-5c1b6be51d97-thumb.webp",
+      "srcSet": "/covers/enriched/shingeki-no-kyojin-the-final-season-2-110277-5c1b6be51d97.webp 460w"
+    },
+    "/covers/enriched/yuzuki-san-chi-no-yon-kyoudai-164312-9e73b95a076f.webp": {
+      "thumb": "/covers/enriched/yuzuki-san-chi-no-yon-kyoudai-164312-9e73b95a076f-thumb.webp",
+      "srcSet": "/covers/enriched/yuzuki-san-chi-no-yon-kyoudai-164312-9e73b95a076f.webp 460w"
+    },
+    "/covers/enriched/yi-nian-yongheng-110595-d60e8bb0518f.webp": {
+      "thumb": "/covers/enriched/yi-nian-yongheng-110595-d60e8bb0518f-thumb.webp",
+      "srcSet": "/covers/enriched/yi-nian-yongheng-110595-d60e8bb0518f.webp 460w"
+    },
+    "/covers/enriched/yarinaoshi-reijou-wa-ryuutei-heika-wo-kouryaku-chuu-164299-82625635c057.webp": {
+      "thumb": "/covers/enriched/yarinaoshi-reijou-wa-ryuutei-heika-wo-kouryaku-chuu-164299-82625635c057-thumb.webp",
+      "srcSet": "/covers/enriched/yarinaoshi-reijou-wa-ryuutei-heika-wo-kouryaku-chuu-164299-82625635c057.webp 460w"
+    },
+    "/covers/enriched/kekkon-yubiwa-monogatari-160389-2678f783df32.webp": {
+      "thumb": "/covers/enriched/kekkon-yubiwa-monogatari-160389-2678f783df32-thumb.webp",
+      "srcSet": "/covers/enriched/kekkon-yubiwa-monogatari-160389-2678f783df32.webp 460w"
+    },
+    "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-116242-e84c5e9769e7.webp": {
+      "thumb": "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-116242-e84c5e9769e7-thumb.webp",
+      "srcSet": "/covers/enriched/100-man-no-inochi-no-ue-ni-ore-wa-tatteiru-116242-e84c5e9769e7.webp 460w"
+    },
+    "/covers/enriched/neet-kunoichi-to-naze-ka-dousei-hajimemashita-174654-f55d23f41cad.webp": {
+      "thumb": "/covers/enriched/neet-kunoichi-to-naze-ka-dousei-hajimemashita-174654-f55d23f41cad-thumb.webp",
+      "srcSet": "/covers/enriched/neet-kunoichi-to-naze-ka-dousei-hajimemashita-174654-f55d23f41cad.webp 460w"
+    },
+    "/covers/enriched/koi-to-producer-evol-love-110371-80baf124d33f.webp": {
+      "thumb": "/covers/enriched/koi-to-producer-evol-love-110371-80baf124d33f-thumb.webp",
+      "srcSet": "/covers/enriched/koi-to-producer-evol-love-110371-80baf124d33f.webp 460w"
+    },
+    "/covers/enriched/zichuan-yincang-hudong-ju-145611-e3804616f100.webp": {
+      "thumb": "/covers/enriched/zichuan-yincang-hudong-ju-145611-e3804616f100-thumb.webp",
+      "srcSet": "/covers/enriched/zichuan-yincang-hudong-ju-145611-e3804616f100.webp 460w"
+    },
+    "/covers/enriched/ranma-1-2-2024-2nd-season-185731-b280af827625.webp": {
+      "thumb": "/covers/enriched/ranma-1-2-2024-2nd-season-185731-b280af827625-thumb.webp",
+      "srcSet": "/covers/enriched/ranma-1-2-2024-2nd-season-185731-b280af827625.webp 460w"
+    },
+    "/covers/enriched/hime-sama-goumon-no-jikan-desu-166522-7e337646d8a1.webp": {
+      "thumb": "/covers/enriched/hime-sama-goumon-no-jikan-desu-166522-7e337646d8a1-thumb.webp",
+      "srcSet": "/covers/enriched/hime-sama-goumon-no-jikan-desu-166522-7e337646d8a1.webp 460w"
+    },
+    "/covers/enriched/maou-no-musume-wa-yasashi-sugiru-194742-0f03a4ccb449.webp": {
+      "thumb": "/covers/enriched/maou-no-musume-wa-yasashi-sugiru-194742-0f03a4ccb449-thumb.webp",
+      "srcSet": "/covers/enriched/maou-no-musume-wa-yasashi-sugiru-194742-0f03a4ccb449.webp 460w"
+    },
+    "/covers/enriched/durarara-2-shou-20652-faac40a36db3.webp": {
+      "thumb": "/covers/enriched/durarara-2-shou-20652-faac40a36db3-thumb.webp",
+      "srcSet": "/covers/enriched/durarara-2-shou-20652-faac40a36db3.webp 460w"
+    },
+    "/covers/enriched/29-sai-dokushin-chuuken-boukensha-no-nichijou-192261-4c34089c9b98.webp": {
+      "thumb": "/covers/enriched/29-sai-dokushin-chuuken-boukensha-no-nichijou-192261-4c34089c9b98-thumb.webp",
+      "srcSet": "/covers/enriched/29-sai-dokushin-chuuken-boukensha-no-nichijou-192261-4c34089c9b98.webp 460w"
+    },
+    "/covers/enriched/yuusha-party-ni-kawaii-ko-ga-ita-no-de-kokuhaku-shitemita-195515-55477ed14b19.webp": {
+      "thumb": "/covers/enriched/yuusha-party-ni-kawaii-ko-ga-ita-no-de-kokuhaku-shitemita-195515-55477ed14b19-thumb.webp",
+      "srcSet": "/covers/enriched/yuusha-party-ni-kawaii-ko-ga-ita-no-de-kokuhaku-shitemita-195515-55477ed14b19.webp 460w"
+    },
+    "/covers/enriched/shibou-yuugi-de-meshi-wo-kuu-180746-69e948f429d4.webp": {
+      "thumb": "/covers/enriched/shibou-yuugi-de-meshi-wo-kuu-180746-69e948f429d4-thumb.webp",
+      "srcSet": "/covers/enriched/shibou-yuugi-de-meshi-wo-kuu-180746-69e948f429d4.webp 460w"
+    },
+    "/covers/enriched/tongling-fei-99935-ba7d54c65916.webp": {
+      "thumb": "/covers/enriched/tongling-fei-99935-ba7d54c65916-thumb.webp",
+      "srcSet": "/covers/enriched/tongling-fei-99935-ba7d54c65916.webp 460w"
+    },
+    "/covers/enriched/watari-kun-no-ga-houkai-sunzen-169420-77aec5c6101a.webp": {
+      "thumb": "/covers/enriched/watari-kun-no-ga-houkai-sunzen-169420-77aec5c6101a-thumb.webp",
+      "srcSet": "/covers/enriched/watari-kun-no-ga-houkai-sunzen-169420-77aec5c6101a.webp 460w"
+    },
+    "/covers/enriched/zhan-shen-fanchen-shen-yu-168105-45d2778ca11d.webp": {
+      "thumb": "/covers/enriched/zhan-shen-fanchen-shen-yu-168105-45d2778ca11d-thumb.webp",
+      "srcSet": "/covers/enriched/zhan-shen-fanchen-shen-yu-168105-45d2778ca11d.webp 460w"
+    },
+    "/covers/enriched/kaginado-132528-017492460695.webp": {
+      "thumb": "/covers/enriched/kaginado-132528-017492460695-thumb.webp",
+      "srcSet": "/covers/enriched/kaginado-132528-017492460695.webp 460w"
+    },
+    "/covers/enriched/gin-no-saji-16918-5d656c88d1ff.webp": {
+      "thumb": "/covers/enriched/gin-no-saji-16918-5d656c88d1ff-thumb.webp",
+      "srcSet": "/covers/enriched/gin-no-saji-16918-5d656c88d1ff.webp 460w"
+    },
+    "/covers/enriched/uchouten-kazoku-17909-5e3682631a73.webp": {
+      "thumb": "/covers/enriched/uchouten-kazoku-17909-5e3682631a73-thumb.webp",
+      "srcSet": "/covers/enriched/uchouten-kazoku-17909-5e3682631a73.webp 460w"
+    },
+    "/covers/enriched/3-gatsu-no-lion-21366-c4936e61d483.webp": {
+      "thumb": "/covers/enriched/3-gatsu-no-lion-21366-c4936e61d483-thumb.webp",
+      "srcSet": "/covers/enriched/3-gatsu-no-lion-21366-c4936e61d483.webp 460w"
+    },
+    "/covers/enriched/toujima-tanzaburou-wa-kamen-rider-ni-naritai-187464-fd76bd68d217.webp": {
+      "thumb": "/covers/enriched/toujima-tanzaburou-wa-kamen-rider-ni-naritai-187464-fd76bd68d217-thumb.webp",
+      "srcSet": "/covers/enriched/toujima-tanzaburou-wa-kamen-rider-ni-naritai-187464-fd76bd68d217.webp 460w"
+    },
+    "/covers/enriched/futari-solo-camp-185965-fc574fb1f5b2.webp": {
+      "thumb": "/covers/enriched/futari-solo-camp-185965-fc574fb1f5b2-thumb.webp",
+      "srcSet": "/covers/enriched/futari-solo-camp-185965-fc574fb1f5b2.webp 460w"
+    },
+    "/covers/enriched/flcl-227-9bcbb0007208.webp": {
+      "thumb": "/covers/enriched/flcl-227-9bcbb0007208-thumb.webp",
+      "srcSet": "/covers/enriched/flcl-227-9bcbb0007208.webp 460w"
+    },
+    "/covers/enriched/ningen-fushin-no-boukensha-tachi-ga-sekai-wo-sukuu-you-desu-137909-129fec57dada.webp": {
+      "thumb": "/covers/enriched/ningen-fushin-no-boukensha-tachi-ga-sekai-wo-sukuu-you-desu-137909-129fec57dada-thumb.webp",
+      "srcSet": "/covers/enriched/ningen-fushin-no-boukensha-tachi-ga-sekai-wo-sukuu-you-desu-137909-129fec57dada.webp 460w"
+    },
+    "/covers/enriched/michiko-to-hatchin-4087-f73306e7c349.webp": {
+      "thumb": "/covers/enriched/michiko-to-hatchin-4087-f73306e7c349-thumb.webp",
+      "srcSet": "/covers/enriched/michiko-to-hatchin-4087-f73306e7c349.webp 460w"
+    },
+    "/covers/enriched/log-horizon-2-20671-fa651ae270ff.webp": {
+      "thumb": "/covers/enriched/log-horizon-2-20671-fa651ae270ff-thumb.webp",
+      "srcSet": "/covers/enriched/log-horizon-2-20671-fa651ae270ff.webp 460w"
+    },
+    "/covers/enriched/log-horizon-17265-343b88f5677e.webp": {
+      "thumb": "/covers/enriched/log-horizon-17265-343b88f5677e-thumb.webp",
+      "srcSet": "/covers/enriched/log-horizon-17265-343b88f5677e.webp 460w"
+    },
+    "/covers/enriched/hajime-no-ippo-the-fighting-263-77c36b91a610.webp": {
+      "thumb": "/covers/enriched/hajime-no-ippo-the-fighting-263-77c36b91a610-thumb.webp",
+      "srcSet": "/covers/enriched/hajime-no-ippo-the-fighting-263-77c36b91a610.webp 460w"
+    },
+    "/covers/enriched/shokei-shoujo-no-virgin-road-129193-d88334b2a5e9.webp": {
+      "thumb": "/covers/enriched/shokei-shoujo-no-virgin-road-129193-d88334b2a5e9-thumb.webp",
+      "srcSet": "/covers/enriched/shokei-shoujo-no-virgin-road-129193-d88334b2a5e9.webp 460w"
+    },
+    "/covers/enriched/shin-tennis-no-ouji-sama-u-17-world-cup-140187-f88505b33b72.webp": {
+      "thumb": "/covers/enriched/shin-tennis-no-ouji-sama-u-17-world-cup-140187-f88505b33b72-thumb.webp",
+      "srcSet": "/covers/enriched/shin-tennis-no-ouji-sama-u-17-world-cup-140187-f88505b33b72.webp 460w"
+    },
+    "/covers/enriched/toaru-majutsu-no-index-endymion-no-kiseki-11743-314e1a351422.webp": {
+      "thumb": "/covers/enriched/toaru-majutsu-no-index-endymion-no-kiseki-11743-314e1a351422-thumb.webp",
+      "srcSet": "/covers/enriched/toaru-majutsu-no-index-endymion-no-kiseki-11743-314e1a351422.webp 460w"
+    },
+    "/covers/enriched/soredemo-ayumu-wa-yosetekuru-128223-fdeddf03b4ea.webp": {
+      "thumb": "/covers/enriched/soredemo-ayumu-wa-yosetekuru-128223-fdeddf03b4ea-thumb.webp",
+      "srcSet": "/covers/enriched/soredemo-ayumu-wa-yosetekuru-128223-fdeddf03b4ea.webp 460w"
+    },
+    "/covers/enriched/inu-ou-109928-0514a4336b7c.webp": {
+      "thumb": "/covers/enriched/inu-ou-109928-0514a4336b7c-thumb.webp",
+      "srcSet": "/covers/enriched/inu-ou-109928-0514a4336b7c.webp 460w"
+    },
+    "/covers/enriched/the-legend-of-heroes-sen-no-kiseki-northern-war-130696-826b3675a59b.webp": {
+      "thumb": "/covers/enriched/the-legend-of-heroes-sen-no-kiseki-northern-war-130696-826b3675a59b-thumb.webp",
+      "srcSet": "/covers/enriched/the-legend-of-heroes-sen-no-kiseki-northern-war-130696-826b3675a59b.webp 460w"
+    },
+    "/covers/enriched/tsurune-kazemai-koukou-kyuudou-bu-100402-434714380d09.webp": {
+      "thumb": "/covers/enriched/tsurune-kazemai-koukou-kyuudou-bu-100402-434714380d09-thumb.webp",
+      "srcSet": "/covers/enriched/tsurune-kazemai-koukou-kyuudou-bu-100402-434714380d09.webp 460w"
+    },
+    "/covers/enriched/carole-and-tuesday-101281-a27277a6657d.webp": {
+      "thumb": "/covers/enriched/carole-and-tuesday-101281-a27277a6657d-thumb.webp",
+      "srcSet": "/covers/enriched/carole-and-tuesday-101281-a27277a6657d.webp 460w"
+    },
+    "/covers/enriched/kuma-kuma-kuma-bear-punch-127550-38d716f4b4a1.webp": {
+      "thumb": "/covers/enriched/kuma-kuma-kuma-bear-punch-127550-38d716f4b4a1-thumb.webp",
+      "srcSet": "/covers/enriched/kuma-kuma-kuma-bear-punch-127550-38d716f4b4a1.webp 460w"
+    },
+    "/covers/enriched/kimi-to-boku-no-saigo-no-senjo-arui-wa-sekai-ga-hajimaru-seisen-112667-0805fc370254.webp": {
+      "thumb": "/covers/enriched/kimi-to-boku-no-saigo-no-senjo-arui-wa-sekai-ga-hajimaru-seisen-112667-0805fc370254-thumb.webp",
+      "srcSet": "/covers/enriched/kimi-to-boku-no-saigo-no-senjo-arui-wa-sekai-ga-hajimaru-seisen-112667-0805fc370254.webp 460w"
+    },
+    "/covers/enriched/kamitachi-ni-hirowareta-otoko-115740-9d0bf6d9161a.webp": {
+      "thumb": "/covers/enriched/kamitachi-ni-hirowareta-otoko-115740-9d0bf6d9161a-thumb.webp",
+      "srcSet": "/covers/enriched/kamitachi-ni-hirowareta-otoko-115740-9d0bf6d9161a.webp 460w"
+    },
+    "/covers/enriched/shaonian-ge-xing-anhe-zhuan-133772-7d46e75bdf83.webp": {
+      "thumb": "/covers/enriched/shaonian-ge-xing-anhe-zhuan-133772-7d46e75bdf83-thumb.webp",
+      "srcSet": "/covers/enriched/shaonian-ge-xing-anhe-zhuan-133772-7d46e75bdf83.webp 460w"
+    },
+    "/covers/enriched/biaoren-122508-0328a3fa47f0.webp": {
+      "thumb": "/covers/enriched/biaoren-122508-0328a3fa47f0-thumb.webp",
+      "srcSet": "/covers/enriched/biaoren-122508-0328a3fa47f0.webp 460w"
+    },
+    "/covers/enriched/sakurasou-no-pet-na-kanojo-13759-1ab6327e4a31.webp": {
+      "thumb": "/covers/enriched/sakurasou-no-pet-na-kanojo-13759-1ab6327e4a31-thumb.webp",
+      "srcSet": "/covers/enriched/sakurasou-no-pet-na-kanojo-13759-1ab6327e4a31.webp 460w"
+    },
+    "/covers/enriched/dandadan-2nd-season-185660-7c0ac2f8ff6b.webp": {
+      "thumb": "/covers/enriched/dandadan-2nd-season-185660-7c0ac2f8ff6b-thumb.webp",
+      "srcSet": "/covers/enriched/dandadan-2nd-season-185660-7c0ac2f8ff6b.webp 460w"
+    },
+    "/covers/enriched/2-5-jigen-no-ririsa-158559-60b8dfd0ec47.webp": {
+      "thumb": "/covers/enriched/2-5-jigen-no-ririsa-158559-60b8dfd0ec47-thumb.webp",
+      "srcSet": "/covers/enriched/2-5-jigen-no-ririsa-158559-60b8dfd0ec47.webp 460w"
+    },
+    "/covers/enriched/nier-automata-ver1-1a-145665-31dc14a4c885.webp": {
+      "thumb": "/covers/enriched/nier-automata-ver1-1a-145665-31dc14a4c885-thumb.webp",
+      "srcSet": "/covers/enriched/nier-automata-ver1-1a-145665-31dc14a4c885.webp 460w"
+    },
+    "/covers/enriched/kubo-san-wa-mob-wo-yurusanai-148969-1fc5ba23898e.webp": {
+      "thumb": "/covers/enriched/kubo-san-wa-mob-wo-yurusanai-148969-1fc5ba23898e-thumb.webp",
+      "srcSet": "/covers/enriched/kubo-san-wa-mob-wo-yurusanai-148969-1fc5ba23898e.webp 460w"
+    },
+    "/covers/enriched/kimi-no-koto-ga-dai-dai-dai-dai-daisuki-na-100-nin-no-kanojo-162694-c0f362ca97d5.webp": {
+      "thumb": "/covers/enriched/kimi-no-koto-ga-dai-dai-dai-dai-daisuki-na-100-nin-no-kanojo-162694-c0f362ca97d5-thumb.webp",
+      "srcSet": "/covers/enriched/kimi-no-koto-ga-dai-dai-dai-dai-daisuki-na-100-nin-no-kanojo-162694-c0f362ca97d5.webp 460w"
+    },
+    "/covers/enriched/seija-musou-salaryman-isekai-de-ikinokoru-tame-ni-ayumu-michi-155418-b41eb3038702.webp": {
+      "thumb": "/covers/enriched/seija-musou-salaryman-isekai-de-ikinokoru-tame-ni-ayumu-michi-155418-b41eb3038702-thumb.webp",
+      "srcSet": "/covers/enriched/seija-musou-salaryman-isekai-de-ikinokoru-tame-ni-ayumu-michi-155418-b41eb3038702.webp 460w"
+    },
+    "/covers/enriched/uchi-no-shishou-wa-shippo-ga-nai-137341-32ebd5344204.webp": {
+      "thumb": "/covers/enriched/uchi-no-shishou-wa-shippo-ga-nai-137341-32ebd5344204-thumb.webp",
+      "srcSet": "/covers/enriched/uchi-no-shishou-wa-shippo-ga-nai-137341-32ebd5344204.webp 460w"
+    },
+    "/covers/enriched/the-first-slam-dunk-128207-3d021f6146f0.webp": {
+      "thumb": "/covers/enriched/the-first-slam-dunk-128207-3d021f6146f0-thumb.webp",
+      "srcSet": "/covers/enriched/the-first-slam-dunk-128207-3d021f6146f0.webp 460w"
+    },
+    "/covers/enriched/shoujo-kageki-revue-starlight-movie-113024-ba81eda96009.webp": {
+      "thumb": "/covers/enriched/shoujo-kageki-revue-starlight-movie-113024-ba81eda96009-thumb.webp",
+      "srcSet": "/covers/enriched/shoujo-kageki-revue-starlight-movie-113024-ba81eda96009.webp 460w"
+    },
+    "/covers/enriched/seitokai-yakuindomo-movie-2-113692-a5a79d605cdd.webp": {
+      "thumb": "/covers/enriched/seitokai-yakuindomo-movie-2-113692-a5a79d605cdd-thumb.webp",
+      "srcSet": "/covers/enriched/seitokai-yakuindomo-movie-2-113692-a5a79d605cdd.webp 460w"
+    },
+    "/covers/enriched/princess-principal-crown-handler-chapter-2-129759-16d8c4d26e6f.webp": {
+      "thumb": "/covers/enriched/princess-principal-crown-handler-chapter-2-129759-16d8c4d26e6f-thumb.webp",
+      "srcSet": "/covers/enriched/princess-principal-crown-handler-chapter-2-129759-16d8c4d26e6f.webp 460w"
+    },
+    "/covers/enriched/princess-principal-crown-handler-chapter-1-101595-5365b81b59f4.webp": {
+      "thumb": "/covers/enriched/princess-principal-crown-handler-chapter-1-101595-5365b81b59f4-thumb.webp",
+      "srcSet": "/covers/enriched/princess-principal-crown-handler-chapter-1-101595-5365b81b59f4.webp 460w"
+    },
+    "/covers/enriched/giniro-no-kami-no-agito-1140-cfaa0df54987.webp": {
+      "thumb": "/covers/enriched/giniro-no-kami-no-agito-1140-cfaa0df54987-thumb.webp",
+      "srcSet": "/covers/enriched/giniro-no-kami-no-agito-1140-cfaa0df54987.webp 460w"
+    },
+    "/covers/enriched/ookami-kodomo-no-ame-to-yuki-12355-9afe16589b90.webp": {
+      "thumb": "/covers/enriched/ookami-kodomo-no-ame-to-yuki-12355-9afe16589b90-thumb.webp",
+      "srcSet": "/covers/enriched/ookami-kodomo-no-ame-to-yuki-12355-9afe16589b90.webp 460w"
+    },
+    "/covers/enriched/usuzumizakura-garo-101370-7e44207a9873.webp": {
+      "thumb": "/covers/enriched/usuzumizakura-garo-101370-7e44207a9873-thumb.webp",
+      "srcSet": "/covers/enriched/usuzumizakura-garo-101370-7e44207a9873.webp 400w"
+    },
+    "/covers/enriched/tenki-no-ko-106286-5bb0395f036b.webp": {
+      "thumb": "/covers/enriched/tenki-no-ko-106286-5bb0395f036b-thumb.webp",
+      "srcSet": "/covers/enriched/tenki-no-ko-106286-5bb0395f036b.webp 460w"
+    },
+    "/covers/enriched/tamayura-hitotose-10232-71cde37ec835.webp": {
+      "thumb": "/covers/enriched/tamayura-hitotose-10232-71cde37ec835-thumb.webp",
+      "srcSet": "/covers/enriched/tamayura-hitotose-10232-71cde37ec835.webp 460w"
+    },
+    "/covers/enriched/ta-ga-tame-no-alchemist-107864-03bf3e3d1389.webp": {
+      "thumb": "/covers/enriched/ta-ga-tame-no-alchemist-107864-03bf3e3d1389-thumb.webp",
+      "srcSet": "/covers/enriched/ta-ga-tame-no-alchemist-107864-03bf3e3d1389.webp 460w"
+    },
+    "/covers/enriched/summer-ghost-130050-ab238f904456.webp": {
+      "thumb": "/covers/enriched/summer-ghost-130050-ab238f904456-thumb.webp",
+      "srcSet": "/covers/enriched/summer-ghost-130050-ab238f904456.webp 460w"
+    },
+    "/covers/enriched/ai-no-utagoe-wo-kikasete-123899-13bce966eabf.webp": {
+      "thumb": "/covers/enriched/ai-no-utagoe-wo-kikasete-123899-13bce966eabf-thumb.webp",
+      "srcSet": "/covers/enriched/ai-no-utagoe-wo-kikasete-123899-13bce966eabf.webp 460w"
+    },
+    "/covers/enriched/shirobako-movie-101574-ebf433920a17.webp": {
+      "thumb": "/covers/enriched/shirobako-movie-101574-ebf433920a17-thumb.webp",
+      "srcSet": "/covers/enriched/shirobako-movie-101574-ebf433920a17.webp 460w"
+    },
+    "/covers/enriched/sakasama-no-patema-12477-6329a30da400.webp": {
+      "thumb": "/covers/enriched/sakasama-no-patema-12477-6329a30da400-thumb.webp",
+      "srcSet": "/covers/enriched/sakasama-no-patema-12477-6329a30da400.webp 460w"
+    },
+    "/covers/enriched/omoi-omoware-furi-furare-109125-361dd83e8e7c.webp": {
+      "thumb": "/covers/enriched/omoi-omoware-furi-furare-109125-361dd83e8e7c-thumb.webp",
+      "srcSet": "/covers/enriched/omoi-omoware-furi-furare-109125-361dd83e8e7c.webp 460w"
+    },
+    "/covers/enriched/nezha-zhi-mo-tong-jiang-shi-110464-81c1990f490d.webp": {
+      "thumb": "/covers/enriched/nezha-zhi-mo-tong-jiang-shi-110464-81c1990f490d-thumb.webp",
+      "srcSet": "/covers/enriched/nezha-zhi-mo-tong-jiang-shi-110464-81c1990f490d.webp 460w"
+    },
+    "/covers/enriched/misaki-no-mayoiga-125838-4d5b41f3217d.webp": {
+      "thumb": "/covers/enriched/misaki-no-mayoiga-125838-4d5b41f3217d-thumb.webp",
+      "srcSet": "/covers/enriched/misaki-no-mayoiga-125838-4d5b41f3217d.webp 460w"
+    },
+    "/covers/enriched/sennen-joyuu-1033-b82c22e65563.webp": {
+      "thumb": "/covers/enriched/sennen-joyuu-1033-b82c22e65563-thumb.webp",
+      "srcSet": "/covers/enriched/sennen-joyuu-1033-b82c22e65563.webp 460w"
+    },
+    "/covers/enriched/liz-to-aoi-tori-100178-24571147c0db.webp": {
+      "thumb": "/covers/enriched/liz-to-aoi-tori-100178-24571147c0db-thumb.webp",
+      "srcSet": "/covers/enriched/liz-to-aoi-tori-100178-24571147c0db.webp 460w"
+    },
+    "/covers/enriched/kaijuu-no-kodomo-103221-956b68520840.webp": {
+      "thumb": "/covers/enriched/kaijuu-no-kodomo-103221-956b68520840-thumb.webp",
+      "srcSet": "/covers/enriched/kaijuu-no-kodomo-103221-956b68520840.webp 460w"
+    },
+    "/covers/enriched/godzilla-kessen-kidou-zoushoku-toshi-100561-9f648120a26f.webp": {
+      "thumb": "/covers/enriched/godzilla-kessen-kidou-zoushoku-toshi-100561-9f648120a26f-thumb.webp",
+      "srcSet": "/covers/enriched/godzilla-kessen-kidou-zoushoku-toshi-100561-9f648120a26f.webp 460w"
+    },
+    "/covers/enriched/dragon-ball-super-broly-101302-300131727ef5.webp": {
+      "thumb": "/covers/enriched/dragon-ball-super-broly-101302-300131727ef5-thumb.webp",
+      "srcSet": "/covers/enriched/dragon-ball-super-broly-101302-300131727ef5.webp 460w"
+    },
+    "/covers/enriched/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e-2nd-season-145545-c87f550e6e3b.webp": {
+      "thumb": "/covers/enriched/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e-2nd-season-145545-c87f550e6e3b-thumb.webp",
+      "srcSet": "/covers/enriched/youkoso-jitsuryoku-shijou-shugi-no-kyoushitsu-e-2nd-season-145545-c87f550e6e3b.webp 460w"
+    },
+    "/covers/enriched/chuunibyou-demo-koi-ga-shitai-ren-18671-6e6f3690e951.webp": {
+      "thumb": "/covers/enriched/chuunibyou-demo-koi-ga-shitai-ren-18671-6e6f3690e951-thumb.webp",
+      "srcSet": "/covers/enriched/chuunibyou-demo-koi-ga-shitai-ren-18671-6e6f3690e951.webp 460w"
+    },
+    "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-kan-108489-3f0c3eea6410.webp": {
+      "thumb": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-kan-108489-3f0c3eea6410-thumb.webp",
+      "srcSet": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-kan-108489-3f0c3eea6410.webp 460w"
+    },
+    "/covers/enriched/non-non-biyori-repeat-20694-972e2aa43686.webp": {
+      "thumb": "/covers/enriched/non-non-biyori-repeat-20694-972e2aa43686-thumb.webp",
+      "srcSet": "/covers/enriched/non-non-biyori-repeat-20694-972e2aa43686.webp 460w"
+    },
+    "/covers/enriched/log-horizon-entaku-houkai-114862-f850d521ffb8.webp": {
+      "thumb": "/covers/enriched/log-horizon-entaku-houkai-114862-f850d521ffb8-thumb.webp",
+      "srcSet": "/covers/enriched/log-horizon-entaku-houkai-114862-f850d521ffb8.webp 460w"
+    },
+    "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-zoku-20698-d6e2dbf624fd.webp": {
+      "thumb": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-zoku-20698-d6e2dbf624fd-thumb.webp",
+      "srcSet": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-zoku-20698-d6e2dbf624fd.webp 460w"
+    },
+    "/covers/enriched/shingeki-no-kyojin-lost-girls-99634-a503e8c1a502.webp": {
+      "thumb": "/covers/enriched/shingeki-no-kyojin-lost-girls-99634-a503e8c1a502-thumb.webp",
+      "srcSet": "/covers/enriched/shingeki-no-kyojin-lost-girls-99634-a503e8c1a502.webp 460w"
+    },
+    "/covers/enriched/owari-no-seraph-nagoya-kessen-hen-20993-968d83450aca.webp": {
+      "thumb": "/covers/enriched/owari-no-seraph-nagoya-kessen-hen-20993-968d83450aca-thumb.webp",
+      "srcSet": "/covers/enriched/owari-no-seraph-nagoya-kessen-hen-20993-968d83450aca.webp 460w"
+    },
+    "/covers/enriched/nhk-ni-youkoso-1210-061825fb0e4f.webp": {
+      "thumb": "/covers/enriched/nhk-ni-youkoso-1210-061825fb0e4f-thumb.webp",
+      "srcSet": "/covers/enriched/nhk-ni-youkoso-1210-061825fb0e4f.webp 460w"
+    },
+    "/covers/enriched/owari-no-seraph-20829-a75f6942c62c.webp": {
+      "thumb": "/covers/enriched/owari-no-seraph-20829-a75f6942c62c-thumb.webp",
+      "srcSet": "/covers/enriched/owari-no-seraph-20829-a75f6942c62c.webp 460w"
+    },
+    "/covers/enriched/kiznaiver-21421-ca278114cc02.webp": {
+      "thumb": "/covers/enriched/kiznaiver-21421-ca278114cc02-thumb.webp",
+      "srcSet": "/covers/enriched/kiznaiver-21421-ca278114cc02.webp 460w"
+    },
+    "/covers/enriched/guimi-zhi-zhu-xiaochou-pian-137667-e73133bed983.webp": {
+      "thumb": "/covers/enriched/guimi-zhi-zhu-xiaochou-pian-137667-e73133bed983-thumb.webp",
+      "srcSet": "/covers/enriched/guimi-zhi-zhu-xiaochou-pian-137667-e73133bed983.webp 460w"
+    },
+    "/covers/enriched/tousouchuu-the-great-mission-159560-7bb6db8a5978.webp": {
+      "thumb": "/covers/enriched/tousouchuu-the-great-mission-159560-7bb6db8a5978-thumb.webp",
+      "srcSet": "/covers/enriched/tousouchuu-the-great-mission-159560-7bb6db8a5978.webp 460w"
+    },
+    "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-14813-74df2850d3b0.webp": {
+      "thumb": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-14813-74df2850d3b0-thumb.webp",
+      "srcSet": "/covers/enriched/yahari-ore-no-seishun-love-come-wa-machigatteiru-14813-74df2850d3b0.webp 460w"
+    },
+    "/covers/enriched/fate-grand-order-zettai-majuu-sensen-babylonia-103275-cd7c920a82fa.webp": {
+      "thumb": "/covers/enriched/fate-grand-order-zettai-majuu-sensen-babylonia-103275-cd7c920a82fa-thumb.webp",
+      "srcSet": "/covers/enriched/fate-grand-order-zettai-majuu-sensen-babylonia-103275-cd7c920a82fa.webp 460w"
+    },
+    "/covers/enriched/shingetsutan-tsukihime-169-e8b0948d47af.webp": {
+      "thumb": "/covers/enriched/shingetsutan-tsukihime-169-e8b0948d47af-thumb.webp",
+      "srcSet": "/covers/enriched/shingetsutan-tsukihime-169-e8b0948d47af.webp 460w"
+    },
+    "/covers/enriched/kimi-ni-todoke-6045-33fad1e8b040.webp": {
+      "thumb": "/covers/enriched/kimi-ni-todoke-6045-33fad1e8b040-thumb.webp",
+      "srcSet": "/covers/enriched/kimi-ni-todoke-6045-33fad1e8b040.webp 460w"
+    },
+    "/covers/enriched/86-eighty-six-part-2-131586-bf37e35ff951.webp": {
+      "thumb": "/covers/enriched/86-eighty-six-part-2-131586-bf37e35ff951-thumb.webp",
+      "srcSet": "/covers/enriched/86-eighty-six-part-2-131586-bf37e35ff951.webp 460w"
     }
   }
 }

@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { AnimeDetailHero } from "@/components/anime/anime-detail-hero";
+import { AnimeConnections } from "@/components/anime/anime-connections";
 import { EpisodeList } from "@/components/anime/episode-list";
-import { RelatedRail } from "@/components/related-rail";
-import { SectionHead } from "@/components/ui/section-head";
-import { ANIME, getAnime, getRelated, splitQualities } from "@/lib/data";
+import { ANIME, getAnime, splitQualities } from "@/lib/data";
 import { faDate, faDigits, faScore } from "@/lib/utils";
+import { getAnimeConnections } from "@/lib/anime-connections";
+import { getNextAiringEpisode } from "@/lib/airing-schedule";
 import { getEpisodeAvailability, getLatestEpisode, getScoreLabel, hasReportedScore } from "@/lib/catalog-metadata";
 
 const siteBase = (process.env.NEXT_PUBLIC_SITE_URL || process.env.AV_PUBLIC_URL || "").replace(
@@ -20,7 +21,8 @@ export function generateStaticParams() {
   return ANIME.map((anime) => ({ slug: anime.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+export async function generateMetadata({ params: pending }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const params = await pending;
   const anime = getAnime(params.slug);
   if (!anime) return { title: "انیمه پیدا نشد" };
   const shareImage = anime.banner || anime.cover;
@@ -45,10 +47,13 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function AnimePage({ params }: { params: { slug: string } }) {
+export default async function AnimePage({ params: pending }: { params: Promise<{ slug: string }> }) {
+  const params = await pending;
   const anime = getAnime(params.slug);
   if (!anime) notFound();
-  const related = getRelated(anime, 8);
+  const connections = await getAnimeConnections(anime, ANIME);
+  const nextEpisode = getNextAiringEpisode(anime);
+  const nextEpisodeLabel = nextEpisode ? `${faDate(nextEpisode.airingAt, true)} · ساعت ${new Intl.DateTimeFormat("fa-IR", { timeZone: "Asia/Tehran", hour: "2-digit", minute: "2-digit" }).format(new Date(nextEpisode.airingAt))}` : "";
   const qualities = splitQualities(anime.quality);
   const availability = getEpisodeAvailability(anime);
   const latestEpisode = getLatestEpisode(anime);
@@ -57,9 +62,7 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
   const facts: { label: string; value: ReactNode }[] = [
     ...(hasStudio ? [{ label: "استودیو", value: anime.studio }] : []),
     { label: "سال / فصل", value: `${anime.year > 0 ? faDigits(anime.year) : "سال اعلام نشده"} · ${anime.season}` },
-    { label: "قسمت‌های ثبت‌شده در آرشیو", value: faDigits(availability.indexedCount) },
     { label: "کل قسمت‌های اعلام‌شده", value: availability.totalEpisodes === null ? "اعلام نشده" : faDigits(availability.totalEpisodes) },
-    { label: "قسمت‌های دارای لینک آماده در آخرین همگام‌سازی", value: faDigits(availability.readyCount) },
     { label: "امتیاز", value: hasReportedScore(anime) ? `${faScore(anime.score)} · ${getScoreLabel(anime)}` : "اعلام نشده" },
     { label: "زبان / صدا", value: anime.audio.join(" · ") },
     {
@@ -116,7 +119,7 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <AnimeDetailHero anime={anime} latestEpisodeDateLabel={latestEpisode?.releasedAt ? faDate(latestEpisode.releasedAt, true) : ""} nextEpisodeLabel={anime.nextEpisodeAt ? faDate(anime.nextEpisodeAt) : ""} />
+      <AnimeDetailHero anime={anime} latestEpisodeDateLabel={latestEpisode?.releasedAt ? faDate(latestEpisode.releasedAt, true) : ""} nextEpisode={nextEpisode} nextEpisodeLabel={nextEpisodeLabel} />
 
       <section id="episodes" className="shell scroll-mt-24 pb-4 pt-9 sm:pt-11">
         <EpisodeList anime={anime} />
@@ -139,10 +142,7 @@ export default function AnimePage({ params }: { params: { slug: string } }) {
         </div>
       </section>
 
-      <section id="related" className="shell section-pad pb-10 scroll-mt-24">
-        <SectionHead title="اگر این را دوست داشتی" href="/browse" />
-        <RelatedRail items={related} />
-      </section>
+      <AnimeConnections connections={connections} />
     </>
   );
 }

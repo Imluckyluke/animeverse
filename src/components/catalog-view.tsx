@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   ArrowUpDown,
@@ -21,6 +21,7 @@ import { CommandPalette } from "@/components/command-palette";
 import { Modal } from "@/components/ui/modal";
 import { normalizeGenres } from "@/lib/genres";
 import { normalizeSearchText } from "@/lib/search";
+import { readCatalogPage, rememberCatalogPage, replaceNavigationUrl } from "@/lib/navigation-scroll";
 
 type Sort = "latest" | "score" | "alpha";
 
@@ -142,6 +143,12 @@ export function CatalogView({
   const resultKey = JSON.stringify([query.trim(), filters, urlCollection]);
   const visibleCount = Math.min(results.length, page.key === resultKey ? page.count : 30);
 
+  useLayoutEffect(() => {
+    if (!urlReady) return;
+    const count = readCatalogPage(window, resultKey, results.length);
+    setPage((current) => current.key === resultKey && current.count === count ? current : { key: resultKey, count });
+  }, [resultKey, results.length, urlReady]);
+
   // Keep the client state in sync with links such as /browse?genre=اکشن.
   // The router can restore a cached CatalogView, so initial state alone is
   // not enough when navigating back from an anime page.
@@ -184,7 +191,7 @@ export function CatalogView({
     if (filters.audio) params.set("audio", filters.audio);
     if (filters.sort !== "latest") params.set("sort", filters.sort);
     const qs = params.toString();
-    window.history.replaceState(null, "", `${window.location.pathname}${qs ? `?${qs}` : ""}`);
+    replaceNavigationUrl(window, `${window.location.pathname}${qs ? `?${qs}` : ""}${window.location.hash}`);
   }, [query, filters, urlReady, urlCollection]);
 
   useEffect(() => {
@@ -241,7 +248,7 @@ export function CatalogView({
   ];
 
   return (
-    <div>
+    <div data-catalog-ready={urlReady}>
       <CommandPalette items={baseList} searchHref={urlCollection ? "/browse?collection=chinese" : "/browse"} />
 
       <div className="chip-rail mt-4 flex items-center gap-2 overflow-x-auto px-0.5 pb-1.5 no-scrollbar">
@@ -427,7 +434,11 @@ export function CatalogView({
       {results.length > visibleCount ? (
         <div className="mt-7 flex flex-col items-center gap-3">
           <p className="text-xs text-content-muted" role="status">نمایش {faDigits(visibleCount)} از {faDigits(results.length)} عنوان</p>
-          <button type="button" className="btn btn-glass btn-md min-w-48" onClick={() => setPage({ key: resultKey, count: visibleCount + 30 })}>
+          <button type="button" className="btn btn-glass btn-md min-w-48" onClick={() => {
+            const count = Math.min(results.length, visibleCount + 30);
+            rememberCatalogPage(window, resultKey, count);
+            setPage({ key: resultKey, count });
+          }}>
             نمایش {faDigits(Math.min(30, results.length - visibleCount))} عنوان دیگر
             <ChevronDown className="size-4" />
           </button>

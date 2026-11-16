@@ -58,3 +58,16 @@ export async function GET(request: NextRequest) {
     return reply(response.body, response.code);
   } catch { return reply({ error: "ارتباط با سرویس دانلود قطع شد؛ دوباره تلاش کن." }, 503); }
 }
+
+export async function PATCH(request: NextRequest) {
+  if (request.headers.get("origin") !== request.nextUrl.origin) return reply({ error: "درخواست مجاز نیست." }, 403);
+  try {
+    const text = await request.text();
+    if (Buffer.byteLength(text) > 1024) return reply({ error: "درخواست معتبر نیست." }, 400);
+    const input = JSON.parse(text);
+    if (!["pause", "resume"].includes(input.action) || !/^[a-f0-9]{64}$/.test(input.id || "") || !/^[a-zA-Z0-9-]{16,80}$/.test(input.requestId || "") || typeof input.batch !== "boolean") return reply({ error: "درخواست معتبر نیست." }, 400);
+    if (input.job !== undefined && (typeof input.job !== "string" || !/^[a-f0-9]{64}$/.test(input.job))) return reply({ error: "قسمت معتبر نیست." }, 400);
+    const response = await cacheRequest("/v1/controls", input);
+    return reply(response.body, response.code);
+  } catch { return reply({ error: "تغییر وضعیت انجام نشد؛ دوباره تلاش کن." }, 503); }
+}

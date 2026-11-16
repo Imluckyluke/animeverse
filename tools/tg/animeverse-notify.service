@@ -1,0 +1,25 @@
+[Unit]
+Description=AnimeVerse personalized Telegram account notifications
+Wants=network-online.target
+After=network-online.target animeverse-admin.service
+
+[Service]
+Type=simple
+User=bot-host
+Group=bot-host
+WorkingDirectory=/var/lib/bot-host/animeverse
+Environment=AV_PUBLIC_URL=https://animeverse-xi.vercel.app
+Environment=PYTHONDONTWRITEBYTECODE=1
+ExecStart=/usr/bin/python3 -u /var/lib/bot-host/animeverse/tools/tg/notify_bot.py
+Restart=on-failure
+RestartSec=15
+TimeoutStopSec=40
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/var/lib/bot-host/animeverse/data
+
+[Install]
+WantedBy=multi-user.target

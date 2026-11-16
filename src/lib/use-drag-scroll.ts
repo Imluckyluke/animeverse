@@ -3,7 +3,7 @@
 import { useRef, type RefObject, type PointerEvent, type MouseEvent, type DragEvent } from "react";
 
 /** Mouse dragging without swallowing taps, keyboard clicks or native touch scrolling. */
-export function useDragScroll(ref: RefObject<HTMLDivElement>) {
+export function useDragScroll(ref: RefObject<HTMLDivElement | null>) {
   const gesture = useRef<{ x: number; left: number; id: number; moved: boolean; snap: string } | null>(null);
   const swallow = useRef(false);
   const finish = (event: PointerEvent<HTMLDivElement>) => {

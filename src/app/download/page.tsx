@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 export const metadata: Metadata = { title: "آماده‌سازی دانلود", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
 
-export default function DownloadPage({ searchParams }: { searchParams: { slug?: string; ep?: string; q?: string } }) {
+export default async function DownloadPage({ searchParams: pending }: { searchParams: Promise<{ slug?: string; ep?: string; q?: string }> }) {
+  const searchParams = await pending;
   const anime = getAnime(searchParams.slug || "");
   const episode = Number(searchParams.ep);
   const quality = anime?.episodeData?.find(ep => ep.number === episode)?.qualities.find(q => q.label === searchParams.q && q.status === "done");
